@@ -1,0 +1,568 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Machine>ANLAKPC</Machine>
+    <WindowsUser>anlak</WindowsUser>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetOsVersion>10.0</TargetOsVersion>
+    <TargetOsDescription>Windows 10.0</TargetOsDescription>
+    <SolutionConfiguration>Debug|x64</SolutionConfiguration>
+    <PackageArchitecture>x64</PackageArchitecture>
+    <PackageIdentityName>67017b09-d193-4676-a8a5-9d474e2f2c74</PackageIdentityName>
+    <IntermediateOutputPath>C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\obj\x64\Debug\</IntermediateOutputPath>
+    <RegisteredManifestChecksum>47D09145152F1ED9295EDBADCD1A0E800B98055D133606393B8987DD311C871B</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>67017b09-d193-4676-a8a5-9d474e2f2c74_1.0.0.0_x64__1gb0zh1xa1sqe</RegisteredPackageMoniker>
+    <RegisteredUserModeAppID>67017b09-d193-4676-a8a5-9d474e2f2c74_1gb0zh1xa1sqe!App</RegisteredUserModeAppID>
+    <RegisteredPackageID>67017b09-d193-4676-a8a5-9d474e2f2c74</RegisteredPackageID>
+    <RegisteredPackagePublisher>CN=anlak</RegisteredPackagePublisher>
+    <RegisteredVersion>1.0.0.0</RegisteredVersion>
+    <JitOptimizationSuppressed>True</JitOptimizationSuppressed>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppXManifest Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\AppxManifest.xml">
+      <PackagePath>AppxManifest.xml</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2016-03-21T22:47:57.225</Modified>
+    </AppXManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Assets\LockScreenLogo.scale-200.png">
+      <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
+      <Modified>2015-08-27T08:38:34.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Assets\SplashScreen.scale-200.png">
+      <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2015-08-27T08:38:34.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Assets\Square150x150Logo.scale-200.png">
+      <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2015-08-27T08:38:34.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Assets\Square44x44Logo.scale-200.png">
+      <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2015-08-27T08:38:34.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+      <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2015-08-27T08:38:34.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Assets\StoreLogo.png">
+      <PackagePath>Assets\StoreLogo.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2015-08-27T08:38:34.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Assets\Wide310x150Logo.scale-200.png">
+      <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2015-08-27T08:38:34.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\ClrCompression.dll">
+      <PackagePath>ClrCompression.dll</PackagePath>
+      <Modified>2015-09-23T17:38:45.668</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\entrypoint\TutorialApp.exe">
+      <PackagePath>entrypoint\TutorialApp.exe</PackagePath>
+      <Modified>2016-03-21T22:47:52.972</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Microsoft.ApplicationInsights.dll">
+      <PackagePath>Microsoft.ApplicationInsights.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.309</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Microsoft.ApplicationInsights.Extensibility.Windows.dll">
+      <PackagePath>Microsoft.ApplicationInsights.Extensibility.Windows.dll</PackagePath>
+      <Modified>2015-09-23T17:38:28.970</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Microsoft.ApplicationInsights.PersistenceChannel.dll">
+      <PackagePath>Microsoft.ApplicationInsights.PersistenceChannel.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.161</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Microsoft.CSharp.dll">
+      <PackagePath>Microsoft.CSharp.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.983</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Microsoft.VisualBasic.dll">
+      <PackagePath>Microsoft.VisualBasic.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.364</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Microsoft.Win32.Primitives.dll">
+      <PackagePath>Microsoft.Win32.Primitives.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.493</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\Properties\Default.rd.xml">
+      <PackagePath>Properties\Default.rd.xml</PackagePath>
+      <Modified>2016-03-21T22:36:08.667</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\resources.pri">
+      <PackagePath>resources.pri</PackagePath>
+      <Modified>2016-03-21T22:47:54.360</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.AppContext.dll">
+      <PackagePath>System.AppContext.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.227</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Collections.Concurrent.dll">
+      <PackagePath>System.Collections.Concurrent.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.199</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Collections.dll">
+      <PackagePath>System.Collections.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.792</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Collections.Immutable.dll">
+      <PackagePath>System.Collections.Immutable.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.767</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Collections.NonGeneric.dll">
+      <PackagePath>System.Collections.NonGeneric.dll</PackagePath>
+      <Modified>2015-09-23T17:38:34.705</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Collections.Specialized.dll">
+      <PackagePath>System.Collections.Specialized.dll</PackagePath>
+      <Modified>2015-09-23T17:38:34.814</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.ComponentModel.Annotations.dll">
+      <PackagePath>System.ComponentModel.Annotations.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.646</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.ComponentModel.DataAnnotations.dll">
+      <PackagePath>System.ComponentModel.DataAnnotations.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.327</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.ComponentModel.dll">
+      <PackagePath>System.ComponentModel.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.301</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.ComponentModel.EventBasedAsync.dll">
+      <PackagePath>System.ComponentModel.EventBasedAsync.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.480</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Core.dll">
+      <PackagePath>System.Core.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.391</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Data.Common.dll">
+      <PackagePath>System.Data.Common.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.445</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Diagnostics.Contracts.dll">
+      <PackagePath>System.Diagnostics.Contracts.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.139</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Diagnostics.Debug.dll">
+      <PackagePath>System.Diagnostics.Debug.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.521</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Diagnostics.StackTrace.dll">
+      <PackagePath>System.Diagnostics.StackTrace.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.418</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Diagnostics.Tools.dll">
+      <PackagePath>System.Diagnostics.Tools.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.845</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Diagnostics.Tracing.dll">
+      <PackagePath>System.Diagnostics.Tracing.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.461</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.dll">
+      <PackagePath>System.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.429</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Dynamic.Runtime.dll">
+      <PackagePath>System.Dynamic.Runtime.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.828</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Globalization.Calendars.dll">
+      <PackagePath>System.Globalization.Calendars.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.211</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Globalization.dll">
+      <PackagePath>System.Globalization.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.506</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Globalization.Extensions.dll">
+      <PackagePath>System.Globalization.Extensions.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.524</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.IO.Compression.dll">
+      <PackagePath>System.IO.Compression.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.210</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.IO.Compression.ZipFile.dll">
+      <PackagePath>System.IO.Compression.ZipFile.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.525</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.IO.dll">
+      <PackagePath>System.IO.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.587</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.IO.FileSystem.dll">
+      <PackagePath>System.IO.FileSystem.dll</PackagePath>
+      <Modified>2015-09-23T17:38:34.692</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.IO.FileSystem.Primitives.dll">
+      <PackagePath>System.IO.FileSystem.Primitives.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.522</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.IO.IsolatedStorage.dll">
+      <PackagePath>System.IO.IsolatedStorage.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.134</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.IO.UnmanagedMemoryStream.dll">
+      <PackagePath>System.IO.UnmanagedMemoryStream.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.088</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Linq.dll">
+      <PackagePath>System.Linq.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.647</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Linq.Expressions.dll">
+      <PackagePath>System.Linq.Expressions.dll</PackagePath>
+      <Modified>2015-09-23T17:38:34.710</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Linq.Parallel.dll">
+      <PackagePath>System.Linq.Parallel.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.746</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Linq.Queryable.dll">
+      <PackagePath>System.Linq.Queryable.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.821</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Net.dll">
+      <PackagePath>System.Net.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.443</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Net.Http.dll">
+      <PackagePath>System.Net.Http.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.699</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Net.Http.Rtc.dll">
+      <PackagePath>System.Net.Http.Rtc.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.155</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Net.NetworkInformation.dll">
+      <PackagePath>System.Net.NetworkInformation.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.146</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Net.Primitives.dll">
+      <PackagePath>System.Net.Primitives.dll</PackagePath>
+      <Modified>2015-09-23T17:38:34.724</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Net.Requests.dll">
+      <PackagePath>System.Net.Requests.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.208</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Net.Sockets.dll">
+      <PackagePath>System.Net.Sockets.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.416</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Net.WebHeaderCollection.dll">
+      <PackagePath>System.Net.WebHeaderCollection.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.227</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Numerics.dll">
+      <PackagePath>System.Numerics.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.517</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Numerics.Vectors.dll">
+      <PackagePath>System.Numerics.Vectors.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.923</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Numerics.Vectors.WindowsRuntime.dll">
+      <PackagePath>System.Numerics.Vectors.WindowsRuntime.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.337</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.ObjectModel.dll">
+      <PackagePath>System.ObjectModel.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.795</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Private.DataContractSerialization.dll">
+      <PackagePath>System.Private.DataContractSerialization.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.332</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Private.Networking.dll">
+      <PackagePath>System.Private.Networking.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.512</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Private.ServiceModel.dll">
+      <PackagePath>System.Private.ServiceModel.dll</PackagePath>
+      <Modified>2015-09-23T17:38:35.178</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Private.Uri.dll">
+      <PackagePath>System.Private.Uri.dll</PackagePath>
+      <Modified>2015-09-23T17:38:28.596</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Reflection.Context.dll">
+      <PackagePath>System.Reflection.Context.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.524</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Reflection.DispatchProxy.dll">
+      <PackagePath>System.Reflection.DispatchProxy.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.772</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Reflection.dll">
+      <PackagePath>System.Reflection.dll</PackagePath>
+      <Modified>2015-09-23T17:38:34.419</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Reflection.Emit.dll">
+      <PackagePath>System.Reflection.Emit.dll</PackagePath>
+      <Modified>2015-09-23T17:38:45.809</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Reflection.Emit.ILGeneration.dll">
+      <PackagePath>System.Reflection.Emit.ILGeneration.dll</PackagePath>
+      <Modified>2015-09-23T17:38:45.737</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Reflection.Emit.Lightweight.dll">
+      <PackagePath>System.Reflection.Emit.Lightweight.dll</PackagePath>
+      <Modified>2015-09-23T17:38:45.753</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Reflection.Extensions.dll">
+      <PackagePath>System.Reflection.Extensions.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.733</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Reflection.Metadata.dll">
+      <PackagePath>System.Reflection.Metadata.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.857</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Reflection.Primitives.dll">
+      <PackagePath>System.Reflection.Primitives.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.941</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Reflection.TypeExtensions.dll">
+      <PackagePath>System.Reflection.TypeExtensions.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.542</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Resources.ResourceManager.dll">
+      <PackagePath>System.Resources.ResourceManager.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.334</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Runtime.dll">
+      <PackagePath>System.Runtime.dll</PackagePath>
+      <Modified>2015-09-23T17:38:35.034</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Runtime.Extensions.dll">
+      <PackagePath>System.Runtime.Extensions.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.701</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Runtime.Handles.dll">
+      <PackagePath>System.Runtime.Handles.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.344</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Runtime.InteropServices.dll">
+      <PackagePath>System.Runtime.InteropServices.dll</PackagePath>
+      <Modified>2015-09-23T17:38:34.091</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Runtime.InteropServices.WindowsRuntime.dll">
+      <PackagePath>System.Runtime.InteropServices.WindowsRuntime.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.160</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Runtime.Numerics.dll">
+      <PackagePath>System.Runtime.Numerics.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.946</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Runtime.Serialization.dll">
+      <PackagePath>System.Runtime.Serialization.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.543</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Runtime.Serialization.Json.dll">
+      <PackagePath>System.Runtime.Serialization.Json.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.953</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Runtime.Serialization.Primitives.dll">
+      <PackagePath>System.Runtime.Serialization.Primitives.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.337</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Runtime.Serialization.Xml.dll">
+      <PackagePath>System.Runtime.Serialization.Xml.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.864</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Runtime.WindowsRuntime.dll">
+      <PackagePath>System.Runtime.WindowsRuntime.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.526</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Runtime.WindowsRuntime.UI.Xaml.dll">
+      <PackagePath>System.Runtime.WindowsRuntime.UI.Xaml.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.491</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Security.Claims.dll">
+      <PackagePath>System.Security.Claims.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.104</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Security.Principal.dll">
+      <PackagePath>System.Security.Principal.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.546</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.ServiceModel.dll">
+      <PackagePath>System.ServiceModel.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.554</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.ServiceModel.Duplex.dll">
+      <PackagePath>System.ServiceModel.Duplex.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.317</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.ServiceModel.Http.dll">
+      <PackagePath>System.ServiceModel.Http.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.219</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.ServiceModel.NetTcp.dll">
+      <PackagePath>System.ServiceModel.NetTcp.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.301</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.ServiceModel.Primitives.dll">
+      <PackagePath>System.ServiceModel.Primitives.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.046</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.ServiceModel.Security.dll">
+      <PackagePath>System.ServiceModel.Security.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.264</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.ServiceModel.Web.dll">
+      <PackagePath>System.ServiceModel.Web.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.569</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Text.Encoding.CodePages.dll">
+      <PackagePath>System.Text.Encoding.CodePages.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.644</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Text.Encoding.dll">
+      <PackagePath>System.Text.Encoding.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.106</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Text.Encoding.Extensions.dll">
+      <PackagePath>System.Text.Encoding.Extensions.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.618</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Text.RegularExpressions.dll">
+      <PackagePath>System.Text.RegularExpressions.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.827</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Threading.dll">
+      <PackagePath>System.Threading.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.937</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Threading.Overlapped.dll">
+      <PackagePath>System.Threading.Overlapped.dll</PackagePath>
+      <Modified>2015-09-23T17:38:28.561</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Threading.Tasks.Dataflow.dll">
+      <PackagePath>System.Threading.Tasks.Dataflow.dll</PackagePath>
+      <Modified>2015-09-23T17:38:34.138</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Threading.Tasks.dll">
+      <PackagePath>System.Threading.Tasks.dll</PackagePath>
+      <Modified>2015-09-23T17:38:33.937</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Threading.Tasks.Parallel.dll">
+      <PackagePath>System.Threading.Tasks.Parallel.dll</PackagePath>
+      <Modified>2015-09-23T17:38:32.227</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Threading.Timer.dll">
+      <PackagePath>System.Threading.Timer.dll</PackagePath>
+      <Modified>2015-09-23T17:38:31.448</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Windows.dll">
+      <PackagePath>System.Windows.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.581</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Xml.dll">
+      <PackagePath>System.Xml.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.594</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Xml.Linq.dll">
+      <PackagePath>System.Xml.Linq.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.611</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Xml.ReaderWriter.dll">
+      <PackagePath>System.Xml.ReaderWriter.dll</PackagePath>
+      <Modified>2015-09-23T17:38:34.350</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Xml.Serialization.dll">
+      <PackagePath>System.Xml.Serialization.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.632</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Xml.XDocument.dll">
+      <PackagePath>System.Xml.XDocument.dll</PackagePath>
+      <Modified>2015-09-23T17:38:34.061</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Xml.XmlDocument.dll">
+      <PackagePath>System.Xml.XmlDocument.dll</PackagePath>
+      <Modified>2015-09-23T17:38:29.334</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\System.Xml.XmlSerializer.dll">
+      <PackagePath>System.Xml.XmlSerializer.dll</PackagePath>
+      <Modified>2015-09-23T17:38:30.733</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\TutorialApp.exe">
+      <PackagePath>TutorialApp.exe</PackagePath>
+      <Modified>2016-03-21T22:47:57.225</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\TutorialApp.xr.xml">
+      <PackagePath>TutorialApp.xr.xml</PackagePath>
+      <Modified>2016-03-21T22:39:42.985</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialApp\bin\x64\Debug\Core\WinMetadata\Windows.winmd">
+      <PackagePath>WinMetadata\Windows.winmd</PackagePath>
+      <Modified>2016-02-03T23:20:00.498</Modified>
+    </AppxPackagedFile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\">
+      <Name>Microsoft.NET.CoreRuntime.1.0</Name>
+      <Version>1.0.23302.0</Version>
+      <Architecture>ARM</Architecture>
+      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.0, MinVersion = 1.0.23302.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\.\AppX\ARM\Microsoft.NET.CoreRuntime.1.0.appx</AppxLocation>
+      <MoreInfo>
+      </MoreInfo>
+    </ResolvedSDKReference>
+    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\">
+      <Name>Microsoft.NET.CoreRuntime.1.0</Name>
+      <Version>1.0.23302.0</Version>
+      <Architecture>x64</Architecture>
+      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.0, MinVersion = 1.0.23302.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\.\AppX\x64\Microsoft.NET.CoreRuntime.1.0.appx</AppxLocation>
+      <MoreInfo>
+      </MoreInfo>
+    </ResolvedSDKReference>
+    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\">
+      <Name>Microsoft.NET.CoreRuntime.1.0</Name>
+      <Version>1.0.23302.0</Version>
+      <Architecture>x86</Architecture>
+      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.0, MinVersion = 1.0.23302.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\.\AppX\x86\Microsoft.NET.CoreRuntime.1.0.appx</AppxLocation>
+      <MoreInfo>
+      </MoreInfo>
+    </ResolvedSDKReference>
+    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
+      <Name>Microsoft.VCLibs.140.00.Debug</Name>
+      <Version>14.0.22929.0</Version>
+      <Architecture>ARM</Architecture>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.22929.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\ARM\Microsoft.VCLibs.ARM.Debug.14.00.appx</AppxLocation>
+      <MoreInfo>
+      </MoreInfo>
+    </ResolvedSDKReference>
+    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
+      <Name>Microsoft.VCLibs.140.00.Debug</Name>
+      <Version>14.0.22929.0</Version>
+      <Architecture>x64</Architecture>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.22929.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\x64\Microsoft.VCLibs.x64.Debug.14.00.appx</AppxLocation>
+      <MoreInfo>
+      </MoreInfo>
+    </ResolvedSDKReference>
+    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
+      <Name>Microsoft.VCLibs.140.00.Debug</Name>
+      <Version>14.0.22929.0</Version>
+      <Architecture>x86</Architecture>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.22929.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\x86\Microsoft.VCLibs.x86.Debug.14.00.appx</AppxLocation>
+      <MoreInfo>
+      </MoreInfo>
+    </ResolvedSDKReference>
+  </ItemGroup>
+</Project>
