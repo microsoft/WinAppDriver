@@ -6,8 +6,8 @@
     <ProjectGuid>{D2D62728-48E1-46C3-BA5B-F5923B0326B8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlarmsClockTest</RootNamespace>
-    <AssemblyName>AlarmsClockTest</AssemblyName>
+    <RootNamespace>AlarmClockTest</RootNamespace>
+    <AssemblyName>AlarmClockTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
