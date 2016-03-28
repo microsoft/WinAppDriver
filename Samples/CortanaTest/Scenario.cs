@@ -1,4 +1,20 @@
-﻿using System;
+﻿//******************************************************************************
+//
+// Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+//
+// This code is licensed under the MIT License (MIT).
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
+//******************************************************************************
+
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.iOS; // Temporary placeholder until Windows namespace exists
@@ -65,7 +81,7 @@ namespace CortanaTest
             var bingPane = CortanaSession.FindElementByName("Bing");
             Assert.IsNotNull(bingPane);
 
-            var bingResult = bingPane.FindElementByName("Add or remove programs, System settings");
+            var bingResult = bingPane.FindElementByName("Add or remove devices, System settings");
             Assert.IsNotNull(bingResult);
         }
 

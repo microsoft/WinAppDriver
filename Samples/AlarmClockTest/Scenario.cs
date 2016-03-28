@@ -1,4 +1,20 @@
-﻿using System;
+﻿//******************************************************************************
+//
+// Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+//
+// This code is licensed under the MIT License (MIT).
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
+//******************************************************************************
+
+using System;
 using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium;
@@ -29,6 +45,9 @@ namespace AlarmClockTest
             desktopCapabilities.SetCapability("app", "Root");
             DesktopSession = new IOSDriver<IOSElement>(new Uri(WindowsApplicationDriverUrl), desktopCapabilities);
             Assert.IsNotNull(DesktopSession);
+
+            // Ensure app is started in the default main page
+            ReturnToMainPage();
         }
 
         [ClassCleanup]
@@ -113,11 +132,9 @@ namespace AlarmClockTest
                 AlarmClockSession.FindElementByAccessibilityId("AddAlarmButton").Click();
                 AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
                 AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").SendKeys("Windows Application Driver Test Alarm");
-                AlarmClockSession.FindElementByAccessibilityId("AlarmTimePicker").FindElementByAccessibilityId("FlyoutButton").Click();
-                AlarmClockSession.FindElementByAccessibilityId("HourLoopingSelector").FindElementByName(hourString).Click();
-                AlarmClockSession.FindElementByAccessibilityId("MinuteLoopingSelector").FindElementByName(minuteString).Click();
-                AlarmClockSession.FindElementByAccessibilityId("PeriodLoopingSelector").FindElementByName(period).Click();
-                AlarmClockSession.FindElementByName("timepicker").FindElementByAccessibilityId("AcceptButton").Click();
+                AlarmClockSession.FindElementByAccessibilityId("HourSelector").FindElementByName(hourString).Click();
+                AlarmClockSession.FindElementByAccessibilityId("MinuteSelector").FindElementByName(minuteString).Click();
+                AlarmClockSession.FindElementByAccessibilityId("PeriodSelector").FindElementByName(period).Click();
                 AlarmClockSession.FindElementByAccessibilityId("AlarmSaveButton").Click();
             }
         }
