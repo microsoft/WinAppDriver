@@ -20,7 +20,8 @@ namespace CortanaTest
             // Create a session for Desktop
             DesiredCapabilities desktopCapabilities = new DesiredCapabilities();
             desktopCapabilities.SetCapability("app", "Root");
-            DesktopSession = new IOSDriver<IOSElement>(new Uri(WindowsApplicationDriverUrl), desktopCapabilities);
+
+            InitializeSession(desktopCapabilities);
             Assert.IsNotNull(DesktopSession);
 
             // Launch Cortana Window to allow session creation to find it
@@ -102,5 +103,26 @@ namespace CortanaTest
             Assert.IsNotNull(clearAllButton);
             Assert.IsTrue(clearAllButton.Displayed);
         }
+
+        static void InitializeSession(DesiredCapabilities caps)
+        {
+            try
+            {
+                DesktopSession = new IOSDriver<IOSElement>(new Uri(WindowsApplicationDriverUrl), caps);
+            }
+            catch
+            {
+                System.Diagnostics.Process.Start("C:/program files (x86)/Windows Application Driver/winappdriver.exe");
+
+                // give it a moment to open a port
+                System.Threading.Thread.Sleep(2000);
+            }
+
+            if (DesktopSession == null)
+            {
+                DesktopSession = new IOSDriver<IOSElement>(new Uri(WindowsApplicationDriverUrl), caps);
+            }
+        }
+
     }
 }
