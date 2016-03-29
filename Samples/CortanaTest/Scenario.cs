@@ -20,7 +20,7 @@ namespace CortanaTest
             // Create a session for Desktop
             DesiredCapabilities desktopCapabilities = new DesiredCapabilities();
             desktopCapabilities.SetCapability("app", "Root");
-            DesktopSession = new IOSDriver<IOSElement>(new Uri(WindowsApplicationDriverUrl), caps);
+            DesktopSession = new IOSDriver<IOSElement>(new Uri(WindowsApplicationDriverUrl), desktopCapabilities);
             Assert.IsNotNull(DesktopSession);
 
             // Launch Cortana Window to allow session creation to find it
