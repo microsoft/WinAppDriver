@@ -1,4 +1,4 @@
-# winappdriver
+# WinAppDriver
 Windows Application Driver
 
 Windows Application Driver is a service for driving Application UI Test Automation via the WebDriver Standard
