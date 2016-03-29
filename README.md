@@ -1,2 +1,2 @@
-# winappdriver
+# WinAppDriver
 Windows Application Driver
