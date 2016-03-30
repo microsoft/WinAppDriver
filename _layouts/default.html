@@ -23,31 +23,28 @@
           -->
           <div>
             <a id="source_link" href="https://github.com/Microsoft/WinAppDriver">View on Github</a>
-            <a id="documentation_link" href="#">Documentation</a>
-            <a id="samples_link" href="#">Sample Tutorial</a>
-            <a id="getting_started" href="../index.html">Getting Started</a>
           </div>
           <h1 style="color:white;text-align:center;">Windows Application Driver</h1>
         </header>
     </div>
 
+
+
+    <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
-      <section id="main_content">
-      <center style="font-size:24px;">
-        <a href="../index.html">Home</a> | <a href="#">Features</a> | <a href="#">Sample</a>
-      </center>
-    <br>
-    
-    <center><h1>{{page.title}}</h1></center>
-        
-        <div class="row">
-          <div class="col-md-1"><div></div>&nbsp;</div>
-          <div class="col-md-2"><div id="toc"><h2>Table of Contents</h2></div>&nbsp;</div>
-          <div class="col-md-8"><div id="doc">{{content}}</div></div>
-          <div class="col-md-1"><div></div>&nbsp;</div>
-        </div>
+  
+      <section id="main_content" class="inner">
+        <br/>
+          <center style="font-size:24px;">
+            <a href="../index.html">Home</a> 
+        </center>
+        <br/>    
+
+        {{content}}
+
     </section>
   </div>
+
 
   <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
@@ -57,27 +54,5 @@
     </div>
 
   
-
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/prettify.js" type="text/javascript"></script>
-    <script src="../js/jquery.smooth-scroll.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-        $('code').addClass('prettyprint');
-        prettyPrint();
-        $('#doc h2').each(function(i, element) {
-            var h2 = $(element);
-            $('<h6><a href="#' + i + '">' + h2.text() + '</a></h6>').appendTo('#toc');
-            h2.after($('<a id="' + i + '" />'));
-        });
-        $('#toc a').smoothScroll({offset: -80});
-        $('#back-to-top').smoothScroll({offset: -50});
-        $('#toc').affix({
-          offset: {
-              top: 100
-            }
-        });
-      });
-    </script>
   </body>
 </html>
