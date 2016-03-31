@@ -1,33 +1,37 @@
 # Windows Application Driver (Beta)
 
-Windows Application Driver is a Mobile JSON Wire Protocol service for UI Test Automation on Windows devices.
+Windows Application Driver is a service to support UI Test Automation of Windows Applications.  The service design subscribes to the Mobile JSON Wire Protocol standard.  If you've been looking for better support for using Appium to test Windows Applications then this service is for you!
 
 This Github project provides
 - documentation
 - samples
 - issue tracking
 
-To vote on new features go to https://wpdev.uservoice.com/forums/110705-universal-windows-platform and enter a new feature request under the **UI Test** category.
+Videos discussing this project
+https://channel9.msdn.com/events/Build/2016/Panel-Engineering-Quality (With Jonathan Lipps!)
+https://channel9.msdn.com/events/Build/2016/P499 (Includes demos)
+
+To vote on new features go to https://wpdev.uservoice.com/forums/110705-universal-windows-platform and enter a new feature request under the **UI Testing** category.
 
 
 ## Getting Started
 1. Download Windows Application Driver Installer here: http://download.microsoft.com/download/6/8/7/687DEE85-E907-4A95-8035-8BC969B9EA95/WindowsApplicationDriver.msi
-2. Run the Installer on the machine where you will run your test in (the application under test should be installed in this machine)
-3. Browse to the installation directory and run `WinAppDriver.exe`
-4. Open any sample test solution with Visual Studio 2015 under https://github.com/Microsoft/WinAppDriver/tree/master/Samples. For example, pull and open `CalculatorTest.sln` under [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/CalculatorTest)
-5. In Visual Studio 2015 opened solution select **Test > Run > All Tests**
+2. Run the Installer on the machine where you will run your test in (the application under test should also be installed on this machine)
+3. Browse to the Windows Application Driver installation directory and run `WinAppDriver.exe`
+4. Open any sample test solution (see the samples in this github project) with Visual Studio 2015 under https://github.com/Microsoft/WinAppDriver/tree/master/Samples.<br/>For example, pull and open `CalculatorTest.sln` under [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/CalculatorTest)
+5. In Visual Studio 2015 with the test solution open build the test and select **Test > Run > All Tests**
  
-The JSON Wire Protocol HTTP requests are logged in the command console where `WinAppDriver.exe` is running
+When running `WinAppDriver.exe` a console window is opened which logs the JSON Wire Protocol HTTP requests
 
-> You can configure `WinAppDriver.exe` to listen to a different IP address and port if you run it as administrator.
+> Default listening address is 127.0.0.1:4723.  You can configure `WinAppDriver.exe` to listen to a different IP address and port if you run it as administrator.
 
 
 ## Features
 
-Windows Application Driver supports testing **Universal Windows Platofrm (UWP)** and **Classic Windows (Win32)** apps on **Windows 10 PC**.
+Windows Application Driver supports testing **Universal Windows Platform (UWP)** and **Classic Windows (Win32)** apps on **Windows 10 PC**.
 
 
-## Current Supported API
+## Currently Supported API's
 
 | HTTP 	| Path                                          	|
 |------	|--------------------------------------------------	|
@@ -61,7 +65,6 @@ Windows Application Driver supports testing **Universal Windows Platofrm (UWP)**
 
 
 ## Creating Your Own Test Script
-
 You can choose any programming language or tools supported by Appium/Selenium to write your test scripts. In the example below, we will author the test script in C# using Microsoft Visual Studio 2015.
 
 ### Create Test Project
@@ -71,7 +74,7 @@ You can choose any programming language or tools supported by Appium/Selenium to
 4. Install the **Appium.WebDriver** NuGet packages for the test project
 5. Starts writing your test (see sample code under [samples](https://github.com/Microsoft/WinAppDriver/tree/master/Samples))
 
-### Universal Windows Platform App
+### Universal Windows Platform App Testing
 
 To test a UWP app, you can use any Selenium supported language and simply specify the **Application Id** for the app under test in the **app** capabilities entry. Below is an example of creating a test session for Windows **Alarms & Clock** app written in C#:
 
@@ -89,7 +92,7 @@ AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
 > When testing the application you authored yourself, you can find the **Application Id** in the generetated `AppX\vs.appxrecipe` file under `RegisteredUserNmodeAppID` node. E.g. ```c24c8163-548e-4b84-a466-530178fc0580_scyf5npe3hv32!App```
 
 
-### Classic Windows App
+### Classic Windows App Testing
 
 To test a classic Windows app, you can also use any Selenium supported language and specify the **full executable path** for the app under test in the **app** capabilities entry. Below is an example of creating a test session for Windows **Notepad** app:
 
@@ -103,8 +106,8 @@ NotepadSession = new IOSDriver<IOSElement>(new Uri("http://127.0.0.1:4723"), app
 NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
 ```
 
-
-### Inspecting UI Element
+### Inspecting UI Elements
 
 Microsoft Visual Studio 2015 by default includes Windows SDK that provides great tool to inspect the application you are testing. This tool allows you to see every UI element/node that you can query using Windows Application Driver. This **inspect.exe** tool can be found under the Windows SDK folder such as `C:\Program Files (x86)\Windows Kits\10\bin\x86`
+
 
