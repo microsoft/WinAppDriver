@@ -1,6 +1,6 @@
 # Windows Application Driver (Beta)
 
-Windows Application Driver is a service to support UI Test Automation of Windows Applications.  The service design subscribes to the Mobile JSON Wire Protocol standard.  If you've been looking for better support for using Appium to test Windows Applications then this service is for you!
+Windows Application Driver is a service to support UI Test Automation of Windows Applications.  The service design subscribes to the Mobile JSON Wire Protocol standard.  If you've been looking for better support for using <a href="http://appium.io">Appium</a> to test Windows Applications then this service is for you!
 
 This Github project provides
 - documentation
@@ -8,8 +8,8 @@ This Github project provides
 - issue tracking
 
 Videos discussing this project
-https://channel9.msdn.com/events/Build/2016/Panel-Engineering-Quality (With Jonathan Lipps!)
-https://channel9.msdn.com/events/Build/2016/P499 (Includes demos)
+https://channel9.msdn.com/events/Build/2016/Panel-Engineering-Quality (With Jonathan Lipps!)<br/>
+https://channel9.msdn.com/events/Build/2016/P499 (Includes demos)<br/>
 
 To vote on new features go to https://wpdev.uservoice.com/forums/110705-universal-windows-platform and enter a new feature request under the **UI Testing** category.
 
