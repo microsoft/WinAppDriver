@@ -79,6 +79,7 @@ namespace CalculatorTest
             CalculatorSession.FindElementByName("Nine").Click();
             CalculatorSession.FindElementByName("Plus").Click();
             CalculatorSession.FindElementByName("One").Click();
+            CalculatorSession.FindElementByName("Equals").Click();
             CalculatorSession.FindElementByName("Divide by").Click();
             CalculatorSession.FindElementByName("Eight").Click();
             CalculatorSession.FindElementByName("Equals").Click();
