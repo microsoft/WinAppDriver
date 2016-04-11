@@ -1,8 +1,0 @@
-C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialTest\bin\Debug\TutorialTest.dll
-C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialTest\bin\Debug\TutorialTest.pdb
-C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
-C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialTest\obj\Debug\TutorialTest.dll
-C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialTest\obj\Debug\TutorialTest.pdb
-C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialTest\bin\Debug\WebDriver.dll
-C:\Users\anlak.REDMOND\Documents\Visual Studio 2015\Projects\TutorialApp\TutorialTest\bin\Debug\WebDriver.xml
