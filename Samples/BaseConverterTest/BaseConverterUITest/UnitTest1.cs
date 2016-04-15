@@ -7,7 +7,7 @@ namespace TutorialTest
     [TestClass]
     public class UnitTest1
     {
-        protected const string AppDriverUrl = "http://127.0.0.1:9999";
+        protected const string AppDriverUrl = "http://127.0.0.1:4723";
         protected static RemoteWebDriver TestAppSession;
         protected static RemoteWebElement TestAppResult;
 

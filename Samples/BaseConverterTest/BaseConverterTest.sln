@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorialApp", "TutorialApp\TutorialApp.csproj", "{8465E874-BFC7-4B8A-B9BB-E710DB67F520}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseConverterUWP", "BaseConverterUWP\BaseConverterUWP.csproj", "{8465E874-BFC7-4B8A-B9BB-E710DB67F520}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorialTest", "TutorialTest\TutorialTest.csproj", "{8D72292F-6450-4AEE-91B5-4C34A225C9CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseConverterUITest", "BaseConverterUITest\BaseConverterUITest.csproj", "{8D72292F-6450-4AEE-91B5-4C34A225C9CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
