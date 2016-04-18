@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Remote;
 
-namespace TutorialTest
+namespace BaseConverterUITest
 {
     [TestClass]
     public class UnitTest1
