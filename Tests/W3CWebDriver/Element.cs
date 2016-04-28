@@ -24,8 +24,6 @@ namespace W3CWebDriver
     [TestClass]
     public class Element
     {
-        protected const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
-        protected const string AlarmClockAppId = "Microsoft.WindowsAlarms_8wekyb3d8bbwe!App";
         protected static IOSDriver<IOSElement> session;
         protected static IOSElement alarmTabElement;
 
@@ -33,8 +31,8 @@ namespace W3CWebDriver
         public static void ClassInitialize(TestContext context)
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", AlarmClockAppId);
-            session = new IOSDriver<IOSElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
+            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
