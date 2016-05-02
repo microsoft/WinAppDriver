@@ -7,12 +7,12 @@ This Github project provides
 - samples
 - issue tracking
 
-**Vote on New Features**<br/>
-Go to https://wpdev.uservoice.com/forums/110705-universal-windows-platform and enter a new feature request under the **UI Testing** category.
-
-## Videos about WinAppDriver
+**Videos about WinAppDriver**<br/>
 https://channel9.msdn.com/events/Build/2016/Panel-Engineering-Quality (With Jonathan Lipps!)<br/>
 https://channel9.msdn.com/events/Build/2016/P499 (Includes demos)<br/>
+
+## Vote on New Features
+Go to https://wpdev.uservoice.com/forums/110705-universal-windows-platform and enter requests under the **UI Testing** category.
 
 ## Getting Started
 1. Download Windows Application Driver Installer here: http://download.microsoft.com/download/6/8/7/687DEE85-E907-4A95-8035-8BC969B9EA95/WindowsApplicationDriver.msi
