@@ -24,12 +24,12 @@ When running `WinAppDriver.exe` a console window is opened which logs the JSON W
 > Default listening address is 127.0.0.1:4723.  You can configure `WinAppDriver.exe` to listen to a different IP address and port if you run it as administrator.
 
 ## C# Samples
-1. For C# samples, open any sample test solution (see the samples in this github project) with Visual Studio 2015 under https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23.<br/>For example, pull and open `CalculatorTest.sln` under [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23/CalculatorTest)
+1. see Samples/C# in this github project.  Open one of the test solutions with Visual Studio 2015.  For example, pull and open `CalculatorTest.sln` under [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23/CalculatorTest)
 2. In Visual Studio 2015 with the test solution open build the test and select **Test > Run > All Tests**
  
 ## Java Samples
-1. For Java samples, open any sample test solution (see the samples in this github project) with a Java IDE such as IntelliJ.  Open the sample folder as an existing project.  [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/Java/CalculatorTest)
-2. In the Java IDE run the test
+1. see Samples/Java in this github project.  Open the sample folder as an existing project in a Java IDE such as IntelliJ. For example: [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/Java/CalculatorTest)
+2. In the Java IDE build and run the test
 
 ## Features
 Windows Application Driver supports testing **Universal Windows Platform (UWP)** and **Classic Windows (Win32)** apps on **Windows 10 PC**
