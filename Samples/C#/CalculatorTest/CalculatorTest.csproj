@@ -56,7 +56,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BasicScenarios.cs" />
-    <Compile Include="PortedOpenCalculatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
