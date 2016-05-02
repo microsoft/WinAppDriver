@@ -24,7 +24,7 @@ When running `WinAppDriver.exe` a console window is opened which logs the JSON W
 > Default listening address is 127.0.0.1:4723.  You can configure `WinAppDriver.exe` to listen to a different IP address and port if you run it as administrator.
 
 ## C# Samples
-1. For C# samples, open any sample test solution (see the samples in this github project) with Visual Studio 2015 under https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C#.<br/>For example, pull and open `CalculatorTest.sln` under [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C#/CalculatorTest)
+1. For C# samples, open any sample test solution (see the samples in this github project) with Visual Studio 2015 under https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23.<br/>For example, pull and open `CalculatorTest.sln` under [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23/CalculatorTest)
 2. In Visual Studio 2015 with the test solution open build the test and select **Test > Run > All Tests**
  
 ## Java Samples
