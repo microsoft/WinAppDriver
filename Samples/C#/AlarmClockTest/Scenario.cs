@@ -106,10 +106,14 @@ namespace AlarmClockTest
                 localTimeText = worldClockPivotItem.FindElementByClassName("ClockCardItem").Text;
                 var timeStrings = localTimeText.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-                if (timeStrings.Length >= 5)
+                foreach (string timeString in timeStrings)
                 {
-                    // Get the time. E.g. "Local time, Monday, February 22, 2016, 11:32 AM, "
-                    localTimeText = timeStrings[4];
+                    // Get the time. E.g. "11:32 AM" from "Local time, Monday, February 22, 2016, 11:32 AM, "
+                    if (timeString.Contains(":"))
+                    {
+                        localTimeText = timeString;
+                        break;
+                    }
                 }
             }
 
@@ -121,9 +125,8 @@ namespace AlarmClockTest
             if (timeText.Length > 0)
             {
                 // Create a test alarm 1 minute after the read local time
-                string alarmTimeString = timeText;
-                DateTimeFormatInfo fi = new CultureInfo("en-US", false).DateTimeFormat;
-                DateTime alarmTime = DateTime.ParseExact(alarmTimeString, " h:mm tt", fi);
+                DateTimeFormatInfo fi = CultureInfo.CurrentUICulture.DateTimeFormat;
+                DateTime alarmTime = DateTime.Parse(timeText, fi);
                 alarmTime = alarmTime.AddMinutes(1.0);
                 string hourString = alarmTime.ToString("%h", fi);
                 string minuteString = alarmTime.ToString("mm", fi);
