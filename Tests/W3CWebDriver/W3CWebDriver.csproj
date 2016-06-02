@@ -73,6 +73,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Window.cs" />
     <Compile Include="ElementElement.cs" />
     <Compile Include="CommonTestSettings.cs" />
     <Compile Include="Session.cs" />

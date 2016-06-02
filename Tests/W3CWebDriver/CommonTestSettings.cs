@@ -27,6 +27,7 @@ namespace W3CWebDriver
         public const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
         public const string AlarmClockAppId = "Microsoft.WindowsAlarms_8wekyb3d8bbwe!App";
         public const string CalculatorAppId = "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App";
+        public const string EdgeAppId = "Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge";
         public const string NotepadAppId = @"C:\Windows\System32\notepad.exe";
     }
 }

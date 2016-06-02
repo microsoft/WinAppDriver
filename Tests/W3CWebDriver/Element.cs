@@ -45,7 +45,7 @@ namespace W3CWebDriver
         {
             if (session != null)
             {
-                session.Dispose();
+                session.Quit();
                 session = null;
             }
         }

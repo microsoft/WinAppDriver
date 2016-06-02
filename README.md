@@ -33,35 +33,51 @@ Windows Application Driver supports testing **Universal Windows Platform (UWP)**
 
 ## Currently Supported API's
 
-| HTTP 	| Path                                          	|
-|------	|--------------------------------------------------	|
-| GET  	| /status                                          	|
-| POST 	| /session                                         	|
-| POST 	| /session/:sessionId/buttondown                   	|
-| POST 	| /session/:sessionId/buttonup                     	|
-| POST 	| /session/:sessionId/click                        	|
-| POST 	| /session/:sessionId/doubleclick                  	|
-| POST 	| /session/:sessionId/element                      	|
-| POST 	| /session/:sessionId/elements                     	|
-| POST 	| /session/:sessionId/element/active               	|
-| GET  	| /session/:sessionId/element/:id/attribute/:name  	|
-| POST 	| /session/:sessionId/element/:id/clear            	|
-| POST 	| /session/:sessionId/element/:id/click            	|
-| GET  	| /session/:sessionId/element/:id/displayed        	|
-| GET  	| /session/:sessionId/element/:id/element          	|
-| GET  	| /session/:sessionId/element/:id/elements         	|
-| GET  	| /session/:sessionId/element/:id/enabled          	|
-| GET  	| /session/:sessionId/element/:id/location         	|
-| GET  	| /session/:sessionId/element/:id/location_in_view 	|
-| GET  	| /session/:sessionId/element/:id/name             	|
-| GET  	| /session/:sessionId/element/:id/screenshot       	|
-| GET  	| /session/:sessionId/element/:id/selected         	|
-| GET  	| /session/:sessionId/element/:id/size             	|
-| GET  	| /session/:sessionId/element/:id/text             	|
-| POST 	| /session/:sessionId/element/:id/value            	|
-| POST 	| /session/:sessionId/moveto                       	|
-| POST 	| /session/:sessionId/timeouts                     	|
-| POST 	| /session/:sessionId/timeouts/implicit_wait       	|
+| HTTP   	| Path                                              	|
+|--------	|---------------------------------------------------	|
+| GET    	| /status                                           	|
+| POST   	| /session                                          	|
+| DELETE 	| /session/:sessionId                               	|
+| POST   	| /session/:sessionId/buttondown                    	|
+| POST   	| /session/:sessionId/buttonup                      	|
+| POST   	| /session/:sessionId/click                         	|
+| POST   	| /session/:sessionId/doubleclick                   	|
+| POST   	| /session/:sessionId/element                       	|
+| POST   	| /session/:sessionId/elements                      	|
+| POST   	| /session/:sessionId/element/active                	|
+| GET    	| /session/:sessionId/element/:id/attribute/:name   	|
+| POST   	| /session/:sessionId/element/:id/clear             	|
+| POST   	| /session/:sessionId/element/:id/click             	|
+| GET    	| /session/:sessionId/element/:id/displayed         	|
+| GET    	| /session/:sessionId/element/:id/element           	|
+| GET    	| /session/:sessionId/element/:id/elements          	|
+| GET    	| /session/:sessionId/element/:id/enabled           	|
+| GET    	| /session/:sessionId/element/:id/location          	|
+| GET    	| /session/:sessionId/element/:id/location_in_view  	|
+| GET    	| /session/:sessionId/element/:id/name              	|
+| GET    	| /session/:sessionId/element/:id/screenshot        	|
+| GET    	| /session/:sessionId/element/:id/selected          	|
+| GET    	| /session/:sessionId/element/:id/size              	|
+| GET    	| /session/:sessionId/element/:id/text              	|
+| POST   	| /session/:sessionId/element/:id/value             	|
+| POST   	| /session/:sessionId/moveto                        	|
+| POST   	| /session/:sessionId/timeouts                      	|
+| POST   	| /session/:sessionId/timeouts/implicit_wait        	|
+| GET    	| /session/:sessionId/window                        	|
+| DELETE 	| /session/:sessionId/window                        	|
+| POST   	| /session/:sessionId/window                        	|
+| GET    	| /session/:sessionId/window/handles                	|
+| POST   	| /session/:sessionId/window/maximize               	|
+| POST   	| /session/:sessionId/window/size                   	|
+| GET    	| /session/:sessionId/window/size                   	|
+| POST   	| /session/:sessionId/window/:windowHandle/size     	|
+| GET    	| /session/:sessionId/window/:windowHandle/size     	|
+| POST   	| /session/:sessionId/window/:windowHandle/position 	|
+| GET    	| /session/:sessionId/window/:windowHandle/position 	|
+| POST   	| /session/:sessionId/window/:windowHandle/maximize 	|
+| GET    	| /session/:sessionId/window_handle                 	|
+| GET    	| /session/:sessionId/window_handles                	|
+
 
 
 ## Creating Your Own Test Script
@@ -110,4 +126,8 @@ NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
 
 Microsoft Visual Studio 2015 by default includes Windows SDK that provides great tool to inspect the application you are testing. This tool allows you to see every UI element/node that you can query using Windows Application Driver. This **inspect.exe** tool can be found under the Windows SDK folder such as `C:\Program Files (x86)\Windows Kits\10\bin\x86`
 
-
+| Locator Strategy 	| Matched Attribute 	|
+|------------------	|-------------------	|
+| accessibility id 	| AutomationId      	|
+| class name       	| ClassName         	|
+| name             	| Name              	|

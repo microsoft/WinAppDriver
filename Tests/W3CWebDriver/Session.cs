@@ -32,7 +32,7 @@ namespace W3CWebDriver
             IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
-            session.Dispose();
+            session.Quit();
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace W3CWebDriver
             IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
-            session.Dispose();
+            session.Quit();
         }
 
         [TestMethod]
@@ -54,7 +54,7 @@ namespace W3CWebDriver
             IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
-            session.Dispose();
+            session.Quit();
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace W3CWebDriver
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
-            session.Dispose();
+            session.Quit();
             Assert.IsNull(session.SessionId);
         }
 
@@ -79,7 +79,7 @@ namespace W3CWebDriver
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
-            session.Dispose();
+            session.Quit();
             Assert.IsNull(session.SessionId);
         }
 
@@ -92,7 +92,7 @@ namespace W3CWebDriver
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
-            session.Dispose();
+            session.Quit();
             Assert.IsNull(session.SessionId);
         }
 
@@ -154,7 +154,7 @@ namespace W3CWebDriver
 
             string applicationTitle = session1.FindElementByClassName("ApplicationFrameWindow").Text;
             Assert.IsNotNull(applicationTitle);
-            session1.Dispose();
+            session1.Quit();
             applicationTitle = session1.FindElementByClassName("ApplicationFrameWindow").Text;
             Assert.Fail("Exception should have been thrown");
         }
@@ -174,8 +174,8 @@ namespace W3CWebDriver
             Assert.IsNotNull(session2.SessionId);
 
             Assert.AreNotEqual(session1.SessionId, session2.SessionId);
-            session1.Dispose();
-            session2.Dispose();
+            session1.Quit();
+            session2.Quit();
         }
 
         [TestMethod]
@@ -193,8 +193,8 @@ namespace W3CWebDriver
             Assert.IsNotNull(session2.SessionId);
 
             Assert.AreNotEqual(session1.SessionId, session2.SessionId);
-            session1.Dispose();
-            session2.Dispose();
+            session1.Quit();
+            session2.Quit();
         }
     }
 }
