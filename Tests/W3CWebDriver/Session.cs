@@ -58,6 +58,17 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
+        public void CreateSessionSystemApp()
+        {
+            DesiredCapabilities appCapabilities = new DesiredCapabilities();
+            appCapabilities.SetCapability("app", CommonTestSettings.ExplorerAppId);
+            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            Assert.IsNotNull(session);
+            Assert.IsNotNull(session.SessionId);
+            session.Quit();
+        }
+
+        [TestMethod]
         public void DeleteSessionClassicApp()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
@@ -88,6 +99,19 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
+            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            Assert.IsNotNull(session);
+            Assert.IsNotNull(session.SessionId);
+
+            session.Quit();
+            Assert.IsNull(session.SessionId);
+        }
+
+        [TestMethod]
+        public void DeleteSessionSystemApp()
+        {
+            DesiredCapabilities appCapabilities = new DesiredCapabilities();
+            appCapabilities.SetCapability("app", CommonTestSettings.ExplorerAppId);
             IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
