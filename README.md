@@ -7,29 +7,32 @@ This Github project provides
 - samples
 - issue tracking
 
-Videos discussing this project
+**Videos about WinAppDriver**<br/>
 https://channel9.msdn.com/events/Build/2016/Panel-Engineering-Quality (With Jonathan Lipps!)<br/>
 https://channel9.msdn.com/events/Build/2016/P499 (Includes demos)<br/>
 
-To vote on new features go to https://wpdev.uservoice.com/forums/110705-universal-windows-platform and enter a new feature request under the **UI Testing** category.
-
+## Vote on New Features
+Go to https://wpdev.uservoice.com/forums/110705-universal-windows-platform and enter requests under the **UI Testing** category.
 
 ## Getting Started
 1. Download Windows Application Driver Installer here: http://download.microsoft.com/download/6/8/7/687DEE85-E907-4A95-8035-8BC969B9EA95/WindowsApplicationDriver.msi
 2. Run the Installer on the machine where you will run your test in (the application under test should also be installed on this machine)
 3. Browse to the Windows Application Driver installation directory and run `WinAppDriver.exe`
-4. Open any sample test solution (see the samples in this github project) with Visual Studio 2015 under https://github.com/Microsoft/WinAppDriver/tree/master/Samples.<br/>For example, pull and open `CalculatorTest.sln` under [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/CalculatorTest)
-5. In Visual Studio 2015 with the test solution open build the test and select **Test > Run > All Tests**
- 
+
 When running `WinAppDriver.exe` a console window is opened which logs the JSON Wire Protocol HTTP requests
 
 > Default listening address is 127.0.0.1:4723.  You can configure `WinAppDriver.exe` to listen to a different IP address and port if you run it as administrator.
 
+## C# Samples
+1. see Samples/C# in this github project.  Open one of the test solutions with Visual Studio 2015.  For example, pull and open `CalculatorTest.sln` under [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23/CalculatorTest)
+2. In Visual Studio 2015 with the test solution open build the test and select **Test > Run > All Tests**
+ 
+## Java Samples
+1. see Samples/Java in this github project.  Open the sample folder as an existing project in a Java IDE such as IntelliJ. For example: [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/Java/CalculatorTest)
+2. In the Java IDE build and run the test
 
 ## Features
-
-Windows Application Driver supports testing **Universal Windows Platform (UWP)** and **Classic Windows (Win32)** apps on **Windows 10 PC**.
-
+Windows Application Driver supports testing **Universal Windows Platform (UWP)** and **Classic Windows (Win32)** apps on **Windows 10 PC**
 
 ## Currently Supported API's
 
@@ -106,7 +109,6 @@ AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
 ```
 
 > When testing the application you authored yourself, you can find the **Application Id** in the generetated `AppX\vs.appxrecipe` file under `RegisteredUserNmodeAppID` node. E.g. ```c24c8163-548e-4b84-a466-530178fc0580_scyf5npe3hv32!App```
-
 
 ### Classic Windows App Testing
 
