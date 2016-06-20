@@ -57,7 +57,7 @@ namespace AlarmClockTest
             SwitchToAlarmTab();
 
             // Delete all created alarms
-            var alarmEntries = AlarmClockSession.FindElementsByName("Windows Application Driver Test Alarm");
+            var alarmEntries = AlarmClockSession.FindElementsByXPath("//ListItem[starts-with(@Name, \"Windows Application Driver Test Alarm\")]");
             foreach (var alarmEntry in alarmEntries)
             {
                 AlarmClockSession.Mouse.ContextClick(alarmEntry.Coordinates);
@@ -79,7 +79,7 @@ namespace AlarmClockTest
             // Add an alarm at 1 minute after local time
             SwitchToAlarmTab();
             AddAlarm(localTimeText);
-            var alarmEntries = AlarmClockSession.FindElementsByName("Windows Application Driver Test Alarm");
+            var alarmEntries = AlarmClockSession.FindElementsByXPath("//ListItem[starts-with(@Name, \"Windows Application Driver Test Alarm\")]");
             Assert.IsTrue(alarmEntries.Count > 0);
 
             // Try to dismiss notification after 1 minute
