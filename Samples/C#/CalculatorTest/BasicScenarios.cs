@@ -40,8 +40,8 @@ namespace CalculatorTest
             // Use series of operation to locate the calculator result text element as a workaround
             // We currently cannot query element by automationId without using modified appium dot net driver
             // TODO: Use a proper appium/webdriver nuget package that allow us to query based on automationId
-            CalculatorSession.FindElementByName("Clear").Click();
-            CalculatorSession.FindElementByName("Seven").Click();
+            CalculatorSession.FindElementByXPath("//Button[@Name=\"Clear\"]").Click();
+            CalculatorSession.FindElementByXPath("//Button[@Name=\"Seven\"]").Click();
             CalculatorResult = CalculatorSession.FindElementByName("Display is  7 ") as RemoteWebElement;
             Assert.IsNotNull(CalculatorResult);
         }
