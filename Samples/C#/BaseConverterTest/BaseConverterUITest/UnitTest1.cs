@@ -57,7 +57,7 @@ namespace BaseConverterUITest
                 }
             }
 
-            var button = TestAppSession.FindElementByClassName("Button");
+            var button = TestAppSession.FindElementByXPath("//Button[@Name=\"Convert!\"]");
             button.Click();
 
             /*Verify the conversion happened successfully by locating the converted item on the page
