@@ -74,15 +74,15 @@ namespace CalculatorTest
         [TestMethod]
         public void Combination()
         {
-            CalculatorSession.FindElementByName("Seven").Click();
-            CalculatorSession.FindElementByName("Multiply by").Click();
-            CalculatorSession.FindElementByName("Nine").Click();
-            CalculatorSession.FindElementByName("Plus").Click();
-            CalculatorSession.FindElementByName("One").Click();
-            CalculatorSession.FindElementByName("Equals").Click();
-            CalculatorSession.FindElementByName("Divide by").Click();
-            CalculatorSession.FindElementByName("Eight").Click();
-            CalculatorSession.FindElementByName("Equals").Click();
+            CalculatorSession.FindElementByXPath("//Button[@Name=\"Seven\"]").Click();
+            CalculatorSession.FindElementByXPath("//Button[@Name=\"Multiply by\"]").Click();
+            CalculatorSession.FindElementByXPath("//Button[@Name=\"Nine\"]").Click();
+            CalculatorSession.FindElementByXPath("//Button[@Name=\"Plus\"]").Click();
+            CalculatorSession.FindElementByXPath("//Button[@Name=\"One\"]").Click();
+            CalculatorSession.FindElementByXPath("//Button[@Name=\"Equals\"]").Click();
+            CalculatorSession.FindElementByXPath("//Button[@Name=\"Divide by\"]").Click();
+            CalculatorSession.FindElementByXPath("//Button[@Name=\"Eight\"]").Click();
+            CalculatorSession.FindElementByXPath("//Button[@Name=\"Equals\"]").Click();
             Assert.AreEqual("Display is  8 ", CalculatorResult.Text);
         }
 
