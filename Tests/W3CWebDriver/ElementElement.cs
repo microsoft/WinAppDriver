@@ -135,19 +135,17 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.WebDriverException))]
-        public void ErrorFindElementByUnsupportedLocatorTagName()
+        public void FindElementByTagName()
         {
-            IOSElement element = alarmTabElement.FindElementByTagName("Query") as IOSElement;
-            Assert.Fail("Exception should have been thrown");
+            IOSElement element = alarmTabElement.FindElementByTagName("ListItem") as IOSElement;
+            Assert.IsNotNull(element);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.WebDriverException))]
-        public void ErrorFindElementByUnsupportedLocatorXPath()
+        public void FindElementByXPath()
         {
-            IOSElement element = alarmTabElement.FindElementByXPath("Query") as IOSElement;
-            Assert.Fail("Exception should have been thrown");
+            IOSElement element = alarmTabElement.FindElementByXPath("//*[@Name=\"Alarm Collection\"]") as IOSElement;
+            Assert.IsNotNull(element);
         }
     }
 }
