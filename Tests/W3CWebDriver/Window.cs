@@ -116,8 +116,8 @@ namespace W3CWebDriver
             Assert.IsNotNull(windowHandlesBefore);
             Assert.IsTrue(windowHandlesBefore.Count > 0);
 
-            multiWindowsSession.FindElementByAccessibilityId("ActionsMenuButton").Click();
-            multiWindowsSession.FindElementByAccessibilityId("ActionsMenuNewWindow").Click();
+            multiWindowsSession.FindElementByAccessibilityId("m_actionsMenuButton").Click();
+            multiWindowsSession.FindElementByAccessibilityId("m_newWindow").Click();
 
             System.Threading.Thread.Sleep(1000); // Sleep for 1 second
             var windowHandlesAfter = multiWindowsSession.WindowHandles;
@@ -143,8 +143,8 @@ namespace W3CWebDriver
             Assert.IsNotNull(multiWindowsSession);
             Assert.IsNotNull(multiWindowsSession.SessionId);
 
-            multiWindowsSession.FindElementByAccessibilityId("ActionsMenuButton").Click();
-            multiWindowsSession.FindElementByAccessibilityId("ActionsMenuNewWindow").Click();
+            multiWindowsSession.FindElementByAccessibilityId("m_actionsMenuButton").Click();
+            multiWindowsSession.FindElementByAccessibilityId("m_newWindow").Click();
 
             System.Threading.Thread.Sleep(1000); // Sleep for 1 second
             var windowHandlesAfter = multiWindowsSession.WindowHandles;
