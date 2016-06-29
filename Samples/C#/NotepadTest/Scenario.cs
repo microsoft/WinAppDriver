@@ -13,7 +13,7 @@ namespace NotepadTest
         protected const string NotepadAppId = @"C:\Windows\System32\notepad.exe";
         protected const string ExplorerAppId = @"C:\Windows\System32\explorer.exe";
         protected const string TestFileName = "NotepadTestOutputFile.txt";
-        protected static IOSDriver<RemoteWebElement> NotepadSession;
+        protected static IOSDriver<IOSElement> NotepadSession;
 
 
         [ClassInitialize]
@@ -22,7 +22,7 @@ namespace NotepadTest
             // Launch Notepad Classic Windows Application
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", NotepadAppId);
-            NotepadSession = new IOSDriver<RemoteWebElement>(new Uri(AppDriverUrl), appCapabilities);
+            NotepadSession = new IOSDriver<IOSElement>(new Uri(AppDriverUrl), appCapabilities);
             Assert.IsNotNull(NotepadSession);
         }
 
@@ -34,16 +34,16 @@ namespace NotepadTest
 
             EnterText();
             SaveFile();
-            System.Threading.Thread.Sleep(1000); // Wait for 1 second until the window is updated
 
             // Verify that Notepad has saved the edited text file with the given name
+            System.Threading.Thread.Sleep(1000); // Wait for 1 second until the window title is updated
             Assert.AreEqual(TestFileName + " - Notepad", NotepadSession.Title);
         }
 
         public void EnterText()
         {
             // Enter text into the edit field
-            RemoteWebElement editBox = NotepadSession.FindElementByClassName("Edit") as RemoteWebElement;
+            var editBox = NotepadSession.FindElementByClassName("Edit");
             editBox.SendKeys(TextValue);
 
             // Enter TimeStamp
@@ -56,16 +56,15 @@ namespace NotepadTest
             NotepadSession.FindElementByName("File").Click();
             NotepadSession.FindElementByName("Save As...").Click();
 
-            System.Threading.Thread.Sleep(1000); // Wait for 1 second until the dialog comes up
-            var fileNameBox = NotepadSession.FindElementByAccessibilityId("FileNameControlHost") as IOSElement;
-            var fileNameEdit = fileNameBox.FindElementByAccessibilityId("1001"); // File name edit box in the Save As dialog
-            fileNameBox.SendKeys(@"\" + TestFileName);
+            System.Threading.Thread.Sleep(1000); // Wait for 1 second until the save dialog appears
+            var fileNameBox = NotepadSession.FindElementByAccessibilityId("FileNameControlHost");
+            fileNameBox.SendKeys(@"%TEMP%\" + TestFileName);
             NotepadSession.FindElementByName("Save").Click();
 
             try
             {
                 System.Threading.Thread.Sleep(1000); // Wait for 1 second until the dialog comes up
-                var confirmSaveAsDialog = NotepadSession.FindElementByName("Confirm Save As") as IOSElement;
+                var confirmSaveAsDialog = NotepadSession.FindElementByName("Confirm Save As");
                 confirmSaveAsDialog.FindElementByName("Yes").Click();
             }
             catch { }
@@ -81,21 +80,21 @@ namespace NotepadTest
             // Launch Windows Explorer
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", ExplorerAppId);
-            IOSDriver<RemoteWebElement> WindowsExplorerSession = new IOSDriver<RemoteWebElement>(new Uri(AppDriverUrl), appCapabilities);
+            IOSDriver<IOSElement> WindowsExplorerSession = new IOSDriver<IOSElement>(new Uri(AppDriverUrl), appCapabilities);
             Assert.IsNotNull(WindowsExplorerSession);
 
             // Desktop session to control context menu and access dialogs
             DesiredCapabilities desktopCapabilities = new DesiredCapabilities();
             desktopCapabilities.SetCapability("app", "Root");
-            IOSDriver<RemoteWebElement> DesktopSession = new IOSDriver<RemoteWebElement>(new Uri(AppDriverUrl), desktopCapabilities);
+            IOSDriver<IOSElement> DesktopSession = new IOSDriver<IOSElement>(new Uri(AppDriverUrl), desktopCapabilities);
             Assert.IsNotNull(DesktopSession);
 
             // Switch to root folder
-            var addressBandRoot = WindowsExplorerSession.FindElementByClassName("Address Band Root") as IOSElement;
+            var addressBandRoot = WindowsExplorerSession.FindElementByClassName("Address Band Root");
             var addressToolbar = addressBandRoot.FindElementByAccessibilityId("1001"); // Address Band Toolbar
             WindowsExplorerSession.Mouse.Click(addressToolbar.Coordinates);
-            addressBandRoot.FindElementByAccessibilityId("41477").SendKeys(@"\");
-            var gotoButton = addressBandRoot.FindElementByName("Go to \"\\\"");
+            addressBandRoot.FindElementByAccessibilityId("41477").SendKeys(@"%TEMP%\");
+            var gotoButton = addressBandRoot.FindElementByName("Go to \"%TEMP%\\\"");
             WindowsExplorerSession.Mouse.Click(gotoButton.Coordinates);
 
             // Locate the saved test file
@@ -103,13 +102,13 @@ namespace NotepadTest
 
             // Delete the located saved test file
             System.Threading.Thread.Sleep(1000); // Wait for 1 second
-            var shellFolderView = WindowsExplorerSession.FindElementByName("Shell Folder View") as IOSElement;
+            var shellFolderView = WindowsExplorerSession.FindElementByName("Shell Folder View");
             var targetFileItem = shellFolderView.FindElementByName("NotepadTestOutputFile.txt");
             Assert.IsNotNull(targetFileItem);
             WindowsExplorerSession.Mouse.ContextClick(targetFileItem.Coordinates);
 
             System.Threading.Thread.Sleep(1000); // Wait for 1 second for the context menu to appear
-            var contextMenu = DesktopSession.FindElementByName("Context") as IOSElement;
+            var contextMenu = DesktopSession.FindElementByName("Context");
             Assert.IsNotNull(contextMenu);
             contextMenu.FindElementByAccessibilityId("30994").Click(); // Select Delete from the context menu item
 
