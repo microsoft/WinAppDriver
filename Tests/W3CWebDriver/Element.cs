@@ -143,5 +143,19 @@ namespace W3CWebDriver
             IOSElement element = session.FindElementByXPath("//*[@Name=\"Alarm Collection\"]");
             Assert.IsNotNull(element);
         }
+
+        [TestMethod]
+        public void FindSelectedElement()
+        {
+            IOSElement elementWorldClock = session.FindElementByAccessibilityId("WorldClockPivotItem");
+            IOSElement elementAlarmClock = session.FindElementByAccessibilityId("AlarmPivotItem");
+
+            elementWorldClock.Click();
+            Assert.IsTrue(elementWorldClock.Selected);
+            Assert.IsFalse(elementAlarmClock.Selected);
+            elementAlarmClock.Click();
+            Assert.IsFalse(elementWorldClock.Selected);
+            Assert.IsTrue(elementAlarmClock.Selected);
+        }
     }
 }
