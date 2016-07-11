@@ -55,6 +55,7 @@ namespace CalculatorTest
         [ClassCleanup]
         public static void TearDown()
         {
+            // Restore original mode before closing down
             CalculatorSession.FindElementByXPath("//Button[starts-with(@Name, \"Menu\")]").Click();
             CalculatorSession.FindElementByXPath("//ListItem[@Name=\"" + OriginalCalculatorMode + "\"]").Click();
 
