@@ -58,7 +58,6 @@ namespace W3CWebDriver
             Assert.AreNotEqual(source.Length, 0);
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(source);
-            
         }
     }
 }
