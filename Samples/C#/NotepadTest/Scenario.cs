@@ -17,7 +17,6 @@ namespace NotepadTest
         protected const string TargetSaveLocation = @"%TEMP%\";
         protected static IOSDriver<IOSElement> NotepadSession;
 
-
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
@@ -108,6 +107,7 @@ namespace NotepadTest
             var shellFolderView = WindowsExplorerSession.FindElementByName("Shell Folder View");
             var targetFileItem = shellFolderView.FindElementByName("NotepadTestOutputFile.txt");
             Assert.IsNotNull(targetFileItem);
+            WindowsExplorerSession.Mouse.Click(targetFileItem.Coordinates);
             WindowsExplorerSession.Mouse.ContextClick(targetFileItem.Coordinates);
             Thread.Sleep(1000); // Wait for 1 second for the context menu to appear
             var contextMenu = DesktopSession.FindElementByName("Context");
