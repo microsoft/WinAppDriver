@@ -95,7 +95,7 @@ namespace CortanaTest
             var bingPane = CortanaSession.FindElementByName("Bing");
             Assert.IsNotNull(bingPane);
 
-            var bingResult = bingPane.FindElementByName("What is eight times eleven");
+            var bingResult = bingPane.FindElementByName("88");
             Assert.IsNotNull(bingResult);
         }
 
