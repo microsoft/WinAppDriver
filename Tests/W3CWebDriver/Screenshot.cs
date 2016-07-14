@@ -15,6 +15,7 @@
 //******************************************************************************
 
 using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -55,19 +56,12 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetScreenshot()
         {
-            string screenshotName = "screenshot.png";
             var screenshot = session.GetScreenshot();
-
-            try
+            using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
             {
-                screenshot.SaveAsFile(screenshotName, ImageFormat.Png);
-                Assert.IsTrue(File.Exists(screenshotName));
-                FileInfo screenshotInfo = new FileInfo(screenshotName);
-                Assert.IsTrue(screenshotInfo.Length > 0);
-            }
-            finally
-            {
-                File.Delete(screenshotName);
+                Image screenshotImage = Image.FromStream(msScreenshot);
+                Assert.IsTrue(screenshotImage.Height > 0);
+                Assert.IsTrue(screenshotImage.Width > 0);
             }
         }
     }
