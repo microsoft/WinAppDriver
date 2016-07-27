@@ -29,6 +29,7 @@ namespace AlarmClockTest
         protected const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
         protected static IOSDriver<IOSElement> AlarmClockSession;   // Temporary placeholder until Windows namespace exists
         protected static IOSDriver<IOSElement> DesktopSession;      // Temporary placeholder until Windows namespace exists
+        private const string NewAlarmName = "Windows Application Driver Test Alarm";
 
         [ClassInitialize]
         public static void Setup(TestContext context)
@@ -57,14 +58,21 @@ namespace AlarmClockTest
             SwitchToAlarmTab();
 
             // Delete all created alarms
-            var alarmEntries = AlarmClockSession.FindElementsByName("Windows Application Driver Test Alarm");
-            foreach (var alarmEntry in alarmEntries)
+            while (true)
             {
-                AlarmClockSession.Mouse.ContextClick(alarmEntry.Coordinates);
-                AlarmClockSession.FindElementByName("Delete").Click();
+                try
+                {
+                    var alarmEntry = AlarmClockSession.FindElementByXPath(string.Format("//ListItem[starts-with(@Name, \"{0}\")]", NewAlarmName));
+                    AlarmClockSession.Mouse.ContextClick(alarmEntry.Coordinates);
+                    AlarmClockSession.FindElementByName("Delete").Click();
+                }
+                catch
+                {
+                    break;
+                }
             }
 
-            AlarmClockSession.Dispose();
+            AlarmClockSession.Quit();
             AlarmClockSession = null;
         }
 
@@ -79,7 +87,7 @@ namespace AlarmClockTest
             // Add an alarm at 1 minute after local time
             SwitchToAlarmTab();
             AddAlarm(localTimeText);
-            var alarmEntries = AlarmClockSession.FindElementsByName("Windows Application Driver Test Alarm");
+            var alarmEntries = AlarmClockSession.FindElementsByXPath(string.Format("//ListItem[starts-with(@Name, \"{0}\")]", NewAlarmName));
             Assert.IsTrue(alarmEntries.Count > 0);
 
             // Try to dismiss notification after 1 minute
@@ -128,16 +136,36 @@ namespace AlarmClockTest
                 DateTimeFormatInfo fi = CultureInfo.CurrentUICulture.DateTimeFormat;
                 DateTime alarmTime = DateTime.Parse(timeText, fi);
                 alarmTime = alarmTime.AddMinutes(1.0);
-                string hourString = alarmTime.ToString("%h", fi);
-                string minuteString = alarmTime.ToString("mm", fi);
-                string period = alarmTime.ToString("tt", fi);
+
+                // The alarm app uses the long time format specifier
+                var timeFormat = fi.LongTimePattern;
+                var formatStrings = timeFormat.Split(new char[] { fi.TimeSeparator[0], ' ' });
+
+                string hourString = alarmTime.ToString(formatStrings[0]);
+
+                // If the format for the hour includes a preceding 0, remove it
+                if(hourString.StartsWith("0"))
+                {
+                    hourString = hourString.Substring(1);
+                }
+                string minuteString = alarmTime.ToString(formatStrings[1]);
+
+                // Only add the period if the time format has it
+                string period = string.Empty;
+                if (formatStrings.Length > 3)
+                {
+                    period = alarmTime.ToString(formatStrings[3]);
+                }
 
                 AlarmClockSession.FindElementByAccessibilityId("AddAlarmButton").Click();
                 AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
-                AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").SendKeys("Windows Application Driver Test Alarm");
+                AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").SendKeys(NewAlarmName);
                 AlarmClockSession.FindElementByAccessibilityId("HourSelector").FindElementByName(hourString).Click();
                 AlarmClockSession.FindElementByAccessibilityId("MinuteSelector").FindElementByName(minuteString).Click();
-                AlarmClockSession.FindElementByAccessibilityId("PeriodSelector").FindElementByName(period).Click();
+                if (!string.IsNullOrEmpty(period))
+                {
+                    AlarmClockSession.FindElementByAccessibilityId("PeriodSelector").FindElementByName(period).Click();
+                }
                 AlarmClockSession.FindElementByAccessibilityId("AlarmSaveButton").Click();
             }
         }
@@ -147,7 +175,7 @@ namespace AlarmClockTest
             try
             {
                 AppiumWebElement newNotification = DesktopSession.FindElementByName("New notification");
-                Assert.IsTrue(newNotification.FindElementByAccessibilityId("MessageText").Text.Contains("Windows Application Driver Test Alarm"));
+                Assert.IsTrue(newNotification.FindElementByAccessibilityId("MessageText").Text.Contains(NewAlarmName));
                 newNotification.FindElementByName("Dismiss").Click();
             }
             catch { }
