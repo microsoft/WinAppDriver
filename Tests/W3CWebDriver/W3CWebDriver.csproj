@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="AlarmClockBase.cs" />
     <Compile Include="Forward.cs" />
+    <Compile Include="TouchBase.cs" />
     <Compile Include="ElementAttribute.cs" />
     <Compile Include="Selected.cs" />
     <Compile Include="Screenshot.cs" />
@@ -83,6 +84,11 @@
     <Compile Include="Sessions.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Back.cs" />
+    <Compile Include="TouchFlick.cs" />
+    <Compile Include="TouchDoubleClick.cs" />
+    <Compile Include="TouchLongClick.cs" />
+    <Compile Include="TouchScroll.cs" />
+    <Compile Include="TouchClick.cs" />
     <Compile Include="Title.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Window.cs" />
