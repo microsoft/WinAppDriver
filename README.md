@@ -15,7 +15,7 @@ https://channel9.msdn.com/events/Build/2016/P499 (Includes demos)<br/>
 Go to https://wpdev.uservoice.com/forums/110705-universal-windows-platform and enter requests under the **UI Testing** category.
 
 ## Getting Started
-1. Download Windows Application Driver Installer here: http://download.microsoft.com/download/6/8/7/687DEE85-E907-4A95-8035-8BC969B9EA95/WindowsApplicationDriver.msi
+1. Download Windows Application Driver Installer here: https://github.com/Microsoft/WinAppDriver/releases
 2. Run the Installer on the machine where you will run your test in (the application under test should also be installed on this machine)
 3. Browse to the Windows Application Driver installation directory and run `WinAppDriver.exe`
 
