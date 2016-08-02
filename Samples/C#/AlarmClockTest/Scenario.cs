@@ -111,7 +111,16 @@ namespace AlarmClockTest
             AppiumWebElement worldClockPivotItem = AlarmClockSession.FindElementByAccessibilityId("WorldClockPivotItem");
             if (worldClockPivotItem != null)
             {
-                localTimeText = worldClockPivotItem.FindElementByClassName("ClockCardItem").Text;
+                try
+                {
+                    localTimeText = worldClockPivotItem.FindElementByClassName("ClockCardItem").Text;
+                }
+                catch (OpenQA.Selenium.NoSuchElementException)
+                {
+                    // On Windows 10 anniversary edition, the ClockCardItem has been changed to ListViewItem
+                    // If the previous item wasn't found, then look for the new one.
+                    localTimeText = worldClockPivotItem.FindElementByClassName("ListViewItem").Text;
+                }
                 var timeStrings = localTimeText.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string timeString in timeStrings)
@@ -141,12 +150,23 @@ namespace AlarmClockTest
                 var timeFormat = fi.LongTimePattern;
                 var formatStrings = timeFormat.Split(new char[] { fi.TimeSeparator[0], ' ' });
 
+                // A single character format string is treated as a standard format. Escape it
+                if (formatStrings[0].Length == 1)
+                {
+                    formatStrings[0] = "%" + formatStrings[0];
+                }
                 string hourString = alarmTime.ToString(formatStrings[0]);
 
                 // If the format for the hour includes a preceding 0, remove it
-                if(hourString.StartsWith("0"))
+                if (hourString.StartsWith("0"))
                 {
                     hourString = hourString.Substring(1);
+                }
+
+                // A single character format string is treated as a standard format. Escape it
+                if (formatStrings[1].Length == 1)
+                {
+                    formatStrings[1] = "%" + formatStrings[1];
                 }
                 string minuteString = alarmTime.ToString(formatStrings[1]);
 
