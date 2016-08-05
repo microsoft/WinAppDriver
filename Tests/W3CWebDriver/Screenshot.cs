@@ -17,6 +17,7 @@
 using System.Drawing;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Appium.iOS;
 
 namespace W3CWebDriver
 {
@@ -33,6 +34,71 @@ namespace W3CWebDriver
         public static void ClassCleanup()
         {
             ClassClean();
+        }
+
+        [TestMethod]
+        public void GetAlarmPivotItemScreenshot()
+        {
+            IOSElement element = session.FindElementByAccessibilityId("AlarmPivotItem");
+            var screenshot = element.GetScreenshot();
+            using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
+            {
+                Image screenshotImage = Image.FromStream(msScreenshot);
+                Assert.IsTrue(screenshotImage.Height > 0);
+                Assert.IsTrue(screenshotImage.Width > 0);
+            }
+        }
+
+        [TestMethod]
+        public void GetAddAlarmScreenshot()
+        {
+            IOSElement element = session.FindElementByAccessibilityId("AddAlarmButton");
+            var screenshot = element.GetScreenshot();
+            using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
+            {
+                Image screenshotImage = Image.FromStream(msScreenshot);
+                Assert.IsTrue(screenshotImage.Height > 0);
+                Assert.IsTrue(screenshotImage.Width > 0);
+            }
+        }
+
+        [TestMethod]
+        public void GetWorldClockScreenshot()
+        {
+            IOSElement element = session.FindElementByAccessibilityId("WorldClockPivotItem");
+            var screenshot = element.GetScreenshot();
+            using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
+            {
+                Image screenshotImage = Image.FromStream(msScreenshot);
+                Assert.IsTrue(screenshotImage.Height > 0);
+                Assert.IsTrue(screenshotImage.Width > 0);
+            }
+        }
+
+        [TestMethod]
+        public void GetAddAlarmScreenshot()
+        {
+            IOSElement element = session.FindElementByAccessibilityId("AddAlarmButton");
+            var screenshot = element.GetScreenshot();
+            using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
+            {
+                Image screenshotImage = Image.FromStream(msScreenshot);
+                Assert.IsTrue(screenshotImage.Height > 0);
+                Assert.IsTrue(screenshotImage.Width > 0);
+            }
+        }
+
+        [TestMethod]
+        public void GetAlarmListScreenshot()
+        {
+            IOSElement element = session.FindElementByAccessibilityId("AlarmListView");
+            var screenshot = element.GetScreenshot();
+            using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
+            {
+                Image screenshotImage = Image.FromStream(msScreenshot);
+                Assert.IsTrue(screenshotImage.Height > 0);
+                Assert.IsTrue(screenshotImage.Width > 0);
+            }
         }
 
         [TestMethod]
