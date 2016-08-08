@@ -14,10 +14,13 @@
 //
 //******************************************************************************
 
+using System;
+using System.Net;
 using System.Drawing;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.iOS;
+using Newtonsoft.Json.Linq;
 
 namespace W3CWebDriver
 {
@@ -40,19 +43,6 @@ namespace W3CWebDriver
         public void GetAlarmPivotItemScreenshot()
         {
             IOSElement element = session.FindElementByAccessibilityId("AlarmPivotItem");
-            var screenshot = element.GetScreenshot();
-            using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
-            {
-                Image screenshotImage = Image.FromStream(msScreenshot);
-                Assert.IsTrue(screenshotImage.Height > 0);
-                Assert.IsTrue(screenshotImage.Width > 0);
-            }
-        }
-
-        [TestMethod]
-        public void GetAddAlarmScreenshot()
-        {
-            IOSElement element = session.FindElementByAccessibilityId("AddAlarmButton");
             var screenshot = element.GetScreenshot();
             using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
             {
@@ -86,6 +76,16 @@ namespace W3CWebDriver
                 Assert.IsTrue(screenshotImage.Height > 0);
                 Assert.IsTrue(screenshotImage.Width > 0);
             }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.Net.WebException))]
+        public void ErrorGetInvalidElementScreenshot()
+        {
+            var request = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/session/" + session.SessionId + "/element/invalidElement/screenshot");
+            request.Method = "GET";
+            WebResponse response = request.GetResponse();
+            Assert.Fail("Exception should have been thrown");
         }
 
         [TestMethod]
