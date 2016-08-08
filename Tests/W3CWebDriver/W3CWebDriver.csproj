@@ -80,6 +80,7 @@
     <Compile Include="Screenshot.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="Sessions.cs" />
+    <Compile Include="Location.cs" />
     <Compile Include="Title.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Window.cs" />
