@@ -23,6 +23,7 @@ When running `WinAppDriver.exe` a console window is opened which logs the JSON W
 
 > Default listening address is 127.0.0.1:4723.  You can configure `WinAppDriver.exe` to listen to a different IP address and port if you run it as administrator. The syntax from the command line is:
 WinAppDriver.exe <IP address> <port> For example:
+
 	WinAppDriver.exe 127.0.0.1 4723
 	WinAppDriver.exe 10.0.0.10 4725
 	WinAppDriver.exe 10.0.0.10 4723/wd/hub
