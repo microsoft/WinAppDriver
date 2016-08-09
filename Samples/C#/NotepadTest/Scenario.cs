@@ -10,7 +10,7 @@ namespace NotepadTest
     public class Scenario
     {
         protected const string AppDriverUrl = "http://127.0.0.1:4723";
-        protected const string TextValue = "This is an automated test on Classic Windows Application!\n";
+        protected const string TextValue = "This is an automated test on Classic Windows Application!";
         protected const string NotepadAppId = @"C:\Windows\System32\notepad.exe";
         protected const string ExplorerAppId = @"C:\Windows\System32\explorer.exe";
         protected const string TestFileName = "NotepadTestOutputFile.txt";
@@ -46,10 +46,12 @@ namespace NotepadTest
             // Enter text into the edit field
             var editBox = NotepadSession.FindElementByClassName("Edit");
             editBox.SendKeys(TextValue);
+            Assert.AreEqual(TextValue, editBox.Text);
 
             // Enter TimeStamp
             NotepadSession.FindElementByName("Edit").Click();
             NotepadSession.FindElementByName("Time/Date").Click();
+            Assert.AreNotEqual(TextValue, editBox.Text);
         }
 
         public void SaveFile()
@@ -92,12 +94,11 @@ namespace NotepadTest
             Assert.IsNotNull(DesktopSession);
 
             // Navigate Windows Explorer to the target save location folder
+            Thread.Sleep(1000); // Wait for 1 second
             var addressBandRoot = WindowsExplorerSession.FindElementByClassName("Address Band Root");
             var addressToolbar = addressBandRoot.FindElementByAccessibilityId("1001"); // Address Band Toolbar
             WindowsExplorerSession.Mouse.Click(addressToolbar.Coordinates);
-            addressBandRoot.FindElementByAccessibilityId("41477").SendKeys(TargetSaveLocation);
-            var gotoButton = addressBandRoot.FindElementByName("Go to \"" + TargetSaveLocation + "\"");
-            WindowsExplorerSession.Mouse.Click(gotoButton.Coordinates);
+            addressBandRoot.FindElementByAccessibilityId("41477").SendKeys(TargetSaveLocation + OpenQA.Selenium.Keys.Enter);
 
             // Locate the saved test file
             WindowsExplorerSession.FindElementByAccessibilityId("SearchEditBox").SendKeys(TestFileName);
@@ -108,17 +109,13 @@ namespace NotepadTest
             var targetFileItem = shellFolderView.FindElementByName("NotepadTestOutputFile.txt");
             Assert.IsNotNull(targetFileItem);
             WindowsExplorerSession.Mouse.Click(targetFileItem.Coordinates);
-            WindowsExplorerSession.Mouse.ContextClick(targetFileItem.Coordinates);
-            Thread.Sleep(1000); // Wait for 1 second for the context menu to appear
-            var contextMenu = DesktopSession.FindElementByName("Context");
-            Assert.IsNotNull(contextMenu);
-            contextMenu.FindElementByAccessibilityId("30994").Click(); // Select Delete from the context menu item
+            WindowsExplorerSession.Keyboard.SendKeys(OpenQA.Selenium.Keys.Delete);
+            WindowsExplorerSession.Keyboard.SendKeys(OpenQA.Selenium.Keys.Escape);
 
             WindowsExplorerSession.Quit();
             WindowsExplorerSession = null;
             DesktopSession.Quit();
             DesktopSession = null;
         }
-
     }
 }
