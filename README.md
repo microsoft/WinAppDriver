@@ -21,7 +21,27 @@ Go to https://wpdev.uservoice.com/forums/110705-universal-windows-platform and e
 
 When running `WinAppDriver.exe` a console window is opened which logs the JSON Wire Protocol HTTP requests
 
-> Default listening address is 127.0.0.1:4723.  You can configure `WinAppDriver.exe` to listen to a different IP address and port if you run it as administrator.
+> Default listening address is 127.0.0.1:4723.  You can configure `WinAppDriver.exe` to listen to a different IP address and port if you run it as administrator. The syntax from the command line is:
+WinAppDriver.exe <IP address> <port> For example:
+	WinAppDriver.exe 127.0.0.1 4723
+	WinAppDriver.exe 10.0.0.10 4725
+	WinAppDriver.exe 10.0.0.10 4723/wd/hub
+
+
+## Running on a Remote machine
+1. On the machine you want to run the test application on, open up "Windows Firewall with Advanced Security"
+	- Select "Inbound Rules" -> "New Rule"
+	- Rule type -> port
+	- Select TCP
+	- Choose specific local port (4723 is WinAppDriver standard)
+	- Action -> allow the connection
+	- Profile -> select all
+	- Name -> optional, choose name for rule (e.g. WinAppDriver remote) 
+2. Run ipconfig to determine your machine's local IP address
+	- Note that setting * as the IP address command line option will cause it to bind to all bound IP addresses on the machine
+3. Run WinAppDriver.exe with command line arguments as seen above specifying local IP and port (must be in admin cmd)
+4. On the machine with the test runner, make sure the URL in the test script is pointing to the IP of the remote machine
+5. If the test app is installed on the remote machine run your test script and see the results!
 
 ## C# Samples
 1. see Samples/C# in this github project.  Open one of the test solutions with Visual Studio 2015.  For example, pull and open `CalculatorTest.sln` under [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23/CalculatorTest)
