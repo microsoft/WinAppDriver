@@ -75,12 +75,14 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AlarmClockBase.cs" />
+    <Compile Include="Forward.cs" />
     <Compile Include="ElementAttribute.cs" />
     <Compile Include="Selected.cs" />
     <Compile Include="Screenshot.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="Sessions.cs" />
     <Compile Include="Location.cs" />
+    <Compile Include="Back.cs" />
     <Compile Include="Title.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Window.cs" />
