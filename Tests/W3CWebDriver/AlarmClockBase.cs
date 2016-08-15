@@ -35,7 +35,17 @@ namespace W3CWebDriver
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
-            alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
+            // Attempt to go back to the main page in case Alarm & Clock app is started in EditAlarm view
+            try
+            {
+                alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
+            }
+            catch
+            {
+                session.Navigate().Back();
+                alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
+            }
+
             Assert.IsNotNull(alarmTabElement);
             alarmTabElement.Click();
         }
