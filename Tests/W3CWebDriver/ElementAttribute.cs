@@ -14,13 +14,12 @@
 //
 //******************************************************************************
 
-using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace W3CWebDriver
 {
     [TestClass]
-    public class Source : AlarmClockBase
+    public class ElementAttribute : AlarmClockBase
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -35,13 +34,20 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetSource()
+        public void GetValidElementAttribute()
         {
-            var source = session.PageSource;
-            Assert.AreNotEqual(source.Length, 0);
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(source);
-            Assert.IsTrue(xmlDoc.SelectNodes("//ListItem").Count > 0);
+            // NOTE: HelpText is currently the only supported GetAttribute method. There are
+            //       no known examples of non-null HelpText, so this should be replaced with 
+            //       a different attribute once more are supported. 
+            string helpText = alarmTabElement.GetAttribute("HelpText");
+            Assert.AreEqual(helpText, null);
+        }
+
+        [TestMethod]
+        public void GetInvalidElementAttribute()
+        {
+            string helpText = alarmTabElement.GetAttribute("InvalidAttribute");
+            Assert.AreEqual(helpText, null);
         }
     }
 }

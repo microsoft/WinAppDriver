@@ -74,10 +74,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AlarmClockBase.cs" />
+    <Compile Include="ElementAttribute.cs" />
+    <Compile Include="Selected.cs" />
     <Compile Include="Screenshot.cs" />
     <Compile Include="Source.cs" />
-    <Compile Include="Selected.cs" />
-    <Compile Include="Sesssions.cs" />
+    <Compile Include="Sessions.cs" />
     <Compile Include="Title.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Window.cs" />

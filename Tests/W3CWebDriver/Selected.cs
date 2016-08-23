@@ -14,40 +14,24 @@
 //
 //******************************************************************************
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.iOS;
-using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
     [TestClass]
-    public class Selected
+    public class Selected : AlarmClockBase
     {
-        protected static IOSDriver<IOSElement> session;
-        protected static IOSElement alarmTabElement;
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
-
-            alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
-            Assert.IsNotNull(alarmTabElement);
+            ClassInit(context);
         }
 
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            if (session != null)
-            {
-                session.Quit();
-                session = null;
-            }
+            ClassClean();
         }
 
         [TestMethod]
@@ -62,6 +46,13 @@ namespace W3CWebDriver
             elementAlarmClock.Click();
             Assert.IsFalse(elementWorldClock.Selected);
             Assert.IsTrue(elementAlarmClock.Selected);
+        }
+
+        [TestMethod]
+        public void ErrorFindUnselectableElement()
+        {
+            IOSElement elementAddButton = session.FindElementByAccessibilityId("AddAlarmButton");
+            Assert.IsFalse(elementAddButton.Selected);
         }
     }
 }

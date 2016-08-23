@@ -14,36 +14,38 @@
 //
 //******************************************************************************
 
-using System.Drawing;
-using System.IO;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
-    [TestClass]
-    public class Screenshot : AlarmClockBase
+    public class AlarmClockBase
     {
+        protected static IOSDriver<IOSElement> session;
+        protected static IOSElement alarmTabElement;
+
         [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
+        public static void ClassInit(TestContext context)
         {
-            ClassInit(context);
+            DesiredCapabilities appCapabilities = new DesiredCapabilities();
+            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            Assert.IsNotNull(session);
+            Assert.IsNotNull(session.SessionId);
+
+            alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
+            Assert.IsNotNull(alarmTabElement);
         }
 
         [ClassCleanup]
-        public static void ClassCleanup()
+        public static void ClassClean()
         {
-            ClassClean();
-        }
-
-        [TestMethod]
-        public void GetScreenshot()
-        {
-            var screenshot = session.GetScreenshot();
-            using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
+            if (session != null)
             {
-                Image screenshotImage = Image.FromStream(msScreenshot);
-                Assert.IsTrue(screenshotImage.Height > 0);
-                Assert.IsTrue(screenshotImage.Width > 0);
+                session.Quit();
+                session = null;
             }
         }
     }
