@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Screenshot.cs" />
     <Compile Include="Source.cs" />
+    <Compile Include="Selected.cs" />
     <Compile Include="Sesssions.cs" />
     <Compile Include="Title.cs" />
     <Compile Include="Window.cs" />
