@@ -14,32 +14,20 @@
 //
 //******************************************************************************
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.iOS;
-using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
     [TestClass]
-    public class ElementElement
+    public class ElementElement : AlarmClockBase
     {
-        protected static IOSDriver<IOSElement> session;
-        protected static IOSElement alarmTabElement;
         protected static IOSElement alarmListViewElement;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
-
-            alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
-            Assert.IsNotNull(alarmTabElement);
-
+            ClassInit(context);
             alarmListViewElement = session.FindElementByAccessibilityId("AlarmListView");
             Assert.IsNotNull(alarmListViewElement);
         }
@@ -47,11 +35,7 @@ namespace W3CWebDriver
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            if (session != null)
-            {
-                session.Quit();
-                session = null;
-            }
+            ClassClean();
         }
 
         [TestMethod]

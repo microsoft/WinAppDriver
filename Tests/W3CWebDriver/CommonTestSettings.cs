@@ -14,10 +14,7 @@
 //
 //******************************************************************************
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
-using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
