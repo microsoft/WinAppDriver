@@ -59,5 +59,29 @@ namespace W3CWebDriver
             Assert.AreEqual("Calculator", session.Title);
             session.Quit();
         }
+
+        [TestMethod]
+        public void ErrorGetTitleNoSuchWindow()
+        {
+            DesiredCapabilities appCapabilities = new DesiredCapabilities();
+            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
+            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            Assert.IsNotNull(session);
+            Assert.IsNotNull(session.SessionId);
+            Assert.AreEqual("Calculator", session.Title);
+
+            try
+            {
+                session.Close();
+                var title = session.Title;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual("Currently selected window has been closed", exception.Message);
+            }
+
+            session.Quit();
+        }
     }
 }
