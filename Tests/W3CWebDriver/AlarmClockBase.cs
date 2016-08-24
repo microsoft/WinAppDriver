@@ -37,6 +37,7 @@ namespace W3CWebDriver
 
             alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
             Assert.IsNotNull(alarmTabElement);
+            alarmTabElement.Click();
         }
 
         [ClassCleanup]
