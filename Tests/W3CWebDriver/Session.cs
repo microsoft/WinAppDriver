@@ -24,17 +24,18 @@ using OpenQA.Selenium.Remote;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class Session
+    public class Session : TestBase
     {
         [TestMethod]
         public void CreateSessionClassicApp()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             session.Quit();
+            session = null;
         }
 
         [TestMethod]
@@ -42,10 +43,11 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", "Root");
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             session.Quit();
+            session = null;
         }
 
         [TestMethod]
@@ -53,10 +55,11 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             session.Quit();
+            session = null;
         }
 
         [TestMethod]
@@ -64,10 +67,11 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.ExplorerAppId);
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             session.Quit();
+            session = null;
         }
 
         [TestMethod]
@@ -76,10 +80,11 @@ namespace W3CWebDriver
             DesiredCapabilities supportedCapabilities = new DesiredCapabilities();
             supportedCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
             supportedCapabilities.SetCapability("platformVersion", "10");
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), supportedCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), supportedCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             session.Quit();
+            session = null;
         }
 
         [TestMethod]
@@ -88,10 +93,11 @@ namespace W3CWebDriver
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
             appCapabilities.SetCapability("anUnsupportedCapabilities", "Unsupported Capabilities Value");
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             session.Quit();
+            session = null;
         }
 
         [TestMethod]
@@ -99,7 +105,7 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
@@ -112,12 +118,13 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", "Root");
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
             session.Quit();
             Assert.IsNull(session.SessionId);
+            session = null;
         }
 
         [TestMethod]
@@ -125,12 +132,13 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
             session.Quit();
             Assert.IsNull(session.SessionId);
+            session = null;
         }
 
         [TestMethod]
@@ -138,12 +146,13 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.ExplorerAppId);
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
             session.Quit();
             Assert.IsNull(session.SessionId);
+            session = null;
         }
 
         [TestMethod]
@@ -152,7 +161,7 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", "BadAppId");
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -162,7 +171,7 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", @"C:\Windows\System32\BadAppId.exe");
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -172,7 +181,7 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", "Microsoft.BadAppId!App");
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -181,7 +190,7 @@ namespace W3CWebDriver
         public void ErrorCreateSessionMissingArgumentAppId()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities(); // Leave capabilities empty
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -200,7 +209,7 @@ namespace W3CWebDriver
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
 
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
@@ -217,7 +226,7 @@ namespace W3CWebDriver
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
 
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
@@ -231,39 +240,78 @@ namespace W3CWebDriver
         [TestMethod]
         public void MultipleSessions()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
+            IOSDriver<IOSElement> session1 = null;
+            IOSDriver<IOSElement> session2 = null;
 
-            IOSDriver<IOSElement> session1 = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session1);
-            Assert.IsNotNull(session1.SessionId);
+            try
+            {
+                DesiredCapabilities appCapabilities = new DesiredCapabilities();
+                appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
 
-            IOSDriver<IOSElement> session2 = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session2);
-            Assert.IsNotNull(session2.SessionId);
+                session1 = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+                Assert.IsNotNull(session1);
+                Assert.IsNotNull(session1.SessionId);
 
-            Assert.AreNotEqual(session1.SessionId, session2.SessionId);
-            session1.Quit();
-            session2.Quit();
+                session2 = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+                Assert.IsNotNull(session2);
+                Assert.IsNotNull(session2.SessionId);
+
+                Assert.AreNotEqual(session1.SessionId, session2.SessionId);
+                session1.Quit();
+                session1 = null;
+                session2.Quit();
+                session2 = null;
+            }
+            finally
+            {
+                if (session1 != null)
+                {
+                    session1.Quit();
+                }
+                if (session2 != null)
+                {
+                    session2.Quit();
+                }
+            }
         }
 
         [TestMethod]
         public void MultipleSessionsSingleInstanceApplication()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
+            IOSDriver<IOSElement> session1 = null;
+            IOSDriver<IOSElement> session2 = null;
 
-            IOSDriver<IOSElement> session1 = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session1);
-            Assert.IsNotNull(session1.SessionId);
+            try
+            {
+                DesiredCapabilities appCapabilities = new DesiredCapabilities();
+                appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
 
-            IOSDriver<IOSElement> session2 = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session2);
-            Assert.IsNotNull(session2.SessionId);
+                session1 = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+                Assert.IsNotNull(session1);
+                Assert.IsNotNull(session1.SessionId);
 
-            Assert.AreNotEqual(session1.SessionId, session2.SessionId);
-            session1.Quit();
-            session2.Quit();
+                session2 = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+                Assert.IsNotNull(session2);
+                Assert.IsNotNull(session2.SessionId);
+
+                Assert.AreNotEqual(session1.SessionId, session2.SessionId);
+                session1.Quit();
+                session1 = null;
+                session2.Quit();
+                session2 = null;
+            }
+            finally
+            {
+                if (session1 != null)
+                {
+                    session1.Quit();
+                }
+                if (session2 != null)
+                {
+                    session2.Quit();
+                }
+            }
+
         }
     }
 }

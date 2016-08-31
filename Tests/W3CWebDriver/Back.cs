@@ -22,33 +22,34 @@ using OpenQA.Selenium.Remote;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class Back
+    public class Back : TestBase
     {
         [TestMethod]
         public void NavigateBackBrowser()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
-            IOSDriver<IOSElement> browserSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(browserSession);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            Assert.IsNotNull(session);
 
-            var originalTitle = browserSession.Title;
+            var originalTitle = session.Title;
             Assert.AreNotEqual(String.Empty, originalTitle);
 
             // Navigate to different URLs
-            var addressEditBox = browserSession.FindElementByAccessibilityId("addressEditBox");
+            var addressEditBox = session.FindElementByAccessibilityId("addressEditBox");
             addressEditBox.SendKeys("https://github.com/Microsoft/WinAppDriver");
-            browserSession.FindElementByAccessibilityId("m_newTabPageGoButton").Click();
+            session.FindElementByAccessibilityId("m_newTabPageGoButton").Click();
 
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
-            Assert.AreNotEqual(originalTitle, browserSession.Title);
+            Assert.AreNotEqual(originalTitle, session.Title);
 
             // Navigate back to original URL
-            browserSession.Navigate().Back();
+            session.Navigate().Back();
             System.Threading.Thread.Sleep(1000); // Sleep for 1 second
-            Assert.AreEqual(originalTitle, browserSession.Title);
+            Assert.AreEqual(originalTitle, session.Title);
 
-            browserSession.Quit();
+            session.Quit();
+            session = null;
         }
 
         [TestMethod]
@@ -56,19 +57,20 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            IOSDriver<IOSElement> appSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(appSession);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            Assert.IsNotNull(session);
 
             // Navigate to New Alarm view
-            appSession.FindElementByAccessibilityId("AlarmPivotItem").Click();
-            appSession.FindElementByAccessibilityId("AddAlarmButton").Click();
-            Assert.IsNotNull(appSession.FindElementByAccessibilityId("EditAlarmHeader"));
+            session.FindElementByAccessibilityId("AlarmPivotItem").Click();
+            session.FindElementByAccessibilityId("AddAlarmButton").Click();
+            Assert.IsNotNull(session.FindElementByAccessibilityId("EditAlarmHeader"));
 
             // Navigate back to the original view
-            appSession.Navigate().Back();
-            Assert.IsNotNull(appSession.FindElementByAccessibilityId("AlarmPivotItem"));
+            session.Navigate().Back();
+            Assert.IsNotNull(session.FindElementByAccessibilityId("AlarmPivotItem"));
 
-            appSession.Quit();
+            session.Quit();
+            session = null;
         }
 
         [TestMethod]
@@ -76,29 +78,30 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.ExplorerAppId);
-            IOSDriver<IOSElement> explorerSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(explorerSession);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            Assert.IsNotNull(session);
 
-            var originalTitle = explorerSession.Title;
+            var originalTitle = session.Title;
             Assert.AreNotEqual(String.Empty, originalTitle);
 
             // Navigate Windows Explorer to change folder
             var targetLocation = @"%TEMP%\";
-            var addressBandRoot = explorerSession.FindElementByClassName("Address Band Root");
+            var addressBandRoot = session.FindElementByClassName("Address Band Root");
             var addressToolbar = addressBandRoot.FindElementByAccessibilityId("1001"); // Address Band Toolbar
-            explorerSession.Mouse.Click(addressToolbar.Coordinates);
+            session.Mouse.Click(addressToolbar.Coordinates);
             addressBandRoot.FindElementByAccessibilityId("41477").SendKeys(targetLocation);
             var gotoButton = addressBandRoot.FindElementByName("Go to \"" + targetLocation + "\"");
-            explorerSession.Mouse.Click(gotoButton.Coordinates);
+            session.Mouse.Click(gotoButton.Coordinates);
 
             System.Threading.Thread.Sleep(1000); // Sleep for 1 second
-            Assert.AreNotEqual(originalTitle, explorerSession.Title);
+            Assert.AreNotEqual(originalTitle, session.Title);
 
             // Navigate back to the original folder
-            explorerSession.Navigate().Back();
-            Assert.AreEqual(originalTitle, explorerSession.Title);
+            session.Navigate().Back();
+            Assert.AreEqual(originalTitle, session.Title);
 
-            explorerSession.Quit();
+            session.Quit();
+            session = null;
         }
 
         [TestMethod]
@@ -107,7 +110,7 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
 
             session.Close();

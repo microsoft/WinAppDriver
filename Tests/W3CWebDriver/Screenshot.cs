@@ -26,18 +26,6 @@ namespace W3CWebDriver
     [TestClass]
     public class Screenshot : AlarmClockBase
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            ClassInit(context);
-        }
-
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            ClassClean();
-        }
-
         [TestMethod]
         public void GetAlarmPivotItemScreenshot()
         {
@@ -149,15 +137,7 @@ namespace W3CWebDriver
             session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
             IOSElement element = session.FindElementByAccessibilityId("StopwatchPlayPauseButton");
             session.Close();
-            try
-            {
-                var screenshot1 = element.GetScreenshot();
-
-            }
-            catch(Exception ex)
-            {
-                var ty = ex.GetType();
-            }
+            var screenshot1 = element.GetScreenshot();
             Assert.Fail("Exception should have been thrown because there is no such window");
         }
     }

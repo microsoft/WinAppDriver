@@ -22,21 +22,14 @@ namespace W3CWebDriver
     [TestClass]
     public class ElementElement : AlarmClockBase
     {
-        protected static IOSElement alarmListViewElement;
-
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
+        [TestInitialize]
+        public void TestInitialize()
         {
-            ClassInit(context);
             alarmListViewElement = session.FindElementByAccessibilityId("AlarmListView");
             Assert.IsNotNull(alarmListViewElement);
         }
 
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            ClassClean();
-        }
+        protected static IOSElement alarmListViewElement;
 
         [TestMethod]
         public void FindElementByAccessibilityId()

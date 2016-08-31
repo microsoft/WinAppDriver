@@ -21,18 +21,6 @@ namespace W3CWebDriver
     [TestClass]
     public class ElementAttribute : AlarmClockBase
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            ClassInit(context);
-        }
-
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            ClassClean();
-        }
-
         [TestMethod]
         public void GetValidElementAttribute()
         {

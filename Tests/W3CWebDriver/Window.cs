@@ -116,8 +116,18 @@ namespace W3CWebDriver
             Assert.IsNotNull(windowHandlesBefore);
             Assert.IsTrue(windowHandlesBefore.Count > 0);
 
-            multiWindowsSession.FindElementByAccessibilityId("m_actionsMenuButton").Click();
-            multiWindowsSession.FindElementByAccessibilityId("m_newWindow").Click();
+            // The menu item names have changed between Windows 10 and the anniversary update
+            // account for both combinations.
+            try
+            {
+                multiWindowsSession.FindElementByAccessibilityId("m_actionsMenuButton").Click();
+                multiWindowsSession.FindElementByAccessibilityId("m_newWindow").Click();
+            }
+            catch(OpenQA.Selenium.NoSuchElementException)
+            {
+                multiWindowsSession.FindElementByAccessibilityId("ActionsMenuButton").Click();
+                multiWindowsSession.FindElementByAccessibilityId("ActionsMenuNewWindow").Click();
+            }
 
             System.Threading.Thread.Sleep(1000); // Sleep for 1 second
             var windowHandlesAfter = multiWindowsSession.WindowHandles;
@@ -143,8 +153,18 @@ namespace W3CWebDriver
             Assert.IsNotNull(multiWindowsSession);
             Assert.IsNotNull(multiWindowsSession.SessionId);
 
-            multiWindowsSession.FindElementByAccessibilityId("m_actionsMenuButton").Click();
-            multiWindowsSession.FindElementByAccessibilityId("m_newWindow").Click();
+            // The menu item names have changed between Windows 10 and the anniversary update
+            // account for both combinations.
+            try
+            {
+                multiWindowsSession.FindElementByAccessibilityId("m_actionsMenuButton").Click();
+                multiWindowsSession.FindElementByAccessibilityId("m_newWindow").Click();
+            }
+            catch (OpenQA.Selenium.NoSuchElementException)
+            {
+                multiWindowsSession.FindElementByAccessibilityId("ActionsMenuButton").Click();
+                multiWindowsSession.FindElementByAccessibilityId("ActionsMenuNewWindow").Click();
+            }
 
             System.Threading.Thread.Sleep(1000); // Sleep for 1 second
             var windowHandlesAfter = multiWindowsSession.WindowHandles;

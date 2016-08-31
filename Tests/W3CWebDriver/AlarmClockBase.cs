@@ -21,13 +21,12 @@ using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
-    public class AlarmClockBase
+    public class AlarmClockBase : TestBase
     {
-        protected static IOSDriver<IOSElement> session;
-        protected static IOSElement alarmTabElement;
+        protected IOSElement alarmTabElement;
 
-        [ClassInitialize]
-        public static void ClassInit(TestContext context)
+        [TestInitialize]
+        public void TestInit()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
@@ -48,16 +47,6 @@ namespace W3CWebDriver
 
             Assert.IsNotNull(alarmTabElement);
             alarmTabElement.Click();
-        }
-
-        [ClassCleanup]
-        public static void ClassClean()
-        {
-            if (session != null)
-            {
-                session.Quit();
-                session = null;
-            }
         }
     }
 }

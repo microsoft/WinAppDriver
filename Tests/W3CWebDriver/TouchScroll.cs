@@ -68,14 +68,14 @@ namespace W3CWebDriver
 
         [TestMethod]
         [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchScrollInvalidElement(string touchType)
+        public void ErrorTouchScrollInvalidElement()
         {
             ErrorTouchInvalidElement("scroll");
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchScrollStaleElement(string touchType)
+        public void ErrorTouchScrollStaleElement()
         {
             ErrorTouchStaleElement("scroll");
         }

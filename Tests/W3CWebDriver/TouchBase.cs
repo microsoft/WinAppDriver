@@ -27,7 +27,7 @@ namespace W3CWebDriver
 {
     public class TouchBase
     {
-        protected static IOSDriver<IOSElement> session;
+        protected IOSDriver<IOSElement> session;
 
         [TestInitialize]
         public void TestInit()
@@ -50,7 +50,7 @@ namespace W3CWebDriver
             }
         }
 
-        protected static HttpWebResponse SendTouchPost(String touchType, JObject requestObject)
+        protected HttpWebResponse SendTouchPost(String touchType, JObject requestObject)
         {
             var request = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/session/" + session.SessionId + "/touch/" + touchType);
             request.Method = "POST";
