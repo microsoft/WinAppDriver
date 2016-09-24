@@ -15,6 +15,7 @@
 //******************************************************************************
 
 using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.iOS;
 using OpenQA.Selenium.Remote;
@@ -107,7 +108,6 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
-
             IOSDriver<IOSElement> multiWindowsSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(multiWindowsSession);
             Assert.IsNotNull(multiWindowsSession.SessionId);
@@ -116,6 +116,11 @@ namespace W3CWebDriver
             Assert.IsNotNull(windowHandlesBefore);
             Assert.IsTrue(windowHandlesBefore.Count > 0);
 
+            // Preserve previously opened Edge window(s) and only manipulate newly opened windows
+            List<String> previouslyOpenedEdgeWindows = new List<String>(windowHandlesBefore);
+            previouslyOpenedEdgeWindows.Remove(multiWindowsSession.CurrentWindowHandle);
+
+            // Open a new window
             // The menu item names have changed between Windows 10 and the anniversary update
             // account for both combinations.
             try
@@ -129,12 +134,19 @@ namespace W3CWebDriver
                 multiWindowsSession.FindElementByAccessibilityId("ActionsMenuNewWindow").Click();
             }
 
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
             var windowHandlesAfter = multiWindowsSession.WindowHandles;
             Assert.IsNotNull(windowHandlesAfter);
             Assert.AreEqual(windowHandlesBefore.Count + 1, windowHandlesAfter.Count);
 
-            foreach (var windowHandle in windowHandlesAfter)
+            // Preserve previously opened Edge Windows by only closing newly opened windows
+            List<String> newlyOpenedEdgeWindows = new List<String>(windowHandlesAfter);
+            foreach (var previouslyOpenedEdgeWindow in previouslyOpenedEdgeWindows)
+            {
+                newlyOpenedEdgeWindows.Remove(previouslyOpenedEdgeWindow);
+            }
+
+            foreach (var windowHandle in newlyOpenedEdgeWindows)
             {
                 multiWindowsSession.SwitchTo().Window(windowHandle);
                 multiWindowsSession.Close();
@@ -148,11 +160,15 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
-
             IOSDriver<IOSElement> multiWindowsSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(multiWindowsSession);
             Assert.IsNotNull(multiWindowsSession.SessionId);
 
+            // Preserve previously opened Edge window(s) and only manipulate newly opened windows
+            List<String> previouslyOpenedEdgeWindows = new List<String>(multiWindowsSession.WindowHandles);
+            previouslyOpenedEdgeWindows.Remove(multiWindowsSession.CurrentWindowHandle);
+
+            // Open a new window
             // The menu item names have changed between Windows 10 and the anniversary update
             // account for both combinations.
             try
@@ -166,14 +182,25 @@ namespace W3CWebDriver
                 multiWindowsSession.FindElementByAccessibilityId("ActionsMenuNewWindow").Click();
             }
 
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
-            var windowHandlesAfter = multiWindowsSession.WindowHandles;
-            Assert.IsNotNull(windowHandlesAfter);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 second
+            var multipleWindowHandles = multiWindowsSession.WindowHandles;
+            Assert.IsTrue(multipleWindowHandles.Count > 1);
 
-            foreach (var windowHandle in windowHandlesAfter)
+            // Preserve previously opened Edge Windows by only operating on newly opened windows
+            List<String> newlyOpenedEdgeWindows = new List<String>(multipleWindowHandles);
+            foreach (var previouslyOpenedEdgeWindow in previouslyOpenedEdgeWindows)
+            {
+                newlyOpenedEdgeWindows.Remove(previouslyOpenedEdgeWindow);
+            }
+
+            string previousWindowHandle = String.Empty;
+
+            foreach (var windowHandle in newlyOpenedEdgeWindows)
             {
                 multiWindowsSession.SwitchTo().Window(windowHandle);
                 Assert.AreEqual(multiWindowsSession.CurrentWindowHandle, windowHandle);
+                Assert.AreNotEqual(windowHandle, previousWindowHandle);
+                previousWindowHandle = windowHandle;
                 multiWindowsSession.Close();
             }
 
