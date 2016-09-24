@@ -53,7 +53,7 @@ namespace UWPControls
         public void Click()
         {
             var checkBoxEventOutput = session.FindElementByAccessibilityId("Control2Output");
-            Assert.AreEqual("", checkBoxEventOutput.Text);
+            Assert.AreEqual(string.Empty, checkBoxEventOutput.Text);
 
             checkBoxElement2.Click();
             Assert.AreEqual("CheckBox is checked.", checkBoxEventOutput.Text);

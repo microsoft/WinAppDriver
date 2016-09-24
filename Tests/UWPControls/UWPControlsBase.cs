@@ -43,6 +43,7 @@ namespace UWPControls
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", AppUIBasicAppId);
             session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
+            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
         }

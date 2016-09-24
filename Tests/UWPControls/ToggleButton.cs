@@ -20,19 +20,19 @@ using OpenQA.Selenium.Appium.Windows;
 namespace UWPControls
 {
     [TestClass]
-    public class Button : UWPControlsBase
+    public class ToggleButton : UWPControlsBase
     {
-        private WindowsElement buttonElement = null;
+        private WindowsElement toggleButtonElement = null;
 
         protected override void LoadScenarioView()
         {
             session.FindElementByAccessibilityId("splitViewToggle").Click();
             var splitViewPane = session.FindElementByClassName("SplitViewPane");
             splitViewPane.FindElementByName("Buttons").Click();
-            splitViewPane.FindElementByName("Button").Click();
+            splitViewPane.FindElementByName("ToggleButton").Click();
 
-            buttonElement = session.FindElementByAccessibilityId("Button1");
-            Assert.IsNotNull(buttonElement);
+            toggleButtonElement = session.FindElementByAccessibilityId("Toggle1");
+            Assert.IsNotNull(toggleButtonElement);
         }
 
         [ClassInitialize]
@@ -51,64 +51,76 @@ namespace UWPControls
         public void Click()
         {
             var buttonEventOutput = session.FindElementByAccessibilityId("Control1Output");
-            Assert.AreEqual(string.Empty, buttonEventOutput.Text);
+            Assert.AreEqual("Off", buttonEventOutput.Text);
 
-            buttonElement.Click();
-            Assert.AreEqual("You clicked: Button1", buttonEventOutput.Text);
+            toggleButtonElement.Click();
+            Assert.AreEqual("On", buttonEventOutput.Text);
+            toggleButtonElement.Click();
+            Assert.AreEqual("Off", buttonEventOutput.Text);
         }
 
         [TestMethod]
         public void Displayed()
         {
-            Assert.IsTrue(buttonElement.Displayed);
+            Assert.IsTrue(toggleButtonElement.Displayed);
         }
 
         [TestMethod]
         public void Enabled()
         {
-            var disableButtonCheckbox = session.FindElementByAccessibilityId("DisableButton1");
-            Assert.IsTrue(buttonElement.Enabled);
+            var disableButtonCheckbox = session.FindElementByAccessibilityId("DisableToggle1");
+            Assert.IsTrue(toggleButtonElement.Enabled);
 
             disableButtonCheckbox.Click();
-            Assert.IsFalse(buttonElement.Enabled);
+            Assert.IsFalse(toggleButtonElement.Enabled);
 
             disableButtonCheckbox.Click();
-            Assert.IsTrue(buttonElement.Enabled);
+            Assert.IsTrue(toggleButtonElement.Enabled);
         }
 
         [TestMethod]
         public void Location()
         {
-            var disableButtonCheckbox = session.FindElementByAccessibilityId("DisableButton1");
-            Assert.IsTrue(buttonElement.Location.X >= disableButtonCheckbox.Location.X);
-            Assert.IsTrue(buttonElement.Location.Y >= disableButtonCheckbox.Location.Y);
+            var disableButtonCheckbox = session.FindElementByAccessibilityId("DisableToggle1");
+            Assert.IsTrue(toggleButtonElement.Location.X >= disableButtonCheckbox.Location.X);
+            Assert.IsTrue(toggleButtonElement.Location.Y >= disableButtonCheckbox.Location.Y);
         }
 
         [TestMethod]
         public void LocationInView()
         {
-            var disableButtonCheckbox = session.FindElementByAccessibilityId("DisableButton1");
-            Assert.IsTrue(buttonElement.LocationOnScreenOnceScrolledIntoView.X >= disableButtonCheckbox.LocationOnScreenOnceScrolledIntoView.X);
-            Assert.IsTrue(buttonElement.LocationOnScreenOnceScrolledIntoView.Y >= disableButtonCheckbox.LocationOnScreenOnceScrolledIntoView.Y);
+            var disableButtonCheckbox = session.FindElementByAccessibilityId("DisableToggle1");
+            Assert.IsTrue(toggleButtonElement.LocationOnScreenOnceScrolledIntoView.X >= disableButtonCheckbox.LocationOnScreenOnceScrolledIntoView.X);
+            Assert.IsTrue(toggleButtonElement.LocationOnScreenOnceScrolledIntoView.Y >= disableButtonCheckbox.LocationOnScreenOnceScrolledIntoView.Y);
         }
 
         [TestMethod]
         public void Name()
         {
-            Assert.AreEqual("ControlType.Button", buttonElement.TagName);
+            Assert.AreEqual("ControlType.Button", toggleButtonElement.TagName);
+        }
+
+        [TestMethod]
+        public void Selected()
+        {
+            toggleButtonElement.Click();
+            Assert.IsTrue(toggleButtonElement.Selected);
+
+            toggleButtonElement.Click();
+            Assert.IsFalse(toggleButtonElement.Selected);
         }
 
         [TestMethod]
         public void Size()
         {
-            Assert.IsTrue(buttonElement.Size.Width > 0);
-            Assert.IsTrue(buttonElement.Size.Height > 0);
+            Assert.IsTrue(toggleButtonElement.Size.Width > 0);
+            Assert.IsTrue(toggleButtonElement.Size.Height > 0);
         }
 
         [TestMethod]
         public void Text()
         {
-            Assert.AreEqual("Button", buttonElement.Text);
+            Assert.AreEqual("ToggleButton", toggleButtonElement.Text);
         }
     }
 }
