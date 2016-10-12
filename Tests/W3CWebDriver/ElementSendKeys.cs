@@ -116,8 +116,8 @@ namespace W3CWebDriver
         [TestMethod]
         public void SendModifierShift()
         {
-            editBox.SendKeys(OpenQA.Selenium.Keys.Shift + "abcdefghijklmnopqrstuvwxyz1234567890`-=[]\\;',./" + OpenQA.Selenium.Keys.Shift);
-            Assert.AreEqual("ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()~_+{}|:\"<>?", editBox.Text); // Assumes 101 keys US Keyboard layout
+            editBox.SendKeys(OpenQA.Selenium.Keys.Shift + "abcdefghijklmnopqrstuvwxyz\n1234567890\t`-=[]\\;',./" + OpenQA.Selenium.Keys.Shift);
+            Assert.AreEqual("ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n!@#$%^&*()\t~_+{}|:\"<>?", editBox.Text); // Assumes 101 keys US Keyboard layout
         }
 
         [TestMethod]
