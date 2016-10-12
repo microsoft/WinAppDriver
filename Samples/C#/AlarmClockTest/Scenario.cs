@@ -141,6 +141,11 @@ namespace AlarmClockTest
         {
             if (timeText.Length > 0)
             {
+                // Remove any zero-width spaces (\u200b, \u200e, \u200f)
+                timeText = timeText.Replace("\u200b", String.Empty);
+                timeText = timeText.Replace("\u200e", String.Empty);
+                timeText = timeText.Replace("\u200f", String.Empty);
+
                 // Create a test alarm 1 minute after the read local time
                 DateTimeFormatInfo fi = CultureInfo.CurrentUICulture.DateTimeFormat;
                 DateTime alarmTime = DateTime.Parse(timeText, fi);
