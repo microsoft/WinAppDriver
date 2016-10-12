@@ -27,8 +27,10 @@ namespace UWPControls
 
         protected override void LoadScenarioView()
         {
-            session.FindElementByName("Selection and picker controls").Click();
-            session.FindElementByName("Slider").Click();
+            session.FindElementByAccessibilityId("splitViewToggle").Click();
+            var splitViewPane = session.FindElementByClassName("SplitViewPane");
+            splitViewPane.FindElementByName("Selection and picker controls").Click();
+            splitViewPane.FindElementByName("Slider").Click();
 
             sliderElement1 = session.FindElementByAccessibilityId("Slider1");
             Assert.IsNotNull(sliderElement1);
