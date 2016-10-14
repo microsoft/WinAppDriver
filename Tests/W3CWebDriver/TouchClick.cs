@@ -15,63 +15,81 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
-using System.Net;
 
 namespace W3CWebDriver
 {
     [TestClass]
     public class TouchClick : TouchBase
     {
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
+        {
+            Setup(context);
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            TearDown();
+        }
 
         [TestMethod]
-        public void TouchSingleClick()
+        public void SingleTap()
         {
-            Assert.IsNotNull(session.SessionId);
-            var title = session.Title;
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.MicrosoftGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
+            var originalTitle = session.Title;
+            Assert.AreNotEqual(string.Empty, originalTitle);
 
-            GoToGitHub();
+            // Navigate to GitHub
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
+            Assert.AreNotEqual(originalTitle, session.Title);
 
-            // Make sure the page you went to is not the page you started on
-            Assert.AreNotEqual(title, session.Title);
+            // Perform single tap touch on the back button
+            touchScreen.SingleTap(session.FindElementByName("Back").Coordinates);
+            System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
 
-            // Navigate back to the original page
-            JObject backRequestObject = new JObject();
-            backRequestObject["element"] = session.FindElementByName("Back").GetAttribute("elementId");
+            // Make sure the page you went to is the page we started on
+            Assert.AreEqual(originalTitle, session.Title);
+        }
 
-            HttpWebResponse response2 = SendTouchPost("click", backRequestObject);
-            Assert.IsNotNull(response2);
+        [TestMethod]
+        [ExpectedException(typeof(OpenQA.Selenium.NoSuchElementException))]
+        public void ErrorTouchClosedWindow()
+        {
+            // Open a new window, retrieve an element, and close the window to get an orphaned element
+            var orphanedElement = GetOrphanedElement(session);
+            Assert.IsNotNull(orphanedElement);
 
-            System.Threading.Thread.Sleep(1000);
-
-            // Make sure you are on the original page
-            Assert.AreEqual(title, session.Title);
+            // Perform single tap touch on the orphaned element
+            touchScreen.SingleTap(orphanedElement.Coordinates);
+            Assert.Fail("Exception should have been thrown");
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchClickClosedWindow()
-        {
-            ErrorTouchClosedWindow("click");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchClickInvalidElement()
+        public void ErrorTouchInvalidElement()
         {
             ErrorTouchInvalidElement("click");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchClickStaleElement()
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ErrorTouchStaleElement()
         {
-            ErrorTouchStaleElement("click");
+            // Navigate to a webpage, save a reference to an element, and navigate away to get a stale element
+            var staleElement = GetStaleElement(session);
+            Assert.IsNotNull(staleElement);
+
+            // Perform single tap touch on stale element
+            touchScreen.SingleTap(staleElement.Coordinates);
+            Assert.Fail("Exception should have been thrown");
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchClickInvalidArguments()
+        public void ErrorTouchInvalidArguments()
         {
             ErrorTouchInvalidArguments("click");
         }

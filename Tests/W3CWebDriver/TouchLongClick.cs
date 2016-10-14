@@ -15,56 +15,85 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
-using OpenQA.Selenium.Appium.iOS;
-using System.Net;
 
 namespace W3CWebDriver
 {
     [TestClass]
     public class TouchLongClick : TouchBase
     {
-        [TestMethod]
-        public void TouchLongClickNavigationBar()
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
         {
-            Assert.IsNotNull(session.SessionId);
+            Setup(context);
+        }
 
-            GoToGitHub();
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            TearDown();
+        }
 
-            JObject requestObject = new JObject();
-            IOSElement addressEditBox = session.FindElementByAccessibilityId("addressEditBox");
-            requestObject["element"] = addressEditBox.GetAttribute("elementId");
+        [TestMethod]
+        public void LongTap()
+        {
+            // Get the list of tabs and keep track of how many tabs are open
+            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            var tabsList = session.FindElementByAccessibilityId("TabsList");
+            var tabs = tabsList.FindElementsByClassName("GridViewItem");
+            var originalTabsCount = tabs.Count;
+            Assert.IsTrue(originalTabsCount >= 1);
 
-            HttpWebResponse response2 = SendTouchPost("longclick", requestObject);
-            Assert.IsNotNull(response2);
+            // Open a the context menu on the tab using long tap (press and hold) action and click duplicate
+            touchScreen.LongPress(tabs[0].Coordinates);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            session.FindElementByName("Duplicate").Click();
+            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            Assert.IsTrue(tabsList.FindElementsByClassName("GridViewItem").Count == originalTabsCount + 1);
 
-            System.Threading.Thread.Sleep(1000);
+            // Close all tabs except for the very fist one
+            touchScreen.LongPress(tabs[0].Coordinates);
+            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            session.FindElementByName("Close other tabs").Click();
+            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            Assert.IsTrue(tabsList.FindElementsByClassName("GridViewItem").Count == 1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(OpenQA.Selenium.NoSuchElementException))]
+        public void ErrorTouchClosedWindow()
+        {
+            // Open a new window, retrieve an element, and close the window to get an orphaned element
+            var orphanedElement = GetOrphanedElement(session);
+            Assert.IsNotNull(orphanedElement);
+
+            // Long press on orphaned element
+            touchScreen.LongPress(orphanedElement.Coordinates);
+            Assert.Fail("Exception should have been thrown");
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchLongClickClosedWindow()
-        {
-            ErrorTouchClosedWindow("longclick");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchLongClickInvalidElement()
+        public void ErrorTouchInvalidElement()
         {
             ErrorTouchInvalidElement("longclick");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchLongClickStaleElement()
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ErrorTouchStaleElement()
         {
-            ErrorTouchStaleElement("longclick");
+            // Navigate to a webpage, save a reference to an element, and navigate away to get a stale element
+            var staleElement = GetStaleElement(session);
+            Assert.IsNotNull(staleElement);
+
+            // Long press on stale element
+            touchScreen.LongPress(staleElement.Coordinates);
+            Assert.Fail("Exception should have been thrown");
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchLongClickInvalidArguments()
+        public void ErrorTouchInvalidArguments()
         {
             ErrorTouchInvalidArguments("longclick");
         }

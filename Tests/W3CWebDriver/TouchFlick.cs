@@ -23,66 +23,40 @@ namespace W3CWebDriver
     [TestClass]
     public class TouchFlick : TouchBase
     {
-        [TestMethod]
-        public void TouchFlickWithoutElement()
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
         {
-            Assert.IsNotNull(session.SessionId);
+            Setup(context);
+        }
 
-            GoToGitHub();
-
-            JObject requestObject = new JObject();
-            requestObject["xspeed"] = 0;
-            requestObject["yspeed"] = 1000;
-
-            HttpWebResponse response2 = SendTouchPost("flick", requestObject);
-            Assert.IsNotNull(response2);
-
-            System.Threading.Thread.Sleep(1000);
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            TearDown();
         }
 
         [TestMethod]
-        public void TouchFlickOnElement()
+        public void ArbitraryFlick()
         {
-            Assert.IsNotNull(session.SessionId);
+            // Navigate to GitHub
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
 
-            GoToGitHub();
+            // Use Homepage link in GitHub page as a reference element
+            var gitHubHomePageLink = session.FindElementByName("Homepage");
+            Assert.IsNotNull(gitHubHomePageLink);
+            Assert.IsTrue(gitHubHomePageLink.Displayed);
 
-            JObject flickRequestObject = new JObject();
-            flickRequestObject["xoffset"] = 0;
-            flickRequestObject["yoffset"] = -100;
-            flickRequestObject["speed"] = 1;
-            flickRequestObject["element"] = session.FindElementByName("Explore").GetAttribute("elementId");
+            // Perform flick up touch action to scroll the page down hiding the Homepage link element from the view
+            // Good value typically goes around 160 - 200 pixels with diminishing delta on the bigger values
+            touchScreen.Flick(0, 180);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Assert.IsFalse(gitHubHomePageLink.Displayed);
 
-            HttpWebResponse response2 = SendTouchPost("flick", flickRequestObject);
-            Assert.IsNotNull(response2);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchFlickClosedWindow()
-        {
-            ErrorTouchClosedWindow("flick");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchFlickInvalidElement()
-        {
-            ErrorTouchInvalidElement("flick");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchFlickStaleElement()
-        {
-            ErrorTouchStaleElement("flick");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchFlickInvalidArguments()
-        {
-            ErrorTouchInvalidArguments("flick");
+            // Perform flick down touch action to scroll the page up restoring the Homepage link element into the view
+            touchScreen.Flick(0, -180);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Assert.IsTrue(gitHubHomePageLink.Displayed);
         }
     }
 }
