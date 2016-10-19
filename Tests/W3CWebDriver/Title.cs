@@ -22,8 +22,10 @@ using OpenQA.Selenium.Remote;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class Title : TestBase
+    public class Title
     {
+        private IOSDriver<IOSElement> session = null;
+
         [TestMethod]
         public void GetTitleClassicApp()
         {

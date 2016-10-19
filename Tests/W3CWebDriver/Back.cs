@@ -22,8 +22,10 @@ using OpenQA.Selenium.Remote;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class Back : TestBase
+    public class Back
     {
+        private IOSDriver<IOSElement> session = null;
+
         [TestMethod]
         public void NavigateBackBrowser()
         {
@@ -37,8 +39,7 @@ namespace W3CWebDriver
 
             // Navigate to different URLs
             var addressEditBox = session.FindElementByAccessibilityId("addressEditBox");
-            addressEditBox.SendKeys("https://github.com/Microsoft/WinAppDriver");
-            session.FindElementByAccessibilityId("m_newTabPageGoButton").Click();
+            addressEditBox.SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
 
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
             Assert.AreNotEqual(originalTitle, session.Title);
@@ -81,6 +82,7 @@ namespace W3CWebDriver
             session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
 
+            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
             var originalTitle = session.Title;
             Assert.AreNotEqual(String.Empty, originalTitle);
 
@@ -89,10 +91,7 @@ namespace W3CWebDriver
             var addressBandRoot = session.FindElementByClassName("Address Band Root");
             var addressToolbar = addressBandRoot.FindElementByAccessibilityId("1001"); // Address Band Toolbar
             session.Mouse.Click(addressToolbar.Coordinates);
-            addressBandRoot.FindElementByAccessibilityId("41477").SendKeys(targetLocation);
-            var gotoButton = addressBandRoot.FindElementByName("Go to \"" + targetLocation + "\"");
-            session.Mouse.Click(gotoButton.Coordinates);
-
+            addressBandRoot.FindElementByAccessibilityId("41477").SendKeys(targetLocation + OpenQA.Selenium.Keys.Enter);
             System.Threading.Thread.Sleep(1000); // Sleep for 1 second
             Assert.AreNotEqual(originalTitle, session.Title);
 
@@ -105,7 +104,6 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ErrorNavigateBackNoSuchWindow()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
@@ -113,9 +111,19 @@ namespace W3CWebDriver
             session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
 
-            session.Close();
-            session.Navigate().Back();
-            Assert.Fail("Exception should have been thrown");
+            try
+            {
+                session.Close();
+                session.Navigate().Back();
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual("Currently selected window has been closed", exception.Message);
+            }
+
+            session.Quit();
+            session = null;
         }
     }
 }

@@ -24,8 +24,10 @@ using OpenQA.Selenium.Remote;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class Session : TestBase
+    public class Session
     {
+        private IOSDriver<IOSElement> session = null;
+
         [TestMethod]
         public void CreateSessionClassicApp()
         {
@@ -246,7 +248,7 @@ namespace W3CWebDriver
             try
             {
                 DesiredCapabilities appCapabilities = new DesiredCapabilities();
-                appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
+                appCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
 
                 session1 = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
                 Assert.IsNotNull(session1);
@@ -257,6 +259,7 @@ namespace W3CWebDriver
                 Assert.IsNotNull(session2.SessionId);
 
                 Assert.AreNotEqual(session1.SessionId, session2.SessionId);
+                Assert.AreNotEqual(session1.CurrentWindowHandle, session2.CurrentWindowHandle);
                 session1.Quit();
                 session1 = null;
                 session2.Quit();

@@ -22,6 +22,18 @@ namespace W3CWebDriver
     [TestClass]
     public class Source : AlarmClockBase
     {
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
+        {
+            Setup(context);
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            TearDown();
+        }
+
         [TestMethod]
         public void GetSource()
         {

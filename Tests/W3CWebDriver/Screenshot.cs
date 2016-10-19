@@ -20,12 +20,25 @@ using System.Drawing;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
     [TestClass]
     public class Screenshot : AlarmClockBase
     {
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
+        {
+            Setup(context);
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            TearDown();
+        }
+
         [TestMethod]
         public void GetAlarmPivotItemScreenshot()
         {
@@ -91,12 +104,28 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ErrorGetClosedWindowScreenshot()
         {
-            session.Close();
-            session.GetScreenshot();
-            Assert.Fail("Exception should have been thrown because there is no such window");
+            // Launch calculator for this specific test case
+            DesiredCapabilities appCapabilities = new DesiredCapabilities();
+            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
+            IOSDriver<IOSElement> calculatorSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            Assert.IsNotNull(calculatorSession);
+            Assert.IsNotNull(calculatorSession.SessionId);
+
+            try
+            {
+                calculatorSession.Close();
+                calculatorSession.GetScreenshot();
+                Assert.Fail("Exception should have been thrown because there is no such window");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual("Currently selected window has been closed", exception.Message);
+            }
+
+            calculatorSession.Quit();
+            calculatorSession = null;
         }
 
         [TestMethod]
@@ -131,14 +160,29 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ErrorGetClosedSessionElementScreenshot()
         {
-            session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
-            IOSElement element = session.FindElementByAccessibilityId("StopwatchPlayPauseButton");
-            session.Close();
-            var screenshot1 = element.GetScreenshot();
-            Assert.Fail("Exception should have been thrown because there is no such window");
+            // Launch calculator for this specific test case
+            DesiredCapabilities appCapabilities = new DesiredCapabilities();
+            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
+            IOSDriver<IOSElement> calculatorSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            Assert.IsNotNull(calculatorSession);
+            Assert.IsNotNull(calculatorSession.SessionId);
+
+            try
+            {
+                calculatorSession.Close();
+                IOSElement element = calculatorSession.FindElementByAccessibilityId("AppNameTitle");
+                element.GetScreenshot();
+                Assert.Fail("Exception should have been thrown because there is no such window");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual("Currently selected window has been closed", exception.Message);
+            }
+
+            calculatorSession.Quit();
+            calculatorSession = null;
         }
     }
 }

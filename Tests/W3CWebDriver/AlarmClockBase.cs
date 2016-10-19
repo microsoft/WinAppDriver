@@ -21,19 +21,37 @@ using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
-    public class AlarmClockBase : TestBase
+    public class AlarmClockBase
     {
+        protected static IOSDriver<IOSElement> session;
         protected IOSElement alarmTabElement;
 
-        [TestInitialize]
-        public void TestInit()
+        public static void Setup(TestContext context)
         {
+            // Cleanup leftover objects from previous test if exists
+            TearDown();
+
+            // Launch Alarm Clock
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
             session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
+        }
 
+        public static void TearDown()
+        {
+            // Close the application and delete the session
+            if (session != null)
+            {
+                session.Quit();
+                session = null;
+            }
+        }
+
+        [TestInitialize]
+        public void TestInit()
+        { 
             // Attempt to go back to the main page in case Alarm & Clock app is started in EditAlarm view
             try
             {
