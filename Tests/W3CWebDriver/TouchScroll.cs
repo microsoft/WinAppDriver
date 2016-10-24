@@ -23,66 +23,142 @@ namespace W3CWebDriver
     [TestClass]
     public class TouchScroll : TouchBase
     {
-        [TestMethod]
-        public void TouchScrollWithoutElement()
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
         {
-            Assert.IsNotNull(session.SessionId);
+            Setup(context);
+        }
 
-            GoToGitHub();
-
-            JObject requestObject = new JObject();
-            requestObject["xoffset"] = 0;
-            requestObject["yoffset"] = 100;
-
-            HttpWebResponse response2 = SendTouchPost("scroll", requestObject);
-            Assert.IsNotNull(response2);
-
-            System.Threading.Thread.Sleep(1000);
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            TearDown();
         }
 
         [TestMethod]
-        public void TouchScrollOnElement()
+        public void Scroll()
         {
-            Assert.IsNotNull(session.SessionId);
+            // Navigate to GitHub
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
 
-            GoToGitHub();
+            // Use Homepage link in GitHub page as a reference element
+            var gitHubHomePageLink = session.FindElementByName("Homepage");
+            Assert.IsNotNull(gitHubHomePageLink);
+            Assert.IsTrue(gitHubHomePageLink.Displayed);
 
-            JObject newTabRequestObject = new JObject();
-            newTabRequestObject["element"] = session.FindElementByAccessibilityId("AddTabButton").GetAttribute("elementId");
+            // Perform scroll down touch action to scroll the page down hiding the Homepage link element from the view
+            touchScreen.Scroll(0, -50);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Assert.IsFalse(gitHubHomePageLink.Displayed);
 
-            JObject scrollRequestObject = new JObject();
-            scrollRequestObject["xoffset"] = 0;
-            scrollRequestObject["yoffset"] = -100;
-            scrollRequestObject["element"] = session.FindElementByName("Explore").GetAttribute("elementId");
+            // Perform scroll up touch action to scroll the page up restoring the Homepage link element into the view
+            touchScreen.Scroll(0, 50);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Assert.IsTrue(gitHubHomePageLink.Displayed);
+        }
 
-            HttpWebResponse response2 = SendTouchPost("scroll", scrollRequestObject);
-            Assert.IsNotNull(response2);
+        [TestMethod]
+        public void ScrollOnElementHorizontal()
+        {
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.MicrosoftGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            var originalTitle = session.Title;
+            Assert.AreNotEqual(string.Empty, originalTitle);
+
+            // Navigate to GitHub page
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Assert.AreNotEqual(originalTitle, session.Title);
+
+            // Save application window original size and maximize temporarily
+            var originalSize = session.Manage().Window.Size;
+            var originalPosition = session.Manage().Window.Position;
+            session.Manage().Window.Maximize();
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+
+            // Locate Microsoft Edge window that scrolls
+            var edgeNavScroller = session.FindElementByAccessibilityId("m_navSwipeScroller");
+            Assert.IsNotNull(edgeNavScroller);
+
+            // Perform scroll right touch action to go back in browsing history to the original start page
+            touchScreen.Scroll(edgeNavScroller.Coordinates, 500, 0);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Assert.AreEqual(originalTitle, session.Title);
+
+            // Perform scroll left touch action to go forward in browsing history to the GitHub page
+            touchScreen.Scroll(edgeNavScroller.Coordinates, -500, 0);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Assert.AreNotEqual(originalTitle, session.Title);
+
+            // Restore application window original size and position
+            session.Manage().Window.Size = originalSize;
+            session.Manage().Window.Position = originalPosition;
+        }
+
+        [TestMethod]
+        public void ScrollOnElementVertical()
+        {
+            // Navigate to GitHub
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+
+            // Use Homepage link in GitHub page as a reference element
+            var gitHubHomePageLink = session.FindElementByName("Homepage");
+            Assert.IsNotNull(gitHubHomePageLink);
+            Assert.IsTrue(gitHubHomePageLink.Displayed);
+
+            // Locate Microsoft Edge window that scrolls
+            var edgeNavScroller = session.FindElementByAccessibilityId("m_navSwipeScroller");
+            Assert.IsNotNull(edgeNavScroller);
+
+            // Perform scroll down touch action to scroll the page down hiding the Homepage link element from the view
+            touchScreen.Scroll(edgeNavScroller.Coordinates, 0, -50);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Assert.IsFalse(gitHubHomePageLink.Displayed);
+
+            // Perform scroll up touch action to scroll the page up restoring the Homepage link element into the view
+            touchScreen.Scroll(edgeNavScroller.Coordinates, 0, 50);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Assert.IsTrue(gitHubHomePageLink.Displayed);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(OpenQA.Selenium.NoSuchElementException))]
+        public void ErrorTouchClosedWindow()
+        {
+            // Open a new window, retrieve an element, and close the window to get an orphaned element
+            var orphanedElement = GetOrphanedElement(session);
+            Assert.IsNotNull(orphanedElement);
+
+            // Scroll on the orphaned element
+            touchScreen.Scroll(orphanedElement.Coordinates, 0, 50);
+            Assert.Fail("Exception should have been thrown");
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchScrollClosedWindow()
-        {
-            ErrorTouchClosedWindow("scroll");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchScrollInvalidElement()
+        public void ErrorTouchInvalidElement()
         {
             ErrorTouchInvalidElement("scroll");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchScrollStaleElement()
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ErrorTouchStaleElement()
         {
-            ErrorTouchStaleElement("scroll");
+            // Navigate to a webpage, save a reference to an element, and navigate away to get a stale element
+            var staleElement = GetStaleElement(session);
+            Assert.IsNotNull(staleElement);
+
+            // Scroll on stale element
+            touchScreen.Scroll(staleElement.Coordinates, 0, 50);
+            Assert.Fail("Exception should have been thrown");
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchScrollInvalidArguments()
+        public void ErrorTouchInvalidArguments()
         {
             ErrorTouchInvalidArguments("scroll");
         }
