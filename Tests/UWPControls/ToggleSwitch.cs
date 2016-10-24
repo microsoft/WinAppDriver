@@ -26,8 +26,10 @@ namespace UWPControls
 
         protected override void LoadScenarioView()
         {
-            session.FindElementByName("Selection and picker controls").Click();
-            session.FindElementByName("ToggleSwitch").Click();
+            session.FindElementByAccessibilityId("splitViewToggle").Click();
+            var splitViewPane = session.FindElementByClassName("SplitViewPane");
+            splitViewPane.FindElementByName("Selection and picker controls").Click();
+            splitViewPane.FindElementByName("ToggleSwitch").Click();
 
             toggleSwitchElement = session.FindElementByAccessibilityId("ToggleSwitch2");
             Assert.IsNotNull(toggleSwitchElement);
@@ -51,6 +53,8 @@ namespace UWPControls
             var originalState = toggleSwitchElement.Selected;
             toggleSwitchElement.Click();
             Assert.AreNotEqual(originalState, toggleSwitchElement.Selected);
+
+            System.Threading.Thread.Sleep(1000);
             toggleSwitchElement.Click();
             Assert.AreEqual(originalState, toggleSwitchElement.Selected);
         }
@@ -97,6 +101,8 @@ namespace UWPControls
             var originalState = toggleSwitchElement.Selected;
             toggleSwitchElement.Click();
             Assert.AreNotEqual(originalState, toggleSwitchElement.Selected);
+
+            System.Threading.Thread.Sleep(1000);
             toggleSwitchElement.Click();
             Assert.AreEqual(originalState, toggleSwitchElement.Selected);
         }

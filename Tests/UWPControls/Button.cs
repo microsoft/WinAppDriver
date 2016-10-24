@@ -26,8 +26,10 @@ namespace UWPControls
 
         protected override void LoadScenarioView()
         {
-            session.FindElementByName("Buttons").Click();
-            session.FindElementByName("Button").Click();
+            session.FindElementByAccessibilityId("splitViewToggle").Click();
+            var splitViewPane = session.FindElementByClassName("SplitViewPane");
+            splitViewPane.FindElementByName("Buttons").Click();
+            splitViewPane.FindElementByName("Button").Click();
 
             buttonElement = session.FindElementByAccessibilityId("Button1");
             Assert.IsNotNull(buttonElement);

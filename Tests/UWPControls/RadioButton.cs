@@ -27,8 +27,10 @@ namespace UWPControls
 
         protected override void LoadScenarioView()
         {
-            session.FindElementByName("Selection and picker controls").Click();
-            session.FindElementByName("RadioButton").Click();
+            session.FindElementByAccessibilityId("splitViewToggle").Click();
+            var splitViewPane = session.FindElementByClassName("SplitViewPane");
+            splitViewPane.FindElementByName("Selection and picker controls").Click();
+            splitViewPane.FindElementByName("RadioButton").Click();
 
             radioButtonElement1 = session.FindElementByAccessibilityId("Option1RadioButton");
             Assert.IsNotNull(radioButtonElement1);

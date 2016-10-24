@@ -27,22 +27,6 @@ namespace UWPControls
         private const string AppUIBasicAppId = "a5bd3fa2-e27f-49e9-9041-47c97e903ecc_8wekyb3d8bbwe!App";
         protected static IOSDriver<IOSElement> session = null;
 
-        private void ReturnToMainView()
-        {
-            while (session != null)
-            {
-                try
-                {
-                    var mainViewLabel = session.FindElementByName("XAML controls and layout");
-                    break;
-                }
-                catch
-                {
-                    session.Navigate().Back();
-                }
-            }
-        }
-
         protected virtual void LoadScenarioView()
         {
             Assert.IsTrue(true);
@@ -77,7 +61,6 @@ namespace UWPControls
         {
             Assert.IsNotNull(session);
             Assert.AreEqual("App UI Basics CS Sample", session.Title);
-            ReturnToMainView();
             LoadScenarioView();
         }
     }

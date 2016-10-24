@@ -27,8 +27,10 @@ namespace UWPControls
 
         protected override void LoadScenarioView()
         {
-            session.FindElementByName("Selection and picker controls").Click();
-            session.FindElementByName("CheckBox").Click();
+            session.FindElementByAccessibilityId("splitViewToggle").Click();
+            var splitViewPane = session.FindElementByClassName("SplitViewPane");
+            splitViewPane.FindElementByName("Selection and picker controls").Click();
+            splitViewPane.FindElementByName("CheckBox").Click();
 
             checkBoxElement1 = session.FindElementByName("Two-state CheckBox");
             checkBoxElement2 = session.FindElementByName("Three-state CheckBox");
