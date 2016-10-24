@@ -35,6 +35,9 @@ namespace W3CWebDriver
 
         public static void Setup(TestContext context)
         {
+            // Cleanup leftover objects from previous test if exists
+            TearDown();
+
             // Launch the Edge browser app
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
@@ -49,6 +52,18 @@ namespace W3CWebDriver
             // Track the Microsoft Edge starting page title to be used to initialize all test cases
             startingPageTitle = session.Title;
             Assert.AreNotEqual(string.Empty, startingPageTitle);
+
+            // Handle Microsoft Edge restored state by starting fresh
+            if (startingPageTitle.StartsWith("Start fresh and "))
+            {
+                try
+                {
+                    session.FindElementByXPath("//Button[@Name='Start fresh']").Click();
+                    System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+                    startingPageTitle = session.Title;
+                }
+                catch { }
+            }
         }
 
         public static void TearDown()
@@ -59,6 +74,18 @@ namespace W3CWebDriver
             // Close the application and delete the session
             if (session != null)
             {
+                try
+                {
+                    session.Close();
+                    var currentHandle = session.CurrentWindowHandle; // This should throw if the window is closed successfully
+
+                    // When the Edge window remains open because of multiple tabs are open, attempt to close modal dialog
+                    var closeAllButton = session.FindElementByXPath("//Button[@Name='Close all']");
+                    closeAllButton.Click();
+
+                }
+                catch { }
+
                 session.Quit();
                 session = null;
             }

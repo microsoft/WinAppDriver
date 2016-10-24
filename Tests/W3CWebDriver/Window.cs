@@ -55,6 +55,7 @@ namespace W3CWebDriver
             string windowHandle = session.CurrentWindowHandle;
             Assert.IsNotNull(windowHandle);
             session.Quit();
+            session = null;
         }
 
         [TestMethod]

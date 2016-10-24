@@ -171,6 +171,9 @@ namespace W3CWebDriver
             var actionCenterElement = desktopSession.FindElementByName("Action Center");
             Assert.IsNotNull(actionCenterElement);
 
+            // Dismiss action center and cleanup the temporary session
+            actionCenterElement.SendKeys(OpenQA.Selenium.Keys.Escape);
+            editBox.SendKeys(OpenQA.Selenium.Keys.Escape);
             desktopSession.Quit();
         }
     }
