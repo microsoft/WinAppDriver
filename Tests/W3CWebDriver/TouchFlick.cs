@@ -39,7 +39,7 @@ namespace W3CWebDriver
         public void ArbitraryFlick()
         {
             // Navigate to GitHub
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.GitHubUrl + OpenQA.Selenium.Keys.Enter);
             System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
 
             // Use Homepage link in GitHub page as a reference element

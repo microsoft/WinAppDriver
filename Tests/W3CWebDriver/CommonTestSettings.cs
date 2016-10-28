@@ -27,7 +27,7 @@ namespace W3CWebDriver
         public const string EdgeAppId = "Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge";
         public const string ExplorerAppId = @"C:\Windows\System32\explorer.exe";
         public const string NotepadAppId = @"C:\Windows\System32\notepad.exe";
-        public const string MicrosoftGitHubUrl = "https://github.com/Microsoft";
-        public const string WinAppDriverGitHubUrl = "https://github.com/Microsoft/WinAppDriver";
+        public const string MicrosoftUrl = "www.microsoft.com";
+        public const string GitHubUrl = "https://github.com/Microsoft/WinAppDriver";
     }
 }

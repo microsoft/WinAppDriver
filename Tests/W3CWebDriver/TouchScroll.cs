@@ -39,7 +39,7 @@ namespace W3CWebDriver
         public void Scroll()
         {
             // Navigate to GitHub
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.GitHubUrl + OpenQA.Selenium.Keys.Enter);
             System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
 
             // Use Homepage link in GitHub page as a reference element
@@ -61,13 +61,13 @@ namespace W3CWebDriver
         [TestMethod]
         public void ScrollOnElementHorizontal()
         {
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.MicrosoftGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.MicrosoftUrl + OpenQA.Selenium.Keys.Enter);
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate to GitHub page
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.GitHubUrl + OpenQA.Selenium.Keys.Enter);
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
             Assert.AreNotEqual(originalTitle, session.Title);
 
@@ -100,7 +100,7 @@ namespace W3CWebDriver
         public void ScrollOnElementVertical()
         {
             // Navigate to GitHub
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.GitHubUrl + OpenQA.Selenium.Keys.Enter);
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
 
             // Use Homepage link in GitHub page as a reference element

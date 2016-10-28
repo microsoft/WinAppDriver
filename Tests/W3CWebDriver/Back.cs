@@ -34,12 +34,14 @@ namespace W3CWebDriver
             session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
 
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.MicrosoftUrl + OpenQA.Selenium.Keys.Enter);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
             var originalTitle = session.Title;
             Assert.AreNotEqual(String.Empty, originalTitle);
 
             // Navigate to different URLs
             var addressEditBox = session.FindElementByAccessibilityId("addressEditBox");
-            addressEditBox.SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            addressEditBox.SendKeys(CommonTestSettings.GitHubUrl + OpenQA.Selenium.Keys.Enter);
 
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
             Assert.AreNotEqual(originalTitle, session.Title);
