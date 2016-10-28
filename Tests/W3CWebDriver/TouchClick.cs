@@ -36,13 +36,13 @@ namespace W3CWebDriver
         [TestMethod]
         public void SingleTap()
         {
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.MicrosoftGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.MicrosoftUrl + OpenQA.Selenium.Keys.Enter);
             System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate to GitHub
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.GitHubUrl + OpenQA.Selenium.Keys.Enter);
             System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
             Assert.AreNotEqual(originalTitle, session.Title);
 

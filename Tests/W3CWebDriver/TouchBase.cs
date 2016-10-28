@@ -50,8 +50,8 @@ namespace W3CWebDriver
             Assert.IsNotNull(touchScreen);
 
             // Track the Microsoft Edge starting page title to be used to initialize all test cases
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
             startingPageTitle = session.Title;
-            Assert.AreNotEqual(string.Empty, startingPageTitle);
 
             // Handle Microsoft Edge restored state by starting fresh
             if (startingPageTitle.StartsWith("Start fresh and "))
@@ -154,13 +154,13 @@ namespace W3CWebDriver
         {
             RemoteWebElement staleElement = null;
 
-            remoteSession.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.MicrosoftGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            remoteSession.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.MicrosoftUrl + OpenQA.Selenium.Keys.Enter);
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
             var originalTitle = remoteSession.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate to GitHub page
-            remoteSession.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.WinAppDriverGitHubUrl + OpenQA.Selenium.Keys.Enter);
+            remoteSession.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.GitHubUrl + OpenQA.Selenium.Keys.Enter);
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
             Assert.AreNotEqual(originalTitle, remoteSession.Title);
 
