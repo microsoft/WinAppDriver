@@ -53,13 +53,12 @@ namespace W3CWebDriver
         [TestMethod]
         public void FindElementByName()
         {
-            IOSElement element = session.FindElementByName("Alarm tab");
+            IOSElement element = session.FindElementByName("More app bar");
             Assert.IsNotNull(element);
-            Assert.AreEqual(alarmTabElement, element);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.NoSuchElementException))]
+        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidAccessibilityId()
         {
             IOSElement element = session.FindElementByAccessibilityId("InvalidAccessibiliyId");
@@ -67,7 +66,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.NoSuchElementException))]
+        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidClassName()
         {
             IOSElement element = session.FindElementByClassName("InvalidClassName");
@@ -75,7 +74,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.NoSuchElementException))]
+        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidName()
         {
             IOSElement element = session.FindElementByName("InvalidName");
@@ -83,10 +82,42 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.NoSuchElementException))]
+        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidRuntimeId()
         {
             IOSElement element = session.FindElementById("InvalidRuntimeId");
+            Assert.Fail("Exception should have been thrown");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ErrorFindElementByInvalidTagName()
+        {
+            IOSElement element = session.FindElementByTagName("InvalidTagName");
+            Assert.Fail("Exception should have been thrown");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ErrorFindElementByInvalidTagNameMalformed()
+        {
+            IOSElement element = session.FindElementByTagName("//@InvalidTagNameMalformed");
+            Assert.Fail("Exception should have been thrown");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ErrorFindElementByInvalidXPath()
+        {
+            IOSElement element = session.FindElementByXPath("//*//]");
+            Assert.Fail("Exception should have been thrown");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ErrorFindElementByNonExistentXPath()
+        {
+            IOSElement alarmTab = session.FindElementByXPath("//*[@Name=\"NonExistentElement\"]");
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -117,15 +148,15 @@ namespace W3CWebDriver
         [TestMethod]
         public void FindElementByTagName()
         {
-            IOSElement element = session.FindElementByTagName("ListItem");
+            IOSElement element = session.FindElementByTagName("Button");
             Assert.IsNotNull(element);
         }
 
         [TestMethod]
         public void FindElementByXPath()
         {
-            IOSElement element = session.FindElementByXPath("//*[@Name=\"Alarm Collection\"]");
-            Assert.IsNotNull(element);
+            IOSElement alarmTab = session.FindElementByXPath("//Button[@AutomationId=\"MoreButton\"]");
+            Assert.IsNotNull(alarmTab);
         }
     }
 }

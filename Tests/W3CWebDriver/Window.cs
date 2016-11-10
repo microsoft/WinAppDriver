@@ -129,7 +129,7 @@ namespace W3CWebDriver
                 multiWindowsSession.FindElementByAccessibilityId("m_actionsMenuButton").Click();
                 multiWindowsSession.FindElementByAccessibilityId("m_newWindow").Click();
             }
-            catch(OpenQA.Selenium.NoSuchElementException)
+            catch (System.InvalidOperationException)
             {
                 multiWindowsSession.FindElementByAccessibilityId("ActionsMenuButton").Click();
                 multiWindowsSession.FindElementByAccessibilityId("ActionsMenuNewWindow").Click();
@@ -177,7 +177,7 @@ namespace W3CWebDriver
                 multiWindowsSession.FindElementByAccessibilityId("m_actionsMenuButton").Click();
                 multiWindowsSession.FindElementByAccessibilityId("m_newWindow").Click();
             }
-            catch (OpenQA.Selenium.NoSuchElementException)
+            catch (System.InvalidOperationException)
             {
                 multiWindowsSession.FindElementByAccessibilityId("ActionsMenuButton").Click();
                 multiWindowsSession.FindElementByAccessibilityId("ActionsMenuNewWindow").Click();
