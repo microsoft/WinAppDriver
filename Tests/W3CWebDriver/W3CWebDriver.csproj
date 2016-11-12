@@ -78,6 +78,7 @@
     <Compile Include="ElementElements.cs" />
     <Compile Include="Elements.cs" />
     <Compile Include="Forward.cs" />
+    <Compile Include="Orientation.cs" />
     <Compile Include="TouchBase.cs" />
     <Compile Include="ElementAttribute.cs" />
     <Compile Include="Selected.cs" />
