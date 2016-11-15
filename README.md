@@ -129,7 +129,7 @@ AlarmClockSession.FindElementByAccessibilityId("AddAlarmButton").Click();
 AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
 ```
 
-> When testing the application you authored yourself, you can find the **Application Id** in the generetated `AppX\vs.appxrecipe` file under `RegisteredUserNmodeAppID` node. E.g. ```c24c8163-548e-4b84-a466-530178fc0580_scyf5npe3hv32!App```
+> When testing the application you authored yourself, you can find the **Application Id** in the generetated `AppX\vs.appxrecipe` file under `RegisteredUserModeAppID` node. E.g. ```c24c8163-548e-4b84-a466-530178fc0580_scyf5npe3hv32!App```
 
 ### Classic Windows App Testing
 
