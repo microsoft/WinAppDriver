@@ -34,20 +34,15 @@ namespace W3CWebDriver
             TearDown();
         }
 
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            alarmListViewElement = session.FindElementByAccessibilityId("AlarmListView");
-            Assert.IsNotNull(alarmListViewElement);
-        }
-
-        protected static IOSElement alarmListViewElement;
-
         [TestMethod]
         public void FindElementByAccessibilityId()
         {
             IOSElement element = alarmTabElement.FindElementByAccessibilityId("AlarmListView") as IOSElement;
             Assert.IsNotNull(element);
+
+            IOSElement alarmListViewElement = session.FindElementByAccessibilityId("AlarmListView") as IOSElement;
+            Assert.IsNotNull(alarmListViewElement);
+
             Assert.AreEqual(alarmListViewElement, element);
         }
 
@@ -56,19 +51,17 @@ namespace W3CWebDriver
         {
             IOSElement element = alarmTabElement.FindElementByClassName("ListView") as IOSElement;
             Assert.IsNotNull(element);
-            Assert.AreEqual(alarmListViewElement, element);
         }
 
         [TestMethod]
         public void FindElementByName()
         {
-            IOSElement element = alarmTabElement.FindElementByName("Alarm Collection") as IOSElement;
+            IOSElement element = alarmTabElement.FindElementByName("More app bar") as IOSElement;
             Assert.IsNotNull(element);
-            Assert.AreEqual(alarmListViewElement, element);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.NoSuchElementException))]
+        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidAccessibilityId()
         {
             IOSElement element = alarmTabElement.FindElementByAccessibilityId("InvalidAccessibiliyId") as IOSElement;
@@ -76,7 +69,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.NoSuchElementException))]
+        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidClassName()
         {
             IOSElement element = alarmTabElement.FindElementByClassName("InvalidClassName") as IOSElement;
@@ -84,7 +77,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.NoSuchElementException))]
+        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidName()
         {
             IOSElement element = alarmTabElement.FindElementByName("InvalidName") as IOSElement;
@@ -92,10 +85,42 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.NoSuchElementException))]
+        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidRuntimeId()
         {
             IOSElement element = alarmTabElement.FindElementById("InvalidRuntimeId") as IOSElement;
+            Assert.Fail("Exception should have been thrown");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ErrorFindElementByInvalidTagName()
+        {
+            IOSElement element = alarmTabElement.FindElementByTagName("InvalidTagName") as IOSElement;
+            Assert.Fail("Exception should have been thrown");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ErrorFindElementByInvalidTagNameMalformed()
+        {
+            IOSElement element = alarmTabElement.FindElementByTagName("//@InvalidTagNameMalformed") as IOSElement;
+            Assert.Fail("Exception should have been thrown");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ErrorFindElementByInvalidXPath()
+        {
+            IOSElement element = alarmTabElement.FindElementByXPath("//*//]") as IOSElement;
+            Assert.Fail("Exception should have been thrown");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ErrorFindElementByNonExistentXPath()
+        {
+            IOSElement element = session.FindElementByXPath("//*[@Name=\"NonExistentElement\"]") as IOSElement;
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -126,14 +151,14 @@ namespace W3CWebDriver
         [TestMethod]
         public void FindElementByTagName()
         {
-            IOSElement element = alarmTabElement.FindElementByTagName("ListItem") as IOSElement;
+            IOSElement element = alarmTabElement.FindElementByTagName("Button") as IOSElement;
             Assert.IsNotNull(element);
         }
 
         [TestMethod]
         public void FindElementByXPath()
         {
-            IOSElement element = alarmTabElement.FindElementByXPath("//*[@Name=\"Alarm Collection\"]") as IOSElement;
+            IOSElement element = alarmTabElement.FindElementByXPath("//Button[@AutomationId=\"MoreButton\"]") as IOSElement;
             Assert.IsNotNull(element);
         }
     }

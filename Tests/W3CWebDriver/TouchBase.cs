@@ -117,7 +117,7 @@ namespace W3CWebDriver
                 remoteSession.FindElementByAccessibilityId("m_actionsMenuButton").Click();
                 remoteSession.FindElementByAccessibilityId("m_newWindow").Click();
             }
-            catch (OpenQA.Selenium.NoSuchElementException)
+            catch (System.InvalidOperationException)
             {
                 remoteSession.FindElementByAccessibilityId("ActionsMenuButton").Click();
                 remoteSession.FindElementByAccessibilityId("ActionsMenuNewWindow").Click();

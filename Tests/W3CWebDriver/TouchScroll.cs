@@ -124,7 +124,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.NoSuchElementException))]
+        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorTouchClosedWindow()
         {
             // Open a new window, retrieve an element, and close the window to get an orphaned element
