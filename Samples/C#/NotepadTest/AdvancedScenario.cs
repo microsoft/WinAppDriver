@@ -46,8 +46,6 @@ namespace NotepadTest
             //Enable word wrap
             NotepadSession.FindElementByName("Format").Click();
             NotepadSession.FindElementByName("Word Wrap").Click();
-            NotepadSession.FindElementByName("Format").Click();
-            var wordwrapenabled = NotepadSession.FindElementByName("Word Wrap");
 
         }
 
@@ -55,9 +53,9 @@ namespace NotepadTest
         [DataTestMethod]
         [DataRow("This is the first advanced automated test on Classic Windows Application! ",  "NotepadAdvancedTestOutputFile1.txt")]
         [DataRow("This is the second advanced automated test on Classic Windows Application! ", "NotepadAdvancedTestOutputFile2.txt")]
-        //[DataRow("This is the third advanced automated test on Classic Windows Application! ",  "NotepadAdvancedTestOutputFile3.txt")]
-        //[DataRow("This is the fourth advanced automated test on Classic Windows Application! ", "NotepadAdvancedTestOutputFile4.txt")]
-        //[DataRow("This is the fifth advanced automated test on Classic Windows Application! ",  "NotepadAdvancedTestOutputFile5.txt")]
+        [DataRow("This is the third advanced automated test on Classic Windows Application! ",  "NotepadAdvancedTestOutputFile3.txt")]
+        [DataRow("This is the fourth advanced automated test on Classic Windows Application! ", "NotepadAdvancedTestOutputFile4.txt")]
+        [DataRow("This is the fifth advanced automated test on Classic Windows Application! ",  "NotepadAdvancedTestOutputFile5.txt")]
         public void AdvancedScenarioTest(string AdvancedText,string TestFileName)
         {
             EnterText(AdvancedText);
