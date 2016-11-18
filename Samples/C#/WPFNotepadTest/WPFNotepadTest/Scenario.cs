@@ -26,8 +26,7 @@ namespace WPFNotepadTest
         [TestMethod]
         public void BasicScenario()
         {
-            WpfnotepadSession.FindElementById("txtDocument").Click();
-            WpfnotepadSession.FindElementById("txtDocument").SendKeys("Hello World");
+            WpfnotepadSession.FindElementByName("File").Click();
             WpfnotepadSession.Quit();
         }
     }
