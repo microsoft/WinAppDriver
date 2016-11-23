@@ -8,8 +8,9 @@ This Github project provides
 - issue tracking
 
 **Videos about WinAppDriver**<br/>
+https://channel9.msdn.com/events/Connect/2016/202 (8min overview with demos)<br/>
 https://channel9.msdn.com/events/Build/2016/Panel-Engineering-Quality (With Jonathan Lipps!)<br/>
-https://channel9.msdn.com/events/Build/2016/P499 (Includes demos)<br/>
+https://channel9.msdn.com/events/Build/2016/P499 (Longer discussion)<br/>
 
 ## Vote on New Features
 Go to https://wpdev.uservoice.com/forums/110705-universal-windows-platform and enter requests under the **UI Testing** category.
@@ -108,7 +109,8 @@ Windows Application Driver supports testing **Universal Windows Platform (UWP)**
 You can choose any programming language or tools supported by Appium/Selenium to write your test scripts. In the example below, we will author the test script in C# using Microsoft Visual Studio 2015.
 
 ### Create Test Project
-1. Open **Microsoft Visual Studio 2015**
+1. Open **Microsoft Visual Studio 2015 or 2017** <br/>
+  NOTE: in Visual Studio 2017 make sure you have the optional “.NET desktop development” workload installed
 2. Create the test project and solution. I.e. select **New Project > Templates > Visual C# > Test > Unit Test Project**
 3. Once created, select **Project > Manage NuGet Packages... > Browse** and search for **Appium.WebDriver**
 4. Install the **Appium.WebDriver** NuGet packages for the test project
