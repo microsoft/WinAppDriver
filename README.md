@@ -143,7 +143,7 @@ DesiredCapabilities appCapabilities = new DesiredCapabilities();
 appCapabilities.SetCapability("app", @"C:\Windows\System32\notepad.exe");
 NotepadSession = new IOSDriver<IOSElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
 
-// Control the AlarmClock app
+// Control the Notepad app
 NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
 ```
 
