@@ -11,6 +11,7 @@ This Github project provides
 https://channel9.msdn.com/events/Connect/2016/202 (8min overview with demos)<br/>
 https://channel9.msdn.com/events/Build/2016/Panel-Engineering-Quality (With Jonathan Lipps!)<br/>
 https://channel9.msdn.com/events/Build/2016/P499 (Longer discussion)<br/>
+https://www.youtube.com/watch?v=XAJVpvaEchY (c# demo with calculator sample walkthrough)<br/>
 
 ## Vote on New Features
 Go to https://wpdev.uservoice.com/forums/110705-universal-windows-platform and enter requests under the **UI Testing** category.
@@ -46,7 +47,7 @@ WinAppDriver.exe *IP address* *port* For example:
 5. If the test app is installed on the remote machine run your test script and see the results!
 
 ## C# Samples
-1. see Samples/C# in this github project.  Open one of the test solutions with Visual Studio 2015.  For example, pull and open `CalculatorTest.sln` under [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23/CalculatorTest)
+1. see Samples/C# in this github project. Take a look at https://www.youtube.com/watch?v=XAJVpvaEchY for a walkthrough of the c# calculator sample. Open one of the test solutions with Visual Studio 2015.  For example, pull and open `CalculatorTest.sln` under [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23/CalculatorTest)
 2. In Visual Studio 2015 with the test solution open build the test and select **Test > Run > All Tests**
  
 ## Java Samples
