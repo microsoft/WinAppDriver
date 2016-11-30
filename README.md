@@ -87,6 +87,7 @@ Windows Application Driver supports testing **Universal Windows Platform (UWP)**
 | GET    	| /session/:sessionId/element/:id/text              	|
 | POST   	| /session/:sessionId/element/:id/value             	|
 | POST   	| /session/:sessionId/moveto                        	|
+| GET    	| /session/:sessionId/orientation                      	|
 | POST   	| /session/:sessionId/timeouts                      	|
 | POST   	| /session/:sessionId/timeouts/implicit_wait        	|
 | GET    	| /session/:sessionId/window                        	|
