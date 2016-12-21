@@ -153,8 +153,10 @@ NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
 
 Microsoft Visual Studio 2015 by default includes Windows SDK that provides great tool to inspect the application you are testing. This tool allows you to see every UI element/node that you can query using Windows Application Driver. This **inspect.exe** tool can be found under the Windows SDK folder such as `C:\Program Files (x86)\Windows Kits\10\bin\x86`
 
-| Locator Strategy 	| Matched Attribute 	|
-|------------------	|-------------------	|
-| accessibility id 	| AutomationId      	|
-| class name       	| ClassName         	|
-| name             	| Name              	|
+| Client API                   	| Locator Strategy 	| Matched Attribute                      	| Example      	|
+|------------------------------	|------------------	|----------------------------------------	|--------------	|
+| FindElementByAccessibilityId 	| accessibility id 	| AutomationId                           	| AppNameTitle 	|
+| FindElementByClassName       	| class name       	| ClassName                              	| TextBlock    	|
+| FindElementById              	| id               	| RuntimeId (decimal)                    	| 42.333896.3.1	|
+| FindElementByName            	| name             	| Name                                   	| Calculator   	|
+| FindElementByTagName         	| tag name         	| LocalizedControlType (upper camel case)	| Text         	|
