@@ -106,7 +106,6 @@ Windows Application Driver supports testing **Universal Windows Platform (UWP)**
 | GET    	| /session/:sessionId/window_handles                	|
 
 
-
 ## Creating Your Own Test Script
 You can choose any programming language or tools supported by Appium/Selenium to write your test scripts. In the example below, we will author the test script in C# using Microsoft Visual Studio 2015.
 
@@ -153,7 +152,11 @@ NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
 
 Microsoft Visual Studio 2015 by default includes Windows SDK that provides great tool to inspect the application you are testing. This tool allows you to see every UI element/node that you can query using Windows Application Driver. This **inspect.exe** tool can be found under the Windows SDK folder such as `C:\Program Files (x86)\Windows Kits\10\bin\x86`
 
-| Client API                   	| Locator Strategy 	| Matched Attribute                      	| Example      	|
+More detailed documentation on Inspect is available on MSDN <a href="https://msdn.microsoft.com/library/windows/desktop/dd318521(v=vs.85).aspx">here</a>.
+
+The below table maps UI element attribues shown in Inspect to the matching WinAppDriver supported Client API.
+
+| Client API                   	| Locator Strategy 	| Matched Attribute	                 	| Example      	|
 |------------------------------	|------------------	|----------------------------------------	|--------------	|
 | FindElementByAccessibilityId 	| accessibility id 	| AutomationId                           	| AppNameTitle 	|
 | FindElementByClassName       	| class name       	| ClassName                              	| TextBlock    	|
