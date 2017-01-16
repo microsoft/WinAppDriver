@@ -15,7 +15,7 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 using System;
 
@@ -24,7 +24,7 @@ namespace W3CWebDriver
     [TestClass]
     public class TouchDoubleClick : TouchBase
     {
-        private static IOSDriver<IOSElement> calculatorSession;
+        private static WindowsDriver<WindowsElement> calculatorSession;
         private static RemoteTouchScreen calculatorTouchScreen;
 
         [ClassInitialize]
@@ -54,7 +54,7 @@ namespace W3CWebDriver
             // Launch calculator for this specific test case
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            calculatorSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            calculatorSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(calculatorSession);
             Assert.IsNotNull(calculatorSession.SessionId);
 

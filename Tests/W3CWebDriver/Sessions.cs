@@ -19,7 +19,7 @@ using System.IO;
 using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
@@ -62,7 +62,7 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            IOSDriver<IOSElement> session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
 
             using (HttpWebResponse response = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/sessions").GetResponse() as HttpWebResponse)
@@ -87,12 +87,12 @@ namespace W3CWebDriver
         {
             DesiredCapabilities alarmAppCapabilities = new DesiredCapabilities();
             alarmAppCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            IOSDriver<IOSElement> alarmSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), alarmAppCapabilities);
+            WindowsDriver<WindowsElement> alarmSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), alarmAppCapabilities);
             Assert.IsNotNull(alarmSession);
 
             DesiredCapabilities notepadAppCapabilities = new DesiredCapabilities();
             notepadAppCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
-            IOSDriver<IOSElement> notepadSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), notepadAppCapabilities);
+            WindowsDriver<WindowsElement> notepadSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), notepadAppCapabilities);
             Assert.IsNotNull(notepadSession);
 
             using (HttpWebResponse response = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/sessions").GetResponse() as HttpWebResponse)

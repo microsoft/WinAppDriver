@@ -18,7 +18,7 @@ using System;
 using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium;
-using OpenQA.Selenium.Appium.iOS; // Temporary placeholder until Windows namespace exists
+using OpenQA.Selenium.Appium.Windows; // Temporary placeholder until Windows namespace exists
 using OpenQA.Selenium.Remote;
 
 namespace AlarmClockTest
@@ -27,8 +27,8 @@ namespace AlarmClockTest
     public class Scenario
     {
         protected const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
-        protected static IOSDriver<IOSElement> AlarmClockSession;   // Temporary placeholder until Windows namespace exists
-        protected static IOSDriver<IOSElement> DesktopSession;      // Temporary placeholder until Windows namespace exists
+        protected static WindowsDriver<WindowsElement> AlarmClockSession;   // Temporary placeholder until Windows namespace exists
+        protected static WindowsDriver<WindowsElement> DesktopSession;      // Temporary placeholder until Windows namespace exists
         private const string NewAlarmName = "Windows Application Driver Test Alarm";
 
         [ClassInitialize]
@@ -37,14 +37,14 @@ namespace AlarmClockTest
             // Launch the AlarmClock app
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", "Microsoft.WindowsAlarms_8wekyb3d8bbwe!App");
-            AlarmClockSession = new IOSDriver<IOSElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
+            AlarmClockSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(AlarmClockSession);
             AlarmClockSession.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
 
             // Create a session for Desktop
             DesiredCapabilities desktopCapabilities = new DesiredCapabilities();
             desktopCapabilities.SetCapability("app", "Root");
-            DesktopSession = new IOSDriver<IOSElement>(new Uri(WindowsApplicationDriverUrl), desktopCapabilities);
+            DesktopSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), desktopCapabilities);
             Assert.IsNotNull(DesktopSession);
 
             // Ensure app is started in the default main page

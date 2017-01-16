@@ -21,14 +21,14 @@ using System.Net;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
     public class TouchBase
     {
-        protected static IOSDriver<IOSElement> session;
+        protected static WindowsDriver<WindowsElement> session;
         protected static RemoteTouchScreen touchScreen;
         protected static string startingPageTitle = string.Empty;
         private const int maxNavigationHistory = 5;
@@ -41,7 +41,7 @@ namespace W3CWebDriver
             // Launch the Edge browser app
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
-            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
@@ -101,7 +101,7 @@ namespace W3CWebDriver
             }
         }
 
-        protected RemoteWebElement GetOrphanedElement(IOSDriver<IOSElement> remoteSession)
+        protected RemoteWebElement GetOrphanedElement(WindowsDriver<WindowsElement> remoteSession)
         {
             RemoteWebElement orphanedElement = null;
 
@@ -150,7 +150,7 @@ namespace W3CWebDriver
             return orphanedElement;
         }
 
-        protected static RemoteWebElement GetStaleElement(IOSDriver<IOSElement> remoteSession)
+        protected static RemoteWebElement GetStaleElement(WindowsDriver<WindowsElement> remoteSession)
         {
             RemoteWebElement staleElement = null;
 

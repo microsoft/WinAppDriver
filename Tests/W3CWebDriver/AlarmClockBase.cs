@@ -16,15 +16,15 @@
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
     public class AlarmClockBase
     {
-        protected static IOSDriver<IOSElement> session;
-        protected IOSElement alarmTabElement;
+        protected static WindowsDriver<WindowsElement> session;
+        protected WindowsElement alarmTabElement;
 
         public static void Setup(TestContext context)
         {
@@ -34,7 +34,7 @@ namespace W3CWebDriver
             // Launch Alarm Clock
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
         }

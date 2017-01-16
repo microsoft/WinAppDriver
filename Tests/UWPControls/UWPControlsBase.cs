@@ -16,7 +16,7 @@
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
 namespace UWPControls
@@ -25,7 +25,7 @@ namespace UWPControls
     {
         private const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
         private const string AppUIBasicAppId = "a5bd3fa2-e27f-49e9-9041-47c97e903ecc_8wekyb3d8bbwe!App";
-        protected static IOSDriver<IOSElement> session = null;
+        protected static WindowsDriver<WindowsElement> session = null;
 
         protected virtual void LoadScenarioView()
         {
@@ -42,7 +42,7 @@ namespace UWPControls
             // 3. The application will then be installed. You can safely close the AppUIBasics app & project
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", AppUIBasicAppId);
-            session = new IOSDriver<IOSElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
+            session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
         }

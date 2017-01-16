@@ -1,6 +1,6 @@
 using System;
 using OpenQA.Selenium.Remote;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace WordTest
@@ -14,7 +14,7 @@ namespace WordTest
         protected const string ExplorerAppId = @"C:\Windows\System32\explorer.exe";
         protected const string TestFileName = "NotepadTestOutputFile.txt";
         protected const string TargetSaveLocation = @"%TEMP%\";
-        protected static IOSDriver<IOSElement> WordSession;
+        protected static WindowsDriver<WindowsElement> WordSession;
 
         [ClassInitialize]
         public static void Setup(TestContext context)
@@ -22,7 +22,7 @@ namespace WordTest
             // Launch Word Classic Windows Application
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", WordAppId);
-            WordSession = new IOSDriver<IOSElement>(new Uri(AppDriverUrl), appCapabilities);
+            WordSession = new WindowsDriver<WindowsElement>(new Uri(AppDriverUrl), appCapabilities);
             Assert.IsNotNull(WordSession);
         }
         [TestMethod]
