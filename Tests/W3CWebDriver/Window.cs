@@ -267,7 +267,7 @@ namespace W3CWebDriver
     [TestClass]
     public class WindowTransform
     {
-        protected static WindowsDriver<WindowsElement> WindowTransformSession;   // Temporary placeholder until Windows namespace exists
+        protected static WindowsDriver<WindowsElement> WindowTransformSession;
         protected static System.Drawing.Size OriginalSize;
         protected static System.Drawing.Point OriginalPosition;
 

@@ -18,7 +18,7 @@ using System;
 using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium;
-using OpenQA.Selenium.Appium.Windows; // Temporary placeholder until Windows namespace exists
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
 namespace AlarmClockTest
@@ -27,8 +27,8 @@ namespace AlarmClockTest
     public class Scenario
     {
         protected const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
-        protected static WindowsDriver<WindowsElement> AlarmClockSession;   // Temporary placeholder until Windows namespace exists
-        protected static WindowsDriver<WindowsElement> DesktopSession;      // Temporary placeholder until Windows namespace exists
+        protected static WindowsDriver<WindowsElement> AlarmClockSession;
+        protected static WindowsDriver<WindowsElement> DesktopSession;
         private const string NewAlarmName = "Windows Application Driver Test Alarm";
 
         [ClassInitialize]

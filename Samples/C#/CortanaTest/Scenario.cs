@@ -17,7 +17,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium;
-using OpenQA.Selenium.Appium.Windows; // Temporary placeholder until Windows namespace exists
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
 namespace CortanaTest
@@ -26,8 +26,8 @@ namespace CortanaTest
     public class Scenario
     {
         protected const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
-        protected static WindowsDriver<WindowsElement> CortanaSession;      // Temporary placeholder until Windows namespace exists
-        protected static WindowsDriver<WindowsElement> DesktopSession;      // Temporary placeholder until Windows namespace exists
+        protected static WindowsDriver<WindowsElement> CortanaSession;
+        protected static WindowsDriver<WindowsElement> DesktopSession;
         protected static AppiumWebElement CortanaButton;
 
         [ClassInitialize]
