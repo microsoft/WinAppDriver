@@ -15,7 +15,7 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace W3CWebDriver
 {
@@ -37,8 +37,8 @@ namespace W3CWebDriver
         [TestMethod]
         public void FindSelectedElement()
         {
-            IOSElement elementWorldClock = session.FindElementByAccessibilityId("WorldClockPivotItem");
-            IOSElement elementAlarmClock = session.FindElementByAccessibilityId("AlarmPivotItem");
+            WindowsElement elementWorldClock = session.FindElementByAccessibilityId("WorldClockPivotItem");
+            WindowsElement elementAlarmClock = session.FindElementByAccessibilityId("AlarmPivotItem");
 
             elementWorldClock.Click();
             Assert.IsTrue(elementWorldClock.Selected);
@@ -51,7 +51,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void ErrorFindUnselectableElement()
         {
-            IOSElement elementAddButton = session.FindElementByAccessibilityId("AddAlarmButton");
+            WindowsElement elementAddButton = session.FindElementByAccessibilityId("AddAlarmButton");
             Assert.IsFalse(elementAddButton.Selected);
         }
     }

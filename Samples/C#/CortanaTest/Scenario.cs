@@ -17,7 +17,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium;
-using OpenQA.Selenium.Appium.iOS; // Temporary placeholder until Windows namespace exists
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
 namespace CortanaTest
@@ -26,8 +26,8 @@ namespace CortanaTest
     public class Scenario
     {
         protected const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
-        protected static IOSDriver<IOSElement> CortanaSession;      // Temporary placeholder until Windows namespace exists
-        protected static IOSDriver<IOSElement> DesktopSession;      // Temporary placeholder until Windows namespace exists
+        protected static WindowsDriver<WindowsElement> CortanaSession;
+        protected static WindowsDriver<WindowsElement> DesktopSession;
         protected static AppiumWebElement CortanaButton;
 
         [ClassInitialize]
@@ -36,7 +36,7 @@ namespace CortanaTest
             // Create a session for Desktop
             DesiredCapabilities desktopCapabilities = new DesiredCapabilities();
             desktopCapabilities.SetCapability("app", "Root");
-            DesktopSession = new IOSDriver<IOSElement>(new Uri(WindowsApplicationDriverUrl), desktopCapabilities);
+            DesktopSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), desktopCapabilities);
             Assert.IsNotNull(DesktopSession);
 
             // Launch Cortana Window to allow session creation to find it
@@ -47,7 +47,7 @@ namespace CortanaTest
             // Create session for already running Cortana
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", "Microsoft.Windows.Cortana_cw5n1h2txyewy!CortanaUI");
-            CortanaSession = new IOSDriver<IOSElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
+            CortanaSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(CortanaSession);
             CortanaSession.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
         }
