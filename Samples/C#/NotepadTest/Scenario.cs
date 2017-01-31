@@ -23,6 +23,7 @@ namespace NotepadTest
             // Launch Notepad Classic Windows Application
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", NotepadAppId);
+            appCapabilities.SetCapability("deviceName", "WindowsPC");
             NotepadSession = new WindowsDriver<WindowsElement>(new Uri(AppDriverUrl), appCapabilities);
             Assert.IsNotNull(NotepadSession);
         }
@@ -84,12 +85,14 @@ namespace NotepadTest
             // Launch Windows Explorer to delete the saved text file above
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", ExplorerAppId);
+            appCapabilities.SetCapability("deviceName", "WindowsPC");
             WindowsDriver<WindowsElement> WindowsExplorerSession = new WindowsDriver<WindowsElement>(new Uri(AppDriverUrl), appCapabilities);
             Assert.IsNotNull(WindowsExplorerSession);
 
             // Create Desktop session to control context menu and access dialogs
             DesiredCapabilities desktopCapabilities = new DesiredCapabilities();
             desktopCapabilities.SetCapability("app", "Root");
+            desktopCapabilities.SetCapability("deviceName", "WindowsPC");
             WindowsDriver<WindowsElement> DesktopSession = new WindowsDriver<WindowsElement>(new Uri(AppDriverUrl), desktopCapabilities);
             Assert.IsNotNull(DesktopSession);
 
