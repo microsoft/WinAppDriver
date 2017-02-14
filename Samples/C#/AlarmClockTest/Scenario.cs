@@ -115,7 +115,7 @@ namespace AlarmClockTest
                 {
                     localTimeText = worldClockPivotItem.FindElementByClassName("ClockCardItem").Text;
                 }
-                catch (OpenQA.Selenium.NoSuchElementException)
+                catch (Exception)
                 {
                     // On Windows 10 anniversary edition, the ClockCardItem has been changed to ListViewItem
                     // If the previous item wasn't found, then look for the new one.
