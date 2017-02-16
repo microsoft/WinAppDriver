@@ -151,10 +151,9 @@ NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
 ### Using Appium
 WinAppDriver is integrated with Appium, meaning if you point your test at Appium then Appium will launch WinAppDriver and proxy the requests to WinAppDriver for you.
 
-A few details you should know
+####A few details you should know
 1. Appium will install WinAppDriver for you on Windows if you don't already have it.  Every release of Appium is linked to a specific release of WinAppDriver and will not proxy to a different version of WinAppDriver.  The easiest way to manage this is to let Appium install WinAppDriver for you.
-2. To create multiple sessions with one Appium server you need Appium 1.6.4 or newer.  While 1.6.4 is not released to make sure you get this change you can install Appium via
-  npm install appium@1.6.4-beta
+2. To create multiple sessions with one Appium server you need Appium 1.6.4 or newer.  While 1.6.4 is not released to make sure you get this change you can install Appium via npm install appium@1.6.4-beta
 3. When pointing a test at Appium you do need to include /wd/hub on the server URI.
 
 For more details visit the Appium documentation:
