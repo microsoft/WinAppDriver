@@ -349,6 +349,16 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
+        public void SetWindowPositionToOrigin()
+        {
+            var origin = new System.Drawing.Point(0, 0);
+            WindowTransformSession.Manage().Window.Position = origin;
+            var position = WindowTransformSession.Manage().Window.Position;
+            Assert.AreEqual(origin.X, position.X);
+            Assert.AreEqual(origin.Y, position.Y);
+        }
+
+        [TestMethod]
         public void SetWindowSize()
         {
             int offset = 100;
