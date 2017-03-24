@@ -19,11 +19,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import java.util.concurrent.TimeUnit;
 import java.net.URL;
-import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.windows.WindowsDriver;
 
 public class CalculatorTest {
 
-    private static IOSDriver CalculatorSession = null;
+    private static WindowsDriver CalculatorSession = null;
     private static WebElement CalculatorResult = null;
 
     @BeforeClass
@@ -31,12 +31,12 @@ public class CalculatorTest {
         try {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setCapability("app", "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
-            CalculatorSession = new IOSDriver(new URL("http://127.0.0.1:4723"), capabilities);
+            CalculatorSession = new WindowsDriver(new URL("http://127.0.0.1:4723"), capabilities);
             CalculatorSession.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
             CalculatorSession.findElementByName("Clear").click();
             CalculatorSession.findElementByName("Seven").click();
-            CalculatorResult = CalculatorSession.findElementByName("Display is  7 ");
+            CalculatorResult = CalculatorSession.findElementByName("Display is 7");
             Assert.assertNotNull(CalculatorResult);
 
         }catch(Exception e){
@@ -49,7 +49,7 @@ public class CalculatorTest {
     public void Clear()
     {
         CalculatorSession.findElementByName("Clear").click();
-        Assert.assertEquals("Display is  0 ", CalculatorResult.getText());
+        Assert.assertEquals("Display is 0", CalculatorResult.getText());
     }
 
     @AfterClass
@@ -69,7 +69,7 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("Plus").click();
         CalculatorSession.findElementByName("Seven").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is  8 ", CalculatorResult.getText());
+        Assert.assertEquals("Display is 8", CalculatorResult.getText());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("Divide by").click();
         CalculatorSession.findElementByName("Eight").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is  8 ", CalculatorResult.getText());
+        Assert.assertEquals("Display is 8", CalculatorResult.getText());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("One").click();
         CalculatorSession.findElementByName("One").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is  8 ", CalculatorResult.getText());
+        Assert.assertEquals("Display is 8", CalculatorResult.getText());
     }
 
     @Test
@@ -106,7 +106,7 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("Multiply by").click();
         CalculatorSession.findElementByName("Nine").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is  81 ", CalculatorResult.getText());
+        Assert.assertEquals("Display is 81", CalculatorResult.getText());
     }
 
     @Test
@@ -116,6 +116,6 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("Minus").click();
         CalculatorSession.findElementByName("One").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is  8 ", CalculatorResult.getText());
+        Assert.assertEquals("Display is 8", CalculatorResult.getText());
     }
 }
