@@ -15,7 +15,6 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
 
 namespace W3CWebDriver
 {

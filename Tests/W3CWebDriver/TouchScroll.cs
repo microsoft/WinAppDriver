@@ -15,8 +15,6 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
-using System.Net;
 
 namespace W3CWebDriver
 {

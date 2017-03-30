@@ -15,7 +15,7 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace W3CWebDriver
 {
@@ -37,7 +37,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void FindElementByAccessibilityId()
         {
-            IOSElement element = session.FindElementByAccessibilityId("AlarmPivotItem");
+            WindowsElement element = session.FindElementByAccessibilityId("AlarmPivotItem");
             Assert.IsNotNull(element);
             Assert.AreEqual(alarmTabElement, element);
         }
@@ -45,7 +45,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void FindElementByClassName()
         {
-            IOSElement element = session.FindElementByClassName("PivotItem");
+            WindowsElement element = session.FindElementByClassName("PivotItem");
             Assert.IsNotNull(element);
             Assert.AreEqual(alarmTabElement, element);
         }
@@ -54,7 +54,7 @@ namespace W3CWebDriver
         public void FindElementByName()
         {
             session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
-            IOSElement element = session.FindElementByName("Start");
+            WindowsElement element = session.FindElementByName("Start");
             Assert.IsNotNull(element);
         }
 
@@ -62,7 +62,7 @@ namespace W3CWebDriver
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidAccessibilityId()
         {
-            IOSElement element = session.FindElementByAccessibilityId("InvalidAccessibiliyId");
+            WindowsElement element = session.FindElementByAccessibilityId("InvalidAccessibiliyId");
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -70,7 +70,7 @@ namespace W3CWebDriver
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidClassName()
         {
-            IOSElement element = session.FindElementByClassName("InvalidClassName");
+            WindowsElement element = session.FindElementByClassName("InvalidClassName");
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -78,7 +78,7 @@ namespace W3CWebDriver
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidName()
         {
-            IOSElement element = session.FindElementByName("InvalidName");
+            WindowsElement element = session.FindElementByName("InvalidName");
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -86,7 +86,7 @@ namespace W3CWebDriver
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidRuntimeId()
         {
-            IOSElement element = session.FindElementById("InvalidRuntimeId");
+            WindowsElement element = session.FindElementById("InvalidRuntimeId");
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -94,7 +94,7 @@ namespace W3CWebDriver
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidTagName()
         {
-            IOSElement element = session.FindElementByTagName("InvalidTagName");
+            WindowsElement element = session.FindElementByTagName("InvalidTagName");
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -102,7 +102,7 @@ namespace W3CWebDriver
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidTagNameMalformed()
         {
-            IOSElement element = session.FindElementByTagName("//@InvalidTagNameMalformed");
+            WindowsElement element = session.FindElementByTagName("//@InvalidTagNameMalformed");
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -110,7 +110,7 @@ namespace W3CWebDriver
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByInvalidXPath()
         {
-            IOSElement element = session.FindElementByXPath("//*//]");
+            WindowsElement element = session.FindElementByXPath("//*//]");
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -118,7 +118,7 @@ namespace W3CWebDriver
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorFindElementByNonExistentXPath()
         {
-            IOSElement alarmTab = session.FindElementByXPath("//*[@Name=\"NonExistentElement\"]");
+            WindowsElement alarmTab = session.FindElementByXPath("//*[@Name=\"NonExistentElement\"]");
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -126,7 +126,7 @@ namespace W3CWebDriver
         [ExpectedException(typeof(OpenQA.Selenium.WebDriverException))]
         public void ErrorFindElementByUnsupportedLocatorCSSSelector()
         {
-            IOSElement element = session.FindElementByCssSelector("Query");
+            WindowsElement element = session.FindElementByCssSelector("Query");
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -134,7 +134,7 @@ namespace W3CWebDriver
         [ExpectedException(typeof(OpenQA.Selenium.WebDriverException))]
         public void ErrorFindElementByUnsupportedLocatorLinkText()
         {
-            IOSElement element = session.FindElementByLinkText("Query");
+            WindowsElement element = session.FindElementByLinkText("Query");
             Assert.Fail("Exception should have been thrown");
         }
 
@@ -142,21 +142,21 @@ namespace W3CWebDriver
         [ExpectedException(typeof(OpenQA.Selenium.WebDriverException))]
         public void ErrorFindElementByUnsupportedLocatorPartialLinkText()
         {
-            IOSElement element = session.FindElementByPartialLinkText("Query");
+            WindowsElement element = session.FindElementByPartialLinkText("Query");
             Assert.Fail("Exception should have been thrown");
         }
 
         [TestMethod]
         public void FindElementByTagName()
         {
-            IOSElement element = session.FindElementByTagName("Button");
+            WindowsElement element = session.FindElementByTagName("Button");
             Assert.IsNotNull(element);
         }
 
         [TestMethod]
         public void FindElementByXPath()
         {
-            IOSElement alarmTab = session.FindElementByXPath("//Button[@AutomationId=\"MoreButton\"]");
+            WindowsElement alarmTab = session.FindElementByXPath("//Button[@AutomationId=\"MoreButton\"]");
             Assert.IsNotNull(alarmTab);
         }
     }

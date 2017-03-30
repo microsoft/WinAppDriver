@@ -19,7 +19,7 @@ using System.Net;
 using System.Drawing;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
@@ -42,7 +42,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetAlarmPivotItemScreenshot()
         {
-            IOSElement element = session.FindElementByAccessibilityId("AlarmPivotItem");
+            WindowsElement element = session.FindElementByAccessibilityId("AlarmPivotItem");
             var screenshot = element.GetScreenshot();
             using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
             {
@@ -55,7 +55,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetWorldClockScreenshot()
         {
-            IOSElement element = session.FindElementByAccessibilityId("WorldClockPivotItem");
+            WindowsElement element = session.FindElementByAccessibilityId("WorldClockPivotItem");
             var screenshot = element.GetScreenshot();
             using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
             {
@@ -68,7 +68,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetAddAlarmScreenshot()
         {
-            IOSElement element = session.FindElementByAccessibilityId("AddAlarmButton");
+            WindowsElement element = session.FindElementByAccessibilityId("AddAlarmButton");
             var screenshot = element.GetScreenshot();
             using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
             {
@@ -81,7 +81,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetAlarmListScreenshot()
         {
-            IOSElement element = session.FindElementByAccessibilityId("AlarmListView");
+            WindowsElement element = session.FindElementByAccessibilityId("AlarmListView");
             var screenshot = element.GetScreenshot();
             using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
             {
@@ -109,7 +109,7 @@ namespace W3CWebDriver
             // Launch calculator for this specific test case
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            IOSDriver<IOSElement> calculatorSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> calculatorSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(calculatorSession);
             Assert.IsNotNull(calculatorSession.SessionId);
 
@@ -143,7 +143,7 @@ namespace W3CWebDriver
         public void ErrorGetStaleElementScreenshot()
         {
             session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
-            IOSElement element = session.FindElementByAccessibilityId("StopwatchPlayPauseButton");
+            WindowsElement element = session.FindElementByAccessibilityId("StopwatchPlayPauseButton");
             var screenshot1 = element.GetScreenshot();
             using (MemoryStream msScreenshot1 = new MemoryStream(screenshot1.AsByteArray))
             {
@@ -165,14 +165,14 @@ namespace W3CWebDriver
             // Launch calculator for this specific test case
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            IOSDriver<IOSElement> calculatorSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> calculatorSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(calculatorSession);
             Assert.IsNotNull(calculatorSession.SessionId);
 
             try
             {
                 calculatorSession.Close();
-                IOSElement element = calculatorSession.FindElementByAccessibilityId("AppNameTitle");
+                WindowsElement element = calculatorSession.FindElementByAccessibilityId("AppNameTitle");
                 element.GetScreenshot();
                 Assert.Fail("Exception should have been thrown because there is no such window");
             }
