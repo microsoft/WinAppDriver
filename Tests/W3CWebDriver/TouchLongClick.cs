@@ -19,7 +19,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class TouchLongClick : TouchBase
+    public class TouchLongClick : AlarmClockBase
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -36,66 +36,25 @@ namespace W3CWebDriver
         [TestMethod]
         public void LongTap()
         {
-            // Get the list of tabs and keep track of how many tabs are open
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
-            var tabsList = session.FindElementByAccessibilityId("TabsList");
-            var tabs = tabsList.FindElementsByClassName("GridViewItem");
-            var originalTabsCount = tabs.Count;
-            Assert.IsTrue(originalTabsCount >= 1);
+            // Create a new test alarm
+            string alarmName = "LongTapTest";
+            DeletePreviouslyCreatedAlarmEntry(alarmName);
+            AddAlarmEntry(alarmName);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 second
 
-            // Open a the context menu on the tab using long tap (press and hold) action and click duplicate
-            touchScreen.LongPress(tabs[0].Coordinates);
+            var alarmEntries = session.FindElementsByXPath(string.Format("//ListItem[starts-with(@Name, \"{0}\")]", alarmName));
+            Assert.IsNotNull(alarmEntries);
+            Assert.AreEqual(1, alarmEntries.Count);
+
+            // Open a the context menu on the alarm entry using long tap (press and hold) action and click delete
+            touchScreen.LongPress(alarmEntries[0].Coordinates);
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
-            session.FindElementByName("Duplicate").Click();
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
-            Assert.IsTrue(tabsList.FindElementsByClassName("GridViewItem").Count == originalTabsCount + 1);
+            session.FindElementByName("Delete").Click();
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 second
 
-            // Close all tabs except for the very fist one
-            touchScreen.LongPress(tabs[0].Coordinates);
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
-            session.FindElementByName("Close other tabs").Click();
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
-            Assert.IsTrue(tabsList.FindElementsByClassName("GridViewItem").Count == 1);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException))]
-        public void ErrorTouchClosedWindow()
-        {
-            // Open a new window, retrieve an element, and close the window to get an orphaned element
-            var orphanedElement = GetOrphanedElement(session);
-            Assert.IsNotNull(orphanedElement);
-
-            // Long press on orphaned element
-            touchScreen.LongPress(orphanedElement.Coordinates);
-            Assert.Fail("Exception should have been thrown");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchInvalidElement()
-        {
-            ErrorTouchInvalidElement("longclick");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException))]
-        public void ErrorTouchStaleElement()
-        {
-            // Navigate to a webpage, save a reference to an element, and navigate away to get a stale element
-            var staleElement = GetStaleElement(session);
-            Assert.IsNotNull(staleElement);
-
-            // Long press on stale element
-            touchScreen.LongPress(staleElement.Coordinates);
-            Assert.Fail("Exception should have been thrown");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchInvalidArguments()
-        {
-            ErrorTouchInvalidArguments("longclick");
+            alarmEntries = session.FindElementsByXPath(string.Format("//ListItem[starts-with(@Name, \"{0}\")]", alarmName));
+            Assert.IsNotNull(alarmEntries);
+            Assert.AreEqual(0, alarmEntries.Count);
         }
     }
 }

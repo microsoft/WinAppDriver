@@ -42,6 +42,7 @@ namespace W3CWebDriver
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
             session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 

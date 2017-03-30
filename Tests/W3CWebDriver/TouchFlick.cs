@@ -54,7 +54,7 @@ namespace W3CWebDriver
             Assert.IsFalse(gitHubHomePageLink.Displayed);
 
             // Perform flick down touch action to scroll the page up restoring the Homepage link element into the view
-            touchScreen.Flick(0, -180);
+            touchScreen.Flick(0, -360);
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
             Assert.IsTrue(gitHubHomePageLink.Displayed);
         }
