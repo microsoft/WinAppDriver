@@ -16,7 +16,7 @@
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
@@ -24,15 +24,15 @@ namespace W3CWebDriver
     [TestClass]
     public class ElementSendKeys
     {
-        protected static IOSDriver<IOSElement> session;
-        protected static IOSElement editBox;
+        protected static WindowsDriver<WindowsElement> session;
+        protected static WindowsElement editBox;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
-            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
@@ -162,12 +162,12 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", "Root");
-            IOSDriver<IOSElement> desktopSession = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> desktopSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(desktopSession);
 
             // Launch action center using Window Keys + A
             editBox.SendKeys(OpenQA.Selenium.Keys.Command + "a" + OpenQA.Selenium.Keys.Command);
-            IOSElement actionCenterElement = null;
+            WindowsElement actionCenterElement = null;
 
             // Before Windows 10 Anniversary and Creators Update Action Center name had lower case c for "center"
             try

@@ -15,15 +15,15 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace UWPControls
 {
     [TestClass]
     public class Slider : UWPControlsBase
     {
-        private IOSElement sliderElement1 = null;
-        private IOSElement sliderElement2 = null;
+        private WindowsElement sliderElement1 = null;
+        private WindowsElement sliderElement2 = null;
 
         protected override void LoadScenarioView()
         {

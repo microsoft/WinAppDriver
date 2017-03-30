@@ -15,14 +15,14 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace W3CWebDriver
 {
     [TestClass]
     public class ElementElements : AlarmClockBase
     {
-        private static IOSElement homePagePivot;
+        private static WindowsElement homePagePivot;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)

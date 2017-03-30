@@ -16,7 +16,7 @@
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
@@ -24,14 +24,14 @@ namespace W3CWebDriver
     [TestClass]
     public class Orientation
     {
-        private IOSDriver<IOSElement> session = null;
+        private WindowsDriver<WindowsElement> session = null;
 
         [TestMethod]
         public void GetOrientation()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
@@ -48,7 +48,7 @@ namespace W3CWebDriver
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            session = new IOSDriver<IOSElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
