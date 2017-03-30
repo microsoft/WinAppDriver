@@ -15,15 +15,15 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace UWPControls
 {
     [TestClass]
     public class RadioButton : UWPControlsBase
     {
-        private IOSElement radioButtonElement1 = null;
-        private IOSElement radioButtonElement2 = null;
+        private WindowsElement radioButtonElement1 = null;
+        private WindowsElement radioButtonElement2 = null;
 
         protected override void LoadScenarioView()
         {

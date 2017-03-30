@@ -15,14 +15,14 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace UWPControls
 {
     [TestClass]
     public class Button : UWPControlsBase
     {
-        private IOSElement buttonElement = null;
+        private WindowsElement buttonElement = null;
 
         protected override void LoadScenarioView()
         {

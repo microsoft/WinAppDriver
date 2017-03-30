@@ -15,14 +15,14 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace UWPControls
 {
     [TestClass]
     public class ToggleSwitch : UWPControlsBase
     {
-        private IOSElement toggleSwitchElement = null;
+        private WindowsElement toggleSwitchElement = null;
 
         protected override void LoadScenarioView()
         {

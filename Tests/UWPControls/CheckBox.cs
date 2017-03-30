@@ -15,15 +15,15 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.iOS;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace UWPControls
 {
     [TestClass]
     public class CheckBox : UWPControlsBase
     {
-        private IOSElement checkBoxElement1 = null;
-        private IOSElement checkBoxElement2 = null;
+        private WindowsElement checkBoxElement1 = null;
+        private WindowsElement checkBoxElement2 = null;
 
         protected override void LoadScenarioView()
         {
