@@ -24,6 +24,7 @@ namespace W3CWebDriver
     public class AlarmClockBase
     {
         protected static WindowsDriver<WindowsElement> session;
+        protected static RemoteTouchScreen touchScreen;
         protected WindowsElement alarmTabElement;
 
         public static void Setup(TestContext context)
@@ -37,10 +38,17 @@ namespace W3CWebDriver
             session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
+
+            // Initialize touch screen object
+            touchScreen = new RemoteTouchScreen(session);
+            Assert.IsNotNull(touchScreen);
         }
 
         public static void TearDown()
         {
+            // Cleanup RemoteTouchScreen object if initialized
+            touchScreen = null;
+
             // Close the application and delete the session
             if (session != null)
             {
@@ -51,7 +59,7 @@ namespace W3CWebDriver
 
         [TestInitialize]
         public void TestInit()
-        { 
+        {
             // Attempt to go back to the main page in case Alarm & Clock app is started in EditAlarm view
             try
             {
@@ -65,6 +73,52 @@ namespace W3CWebDriver
 
             Assert.IsNotNull(alarmTabElement);
             alarmTabElement.Click();
+        }
+
+        protected void AddAlarmEntry(string alarmName)
+        {
+            session.FindElementByAccessibilityId("AddAlarmButton").Click();
+            session.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
+            session.FindElementByAccessibilityId("AlarmNameTextBox").SendKeys(alarmName);
+            session.FindElementByAccessibilityId("AlarmSaveButton").Click();
+        }
+
+        protected void DeletePreviouslyCreatedAlarmEntry(string alarmName)
+        {
+            while (true)
+            {
+                try
+                {
+                    var alarmEntry = session.FindElementByXPath(string.Format("//ListItem[starts-with(@Name, \"{0}\")]", alarmName));
+                    session.Mouse.ContextClick(alarmEntry.Coordinates);
+                    session.FindElementByName("Delete").Click();
+                }
+                catch
+                {
+                    break;
+                }
+            }
+        }
+
+        protected void CreateStopwatchLapEntries(uint numberOfEntry)
+        {
+            // Navigate to Stopwatch tab
+            var stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
+            stopwatchPivotItem.Click();
+
+            // Reset stopwatch
+            var stopwatchResetButton = stopwatchPivotItem.FindElementByAccessibilityId("StopWatchResetButton");
+            var stopwatchPlayPauseButton = stopwatchPivotItem.FindElementByAccessibilityId("StopwatchPlayPauseButton");
+            stopwatchResetButton.Click();
+
+            // Collect lap entries
+            stopwatchPlayPauseButton.Click();
+            var stopwatchLapButton = stopwatchPivotItem.FindElementByAccessibilityId("StopWatchLapButton");
+            for (uint count = 0; count < numberOfEntry; count++)
+            {
+                stopwatchLapButton.Click();
+            }
+            stopwatchPlayPauseButton.Click();
         }
     }
 }

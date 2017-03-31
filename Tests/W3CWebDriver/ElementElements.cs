@@ -91,7 +91,9 @@ namespace W3CWebDriver
         [TestMethod]
         public void FindElementsByName()
         {
-            var elements = alarmTabElement.FindElementsByName("More app bar");
+            var stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
+            stopwatchPivotItem.Click();
+            var elements = stopwatchPivotItem.FindElementsByName("Start");
             Assert.IsNotNull(elements);
             Assert.AreEqual(1, elements.Count);
         }
@@ -149,7 +151,10 @@ namespace W3CWebDriver
         {
             var elements = homePagePivot.FindElementsByTagName("Button");
             Assert.IsNotNull(elements);
-            Assert.AreEqual(4, elements.Count);
+
+            // There are at least 4 buttons in Windows 10 Alarms & Clock HomePagePivot
+            // Version 1511: 5, Version 1607: 5, Version 1703: 4
+            Assert.IsTrue(elements.Count >= 4);
         }
 
         [TestMethod]
@@ -157,7 +162,10 @@ namespace W3CWebDriver
         {
             var elements = homePagePivot.FindElementsByXPath("//Button");
             Assert.IsNotNull(elements);
-            Assert.AreEqual(4, elements.Count);
+
+            // There are at least 4 buttons in Windows 10 Alarms & Clock HomePagePivot
+            // Version 1511: 5, Version 1607: 5, Version 1703: 4
+            Assert.IsTrue(elements.Count >= 4);
         }
     }
 }

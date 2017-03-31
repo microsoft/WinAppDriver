@@ -47,7 +47,7 @@ namespace W3CWebDriver
             session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
-            Assert.AreEqual("Desktop", session.Title);
+            Assert.IsTrue(session.Title.StartsWith("Desktop"));
             session.Quit();
             session = null;
         }

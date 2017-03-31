@@ -113,6 +113,7 @@ namespace W3CWebDriver
 
             session.Quit();
             Assert.IsNull(session.SessionId);
+            session = null;
         }
 
         [TestMethod]
@@ -235,8 +236,11 @@ namespace W3CWebDriver
             using (HttpWebResponse response = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/session/" + session.SessionId).GetResponse() as HttpWebResponse)
             {
                 var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                Assert.AreEqual("{\"sessionId\":\"" + session.SessionId + "\",\"status\":0,\"value\":{\"app\":\"Microsoft.WindowsAlarms_8wekyb3d8bbwe!App\",\"platformName\":\"iOS\"}}", responseString);
+                Assert.AreEqual("{\"sessionId\":\"" + session.SessionId + "\",\"status\":0,\"value\":{\"app\":\"Microsoft.WindowsAlarms_8wekyb3d8bbwe!App\",\"platformName\":\"Windows\"}}", responseString);
             }
+
+            session.Quit();
+            session = null;
         }
 
         [TestMethod]

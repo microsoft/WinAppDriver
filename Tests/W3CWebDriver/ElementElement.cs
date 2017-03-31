@@ -56,7 +56,9 @@ namespace W3CWebDriver
         [TestMethod]
         public void FindElementByName()
         {
-            WindowsElement element = alarmTabElement.FindElementByName("More app bar") as WindowsElement;
+            var stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
+            stopwatchPivotItem.Click();
+            WindowsElement element = stopwatchPivotItem.FindElementByName("Start") as WindowsElement;
             Assert.IsNotNull(element);
         }
 

@@ -90,7 +90,7 @@ namespace W3CWebDriver
             multiWindowsSession.FindElementByName("File").Click();
             multiWindowsSession.FindElementByName("Save As...").Click();
 
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
             var windowHandlesAfter = multiWindowsSession.WindowHandles;
             Assert.IsNotNull(windowHandlesAfter);
             Assert.AreEqual(windowHandlesBefore.Count + 1, windowHandlesAfter.Count);
@@ -122,18 +122,7 @@ namespace W3CWebDriver
             previouslyOpenedEdgeWindows.Remove(multiWindowsSession.CurrentWindowHandle);
 
             // Open a new window
-            // The menu item names have changed between Windows 10 and the anniversary update
-            // account for both combinations.
-            try
-            {
-                multiWindowsSession.FindElementByAccessibilityId("m_actionsMenuButton").Click();
-                multiWindowsSession.FindElementByAccessibilityId("m_newWindow").Click();
-            }
-            catch (System.InvalidOperationException)
-            {
-                multiWindowsSession.FindElementByAccessibilityId("ActionsMenuButton").Click();
-                multiWindowsSession.FindElementByAccessibilityId("ActionsMenuNewWindow").Click();
-            }
+            multiWindowsSession.Keyboard.SendKeys(OpenQA.Selenium.Keys.Control + "n" + OpenQA.Selenium.Keys.Control);
 
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
             var windowHandlesAfter = multiWindowsSession.WindowHandles;
@@ -170,18 +159,7 @@ namespace W3CWebDriver
             previouslyOpenedEdgeWindows.Remove(multiWindowsSession.CurrentWindowHandle);
 
             // Open a new window
-            // The menu item names have changed between Windows 10 and the anniversary update
-            // account for both combinations.
-            try
-            {
-                multiWindowsSession.FindElementByAccessibilityId("m_actionsMenuButton").Click();
-                multiWindowsSession.FindElementByAccessibilityId("m_newWindow").Click();
-            }
-            catch (System.InvalidOperationException)
-            {
-                multiWindowsSession.FindElementByAccessibilityId("ActionsMenuButton").Click();
-                multiWindowsSession.FindElementByAccessibilityId("ActionsMenuNewWindow").Click();
-            }
+            multiWindowsSession.Keyboard.SendKeys(OpenQA.Selenium.Keys.Control + "n" + OpenQA.Selenium.Keys.Control);
 
             System.Threading.Thread.Sleep(3000); // Sleep for 3 second
             var multipleWindowHandles = multiWindowsSession.WindowHandles;
@@ -346,6 +324,16 @@ namespace W3CWebDriver
             Assert.IsNotNull(windowPosition);
             Assert.AreEqual(OriginalPosition.X + offset, windowPosition.X);
             Assert.AreEqual(OriginalPosition.Y + offset, windowPosition.Y);
+        }
+
+        [TestMethod]
+        public void SetWindowPositionToOrigin()
+        {
+            var origin = new System.Drawing.Point(0, 0);
+            WindowTransformSession.Manage().Window.Position = origin;
+            var position = WindowTransformSession.Manage().Window.Position;
+            Assert.AreEqual(origin.X, position.X);
+            Assert.AreEqual(origin.Y, position.Y);
         }
 
         [TestMethod]

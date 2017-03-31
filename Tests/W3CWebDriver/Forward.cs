@@ -33,6 +33,7 @@ namespace W3CWebDriver
             appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
             session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
+            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
 
             session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.MicrosoftUrl + OpenQA.Selenium.Keys.Enter);
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
@@ -47,12 +48,12 @@ namespace W3CWebDriver
 
             // Navigate back to original URL
             session.Navigate().Back();
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            System.Threading.Thread.Sleep(5000); // Sleep for 5 seconds
             Assert.AreEqual(originalTitle, session.Title);
 
             // Navigate forward to original URL
             session.Navigate().Forward();
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            System.Threading.Thread.Sleep(5000); // Sleep for 5 seconds
             Assert.AreEqual(newTitle, session.Title);
 
             session.Quit();

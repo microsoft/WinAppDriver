@@ -166,14 +166,25 @@ namespace W3CWebDriver
             WindowsDriver<WindowsElement> desktopSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(desktopSession);
 
-            // Lauch action center using Window Keys + A
+            // Launch action center using Window Keys + A
             session.Keyboard.PressKey(OpenQA.Selenium.Keys.Command + "a" + OpenQA.Selenium.Keys.Command);
-            var actionCenterElement = desktopSession.FindElementByName("Action Center");
+            WindowsElement actionCenterElement = null;
+
+            // Before Windows 10 Anniversary and Creators Update Action Center name had lower case c for "center"
+            try
+            {
+                actionCenterElement = desktopSession.FindElementByName("Action Center");
+            }
+            catch
+            {
+                actionCenterElement = desktopSession.FindElementByName("Action center");
+            }
+
             Assert.IsNotNull(actionCenterElement);
 
             // Dismiss action center and cleanup the temporary session
             actionCenterElement.SendKeys(OpenQA.Selenium.Keys.Escape);
-            editBox.SendKeys(OpenQA.Selenium.Keys.Escape);
+            editBox.Click();
             desktopSession.Quit();
         }
     }
