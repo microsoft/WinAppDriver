@@ -72,6 +72,9 @@ namespace Input
 
                 AppResult = AppSession.FindElementByAccessibilityId("ResultText");
                 TouchScreen = new RemoteTouchScreen(AppSession);
+
+                // Maximize the test window
+                AppSession.Manage().Window.Maximize();
             }
 
             Assert.IsNotNull(AppResult);

@@ -107,8 +107,8 @@ namespace Input
             TouchScreen.Up(endX, endY);
 
             var endCoords = touchable.Coordinates.LocationInViewport;
-            Assert.AreEqual(endX, endCoords.X);
-            Assert.AreEqual(endY, endCoords.Y);
+            Assert.IsTrue(endCoords.X > startCoords.X);
+            Assert.IsTrue(endCoords.Y > startCoords.Y);
         }
 
         /// <summary>

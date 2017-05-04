@@ -42,7 +42,12 @@
 ipch/
 obj/
 [Bb]in
+
+#ignore all *.lock.json files
+*.lock.json
+
 # The packages folder can be ignored because of Package Restore
 **/packages/*
+
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
