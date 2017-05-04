@@ -340,10 +340,18 @@ namespace W3CWebDriver
         public void SetWindowSize()
         {
             int offset = 100;
-            WindowTransformSession.Manage().Window.Size = new System.Drawing.Size(OriginalSize.Width + offset, OriginalSize.Height + offset);
+            int newWidth = 300;
+            int newHeight = 500;
+
+            WindowTransformSession.Manage().Window.Size = new System.Drawing.Size(newWidth, newHeight);
             var windowSize = WindowTransformSession.Manage().Window.Size;
-            Assert.AreEqual(OriginalSize.Width + offset, windowSize.Width);
-            Assert.AreEqual(OriginalSize.Height + offset, windowSize.Height);
+            Assert.AreEqual(newWidth, windowSize.Width);
+            Assert.AreEqual(newHeight, windowSize.Height);
+
+            WindowTransformSession.Manage().Window.Size = new System.Drawing.Size(newWidth + offset, newHeight + offset);
+            windowSize = WindowTransformSession.Manage().Window.Size;
+            Assert.AreEqual(newWidth + offset, windowSize.Width);
+            Assert.AreEqual(newHeight + offset, windowSize.Height);
         }
     }
 }
