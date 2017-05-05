@@ -103,9 +103,13 @@ Windows Application Driver supports testing **Universal Windows Platform (UWP)**
 | GET    	| /session/:sessionId/title                         	|
 | POST   	| /session/:sessionId/touch/click                   	|
 | POST   	| /session/:sessionId/touch/doubleclick             	|
-| POST   	| /session/:sessionId/touch/longclick               	|
+| POST   	| /session/:sessionId/touch/down                    	|
 | POST   	| /session/:sessionId/touch/flick                   	|
+| POST   	| /session/:sessionId/touch/longclick               	|
+| POST   	| /session/:sessionId/touch/move                    	|
+| POST   	| /session/:sessionId/touch/multi/perform           	|
 | POST   	| /session/:sessionId/touch/scroll                  	|
+| POST   	| /session/:sessionId/touch/up                      	|
 | GET    	| /session/:sessionId/window                        	|
 | DELETE 	| /session/:sessionId/window                        	|
 | POST   	| /session/:sessionId/window                        	|
