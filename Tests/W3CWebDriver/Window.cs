@@ -161,7 +161,7 @@ namespace W3CWebDriver
             // Open a new window
             multiWindowsSession.Keyboard.SendKeys(OpenQA.Selenium.Keys.Control + "n" + OpenQA.Selenium.Keys.Control);
 
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 second
+            System.Threading.Thread.Sleep(5000); // Sleep for 5 seconds
             var multipleWindowHandles = multiWindowsSession.WindowHandles;
             Assert.IsTrue(multipleWindowHandles.Count > 1);
 
