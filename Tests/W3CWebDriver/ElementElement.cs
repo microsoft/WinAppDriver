@@ -58,7 +58,7 @@ namespace W3CWebDriver
         {
             var stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
             stopwatchPivotItem.Click();
-            WindowsElement element = stopwatchPivotItem.FindElementByName("Start") as WindowsElement;
+            WindowsElement element = stopwatchPivotItem.FindElementByName("Reset") as WindowsElement;
             Assert.IsNotNull(element);
         }
 

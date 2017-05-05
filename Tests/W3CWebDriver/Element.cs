@@ -54,7 +54,7 @@ namespace W3CWebDriver
         public void FindElementByName()
         {
             session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
-            WindowsElement element = session.FindElementByName("Start");
+            WindowsElement element = session.FindElementByName("Reset");
             Assert.IsNotNull(element);
         }
 
