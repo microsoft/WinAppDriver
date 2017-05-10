@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="WindowsAppiumTest.UwpApp.ControlsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WindowsAppiumTest.UwpApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <TextBlock AutomationProperties.AutomationId="WindowsAppiumTest.UwpApp.PageTitle" Text="controls" Style="{ThemeResource TitleTextBlockStyle}" Margin="19,12,0,12"/>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <StackPanel>
+                <Button AutomationProperties.AutomationId="WindowsAppiumTest.UwpApp.DisabledButton" Content="Disabled" IsEnabled="False" Margin="0 0 0 10" Width="200" Background="LightSkyBlue" />
+                <ToggleButton AutomationProperties.AutomationId="WindowsAppiumTest.UwpApp.OffToggleButton" Content="Off" IsChecked="False" Margin="0 0 0 10"/>
+                <ToggleButton AutomationProperties.AutomationId="WindowsAppiumTest.UwpApp.OnToggleButton" Content="On" IsChecked="True" Margin="0 0 0 10"/>
+                <Button x:Name="Back" AutomationProperties.AutomationId="WindowsAppiumTest.UwpApp.BackButton" Content="Back" Width="200" VerticalAlignment="Stretch" Margin="0,0,600,0" Click="Back_Click"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

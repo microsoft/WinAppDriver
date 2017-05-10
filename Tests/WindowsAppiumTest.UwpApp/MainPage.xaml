@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="WindowsAppiumTest.UwpApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WindowsAppiumTest.UwpApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style x:Key="MainPageButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="0 0 0 10" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock AutomationProperties.AutomationId="WindowsAppiumTest.UwpApp.PageTitle" Text="home" Style="{ThemeResource TitleTextBlockStyle}" Margin="19,12,0,0"/>
+        <Grid Grid.Row="1">
+            <ScrollViewer>
+                <StackPanel HorizontalAlignment="Stretch" Margin="20">
+                    <Button AutomationProperties.AutomationId="WindowsAppiumTest.UwpApp.ControlsButton" Style="{StaticResource MainPageButtonStyle}" Content="Controls" AutomationProperties.HelpText="Controls Button Help Text" Click="Controls_OnClick" />
+                    <Button AutomationProperties.AutomationId="WindowsAppiumTest.UwpApp.GesturesButton" Style="{StaticResource MainPageButtonStyle}" Content="Gestures" Click="Gestures_OnClick" />
+                    <Button AutomationProperties.AutomationId="WindowsAppiumTest.UwpApp.TextEntryButton" Style="{StaticResource MainPageButtonStyle}" Content="Text Entry" Click="TextEntry_OnClick" />
+                </StackPanel>
+            </ScrollViewer>
+            <Button AutomationProperties.AutomationId="WindowsAppiumTest.UwpApp.OffScreenButton" Content="Off Screen" Width="200" Margin="-200, 0, 0, 0"/>
+        </Grid>
+    </Grid>
+</Page>

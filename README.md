@@ -5,6 +5,7 @@ Windows Application Driver is a service to support UI Test Automation of Windows
 This Github project provides
 - documentation
 - samples
+- tests
 - issue tracking
 
 **Videos about WinAppDriver**<br/>
