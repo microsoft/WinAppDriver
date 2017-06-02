@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using OpenQA.Selenium;
 
 namespace UWPControls
 {
@@ -48,6 +49,18 @@ namespace UWPControls
         public static void ClassCleanup()
         {
             TearDown();
+        }
+
+        [TestMethod]
+        public void Click()
+        {
+            Assert.AreEqual("0", sliderElement1.Text);
+            sliderElement1.Click();
+            Assert.AreNotEqual("0", sliderElement1.Text);
+
+            Assert.AreEqual("800", sliderElement2.Text);
+            sliderElement2.Click();
+            Assert.AreNotEqual("800", sliderElement1.Text);
         }
 
         [TestMethod]
@@ -86,10 +99,40 @@ namespace UWPControls
         }
 
         [TestMethod]
+        public void SendKeys()
+        {
+            Assert.AreEqual("0", sliderElement1.Text);
+
+            // Pressing left arrow will not move the slider and it should still be at 0
+            sliderElement1.SendKeys(Keys.Left);
+            Assert.AreEqual("0", sliderElement1.Text);
+
+            // Pressing right arrow will move the slider and it should 1
+            sliderElement1.SendKeys(Keys.Right);
+            Assert.AreEqual("1", sliderElement1.Text);
+
+            // Pressing left arrow will move the slider back to 0
+            sliderElement1.SendKeys(Keys.Left);
+            Assert.AreEqual("0", sliderElement1.Text);
+        }
+
+        [TestMethod]
         public void Size()
         {
             Assert.IsTrue(sliderElement1.Size.Width > 0);
             Assert.IsTrue(sliderElement1.Size.Height > 0);
+        }
+
+        [TestMethod]
+        public void Text()
+        {
+            Assert.IsTrue(int.Parse(sliderElement1.Text) == 0);
+            sliderElement1.Click();
+            Assert.IsTrue(int.Parse(sliderElement1.Text) > 0);
+
+            Assert.IsTrue(int.Parse(sliderElement2.Text) == 800);
+            sliderElement2.Click();
+            Assert.IsTrue(int.Parse(sliderElement2.Text) < 800);
         }
     }
 }
