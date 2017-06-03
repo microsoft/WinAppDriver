@@ -71,6 +71,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DatePicker.cs" />
+    <Compile Include="ComboBox.cs" />
     <Compile Include="ToggleButton.cs" />
     <Compile Include="TextBox.cs" />
     <Compile Include="Slider.cs" />
