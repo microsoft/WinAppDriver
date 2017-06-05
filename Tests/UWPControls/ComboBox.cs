@@ -23,27 +23,19 @@ namespace UWPControls
     [TestClass]
     public class ComboBox : UWPControlsBase
     {
-        private WindowsElement comboBoxElement1 = null;
-        private WindowsElement comboBoxElement2 = null;
-
-        protected override void LoadScenarioView()
-        {
-            session.FindElementByAccessibilityId("splitViewToggle").Click();
-            var splitViewPane = session.FindElementByClassName("SplitViewPane");
-            splitViewPane.FindElementByName("Selection and picker controls").Click();
-            splitViewPane.FindElementByName("ComboBox").Click();
-            System.Threading.Thread.Sleep(1000);
-
-            comboBoxElement1 = session.FindElementByAccessibilityId("Combo1");
-            Assert.IsNotNull(comboBoxElement1);
-            comboBoxElement2 = session.FindElementByAccessibilityId("Combo2");
-            Assert.IsNotNull(comboBoxElement2);
-        }
+        private static WindowsElement comboBoxElement1 = null;
+        private static WindowsElement comboBoxElement2 = null;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             Setup(context);
+            NavigateTo("Selection and picker controls", "ComboBox");
+
+            comboBoxElement1 = session.FindElementByAccessibilityId("Combo1");
+            Assert.IsNotNull(comboBoxElement1);
+            comboBoxElement2 = session.FindElementByAccessibilityId("Combo2");
+            Assert.IsNotNull(comboBoxElement2);
         }
 
         [ClassCleanup]
@@ -56,13 +48,12 @@ namespace UWPControls
         public void Click()
         {
             // Click comboBoxElement1 to show the list and simply dismiss it
-            Assert.AreEqual(string.Empty, comboBoxElement1.Text);
+            var originalSelectedItem = comboBoxElement1.Text;
             comboBoxElement1.Click();
             comboBoxElement1.FindElementByAccessibilityId("Light Dismiss").Click();
-            Assert.AreEqual(string.Empty, comboBoxElement1.Text);
+            Assert.AreEqual(originalSelectedItem, comboBoxElement1.Text);
 
             // Click comboBoxElement1 to show the list and select an entry
-            Assert.AreEqual(string.Empty, comboBoxElement1.Text);
             comboBoxElement1.Click();
             comboBoxElement1.FindElementByName("Yellow").Click();
             Assert.AreEqual("Yellow", comboBoxElement1.Text);
@@ -106,18 +97,13 @@ namespace UWPControls
         [TestMethod]
         public void SendKeys()
         {
-            // Click comboBoxElement1 to show the list and simply dismiss it
-            Assert.AreEqual(string.Empty, comboBoxElement1.Text);
-            comboBoxElement1.Click();
-            comboBoxElement1.FindElementByAccessibilityId("Light Dismiss").Click();
-            Assert.AreEqual(string.Empty, comboBoxElement1.Text);
-
             // Use the cursor key to scroll through the entries in the combo box
-            Assert.AreEqual(string.Empty, comboBoxElement1.Text);
-            comboBoxElement1.SendKeys(Keys.Down);
+            comboBoxElement1.SendKeys(Keys.Down + Keys.Up + Keys.Up + Keys.Up); // Ensure top entry is selected
             Assert.AreEqual("Blue", comboBoxElement1.Text);
             comboBoxElement1.SendKeys(Keys.Down);
             Assert.AreEqual("Green", comboBoxElement1.Text);
+            comboBoxElement1.SendKeys(Keys.Up);
+            Assert.AreEqual("Blue", comboBoxElement1.Text);
         }
 
         [TestMethod]
@@ -132,7 +118,8 @@ namespace UWPControls
         [TestMethod]
         public void Text()
         {
-            Assert.AreEqual(string.Empty, comboBoxElement1.Text);
+            comboBoxElement1.SendKeys(Keys.Down + Keys.Up + Keys.Up + Keys.Up); // Ensure top entry is selected
+            Assert.AreEqual("Blue", comboBoxElement1.Text);
             Assert.AreEqual("Courier New", comboBoxElement2.Text);
         }
     }

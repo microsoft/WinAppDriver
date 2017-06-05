@@ -22,23 +22,16 @@ namespace UWPControls
     [TestClass]
     public class ToggleSwitch : UWPControlsBase
     {
-        private WindowsElement toggleSwitchElement = null;
-
-        protected override void LoadScenarioView()
-        {
-            session.FindElementByAccessibilityId("splitViewToggle").Click();
-            var splitViewPane = session.FindElementByClassName("SplitViewPane");
-            splitViewPane.FindElementByName("Selection and picker controls").Click();
-            splitViewPane.FindElementByName("ToggleSwitch").Click();
-
-            toggleSwitchElement = session.FindElementByAccessibilityId("ToggleSwitch2");
-            Assert.IsNotNull(toggleSwitchElement);
-        }
+        private static WindowsElement toggleSwitchElement = null;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             Setup(context);
+            NavigateTo("Selection and picker controls", "ToggleSwitch");
+
+            toggleSwitchElement = session.FindElementByAccessibilityId("ToggleSwitch2");
+            Assert.IsNotNull(toggleSwitchElement);
         }
 
         [ClassCleanup]

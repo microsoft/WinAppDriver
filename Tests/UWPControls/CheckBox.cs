@@ -22,25 +22,18 @@ namespace UWPControls
     [TestClass]
     public class CheckBox : UWPControlsBase
     {
-        private WindowsElement checkBoxElement1 = null;
-        private WindowsElement checkBoxElement2 = null;
-
-        protected override void LoadScenarioView()
-        {
-            session.FindElementByAccessibilityId("splitViewToggle").Click();
-            var splitViewPane = session.FindElementByClassName("SplitViewPane");
-            splitViewPane.FindElementByName("Selection and picker controls").Click();
-            splitViewPane.FindElementByName("CheckBox").Click();
-
-            checkBoxElement1 = session.FindElementByName("Two-state CheckBox");
-            checkBoxElement2 = session.FindElementByName("Three-state CheckBox");
-            Assert.IsNotNull(checkBoxElement2);
-        }
+        private static WindowsElement checkBoxElement1 = null;
+        private static WindowsElement checkBoxElement2 = null;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             Setup(context);
+            NavigateTo("Selection and picker controls", "CheckBox");
+
+            checkBoxElement1 = session.FindElementByName("Two-state CheckBox");
+            checkBoxElement2 = session.FindElementByName("Three-state CheckBox");
+            Assert.IsNotNull(checkBoxElement2);
         }
 
         [ClassCleanup]

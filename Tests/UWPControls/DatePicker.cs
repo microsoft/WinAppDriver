@@ -23,27 +23,19 @@ namespace UWPControls
     [TestClass]
     public class DatePicker : UWPControlsBase
     {
-        private WindowsElement datePickerElement1 = null;
-        private WindowsElement datePickerElement2 = null;
-
-        protected override void LoadScenarioView()
-        {
-            session.FindElementByAccessibilityId("splitViewToggle").Click();
-            var splitViewPane = session.FindElementByClassName("SplitViewPane");
-            splitViewPane.FindElementByName("Selection and picker controls").Click();
-            splitViewPane.FindElementByName("DatePicker").Click();
-            System.Threading.Thread.Sleep(1000);
-
-            datePickerElement1 = session.FindElementByName("Pick a date");
-            Assert.IsNotNull(datePickerElement1);
-            datePickerElement2 = session.FindElementByAccessibilityId("Control2");
-            Assert.IsNotNull(datePickerElement2);
-        }
+        private static WindowsElement datePickerElement1 = null;
+        private static WindowsElement datePickerElement2 = null;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             Setup(context);
+            NavigateTo("Selection and picker controls", "DatePicker");
+
+            datePickerElement1 = session.FindElementByName("Pick a date");
+            Assert.IsNotNull(datePickerElement1);
+            datePickerElement2 = session.FindElementByAccessibilityId("Control2");
+            Assert.IsNotNull(datePickerElement2);
         }
 
         [ClassCleanup]
@@ -153,6 +145,7 @@ namespace UWPControls
             var datePickerFlyout = session.FindElementByAccessibilityId("DatePickerFlyoutPresenter");
             Assert.AreNotEqual(string.Empty, datePickerFlyout.FindElementByAccessibilityId("DayLoopingSelector").Text);
             Assert.AreNotEqual(string.Empty, datePickerFlyout.FindElementByAccessibilityId("MonthLoopingSelector").Text);
+            datePickerFlyout.FindElementByAccessibilityId("DismissButton").Click();
         }
     }
 }

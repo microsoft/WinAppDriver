@@ -22,26 +22,19 @@ namespace UWPControls
     [TestClass]
     public class RadioButton : UWPControlsBase
     {
-        private WindowsElement radioButtonElement1 = null;
-        private WindowsElement radioButtonElement2 = null;
-
-        protected override void LoadScenarioView()
-        {
-            session.FindElementByAccessibilityId("splitViewToggle").Click();
-            var splitViewPane = session.FindElementByClassName("SplitViewPane");
-            splitViewPane.FindElementByName("Selection and picker controls").Click();
-            splitViewPane.FindElementByName("RadioButton").Click();
-
-            radioButtonElement1 = session.FindElementByAccessibilityId("Option1RadioButton");
-            Assert.IsNotNull(radioButtonElement1);
-            radioButtonElement2 = session.FindElementByAccessibilityId("Option2RadioButton");
-            Assert.IsNotNull(radioButtonElement2);
-        }
+        private static WindowsElement radioButtonElement1 = null;
+        private static WindowsElement radioButtonElement2 = null;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             Setup(context);
+            NavigateTo("Selection and picker controls", "RadioButton");
+
+            radioButtonElement1 = session.FindElementByAccessibilityId("Option1RadioButton");
+            Assert.IsNotNull(radioButtonElement1);
+            radioButtonElement2 = session.FindElementByAccessibilityId("Option2RadioButton");
+            Assert.IsNotNull(radioButtonElement2);
         }
 
         [ClassCleanup]
@@ -54,7 +47,6 @@ namespace UWPControls
         public void Click()
         {
             var radioButtonEventOutput = session.FindElementByAccessibilityId("Control1Output");
-            Assert.AreEqual("Select an option.", radioButtonEventOutput.Text);
 
             radioButtonElement1.Click();
             Assert.AreEqual("You selected option 1.", radioButtonEventOutput.Text);
