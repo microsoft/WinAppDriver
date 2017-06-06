@@ -73,6 +73,8 @@
   <ItemGroup>
     <Compile Include="DatePicker.cs" />
     <Compile Include="ComboBox.cs" />
+    <Compile Include="ProgressBar.cs" />
+    <Compile Include="TextBlock.cs" />
     <Compile Include="ToggleButton.cs" />
     <Compile Include="TextBox.cs" />
     <Compile Include="Slider.cs" />

@@ -114,10 +114,10 @@ namespace UWPControls
         public void Text()
         {
             sliderElement1.Click();
-            Assert.IsTrue(int.Parse(sliderElement1.Text) == 49);
+            Assert.AreEqual(49, int.Parse(sliderElement1.Text));
 
             sliderElement2.Click();
-            Assert.IsTrue(int.Parse(sliderElement2.Text) == 750);
+            Assert.AreEqual(750, int.Parse(sliderElement2.Text));
         }
     }
 }
