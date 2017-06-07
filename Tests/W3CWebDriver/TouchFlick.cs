@@ -21,7 +21,7 @@ using System.Net;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class TouchFlick : TouchBase
+    public class TouchFlick : EdgeBase
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)

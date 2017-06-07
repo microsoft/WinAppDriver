@@ -19,7 +19,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class TouchClick : TouchBase
+    public class TouchClick : EdgeBase
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)

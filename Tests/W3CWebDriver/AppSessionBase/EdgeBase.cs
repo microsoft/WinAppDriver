@@ -26,7 +26,7 @@ using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
-    public class TouchBase
+    public class EdgeBase
     {
         protected static WindowsDriver<WindowsElement> session;
         protected static RemoteTouchScreen touchScreen;

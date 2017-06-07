@@ -74,13 +74,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AlarmClockBase.cs" />
+    <Compile Include="AppSessionBase\CalculatorBase.cs" />
+    <Compile Include="AppSessionBase\AlarmClockBase.cs" />
+    <Compile Include="ElementActive.cs" />
     <Compile Include="Timeouts.cs" />
     <Compile Include="ElementElements.cs" />
     <Compile Include="Elements.cs" />
     <Compile Include="Forward.cs" />
     <Compile Include="Orientation.cs" />
-    <Compile Include="TouchBase.cs" />
+    <Compile Include="AppSessionBase\EdgeBase.cs" />
     <Compile Include="ElementAttribute.cs" />
     <Compile Include="Selected.cs" />
     <Compile Include="Keys.cs" />

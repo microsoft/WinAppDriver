@@ -22,7 +22,7 @@ using System;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class TouchDoubleClick : TouchBase
+    public class TouchDoubleClick : EdgeBase
     {
         private static WindowsDriver<WindowsElement> calculatorSession;
         private static RemoteTouchScreen calculatorTouchScreen;
