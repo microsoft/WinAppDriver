@@ -71,6 +71,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ToggleButton.cs" />
+    <Compile Include="TextBox.cs" />
     <Compile Include="Slider.cs" />
     <Compile Include="ToggleSwitch.cs" />
     <Compile Include="CheckBox.cs" />

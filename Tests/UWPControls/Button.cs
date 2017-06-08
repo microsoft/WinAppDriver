@@ -51,7 +51,7 @@ namespace UWPControls
         public void Click()
         {
             var buttonEventOutput = session.FindElementByAccessibilityId("Control1Output");
-            Assert.AreEqual("", buttonEventOutput.Text);
+            Assert.AreEqual(string.Empty, buttonEventOutput.Text);
 
             buttonElement.Click();
             Assert.AreEqual("You clicked: Button1", buttonEventOutput.Text);
