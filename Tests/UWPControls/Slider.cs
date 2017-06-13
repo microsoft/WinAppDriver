@@ -48,10 +48,10 @@ namespace UWPControls
         public void Click()
         {
             sliderElement1.Click();
-            Assert.AreEqual("49", sliderElement1.Text);
+            Assert.AreEqual("49", sliderElement1.Text); // The value of the slider when the center is clicked
 
             sliderElement2.Click();
-            Assert.AreEqual("750", sliderElement2.Text);
+            Assert.AreEqual("750", sliderElement2.Text);  // The value of the slider when the center is clicked
         }
 
         [TestMethod]
@@ -114,10 +114,10 @@ namespace UWPControls
         public void Text()
         {
             sliderElement1.Click();
-            Assert.AreEqual(49, int.Parse(sliderElement1.Text));
+            Assert.AreEqual(49, int.Parse(sliderElement1.Text)); // The value of the slider when the center is clicked
 
             sliderElement2.Click();
-            Assert.AreEqual(750, int.Parse(sliderElement2.Text));
+            Assert.AreEqual(750, int.Parse(sliderElement2.Text)); // The value of the slider when the center is clicked
         }
     }
 }

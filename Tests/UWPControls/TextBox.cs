@@ -141,6 +141,7 @@ namespace UWPControls
         [TestMethod]
         public void Text()
         {
+            textBoxElement1.Clear();
             Assert.AreEqual(string.Empty, textBoxElement1.Text);
             textBoxElement1.SendKeys("abcde12345!@#$%");
             Assert.AreEqual("abcde12345!@#$%", textBoxElement1.Text);
