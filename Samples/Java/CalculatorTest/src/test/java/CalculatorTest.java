@@ -34,9 +34,7 @@ public class CalculatorTest {
             CalculatorSession = new WindowsDriver(new URL("http://127.0.0.1:4723"), capabilities);
             CalculatorSession.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
-            CalculatorSession.findElementByName("Clear").click();
-            CalculatorSession.findElementByName("Seven").click();
-            CalculatorResult = CalculatorSession.findElementByName("Display is 7");
+            CalculatorResult = CalculatorSession.findElementByAccessibilityId("CalculatorResults");
             Assert.assertNotNull(CalculatorResult);
 
         }catch(Exception e){
@@ -49,7 +47,7 @@ public class CalculatorTest {
     public void Clear()
     {
         CalculatorSession.findElementByName("Clear").click();
-        Assert.assertEquals("Display is 0", CalculatorResult.getText());
+        Assert.assertEquals("0", _GetCalculatorResultText());
     }
 
     @AfterClass
