@@ -23,16 +23,14 @@ namespace UWPControls
     [TestClass]
     public class TextBox : UWPControlsBase
     {
-        private WindowsElement textBoxElement1 = null;
-        private WindowsElement textBoxElement2 = null;
+        private static WindowsElement textBoxElement1 = null;
+        private static WindowsElement textBoxElement2 = null;
 
-        protected override void LoadScenarioView()
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
         {
-            session.FindElementByAccessibilityId("splitViewToggle").Click();
-            var splitViewPane = session.FindElementByClassName("SplitViewPane");
-            splitViewPane.FindElementByName("Text controls").Click();
-            splitViewPane.FindElementByName("TextBox").Click();
-            System.Threading.Thread.Sleep(1000);
+            Setup(context);
+            NavigateTo("Text controls", "TextBox");
 
             // Locate the first 2 TextBox in the page and skip the search TextBox on the app bar
             var textBoxes = session.FindElementsByClassName("TextBox");
@@ -41,12 +39,6 @@ namespace UWPControls
             textBoxElement2 = textBoxes[2];
             Assert.IsNotNull(textBoxElement1);
             Assert.IsNotNull(textBoxElement2);
-        }
-
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            Setup(context);
         }
 
         [ClassCleanup]
@@ -58,10 +50,10 @@ namespace UWPControls
         [TestMethod]
         public void Clear()
         {
+            textBoxElement1.Clear();
             Assert.AreEqual(string.Empty, textBoxElement1.Text);
             textBoxElement1.SendKeys("fghij67890^&*()");
             Assert.AreEqual("fghij67890^&*()", textBoxElement1.Text);
-
             textBoxElement1.Clear();
             Assert.AreEqual(string.Empty, textBoxElement1.Text);
         }
@@ -70,12 +62,14 @@ namespace UWPControls
         public void Click()
         {
             // Click textBoxElement1 to set focus and arbitrarily type
+            textBoxElement1.Clear();
             Assert.AreEqual(string.Empty, textBoxElement1.Text);
             textBoxElement1.Click();
             session.Keyboard.SendKeys("1234567890");
             Assert.AreEqual("1234567890", textBoxElement1.Text);
 
             // Click textBoxElement2 to set focus and arbitrarily type
+            textBoxElement2.Clear();
             Assert.AreEqual(string.Empty, textBoxElement2.Text);
             textBoxElement2.Click();
             session.Keyboard.SendKeys("1234567890");
@@ -120,6 +114,7 @@ namespace UWPControls
         [TestMethod]
         public void SendKeys()
         {
+            textBoxElement1.Clear();
             Assert.AreEqual(string.Empty, textBoxElement1.Text);
             textBoxElement1.SendKeys("abcde12345!@#$%");
             Assert.AreEqual("abcde12345!@#$%", textBoxElement1.Text);
@@ -128,6 +123,7 @@ namespace UWPControls
             textBoxElement1.SendKeys(Keys.Control + "a" + Keys.Control + Keys.Backspace);
             Assert.AreEqual(string.Empty, textBoxElement1.Text);
 
+            textBoxElement2.Clear();
             Assert.AreEqual(string.Empty, textBoxElement2.Text);
             textBoxElement2.SendKeys("fghij67890^&*()");
             Assert.AreEqual("fghij67890^&*()", textBoxElement2.Text);
@@ -145,6 +141,7 @@ namespace UWPControls
         [TestMethod]
         public void Text()
         {
+            textBoxElement1.Clear();
             Assert.AreEqual(string.Empty, textBoxElement1.Text);
             textBoxElement1.SendKeys("abcde12345!@#$%");
             Assert.AreEqual("abcde12345!@#$%", textBoxElement1.Text);

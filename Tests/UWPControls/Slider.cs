@@ -23,26 +23,19 @@ namespace UWPControls
     [TestClass]
     public class Slider : UWPControlsBase
     {
-        private WindowsElement sliderElement1 = null;
-        private WindowsElement sliderElement2 = null;
-
-        protected override void LoadScenarioView()
-        {
-            session.FindElementByAccessibilityId("splitViewToggle").Click();
-            var splitViewPane = session.FindElementByClassName("SplitViewPane");
-            splitViewPane.FindElementByName("Selection and picker controls").Click();
-            splitViewPane.FindElementByName("Slider").Click();
-
-            sliderElement1 = session.FindElementByAccessibilityId("Slider1");
-            Assert.IsNotNull(sliderElement1);
-            sliderElement2 = session.FindElementByAccessibilityId("Slider2");
-            Assert.IsNotNull(sliderElement2);
-        }
+        private static WindowsElement sliderElement1 = null;
+        private static WindowsElement sliderElement2 = null;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             Setup(context);
+            NavigateTo("Selection and picker controls", "Slider");
+
+            sliderElement1 = session.FindElementByAccessibilityId("Slider1");
+            Assert.IsNotNull(sliderElement1);
+            sliderElement2 = session.FindElementByAccessibilityId("Slider2");
+            Assert.IsNotNull(sliderElement2);
         }
 
         [ClassCleanup]
@@ -54,13 +47,11 @@ namespace UWPControls
         [TestMethod]
         public void Click()
         {
-            Assert.AreEqual("0", sliderElement1.Text);
             sliderElement1.Click();
-            Assert.AreNotEqual("0", sliderElement1.Text);
+            Assert.AreEqual("49", sliderElement1.Text); // The value of the slider when the center is clicked
 
-            Assert.AreEqual("800", sliderElement2.Text);
             sliderElement2.Click();
-            Assert.AreNotEqual("800", sliderElement1.Text);
+            Assert.AreEqual("750", sliderElement2.Text);  // The value of the slider when the center is clicked
         }
 
         [TestMethod]
@@ -101,19 +92,15 @@ namespace UWPControls
         [TestMethod]
         public void SendKeys()
         {
-            Assert.AreEqual("0", sliderElement1.Text);
+            var originalValue = sliderElement1.Text;
 
-            // Pressing left arrow will not move the slider and it should still be at 0
-            sliderElement1.SendKeys(Keys.Left);
-            Assert.AreEqual("0", sliderElement1.Text);
-
-            // Pressing right arrow will move the slider and it should 1
+            // Pressing right arrow will move the slider right and the value should increase by 1
             sliderElement1.SendKeys(Keys.Right);
-            Assert.AreEqual("1", sliderElement1.Text);
+            Assert.AreEqual(int.Parse(originalValue) + 1, int.Parse(sliderElement1.Text));
 
-            // Pressing left arrow will move the slider back to 0
+            // Pressing left arrow will move the slider back to the original value
             sliderElement1.SendKeys(Keys.Left);
-            Assert.AreEqual("0", sliderElement1.Text);
+            Assert.AreEqual(originalValue, sliderElement1.Text);
         }
 
         [TestMethod]
@@ -126,13 +113,11 @@ namespace UWPControls
         [TestMethod]
         public void Text()
         {
-            Assert.IsTrue(int.Parse(sliderElement1.Text) == 0);
             sliderElement1.Click();
-            Assert.IsTrue(int.Parse(sliderElement1.Text) > 0);
+            Assert.AreEqual(49, int.Parse(sliderElement1.Text)); // The value of the slider when the center is clicked
 
-            Assert.IsTrue(int.Parse(sliderElement2.Text) == 800);
             sliderElement2.Click();
-            Assert.IsTrue(int.Parse(sliderElement2.Text) < 800);
+            Assert.AreEqual(750, int.Parse(sliderElement2.Text)); // The value of the slider when the center is clicked
         }
     }
 }

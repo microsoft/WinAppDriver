@@ -27,11 +27,6 @@ namespace UWPControls
         private const string AppUIBasicAppId = "a5bd3fa2-e27f-49e9-9041-47c97e903ecc_8wekyb3d8bbwe!App";
         protected static WindowsDriver<WindowsElement> session = null;
 
-        protected virtual void LoadScenarioView()
-        {
-            Assert.IsTrue(true);
-        }
-
         public static void Setup(TestContext context)
         {
             // Launch the App UI Basic app
@@ -40,12 +35,15 @@ namespace UWPControls
             // 1. Open ApplicationUnderTests\AppUIBasics\AppUIBasics.sln solution in Visual Studio
             // 2. Select the correct configuration for the device (e.g. x86) and Run the application
             // 3. The application will then be installed. You can safely close the AppUIBasics app & project
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", AppUIBasicAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
-            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
-            Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
+            if (session == null)
+            {
+                DesiredCapabilities appCapabilities = new DesiredCapabilities();
+                appCapabilities.SetCapability("app", AppUIBasicAppId);
+                session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
+                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+                Assert.IsNotNull(session);
+                Assert.IsNotNull(session.SessionId);
+            }
         }
 
         public static void TearDown()
@@ -57,12 +55,17 @@ namespace UWPControls
             }
         }
 
-        [TestInitialize]
-        public void TestInit()
+        // Helper function to use the SplitViewPane to navigate to a control test page
+        protected static void NavigateTo(string ControlsGroup, string ControlName)
         {
             Assert.IsNotNull(session);
-            Assert.AreEqual("App UI Basics CS Sample", session.Title);
-            LoadScenarioView();
+            session.FindElementByAccessibilityId("splitViewToggle").Click();
+            System.Threading.Thread.Sleep(1000);
+
+            var splitViewPane = session.FindElementByClassName("SplitViewPane");
+            splitViewPane.FindElementByName(ControlsGroup).Click();
+            splitViewPane.FindElementByName(ControlName).Click();
+            System.Threading.Thread.Sleep(1000);
         }
     }
 }
