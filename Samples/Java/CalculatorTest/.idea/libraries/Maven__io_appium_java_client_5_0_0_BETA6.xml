@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.appium:java-client:5.0.0-BETA6">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/appium/java-client/5.0.0-BETA6/java-client-5.0.0-BETA6.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/io/appium/java-client/5.0.0-BETA6/java-client-5.0.0-BETA6-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/appium/java-client/5.0.0-BETA6/java-client-5.0.0-BETA6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
