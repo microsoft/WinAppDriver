@@ -75,6 +75,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AlarmClockBase.cs" />
+    <Compile Include="Timeouts.cs" />
     <Compile Include="ElementElements.cs" />
     <Compile Include="Elements.cs" />
     <Compile Include="Forward.cs" />
