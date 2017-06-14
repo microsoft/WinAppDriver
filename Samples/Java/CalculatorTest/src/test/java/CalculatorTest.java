@@ -69,7 +69,7 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("Plus").click();
         CalculatorSession.findElementByName("Seven").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is 8", CalculatorResult.getText());
+        Assert.assertEquals("8", _GetCalculatorResultText());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("Divide by").click();
         CalculatorSession.findElementByName("Eight").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is 8", CalculatorResult.getText());
+        Assert.assertEquals("8", _GetCalculatorResultText());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("One").click();
         CalculatorSession.findElementByName("One").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is 8", CalculatorResult.getText());
+        Assert.assertEquals("8", _GetCalculatorResultText());
     }
 
     @Test
@@ -106,7 +106,7 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("Multiply by").click();
         CalculatorSession.findElementByName("Nine").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is 81", CalculatorResult.getText());
+        Assert.assertEquals("81", _GetCalculatorResultText());
     }
 
     @Test
@@ -116,6 +116,13 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("Minus").click();
         CalculatorSession.findElementByName("One").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is 8", CalculatorResult.getText());
+        Assert.assertEquals("8", _GetCalculatorResultText());
     }
+
+    protected String _GetCalculatorResultText()
+    {
+        // trim extra text and whitespace off of the display value
+        return CalculatorResult.getText().replace("Display is", "").trim();
+    }
+
 }
