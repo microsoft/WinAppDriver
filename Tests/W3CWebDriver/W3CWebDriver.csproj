@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="AppSessionBase\CalculatorBase.cs" />
     <Compile Include="AppSessionBase\AlarmClockBase.cs" />
+    <Compile Include="ElementEquals.cs" />
     <Compile Include="ElementActive.cs" />
     <Compile Include="Timeouts.cs" />
     <Compile Include="ElementElements.cs" />

@@ -208,7 +208,7 @@ namespace W3CWebDriver
             }
             catch (System.InvalidOperationException e)
             {
-                Assert.AreEqual("Currently selected window has been closed", e.Message);
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, e.Message);
             }
 
             singleWindowSession.Quit();
@@ -235,7 +235,7 @@ namespace W3CWebDriver
             }
             catch (System.InvalidOperationException e)
             {
-                Assert.AreEqual("Currently selected window has been closed", e.Message);
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, e.Message);
             }
 
             singleWindowSession.Quit();

@@ -121,7 +121,7 @@ namespace W3CWebDriver
             }
             catch (System.InvalidOperationException exception)
             {
-                Assert.AreEqual("Currently selected window has been closed", exception.Message);
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
 
             calculatorSession.Quit();
@@ -178,7 +178,7 @@ namespace W3CWebDriver
             }
             catch (System.InvalidOperationException exception)
             {
-                Assert.AreEqual("Currently selected window has been closed", exception.Message);
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
 
             calculatorSession.Quit();
