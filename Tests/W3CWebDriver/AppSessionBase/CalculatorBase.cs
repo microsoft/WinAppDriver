@@ -24,6 +24,7 @@ namespace W3CWebDriver
     public class CalculatorBase
     {
         protected static WindowsDriver<WindowsElement> session;
+        protected static WindowsElement header;
 
         public static void Setup(TestContext context)
         {
@@ -36,17 +37,24 @@ namespace W3CWebDriver
             Assert.IsNotNull(session.SessionId);
 
             // Ensure that calculator is in standard mode
-            session.FindElementByAccessibilityId("NavButton").Click();
-            System.Threading.Thread.Sleep(1000);
-            var splitViewPane = session.FindElementByClassName("SplitViewPane");
-            splitViewPane.FindElementByName("Standard Calculator").Click();
-            System.Threading.Thread.Sleep(1000);
-            var header = session.FindElementByAccessibilityId("Header");
-            Assert.AreEqual("Standard", header.Text);
+            header = session.FindElementByAccessibilityId("Header");
+            Assert.IsNotNull(header);
+
+            if (!header.Text.Equals("Standard"))
+            {
+                session.FindElementByAccessibilityId("NavButton").Click();
+                System.Threading.Thread.Sleep(1000);
+                var splitViewPane = session.FindElementByClassName("SplitViewPane");
+                splitViewPane.FindElementByName("Standard Calculator").Click();
+                System.Threading.Thread.Sleep(1000);
+                Assert.AreEqual("Standard", header.Text);
+            }
         }
 
         public static void TearDown()
         {
+            header = null;
+
             // Close the application and delete the session
             if (session != null)
             {
@@ -55,28 +63,11 @@ namespace W3CWebDriver
             }
         }
 
-        protected static WindowsDriver<WindowsElement> CreateNewCalculatorSession()
+        public static WindowsDriver<WindowsElement> CreateNewCalculatorSession()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
             return new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-        }
-
-        protected static WindowsElement GetForeignElement()
-        {
-            // Launch a new calculator instance, locate an element, and close the session to get an element that is not valid in another session
-            WindowsDriver<WindowsElement> newSession = CreateNewCalculatorSession();
-            WindowsElement foreignElement = newSession.FindElementByAccessibilityId("Header");
-            newSession.Quit();
-            return foreignElement;
-        }
-
-        protected static WindowsElement GetOrphanedElement(WindowsDriver<WindowsElement> remoteSession)
-        {
-            // Use existing calculator session and close the window to get an orphaned element
-            WindowsElement orphanedElement = remoteSession.FindElementByAccessibilityId("Header");
-            remoteSession.Close();
-            return orphanedElement;
         }
 
         protected static WindowsElement GetStaleElement()
@@ -99,6 +90,7 @@ namespace W3CWebDriver
             System.Threading.Thread.Sleep(1000);
             WindowsElement staleElement = session.FindElementByAccessibilityId("MemoryListView").FindElementByName("0") as WindowsElement;
             session.FindElementByAccessibilityId("ClearMemory").Click();
+            header.Click(); // Dismiss memory flyout that could be displayed if calculator is in compact mode
             System.Threading.Thread.Sleep(1000);
             return staleElement;
         }

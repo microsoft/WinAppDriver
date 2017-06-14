@@ -52,11 +52,10 @@ namespace W3CWebDriver
         [TestMethod]
         public void ErrorCompareElementsNoSuchElement()
         {
-            WindowsElement invalidElement = GetForeignElement();
-
             try
             {
-                Assert.AreNotEqual(referenceElement, invalidElement);
+                // The orphaned element Id is not valid as it does not originate from the current session
+                var comparison = referenceElement.Equals(Utility.GetOrphanedElement());
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -68,30 +67,24 @@ namespace W3CWebDriver
         [TestMethod]
         public void ErrorCompareElementsNoSuchWindow()
         {
-            WindowsDriver<WindowsElement> newSession = CreateNewCalculatorSession();
-            WindowsElement orphanedElement = GetOrphanedElement(newSession);
-
             try
             {
-                Assert.AreNotEqual(orphanedElement, referenceElement);
+                // The orphaned element is no longer valid as the window it originated from is closed
+                var comparison = Utility.GetOrphanedElement().Equals(referenceElement);
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
-
-            newSession.Quit();
         }
 
         [TestMethod]
         public void ErrorCompareElementsStaleElement()
         {
-            WindowsElement staleElement = GetStaleElement();
-
             try
             {
-                Assert.AreNotEqual(staleElement, referenceElement);
+                Assert.AreNotEqual(GetStaleElement(), referenceElement);
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
