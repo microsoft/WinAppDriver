@@ -36,7 +36,7 @@ public class CalculatorTest {
 
             CalculatorSession.findElementByName("Clear").click();
             CalculatorSession.findElementByName("Seven").click();
-            CalculatorResult = CalculatorSession.findElementByName("Display is  7 ");
+            CalculatorResult = CalculatorSession.findElementByName("Display is 7");
             Assert.assertNotNull(CalculatorResult);
 
         }catch(Exception e){
@@ -49,7 +49,7 @@ public class CalculatorTest {
     public void Clear()
     {
         CalculatorSession.findElementByName("Clear").click();
-        Assert.assertEquals("Display is  0 ", CalculatorResult.getText());
+        Assert.assertEquals("Display is 0", CalculatorResult.getText());
     }
 
     @AfterClass
@@ -69,7 +69,7 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("Plus").click();
         CalculatorSession.findElementByName("Seven").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is  8 ", CalculatorResult.getText());
+        Assert.assertEquals("Display is 8", CalculatorResult.getText());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("Divide by").click();
         CalculatorSession.findElementByName("Eight").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is  8 ", CalculatorResult.getText());
+        Assert.assertEquals("Display is 8", CalculatorResult.getText());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("One").click();
         CalculatorSession.findElementByName("One").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is  8 ", CalculatorResult.getText());
+        Assert.assertEquals("Display is 8", CalculatorResult.getText());
     }
 
     @Test
@@ -106,7 +106,7 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("Multiply by").click();
         CalculatorSession.findElementByName("Nine").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is  81 ", CalculatorResult.getText());
+        Assert.assertEquals("Display is 81", CalculatorResult.getText());
     }
 
     @Test
@@ -116,6 +116,6 @@ public class CalculatorTest {
         CalculatorSession.findElementByName("Minus").click();
         CalculatorSession.findElementByName("One").click();
         CalculatorSession.findElementByName("Equals").click();
-        Assert.assertEquals("Display is  8 ", CalculatorResult.getText());
+        Assert.assertEquals("Display is 8", CalculatorResult.getText());
     }
 }
