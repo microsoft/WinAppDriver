@@ -1,6 +1,6 @@
 ﻿//******************************************************************************
 //
-// Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+// Copyright (c) 2017 Microsoft Corporation. All rights reserved.
 //
 // This code is licensed under the MIT License (MIT).
 //
@@ -20,7 +20,7 @@ using OpenQA.Selenium.Appium.Windows;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class ElementSelected : AlarmClockBase
+    public class ElementText : AlarmClockBase
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -35,11 +35,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementSelectedStateNoSuchWindow()
+        public void ErrorGetElementTextNoSuchWindow()
         {
             try
             {
-                var selected = Utility.GetOrphanedElement().Enabled;
+                var text = Utility.GetOrphanedElement().Text;
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -49,11 +49,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementSelectedStateStaleElement()
+        public void ErrorGetElementTextStaleElement()
         {
             try
             {
-                var selected = GetStaleElement().Selected;
+                var text = GetStaleElement().Text;
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -63,25 +63,31 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetElementSelectedState()
+        public void GetElementText()
         {
-            WindowsElement elementWorldClock = session.FindElementByAccessibilityId("WorldClockPivotItem");
-            WindowsElement elementAlarmClock = session.FindElementByAccessibilityId("AlarmPivotItem");
+            // Pivot Item element returns the name
+            WindowsElement pivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
+            Assert.AreEqual("Stopwatch", pivotItem.Text);
 
-            elementWorldClock.Click();
-            Assert.IsTrue(elementWorldClock.Selected);
-            Assert.IsFalse(elementAlarmClock.Selected);
+            // Button element returns the button name
+            WindowsElement button = session.FindElementByAccessibilityId("AddAlarmButton");
+            Assert.AreEqual("Add new alarm", button.Text);
+            button.Click();
 
-            elementAlarmClock.Click();
-            Assert.IsFalse(elementWorldClock.Selected);
-            Assert.IsTrue(elementAlarmClock.Selected);
-        }
+            // TextBlock element returns the text value
+            WindowsElement textBlock = session.FindElementByAccessibilityId("EditAlarmHeader");
+            Assert.AreEqual("NEW ALARM", textBlock.Text);
 
-        [TestMethod]
-        public void GetElementSelectedStateUnselectableElement()
-        {
-            WindowsElement elementAddButton = session.FindElementByAccessibilityId("AddAlarmButton");
-            Assert.IsFalse(elementAddButton.Selected);
+            // List element returns the value of the selected list item
+            WindowsElement list = session.FindElementByAccessibilityId("MinuteLoopingSelector");
+            Assert.AreEqual("00", list.Text);
+
+            // TextBox element returns the text value
+            WindowsElement textBox = session.FindElementByAccessibilityId("AlarmNameTextBox");
+            textBox.Clear();
+            Assert.AreEqual(string.Empty, textBox.Text);
+            textBox.SendKeys("Test alarm name text box!");
+            Assert.AreEqual("Test alarm name text box!", textBox.Text);
         }
     }
 }

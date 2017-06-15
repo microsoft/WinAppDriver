@@ -1,6 +1,6 @@
 ﻿//******************************************************************************
 //
-// Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+// Copyright (c) 2017 Microsoft Corporation. All rights reserved.
 //
 // This code is licensed under the MIT License (MIT).
 //
@@ -20,7 +20,7 @@ using OpenQA.Selenium.Appium.Windows;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class ElementSelected : AlarmClockBase
+    public class ElementClick : AlarmClockBase
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -35,11 +35,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementSelectedStateNoSuchWindow()
+        public void ErrorClickElementNoSuchWindow()
         {
             try
             {
-                var selected = Utility.GetOrphanedElement().Enabled;
+                Utility.GetOrphanedElement().Click();
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -49,11 +49,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementSelectedStateStaleElement()
+        public void ErrorClickElementStaleElement()
         {
             try
             {
-                var selected = GetStaleElement().Selected;
+                GetStaleElement().Click();
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -63,25 +63,34 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetElementSelectedState()
+        public void ClickElement()
         {
-            WindowsElement elementWorldClock = session.FindElementByAccessibilityId("WorldClockPivotItem");
-            WindowsElement elementAlarmClock = session.FindElementByAccessibilityId("AlarmPivotItem");
+            // Open a new alarm page and try clicking on visible and non-visible element in the time picker
+            session.FindElementByAccessibilityId("AddAlarmButton").Click();
 
-            elementWorldClock.Click();
-            Assert.IsTrue(elementWorldClock.Selected);
-            Assert.IsFalse(elementAlarmClock.Selected);
+            // initially visible element
+            WindowsElement hourSelector = session.FindElementByAccessibilityId("HourLoopingSelector");
+            hourSelector.FindElementByName("8").Click();
+            Assert.AreEqual("8", hourSelector.Text);
+            
+            // initially non-visible element that is implicitly scrolled into view once clicked
+            WindowsElement minuteSelector = session.FindElementByAccessibilityId("MinuteLoopingSelector");
+            minuteSelector.FindElementByName("30").Click();
+            Assert.AreEqual("30", minuteSelector.Text);
 
-            elementAlarmClock.Click();
-            Assert.IsFalse(elementWorldClock.Selected);
-            Assert.IsTrue(elementAlarmClock.Selected);
-        }
+            // Return to main page and click on pivot items to switch between tabs
+            session.FindElementByAccessibilityId("CancelButton").Click();
 
-        [TestMethod]
-        public void GetElementSelectedStateUnselectableElement()
-        {
-            WindowsElement elementAddButton = session.FindElementByAccessibilityId("AddAlarmButton");
-            Assert.IsFalse(elementAddButton.Selected);
+            WindowsElement worldPivot = session.FindElementByAccessibilityId("WorldClockPivotItem");
+            WindowsElement alarmPivot = session.FindElementByAccessibilityId("AlarmPivotItem");
+
+            worldPivot.Click();
+            Assert.IsTrue(worldPivot.Selected);
+            Assert.IsFalse(alarmPivot.Selected);
+
+            alarmPivot.Click();
+            Assert.IsFalse(worldPivot.Selected);
+            Assert.IsTrue(alarmPivot.Selected);
         }
     }
 }

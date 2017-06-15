@@ -1,6 +1,6 @@
 ﻿//******************************************************************************
 //
-// Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+// Copyright (c) 2017 Microsoft Corporation. All rights reserved.
 //
 // This code is licensed under the MIT License (MIT).
 //
@@ -20,7 +20,7 @@ using OpenQA.Selenium.Appium.Windows;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class ElementSelected : AlarmClockBase
+    public class ElementClear : AlarmClockBase
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -35,11 +35,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementSelectedStateNoSuchWindow()
+        public void ErrorClearElementNoSuchWindow()
         {
             try
             {
-                var selected = Utility.GetOrphanedElement().Enabled;
+                Utility.GetOrphanedElement().Clear();
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -49,11 +49,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementSelectedStateStaleElement()
+        public void ErrorClearElementStaleElement()
         {
             try
             {
-                var selected = GetStaleElement().Selected;
+                GetStaleElement().Clear();
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -63,25 +63,19 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetElementSelectedState()
+        public void ClearElement()
         {
-            WindowsElement elementWorldClock = session.FindElementByAccessibilityId("WorldClockPivotItem");
-            WindowsElement elementAlarmClock = session.FindElementByAccessibilityId("AlarmPivotItem");
+            // Open a new alarm page and clear the alarm name repeatedly
+            session.FindElementByAccessibilityId("AddAlarmButton").Click();
+            WindowsElement textBox = session.FindElementByAccessibilityId("AlarmNameTextBox");
+            Assert.AreNotEqual(string.Empty, textBox.Text);
+            textBox.Clear();
+            Assert.AreEqual(string.Empty, textBox.Text);
 
-            elementWorldClock.Click();
-            Assert.IsTrue(elementWorldClock.Selected);
-            Assert.IsFalse(elementAlarmClock.Selected);
-
-            elementAlarmClock.Click();
-            Assert.IsFalse(elementWorldClock.Selected);
-            Assert.IsTrue(elementAlarmClock.Selected);
-        }
-
-        [TestMethod]
-        public void GetElementSelectedStateUnselectableElement()
-        {
-            WindowsElement elementAddButton = session.FindElementByAccessibilityId("AddAlarmButton");
-            Assert.IsFalse(elementAddButton.Selected);
+            textBox.SendKeys("Test alarm name text box!");
+            Assert.AreNotEqual(string.Empty, textBox.Text);
+            textBox.Clear();
+            Assert.AreEqual(string.Empty, textBox.Text);
         }
     }
 }

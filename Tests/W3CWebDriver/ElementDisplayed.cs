@@ -1,6 +1,6 @@
 ﻿//******************************************************************************
 //
-// Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+// Copyright (c) 2017 Microsoft Corporation. All rights reserved.
 //
 // This code is licensed under the MIT License (MIT).
 //
@@ -20,7 +20,7 @@ using OpenQA.Selenium.Appium.Windows;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class ElementSelected : AlarmClockBase
+    public class ElementDisplayed : AlarmClockBase
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -35,11 +35,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementSelectedStateNoSuchWindow()
+        public void ErrorGetElementDisplayedStateNoSuchWindow()
         {
             try
             {
-                var selected = Utility.GetOrphanedElement().Enabled;
+                var displayed = Utility.GetOrphanedElement().Displayed;
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -49,11 +49,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementSelectedStateStaleElement()
+        public void ErrorGetElementDisplayedStateStaleElement()
         {
             try
             {
-                var selected = GetStaleElement().Selected;
+                var displayed = GetStaleElement().Displayed;
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -63,25 +63,29 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetElementSelectedState()
+        public void GetElementDisplayed()
         {
-            WindowsElement elementWorldClock = session.FindElementByAccessibilityId("WorldClockPivotItem");
-            WindowsElement elementAlarmClock = session.FindElementByAccessibilityId("AlarmPivotItem");
+            WindowsElement alarmPivotItem = session.FindElementByAccessibilityId("AlarmPivotItem");
+            WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
+            Assert.IsTrue(addAlarmButton.Displayed);
 
-            elementWorldClock.Click();
-            Assert.IsTrue(elementWorldClock.Selected);
-            Assert.IsFalse(elementAlarmClock.Selected);
+            // Navigate to Stopwatch tab
+            WindowsElement stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
+            stopwatchPivotItem.Click();
+            WindowsElement stopwatchResetButton = session.FindElementByAccessibilityId("StopWatchResetButton");
+            Assert.IsTrue(stopwatchResetButton.Displayed);
+            Assert.IsFalse(addAlarmButton.Displayed);
 
-            elementAlarmClock.Click();
-            Assert.IsFalse(elementWorldClock.Selected);
-            Assert.IsTrue(elementAlarmClock.Selected);
-        }
+            // Navigate back to Alarm tab
+            alarmPivotItem.Click();
+            Assert.IsTrue(addAlarmButton.Displayed);
+            Assert.IsFalse(stopwatchResetButton.Displayed);
 
-        [TestMethod]
-        public void GetElementSelectedStateUnselectableElement()
-        {
-            WindowsElement elementAddButton = session.FindElementByAccessibilityId("AddAlarmButton");
-            Assert.IsFalse(elementAddButton.Selected);
+            // Open a new alarm page and verify that 00 minute is displayed while 30 minute is hidden in the time picker
+            addAlarmButton.Click();
+            WindowsElement minuteLoopingSelector = session.FindElementByAccessibilityId("MinuteLoopingSelector");
+            Assert.IsTrue(minuteLoopingSelector.FindElementByName("00").Displayed);
+            Assert.IsFalse(minuteLoopingSelector.FindElementByName("30").Displayed);
         }
     }
 }

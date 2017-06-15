@@ -77,7 +77,11 @@
     <Compile Include="AppSessionBase\Utility.cs" />
     <Compile Include="AppSessionBase\CalculatorBase.cs" />
     <Compile Include="AppSessionBase\AlarmClockBase.cs" />
+    <Compile Include="ElementClick.cs" />
     <Compile Include="ElementEnabled.cs" />
+    <Compile Include="ElementDisplayed.cs" />
+    <Compile Include="ElementText.cs" />
+    <Compile Include="ElementClear.cs" />
     <Compile Include="ElementSize.cs" />
     <Compile Include="ElementLocation.cs" />
     <Compile Include="ElementLocationInView.cs" />

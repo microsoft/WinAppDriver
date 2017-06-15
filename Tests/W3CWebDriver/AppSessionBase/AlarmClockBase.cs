@@ -120,5 +120,15 @@ namespace W3CWebDriver
             }
             stopwatchPlayPauseButton.Click();
         }
+
+        protected static WindowsElement GetStaleElement()
+        {
+            // Open the add alarm page, locate the cancel button, and click it to get a stale cancel button
+            session.FindElementByAccessibilityId("AddAlarmButton").Click();
+            WindowsElement staleElement = session.FindElementByAccessibilityId("CancelButton");
+            staleElement.Click();
+            System.Threading.Thread.Sleep(1000);
+            return staleElement;
+        }
     }
 }
