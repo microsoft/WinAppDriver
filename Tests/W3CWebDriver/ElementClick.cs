@@ -35,6 +35,26 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
+        public void ErrorClickElementNotVisible()
+        {
+            try
+            {
+                // Navigate to Stopwatch tab and attempt to click on addAlarmButton that is no longer displayed
+                WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
+                Assert.IsTrue(addAlarmButton.Displayed);
+                WindowsElement stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
+                stopwatchPivotItem.Click();
+                Assert.IsFalse(addAlarmButton.Displayed);
+                addAlarmButton.Click();
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.ElementNotVisible, exception.Message);
+            }
+        }
+
+        [TestMethod]
         public void ErrorClickElementNoSuchWindow()
         {
             try

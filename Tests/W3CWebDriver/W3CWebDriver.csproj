@@ -112,7 +112,7 @@
     <Compile Include="Status.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="ElementElement.cs" />
-    <Compile Include="CommonTestSettings.cs" />
+    <Compile Include="AppSessionBase\CommonTestSettings.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Element.cs" />

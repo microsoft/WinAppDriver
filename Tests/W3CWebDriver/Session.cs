@@ -15,11 +15,11 @@
 //******************************************************************************
 
 using System;
-using System.IO;
 using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 
 namespace W3CWebDriver
 {
@@ -44,7 +44,7 @@ namespace W3CWebDriver
         public void CreateSessionDesktop()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", "Root");
+            appCapabilities.SetCapability("app", CommonTestSettings.DesktopAppId);
             session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
@@ -120,7 +120,7 @@ namespace W3CWebDriver
         public void DeleteSessionDesktop()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", "Root");
+            appCapabilities.SetCapability("app", CommonTestSettings.DesktopAppId);
             session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
@@ -233,11 +233,9 @@ namespace W3CWebDriver
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
-            using (HttpWebResponse response = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/session/" + session.SessionId).GetResponse() as HttpWebResponse)
-            {
-                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                Assert.AreEqual("{\"sessionId\":\"" + session.SessionId + "\",\"status\":0,\"value\":{\"app\":\"Microsoft.WindowsAlarms_8wekyb3d8bbwe!App\",\"platformName\":\"Windows\"}}", responseString);
-            }
+            ICapabilities capabilities = session.Capabilities;
+            Assert.AreEqual(CommonTestSettings.AlarmClockAppId, capabilities.GetCapability("app"));
+            Assert.AreEqual("Windows", capabilities.GetCapability("platformName"));
 
             session.Quit();
             session = null;
@@ -251,14 +249,11 @@ namespace W3CWebDriver
 
             try
             {
-                DesiredCapabilities appCapabilities = new DesiredCapabilities();
-                appCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
-
-                session1 = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+                session1 = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
                 Assert.IsNotNull(session1);
                 Assert.IsNotNull(session1.SessionId);
 
-                session2 = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+                session2 = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
                 Assert.IsNotNull(session2);
                 Assert.IsNotNull(session2.SessionId);
 
@@ -290,14 +285,11 @@ namespace W3CWebDriver
 
             try
             {
-                DesiredCapabilities appCapabilities = new DesiredCapabilities();
-                appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-
-                session1 = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+                session1 = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
                 Assert.IsNotNull(session1);
                 Assert.IsNotNull(session1.SessionId);
 
-                session2 = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+                session2 = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
                 Assert.IsNotNull(session2);
                 Assert.IsNotNull(session2.SessionId);
 
@@ -318,7 +310,6 @@ namespace W3CWebDriver
                     session2.Quit();
                 }
             }
-
         }
     }
 }

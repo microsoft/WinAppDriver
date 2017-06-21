@@ -34,6 +34,34 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
+        public void ErrorGetElementAttributeNoSuchWindow()
+        {
+            try
+            {
+                var attribute = Utility.GetOrphanedElement().GetAttribute("Attribute");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void ErrorGetElementAttributeStaleElement()
+        {
+            try
+            {
+                var attribute = GetStaleElement().GetAttribute("Attribute");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
+        }
+
+        [TestMethod]
         public void GetValidElementAttribute()
         {
             // NOTE: HelpText is currently the only supported GetAttribute method. There are

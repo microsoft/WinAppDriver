@@ -66,6 +66,20 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
+        public void ErrorFindElementsNoSuchWindow()
+        {
+            try
+            {
+                var elements = Utility.GetOrphanedSession().FindElementsByAccessibilityId("An accessibility id");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
         public void FindElementsByAccessibilityId()
         {
             var elements = session.FindElementsByAccessibilityId("AlarmPivotItem");

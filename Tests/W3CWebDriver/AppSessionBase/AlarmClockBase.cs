@@ -29,19 +29,18 @@ namespace W3CWebDriver
 
         public static void Setup(TestContext context)
         {
-            // Cleanup leftover objects from previous test if exists
-            TearDown();
+            // Launch Alarm Clock if it is not yet launched
+            if (session == null || touchScreen == null || !CurrentWindowIsAlive())
+            {
+                TearDown();
+                session = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
+                Assert.IsNotNull(session);
+                Assert.IsNotNull(session.SessionId);
 
-            // Launch Alarm Clock
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
-
-            // Initialize touch screen object
-            touchScreen = new RemoteTouchScreen(session);
-            Assert.IsNotNull(touchScreen);
+                // Initialize touch screen object
+                touchScreen = new RemoteTouchScreen(session);
+                Assert.IsNotNull(touchScreen);
+            }
         }
 
         public static void TearDown()
@@ -81,6 +80,27 @@ namespace W3CWebDriver
             session.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
             session.FindElementByAccessibilityId("AlarmNameTextBox").SendKeys(alarmName);
             session.FindElementByAccessibilityId("AlarmSaveButton").Click();
+        }
+
+        private static bool CurrentWindowIsAlive()
+        {
+            bool windowIsAlive = false;
+
+            if (session != null)
+            {
+                try
+                {
+                    windowIsAlive = !String.IsNullOrEmpty(session.CurrentWindowHandle) && session.CurrentWindowHandle != "0";
+                    windowIsAlive = true;
+                }
+                catch
+                {
+                    session.Quit();
+                    session = null;
+                }
+            }
+
+            return windowIsAlive;
         }
 
         protected void DeletePreviouslyCreatedAlarmEntry(string alarmName)

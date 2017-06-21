@@ -14,8 +14,9 @@
 //
 //******************************************************************************
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using OpenQA.Selenium.Remote;
+using System;
 
 namespace W3CWebDriver
 {
@@ -24,25 +25,41 @@ namespace W3CWebDriver
         private static WindowsDriver<WindowsElement> orphanedSession;
         private static WindowsElement orphanedElement;
 
+        ~Utility()
+        {
+            CleanupOrphanedSession();
+        }
+
+        public static WindowsDriver<WindowsElement> CreateNewSession(string appId)
+        {
+            DesiredCapabilities appCapabilities = new DesiredCapabilities();
+            appCapabilities.SetCapability("app", appId);
+            return new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+        }
+
         public static WindowsElement GetOrphanedElement()
         {
-            // Create new calculator session and close the window to get an orphaned element
+            // Re-initialize orphaned session and element if they are compromised
             if (orphanedSession == null || orphanedElement == null)
             {
-                if (orphanedSession == null)
-                {
-                    orphanedSession = CalculatorBase.CreateNewCalculatorSession();
-                }
-
-                Assert.IsNotNull(orphanedSession);
-                orphanedElement = orphanedSession.FindElementByAccessibilityId("Header");
-                orphanedSession.Close();
+                InitializeOrphanedSession();
             }
 
             return orphanedElement;
         }
 
-        ~Utility()
+        public static WindowsDriver<WindowsElement> GetOrphanedSession()
+        {
+            // Re-initialize orphaned session and element if they are compromised
+            if (orphanedSession == null || orphanedElement == null)
+            {
+                InitializeOrphanedSession();
+            }
+
+            return orphanedSession;
+        }
+
+        private static void CleanupOrphanedSession()
         {
             orphanedElement = null;
 
@@ -52,6 +69,15 @@ namespace W3CWebDriver
                 orphanedSession.Quit();
                 orphanedSession = null;
             }
+        }
+
+        private static void InitializeOrphanedSession()
+        {
+            // Create new calculator session and close the window to get an orphaned element
+            CleanupOrphanedSession();
+            orphanedSession = CreateNewSession(CommonTestSettings.CalculatorAppId);
+            orphanedElement = orphanedSession.FindElementByAccessibilityId("Header");
+            orphanedSession.Close();
         }
     }
 }

@@ -15,21 +15,16 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.Windows;
 
 namespace W3CWebDriver
 {
     [TestClass]
     public class ElementElements : AlarmClockBase
     {
-        private static WindowsElement homePagePivot;
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             Setup(context);
-            homePagePivot = session.FindElementByAccessibilityId("HomePagePivot");
-            Assert.IsNotNull(homePagePivot);
         }
 
         [ClassCleanup]
@@ -71,6 +66,34 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
+        public void ErrorFindElementsNoSuchWindow()
+        {
+            try
+            {
+                var elements = Utility.GetOrphanedElement().FindElementsByAccessibilityId("An accessibility id");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void ErrorFindElementsStaleElement()
+        {
+            try
+            {
+                var elements = GetStaleElement().FindElementsByAccessibilityId("An accessibility id");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
+        }
+
+        [TestMethod]
         public void FindElementsByAccessibilityId()
         {
             var elements = alarmTabElement.FindElementsByAccessibilityId("AlarmPivotItem");
@@ -82,7 +105,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void FindElementsByClassName()
         {
-            var elements = homePagePivot.FindElementsByClassName("PivotItem");
+            var elements = session.FindElementByAccessibilityId("HomePagePivot").FindElementsByClassName("PivotItem");
             Assert.IsNotNull(elements);
             Assert.AreEqual(4, elements.Count);
             Assert.IsTrue(elements.Contains(alarmTabElement));
@@ -149,7 +172,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void FindElementsByTagName()
         {
-            var elements = homePagePivot.FindElementsByTagName("Button");
+            var elements = session.FindElementByAccessibilityId("HomePagePivot").FindElementsByTagName("Button");
             Assert.IsNotNull(elements);
 
             // There are at least 4 buttons in Windows 10 Alarms & Clock HomePagePivot
@@ -160,7 +183,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void FindElementsByXPath()
         {
-            var elements = homePagePivot.FindElementsByXPath("//Button");
+            var elements = session.FindElementByAccessibilityId("HomePagePivot").FindElementsByXPath("//Button");
             Assert.IsNotNull(elements);
 
             // There are at least 4 buttons in Windows 10 Alarms & Clock HomePagePivot

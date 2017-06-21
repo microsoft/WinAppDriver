@@ -14,8 +14,6 @@
 //
 //******************************************************************************
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace W3CWebDriver
 {
     public class CommonTestSettings
@@ -23,6 +21,7 @@ namespace W3CWebDriver
         public const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
         public const string AlarmClockAppId = "Microsoft.WindowsAlarms_8wekyb3d8bbwe!App";
         public const string CalculatorAppId = "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App";
+        public const string DesktopAppId = "Root";
         public const string EdgeAppId = "Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge";
         public const string ExplorerAppId = @"C:\Windows\System32\explorer.exe";
         public const string NotepadAppId = @"C:\Windows\System32\notepad.exe";
@@ -32,6 +31,7 @@ namespace W3CWebDriver
 
     public class ErrorStrings
     {
+        public const string ElementNotVisible = "An element command could not be completed because the element is not pointer- or keyboard interactable.";
         public const string NoSuchElement = "An element could not be located on the page using the given search parameters.";
         public const string NoSuchWindow = "Currently selected window has been closed";
         public const string StaleElementReference = "An element command failed because the referenced element is no longer attached to the DOM.";

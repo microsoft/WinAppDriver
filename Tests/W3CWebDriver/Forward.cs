@@ -17,7 +17,6 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
@@ -29,9 +28,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void NavigateForwardBrowser()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId);
             Assert.IsNotNull(session);
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
 
@@ -62,9 +59,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void NavigateForwardSystemApp()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.ExplorerAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
             Assert.IsNotNull(session);
 
             var originalTitle = session.Title;
@@ -94,15 +89,9 @@ namespace W3CWebDriver
         [TestMethod]
         public void ErrorNavigateForwardNoSuchWindow()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session);
-
             try
             {
-                session.Close();
-                session.Navigate().Forward();
+                Utility.GetOrphanedSession().Navigate().Forward();
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)

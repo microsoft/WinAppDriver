@@ -14,57 +14,45 @@
 //
 //******************************************************************************
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
     [TestClass]
-    public class Orientation
+    public class Orientation : CalculatorBase
     {
-        private WindowsDriver<WindowsElement> session = null;
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
+        {
+            Setup(context);
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            TearDown();
+        }
 
         [TestMethod]
         public void GetOrientation()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
-
             var orientation = session.Orientation;
             Assert.IsNotNull(orientation);
             Assert.IsTrue(orientation == OpenQA.Selenium.ScreenOrientation.Landscape || orientation == OpenQA.Selenium.ScreenOrientation.Portrait);
-
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
         public void ErrorGetOrientationNoSuchWindow()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
-
             try
             {
-                session.Close();
-                var orientation = session.Orientation;
+                var orientation = Utility.GetOrphanedSession().Orientation;
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
-
-            session.Quit();
-            session = null;
         }
     }
 }

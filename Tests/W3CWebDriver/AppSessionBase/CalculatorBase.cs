@@ -14,32 +14,32 @@
 //
 //******************************************************************************
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
     public class CalculatorBase
     {
         protected static WindowsDriver<WindowsElement> session;
-        protected static WindowsElement header;
+        private static WindowsElement header;
 
         public static void Setup(TestContext context)
         {
-            // Cleanup leftover objects from previous test if exists
-            TearDown();
+            // Launch Calculator if it is not yet launched
+            if (session == null)
+            {
+                session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+                Assert.IsNotNull(session);
+                Assert.IsNotNull(session.SessionId);
+                header = session.FindElementByAccessibilityId("Header");
+                Assert.IsNotNull(header);
+            }
 
-            // Launch Calculator
-            session = CreateNewCalculatorSession();
-            Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
+            // Set focus on the calculator window
+            header.Click();
 
             // Ensure that calculator is in standard mode
-            header = session.FindElementByAccessibilityId("Header");
-            Assert.IsNotNull(header);
-
             if (!header.Text.Equals("Standard"))
             {
                 session.FindElementByAccessibilityId("NavButton").Click();
@@ -61,13 +61,6 @@ namespace W3CWebDriver
                 session.Quit();
                 session = null;
             }
-        }
-
-        public static WindowsDriver<WindowsElement> CreateNewCalculatorSession()
-        {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            return new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
         }
 
         protected static WindowsElement GetStaleElement()

@@ -39,9 +39,7 @@ namespace W3CWebDriver
             TearDown();
 
             // Launch the Edge browser app
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId);
             session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);

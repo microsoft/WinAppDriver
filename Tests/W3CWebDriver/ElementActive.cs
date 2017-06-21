@@ -37,20 +37,15 @@ namespace W3CWebDriver
         [TestMethod]
         public void ErrorGetActiveElementNoSuchWindow()
         {
-            WindowsDriver<WindowsElement> newSession = CreateNewCalculatorSession();
-            newSession.Close();
-
             try
             {
-                WindowsElement activeElement = newSession.SwitchTo().ActiveElement() as WindowsElement;
+                WindowsElement activeElement = Utility.GetOrphanedSession().SwitchTo().ActiveElement() as WindowsElement;
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
-
-            newSession.Quit();
         }
 
         [TestMethod]

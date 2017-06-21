@@ -29,9 +29,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetTitleClassicApp()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             Assert.AreEqual("Untitled - Notepad", session.Title);
@@ -42,9 +40,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetTitleDesktop()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", "Root");
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = Utility.CreateNewSession(CommonTestSettings.DesktopAppId);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             Assert.IsTrue(session.Title.StartsWith("Desktop"));
@@ -55,9 +51,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetTitleModernApp()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             Assert.AreEqual("Calculator", session.Title);
@@ -68,26 +62,15 @@ namespace W3CWebDriver
         [TestMethod]
         public void ErrorGetTitleNoSuchWindow()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
-            Assert.AreEqual("Calculator", session.Title);
-
             try
             {
-                session.Close();
-                var title = session.Title;
+                var title = Utility.GetOrphanedSession().Title;
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
-
-            session.Quit();
-            session = null;
         }
     }
 }

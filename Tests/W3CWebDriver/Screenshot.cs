@@ -20,7 +20,6 @@ using System.Drawing;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
@@ -106,26 +105,15 @@ namespace W3CWebDriver
         [TestMethod]
         public void ErrorGetClosedWindowScreenshot()
         {
-            // Launch calculator for this specific test case
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            WindowsDriver<WindowsElement> calculatorSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(calculatorSession);
-            Assert.IsNotNull(calculatorSession.SessionId);
-
             try
             {
-                calculatorSession.Close();
-                calculatorSession.GetScreenshot();
+                Utility.GetOrphanedSession().GetScreenshot();
                 Assert.Fail("Exception should have been thrown because there is no such window");
             }
             catch (System.InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
-
-            calculatorSession.Quit();
-            calculatorSession = null;
         }
 
         [TestMethod]
@@ -162,27 +150,15 @@ namespace W3CWebDriver
         [TestMethod]
         public void ErrorGetClosedSessionElementScreenshot()
         {
-            // Launch calculator for this specific test case
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            WindowsDriver<WindowsElement> calculatorSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(calculatorSession);
-            Assert.IsNotNull(calculatorSession.SessionId);
-
             try
             {
-                calculatorSession.Close();
-                WindowsElement element = calculatorSession.FindElementByAccessibilityId("AppNameTitle");
-                element.GetScreenshot();
+                Utility.GetOrphanedElement().GetScreenshot();
                 Assert.Fail("Exception should have been thrown because there is no such window");
             }
             catch (System.InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
-
-            calculatorSession.Quit();
-            calculatorSession = null;
         }
     }
 }
