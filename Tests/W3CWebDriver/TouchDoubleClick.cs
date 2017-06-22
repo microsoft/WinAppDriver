@@ -17,12 +17,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
-using System;
 
 namespace W3CWebDriver
 {
     [TestClass]
-    public class TouchDoubleClick : TouchBase
+    public class TouchDoubleClick : EdgeBase
     {
         private static WindowsDriver<WindowsElement> calculatorSession;
         private static RemoteTouchScreen calculatorTouchScreen;
@@ -52,9 +51,7 @@ namespace W3CWebDriver
         public void DoubleTap()
         {
             // Launch calculator for this specific test case
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            calculatorSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            calculatorSession = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
             Assert.IsNotNull(calculatorSession);
             Assert.IsNotNull(calculatorSession.SessionId);
 

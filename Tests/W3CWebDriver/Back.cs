@@ -29,9 +29,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void NavigateBackBrowser()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId);
             Assert.IsNotNull(session);
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
 
@@ -59,9 +57,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void NavigateBackModernApp()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
             Assert.IsNotNull(session);
 
             // Navigate to New Alarm view
@@ -80,9 +76,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void NavigateBackSystemApp()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.ExplorerAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
             Assert.IsNotNull(session);
 
             System.Threading.Thread.Sleep(1000); // Sleep for 1 second
@@ -109,24 +103,15 @@ namespace W3CWebDriver
         [TestMethod]
         public void ErrorNavigateBackNoSuchWindow()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session);
-
             try
             {
-                session.Close();
-                session.Navigate().Back();
+                Utility.GetOrphanedSession().Navigate().Back();
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
             {
-                Assert.AreEqual("Currently selected window has been closed", exception.Message);
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
-
-            session.Quit();
-            session = null;
         }
     }
 }

@@ -30,9 +30,7 @@ namespace W3CWebDriver
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
@@ -160,9 +158,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void SendModifierWindowsKey()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", "Root");
-            WindowsDriver<WindowsElement> desktopSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> desktopSession = Utility.CreateNewSession(CommonTestSettings.DesktopAppId);
             Assert.IsNotNull(desktopSession);
 
             // Launch action center using Window Keys + A

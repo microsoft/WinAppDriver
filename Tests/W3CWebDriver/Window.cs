@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
@@ -28,9 +27,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void CloseWindowSingleInstanceApplication()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            WindowsDriver<WindowsElement> singleWindowSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> singleWindowSession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
             Assert.IsNotNull(singleWindowSession);
             Assert.IsNotNull(singleWindowSession.SessionId);
 
@@ -46,9 +43,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetWindowHandle()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            WindowsDriver<WindowsElement> session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
@@ -61,10 +56,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetWindowHandles()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
-
-            WindowsDriver<WindowsElement> multiWindowsSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> multiWindowsSession = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
             Assert.IsNotNull(multiWindowsSession);
             Assert.IsNotNull(multiWindowsSession.SessionId);
 
@@ -77,9 +69,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetWindowHandlesClassicApp()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
-            WindowsDriver<WindowsElement> multiWindowsSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> multiWindowsSession = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
             Assert.IsNotNull(multiWindowsSession);
             Assert.IsNotNull(multiWindowsSession.SessionId);
 
@@ -107,9 +97,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetWindowHandlesModernApp()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
-            WindowsDriver<WindowsElement> multiWindowsSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> multiWindowsSession = Utility.CreateNewSession(CommonTestSettings.EdgeAppId);
             Assert.IsNotNull(multiWindowsSession);
             Assert.IsNotNull(multiWindowsSession.SessionId);
 
@@ -148,9 +136,7 @@ namespace W3CWebDriver
         [TestMethod]
         public void SwitchWindows()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
-            WindowsDriver<WindowsElement> multiWindowsSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> multiWindowsSession = Utility.CreateNewSession(CommonTestSettings.EdgeAppId);
             Assert.IsNotNull(multiWindowsSession);
             Assert.IsNotNull(multiWindowsSession.SessionId);
 
@@ -189,53 +175,61 @@ namespace W3CWebDriver
         [TestMethod]
         public void ErrorCloseWindowAlreadyClosedApplication()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            WindowsDriver<WindowsElement> singleWindowSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(singleWindowSession);
-            Assert.IsNotNull(singleWindowSession.SessionId);
-
-            // Close the application window without deleting the session
-            singleWindowSession.Close();
-            Assert.IsNotNull(singleWindowSession);
-            Assert.IsNotNull(singleWindowSession.SessionId);
-
             // Attempt to close the previously closed application window
             try
             {
-                singleWindowSession.Close();
+                Utility.GetOrphanedSession().Close();
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException e)
             {
-                Assert.AreEqual("Currently selected window has been closed", e.Message);
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, e.Message);
             }
-
-            singleWindowSession.Quit();
         }
 
         [TestMethod]
         public void ErrorGetWindowHandleAlreadyClosedApplication()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            WindowsDriver<WindowsElement> singleWindowSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            try
+            {
+                string windowHandle = Utility.GetOrphanedSession().CurrentWindowHandle;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException e)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, e.Message);
+            }
+        }
+
+        [TestMethod]
+        public void ErrorSwitchWindowsAlreadyClosedApplication()
+        {
+            WindowsDriver<WindowsElement> singleWindowSession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
             Assert.IsNotNull(singleWindowSession);
             Assert.IsNotNull(singleWindowSession.SessionId);
+
+            // Get the current window handle
+            string windowHandle = singleWindowSession.CurrentWindowHandle;
+            Assert.IsNotNull(windowHandle);
+            Assert.AreNotEqual(string.Empty, windowHandle);
 
             // Close the application window without deleting the session
             singleWindowSession.Close();
             Assert.IsNotNull(singleWindowSession);
             Assert.IsNotNull(singleWindowSession.SessionId);
 
+            // Sleep for 3 seconds until the window is properly closed
+            System.Threading.Thread.Sleep(3000);
+
             try
             {
-                string windowHandle = singleWindowSession.CurrentWindowHandle;
+                // Attempt to switch to a an orphaned window
+                singleWindowSession.SwitchTo().Window(windowHandle);
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException e)
             {
-                Assert.AreEqual("Currently selected window has been closed", e.Message);
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, e.Message);
             }
 
             singleWindowSession.Quit();
@@ -253,9 +247,7 @@ namespace W3CWebDriver
         public static void Setup(TestContext context)
         {
             // Launch the Calculator app
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.CalculatorAppId);
-            WindowTransformSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowTransformSession = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
             Assert.IsNotNull(WindowTransformSession);
         }
 

@@ -1,6 +1,6 @@
 ﻿//******************************************************************************
 //
-// Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+// Copyright (c) 2017 Microsoft Corporation. All rights reserved.
 //
 // This code is licensed under the MIT License (MIT).
 //
@@ -15,11 +15,12 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace W3CWebDriver
 {
     [TestClass]
-    public class ElementAttribute : AlarmClockBase
+    public class ElementSize : CalculatorBase
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -34,11 +35,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementAttributeNoSuchWindow()
+        public void ErrorGetElementSizeNoSuchWindow()
         {
             try
             {
-                var attribute = Utility.GetOrphanedElement().GetAttribute("Attribute");
+                var size = Utility.GetOrphanedElement().Size;
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -48,11 +49,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementAttributeStaleElement()
+        public void ErrorGetElementSizeStaleElement()
         {
             try
             {
-                var attribute = GetStaleElement().GetAttribute("Attribute");
+                var size = GetStaleElement().Size;
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -62,20 +63,21 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetValidElementAttribute()
+        public void GetElementSize()
         {
-            // NOTE: HelpText is currently the only supported GetAttribute method. There are
-            //       no known examples of non-null HelpText, so this should be replaced with 
-            //       a different attribute once more are supported. 
-            string helpText = alarmTabElement.GetAttribute("HelpText");
-            Assert.AreEqual(helpText, null);
-        }
+            WindowsElement clearButton = session.FindElementByAccessibilityId("clearButton");
+            Assert.IsNotNull(clearButton);
+            Assert.IsTrue(clearButton.Size.Width > 0);
+            Assert.IsTrue(clearButton.Size.Height > 0);
 
-        [TestMethod]
-        public void GetInvalidElementAttribute()
-        {
-            string helpText = alarmTabElement.GetAttribute("InvalidAttribute");
-            Assert.AreEqual(helpText, null);
+            WindowsElement memButton = session.FindElementByAccessibilityId("memButton");
+            Assert.IsNotNull(memButton);
+            Assert.IsTrue(memButton.Size.Width > 0);
+            Assert.IsTrue(memButton.Size.Height > 0);
+
+            // Clear button is always bigger than Mem button
+            Assert.IsTrue(clearButton.Size.Width > memButton.Size.Width);
+            Assert.IsTrue(clearButton.Size.Height > memButton.Size.Height);
         }
     }
 }

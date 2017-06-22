@@ -20,7 +20,7 @@ using OpenQA.Selenium.Appium.Windows;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class Selected : AlarmClockBase
+    public class ElementSelected : AlarmClockBase
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -35,7 +35,35 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void FindSelectedElement()
+        public void ErrorGetElementSelectedStateNoSuchWindow()
+        {
+            try
+            {
+                var selected = Utility.GetOrphanedElement().Enabled;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void ErrorGetElementSelectedStateStaleElement()
+        {
+            try
+            {
+                var selected = GetStaleElement().Selected;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void GetElementSelectedState()
         {
             WindowsElement elementWorldClock = session.FindElementByAccessibilityId("WorldClockPivotItem");
             WindowsElement elementAlarmClock = session.FindElementByAccessibilityId("AlarmPivotItem");
@@ -43,13 +71,14 @@ namespace W3CWebDriver
             elementWorldClock.Click();
             Assert.IsTrue(elementWorldClock.Selected);
             Assert.IsFalse(elementAlarmClock.Selected);
+
             elementAlarmClock.Click();
             Assert.IsFalse(elementWorldClock.Selected);
             Assert.IsTrue(elementAlarmClock.Selected);
         }
 
         [TestMethod]
-        public void ErrorFindUnselectableElement()
+        public void GetElementSelectedStateUnselectableElement()
         {
             WindowsElement elementAddButton = session.FindElementByAccessibilityId("AddAlarmButton");
             Assert.IsFalse(elementAddButton.Selected);

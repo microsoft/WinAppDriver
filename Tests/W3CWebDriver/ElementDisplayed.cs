@@ -1,6 +1,6 @@
 ﻿//******************************************************************************
 //
-// Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+// Copyright (c) 2017 Microsoft Corporation. All rights reserved.
 //
 // This code is licensed under the MIT License (MIT).
 //
@@ -15,11 +15,12 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace W3CWebDriver
 {
     [TestClass]
-    public class ElementAttribute : AlarmClockBase
+    public class ElementDisplayed : AlarmClockBase
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -34,11 +35,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementAttributeNoSuchWindow()
+        public void ErrorGetElementDisplayedStateNoSuchWindow()
         {
             try
             {
-                var attribute = Utility.GetOrphanedElement().GetAttribute("Attribute");
+                var displayed = Utility.GetOrphanedElement().Displayed;
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -48,11 +49,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementAttributeStaleElement()
+        public void ErrorGetElementDisplayedStateStaleElement()
         {
             try
             {
-                var attribute = GetStaleElement().GetAttribute("Attribute");
+                var displayed = GetStaleElement().Displayed;
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException exception)
@@ -62,20 +63,29 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetValidElementAttribute()
+        public void GetElementDisplayed()
         {
-            // NOTE: HelpText is currently the only supported GetAttribute method. There are
-            //       no known examples of non-null HelpText, so this should be replaced with 
-            //       a different attribute once more are supported. 
-            string helpText = alarmTabElement.GetAttribute("HelpText");
-            Assert.AreEqual(helpText, null);
-        }
+            WindowsElement alarmPivotItem = session.FindElementByAccessibilityId("AlarmPivotItem");
+            WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
+            Assert.IsTrue(addAlarmButton.Displayed);
 
-        [TestMethod]
-        public void GetInvalidElementAttribute()
-        {
-            string helpText = alarmTabElement.GetAttribute("InvalidAttribute");
-            Assert.AreEqual(helpText, null);
+            // Navigate to Stopwatch tab
+            WindowsElement stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
+            stopwatchPivotItem.Click();
+            WindowsElement stopwatchResetButton = session.FindElementByAccessibilityId("StopWatchResetButton");
+            Assert.IsTrue(stopwatchResetButton.Displayed);
+            Assert.IsFalse(addAlarmButton.Displayed);
+
+            // Navigate back to Alarm tab
+            alarmPivotItem.Click();
+            Assert.IsTrue(addAlarmButton.Displayed);
+            Assert.IsFalse(stopwatchResetButton.Displayed);
+
+            // Open a new alarm page and verify that 00 minute is displayed while 30 minute is hidden in the time picker
+            addAlarmButton.Click();
+            WindowsElement minuteLoopingSelector = session.FindElementByAccessibilityId("MinuteLoopingSelector");
+            Assert.IsTrue(minuteLoopingSelector.FindElementByName("00").Displayed);
+            Assert.IsFalse(minuteLoopingSelector.FindElementByName("30").Displayed);
         }
     }
 }

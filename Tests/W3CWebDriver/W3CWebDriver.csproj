@@ -74,21 +74,34 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AlarmClockBase.cs" />
+    <Compile Include="AppSessionBase\Utility.cs" />
+    <Compile Include="AppSessionBase\CalculatorBase.cs" />
+    <Compile Include="AppSessionBase\AlarmClockBase.cs" />
+    <Compile Include="ElementClick.cs" />
+    <Compile Include="ElementEnabled.cs" />
+    <Compile Include="ElementDisplayed.cs" />
+    <Compile Include="ElementText.cs" />
+    <Compile Include="ElementClear.cs" />
+    <Compile Include="ElementSize.cs" />
+    <Compile Include="ElementLocation.cs" />
+    <Compile Include="ElementLocationInView.cs" />
+    <Compile Include="ElementName.cs" />
+    <Compile Include="ElementEquals.cs" />
+    <Compile Include="ElementActive.cs" />
+    <Compile Include="Location.cs" />
     <Compile Include="Timeouts.cs" />
     <Compile Include="ElementElements.cs" />
     <Compile Include="Elements.cs" />
     <Compile Include="Forward.cs" />
     <Compile Include="Orientation.cs" />
-    <Compile Include="TouchBase.cs" />
+    <Compile Include="AppSessionBase\EdgeBase.cs" />
     <Compile Include="ElementAttribute.cs" />
-    <Compile Include="Selected.cs" />
+    <Compile Include="ElementSelected.cs" />
     <Compile Include="Keys.cs" />
     <Compile Include="ElementSendKeys.cs" />
     <Compile Include="Screenshot.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="Sessions.cs" />
-    <Compile Include="Location.cs" />
     <Compile Include="Back.cs" />
     <Compile Include="TouchFlick.cs" />
     <Compile Include="TouchDoubleClick.cs" />
@@ -99,7 +112,7 @@
     <Compile Include="Status.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="ElementElement.cs" />
-    <Compile Include="CommonTestSettings.cs" />
+    <Compile Include="AppSessionBase\CommonTestSettings.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Element.cs" />

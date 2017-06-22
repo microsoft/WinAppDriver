@@ -147,6 +147,20 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
+        public void ErrorFindElementNoSuchWindow()
+        {
+            try
+            {
+                WindowsElement element = Utility.GetOrphanedSession().FindElementByAccessibilityId("An accessibility id") as WindowsElement;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
         public void FindElementByTagName()
         {
             WindowsElement element = session.FindElementByTagName("Button");

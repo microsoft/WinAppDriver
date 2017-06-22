@@ -14,23 +14,20 @@
 //
 //******************************************************************************
 
-using System;
 using System.IO;
 using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
     [TestClass]
     public class Sessions
     {
-        [TestInitialize]
-        public void CloseAllActiveSessions()
+        [TestMethod]
+        public void GetSessionsCurrentList()
         {
-            // Close all active sessions in the driver
             using (HttpWebResponse response = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/sessions").GetResponse() as HttpWebResponse)
             {
                 var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
@@ -38,31 +35,15 @@ namespace W3CWebDriver
                 Assert.AreEqual(0, (int)responseObject["status"]);
 
                 JArray capabilitiesArray = (JArray)responseObject["value"];
-                foreach (var entry in capabilitiesArray)
-                {
-                    var request = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/session/" + entry["id"].ToString());
-                    request.Method = "DELETE";
-                    request.GetResponse();
-                }
-            }
-        }
-
-        [TestMethod]
-        public void GetSessionsEmptyList()
-        {
-            using (HttpWebResponse response = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/sessions").GetResponse() as HttpWebResponse)
-            {
-                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                Assert.AreEqual("{\"status\":0,\"value\":[]}", responseString);
+                Assert.IsNotNull(capabilitiesArray);
+                Assert.IsTrue(capabilitiesArray.Count >= 0);
             }
         }
 
         [TestMethod]
         public void GetSessionsSingleEntry()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            WindowsDriver<WindowsElement> session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
             Assert.IsNotNull(session);
 
             using (HttpWebResponse response = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/sessions").GetResponse() as HttpWebResponse)
@@ -72,11 +53,21 @@ namespace W3CWebDriver
                 Assert.AreEqual(0, (int)responseObject["status"]);
 
                 JArray capabilitiesArray = (JArray)responseObject["value"];
-                Assert.AreEqual(1, capabilitiesArray.Count);
+                Assert.IsTrue(capabilitiesArray.Count >= 1);
 
-                JToken firstEntry = capabilitiesArray[0];
-                Assert.AreEqual(session.SessionId.ToString(), firstEntry["id"].ToString());
-                Assert.AreEqual(CommonTestSettings.AlarmClockAppId, firstEntry["capabilities"]["app"].ToString());
+                // Verify that the newly created session is on the list
+                JToken newSessionEntry = null;
+                foreach (var entry in capabilitiesArray.Children())
+                {
+                    if (entry["id"].ToString() == session.SessionId.ToString())
+                    {
+                        newSessionEntry = entry;
+                        break;
+                    }
+                }
+
+                Assert.IsNotNull(newSessionEntry);
+                Assert.AreEqual(CommonTestSettings.AlarmClockAppId, newSessionEntry["capabilities"]["app"].ToString());
             }
 
             session.Quit();
@@ -85,15 +76,13 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetSessionsMultipleEntry()
         {
-            DesiredCapabilities alarmAppCapabilities = new DesiredCapabilities();
-            alarmAppCapabilities.SetCapability("app", CommonTestSettings.AlarmClockAppId);
-            WindowsDriver<WindowsElement> alarmSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), alarmAppCapabilities);
+            WindowsDriver<WindowsElement> alarmSession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
             Assert.IsNotNull(alarmSession);
 
-            DesiredCapabilities notepadAppCapabilities = new DesiredCapabilities();
-            notepadAppCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
-            WindowsDriver<WindowsElement> notepadSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), notepadAppCapabilities);
+            WindowsDriver<WindowsElement> notepadSession = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
             Assert.IsNotNull(notepadSession);
+
+            int openSessionsCount = 0;
 
             using (HttpWebResponse response = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/sessions").GetResponse() as HttpWebResponse)
             {
@@ -101,28 +90,51 @@ namespace W3CWebDriver
                 JObject responseObject = JObject.Parse(responseString);
                 Assert.AreEqual(0, (int)responseObject["status"]);
 
+                // There needs to be at least 2 open sessions after we create the 2 session above
                 JArray capabilitiesArray = (JArray)responseObject["value"];
-                Assert.AreEqual(2, capabilitiesArray.Count);
+                openSessionsCount = capabilitiesArray.Count;
+                Assert.IsTrue(openSessionsCount >= 2);
 
+                // Verify that both alarm and notepad sessions are created
+                JToken alarmSessionEntry = null;
+                JToken notepadSessionEntry = null;
                 foreach (var entry in capabilitiesArray.Children())
                 {
                     if (entry["id"].ToString() == alarmSession.SessionId.ToString())
                     {
-                        Assert.AreEqual(CommonTestSettings.AlarmClockAppId, entry["capabilities"]["app"].ToString());
+                        alarmSessionEntry = entry;
                     }
                     else if (entry["id"].ToString() == notepadSession.SessionId.ToString())
                     {
-                        Assert.AreEqual(CommonTestSettings.NotepadAppId, entry["capabilities"]["app"].ToString());
+                        notepadSessionEntry = entry;
                     }
-                    else
+
+                    if (alarmSessionEntry != null && notepadSessionEntry != null)
                     {
-                        Assert.Fail("This session entry is unexpected");
+                        break;
                     }
                 }
+
+                Assert.IsNotNull(alarmSessionEntry);
+                Assert.AreEqual(CommonTestSettings.AlarmClockAppId, alarmSessionEntry["capabilities"]["app"].ToString());
+                Assert.IsNotNull(notepadSessionEntry);
+                Assert.AreEqual(CommonTestSettings.NotepadAppId, notepadSessionEntry["capabilities"]["app"].ToString());
             }
 
+            // Close the newly created sessions
             alarmSession.Quit();
             notepadSession.Quit();
+
+            using (HttpWebResponse response = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/sessions").GetResponse() as HttpWebResponse)
+            {
+                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                JObject responseObject = JObject.Parse(responseString);
+                Assert.AreEqual(0, (int)responseObject["status"]);
+
+                // There needs to be 2 less sessions after we closed the 2 sessions above
+                JArray capabilitiesArray = (JArray)responseObject["value"];
+                Assert.AreEqual(openSessionsCount - 2, capabilitiesArray.Count);
+            }
         }
     }
 }
