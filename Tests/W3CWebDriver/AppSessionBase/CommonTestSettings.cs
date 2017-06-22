@@ -27,6 +27,8 @@ namespace W3CWebDriver
         public const string NotepadAppId = @"C:\Windows\System32\notepad.exe";
         public const string MicrosoftUrl = "www.microsoft.com";
         public const string GitHubUrl = "https://github.com/Microsoft/WinAppDriver";
+        public const string TestFileName = "TestFile.txt";
+        public const string TestFolderLocation = "%TEMP%";
     }
 
     public class ErrorStrings

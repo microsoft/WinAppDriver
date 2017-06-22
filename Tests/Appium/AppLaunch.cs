@@ -35,14 +35,12 @@ namespace W3CWebDriver
 
             var originalTitle = session.Title;
             var originalLaunchedWindowHandle = session.CurrentWindowHandle;
-            session.LaunchApp();
+            session.Close();
+            Assert.IsNotNull(session.SessionId);
 
+            session.LaunchApp();
             Assert.AreEqual(originalTitle, session.Title);
             Assert.AreNotEqual(originalLaunchedWindowHandle, session.CurrentWindowHandle);
-
-            session.Close();
-            session.SwitchTo().Window(originalLaunchedWindowHandle);
-            session.Close();
             session.Quit();
         }
 
