@@ -64,18 +64,46 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetValidElementAttribute()
         {
-            // NOTE: HelpText is currently the only supported GetAttribute method. There are
-            //       no known examples of non-null HelpText, so this should be replaced with 
-            //       a different attribute once more are supported. 
-            string helpText = alarmTabElement.GetAttribute("HelpText");
-            Assert.AreEqual(helpText, null);
+            // NOTE: The attributes below are only a subset of supported attributes.
+            //       Use inspect.exe to identify all available attributes of an element
+            var element = alarmTabElement;
+
+            // Fixed value string attributes
+            Assert.AreEqual(element.GetAttribute("Name"), "Alarm");
+            Assert.AreEqual(element.GetAttribute("AutomationId"), "AlarmPivotItem");
+            Assert.AreEqual(element.GetAttribute("FrameworkId"), "XAML");
+            Assert.AreEqual(element.GetAttribute("ClassName"), "PivotItem");
+            Assert.AreEqual(element.GetAttribute("LegacyName"), "Alarm"); // Shows as Legacy|Accessible.Name in inspect.exe
+
+            // Fixed value boolean attributes
+            Assert.AreEqual(element.GetAttribute("IsEnabled"), "True");
+            Assert.AreEqual(element.GetAttribute("IsKeyboardFocusable"), "True");
+            Assert.AreEqual(element.GetAttribute("IsControlElement"), "True");
+
+            // Arbitrary value attributes
+            Assert.IsTrue(System.Convert.ToInt32(element.GetAttribute("ProcessId")) > 0);
+            Assert.IsFalse(string.IsNullOrEmpty(element.GetAttribute("RuntimeId")));
+
+            // Arbitrary value array attributes
+            Assert.IsFalse(string.IsNullOrEmpty(element.GetAttribute("ClickablePoint")));
+            var boundingRectangle = element.GetAttribute("BoundingRectangle");
+            Assert.IsTrue(boundingRectangle.Contains("Top"));
+            Assert.IsTrue(boundingRectangle.Contains("Left"));
+            Assert.IsTrue(boundingRectangle.Contains("Width"));
+            Assert.IsTrue(boundingRectangle.Contains("Height"));
+
+            // Pattern specific attribute that may be used along with element.Selected property etc.
+            Assert.AreEqual(element.GetAttribute("SelectionItem.IsSelected"), element.Selected.ToString());
+            Assert.AreEqual(element.GetAttribute("IsSelectionItemPatternAvailable"), "True");
+            Assert.AreEqual(element.GetAttribute("IsSelectionPatternAvailable"), "False");
         }
 
         [TestMethod]
         public void GetInvalidElementAttribute()
         {
-            string helpText = alarmTabElement.GetAttribute("InvalidAttribute");
-            Assert.AreEqual(helpText, null);
+            // Getting the value of an invalid attribute should return null
+            string invalidAttribute = alarmTabElement.GetAttribute("InvalidAttribute");
+            Assert.AreEqual(invalidAttribute, null);
         }
     }
 }
