@@ -30,7 +30,7 @@ namespace W3CWebDriver
         public static void Setup(TestContext context)
         {
             // Launch Alarm Clock if it is not yet launched
-            if (session == null || touchScreen == null || !CurrentWindowIsAlive())
+            if (session == null || touchScreen == null || !Utility.CurrentWindowIsAlive(session))
             {
                 TearDown();
                 session = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
@@ -80,27 +80,6 @@ namespace W3CWebDriver
             session.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
             session.FindElementByAccessibilityId("AlarmNameTextBox").SendKeys(alarmName);
             session.FindElementByAccessibilityId("AlarmSaveButton").Click();
-        }
-
-        private static bool CurrentWindowIsAlive()
-        {
-            bool windowIsAlive = false;
-
-            if (session != null)
-            {
-                try
-                {
-                    windowIsAlive = !String.IsNullOrEmpty(session.CurrentWindowHandle) && session.CurrentWindowHandle != "0";
-                    windowIsAlive = true;
-                }
-                catch
-                {
-                    session.Quit();
-                    session = null;
-                }
-            }
-
-            return windowIsAlive;
         }
 
         protected void DeletePreviouslyCreatedAlarmEntry(string alarmName)

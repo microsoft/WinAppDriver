@@ -16,24 +16,30 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using OpenQA.Selenium.Remote;
 
 namespace W3CWebDriver
 {
     public class CalculatorBase
     {
         protected static WindowsDriver<WindowsElement> session;
+        protected static RemoteTouchScreen touchScreen;
         private static WindowsElement header;
 
         public static void Setup(TestContext context)
         {
             // Launch Calculator if it is not yet launched
-            if (session == null)
+            if (session == null || touchScreen == null)
             {
                 session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
                 Assert.IsNotNull(session);
                 Assert.IsNotNull(session.SessionId);
                 header = session.FindElementByAccessibilityId("Header");
                 Assert.IsNotNull(header);
+
+                // Initialize touch screen object
+                touchScreen = new RemoteTouchScreen(session);
+                Assert.IsNotNull(touchScreen);
             }
 
             // Set focus on the calculator window
@@ -54,6 +60,9 @@ namespace W3CWebDriver
         public static void TearDown()
         {
             header = null;
+
+            // Cleanup RemoteTouchScreen object if initialized
+            touchScreen = null;
 
             // Close the application and delete the session
             if (session != null)

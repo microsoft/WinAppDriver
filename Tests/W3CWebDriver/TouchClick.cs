@@ -36,62 +36,36 @@ namespace W3CWebDriver
         [TestMethod]
         public void SingleTap()
         {
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.MicrosoftUrl + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + OpenQA.Selenium.Keys.Enter);
+            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
-            // Navigate to GitHub
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.GitHubUrl + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
+            // Navigate to Edge blank page to create navigation history
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutBlankURL + OpenQA.Selenium.Keys.Enter);
             Assert.AreNotEqual(originalTitle, session.Title);
 
             // Perform single tap touch on the back button
             touchScreen.SingleTap(session.FindElementByName("Back").Coordinates);
-            System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
+            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
 
             // Make sure the page you went to is the page we started on
             Assert.AreEqual(originalTitle, session.Title);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException))]
-        public void ErrorTouchClosedWindow()
-        {
-            // Open a new window, retrieve an element, and close the window to get an orphaned element
-            var orphanedElement = GetOrphanedElement(session);
-            Assert.IsNotNull(orphanedElement);
-
-            // Perform single tap touch on the orphaned element
-            touchScreen.SingleTap(orphanedElement.Coordinates);
-            Assert.Fail("Exception should have been thrown");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchInvalidElement()
-        {
-            ErrorTouchInvalidElement("click");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorTouchStaleElement()
         {
-            // Navigate to a webpage, save a reference to an element, and navigate away to get a stale element
-            var staleElement = GetStaleElement(session);
-            Assert.IsNotNull(staleElement);
-
-            // Perform single tap touch on stale element
-            touchScreen.SingleTap(staleElement.Coordinates);
-            Assert.Fail("Exception should have been thrown");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchInvalidArguments()
-        {
-            ErrorTouchInvalidArguments("click");
+            try
+            {
+                // Perform single tap touch on stale element
+                touchScreen.SingleTap(GetStaleElement().Coordinates);
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }

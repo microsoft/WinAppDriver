@@ -25,10 +25,9 @@ namespace W3CWebDriver
     public class Window
     {
         [TestMethod]
-        public void CloseWindowSingleInstanceApplication()
+        public void CloseWindow()
         {
             WindowsDriver<WindowsElement> singleWindowSession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
-            Assert.IsNotNull(singleWindowSession);
             Assert.IsNotNull(singleWindowSession.SessionId);
 
             // Close the application window without deleting the session
@@ -41,10 +40,24 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
+        public void CloseWindowErrorNoSuchWindow()
+        {
+            // Attempt to close the previously closed application window
+            try
+            {
+                Utility.GetOrphanedSession().Close();
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException e)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, e.Message);
+            }
+        }
+
+        [TestMethod]
         public void GetWindowHandle()
         {
             WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
-            Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
 
             string windowHandle = session.CurrentWindowHandle;
@@ -54,44 +67,30 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetWindowHandles()
+        public void GetWindowHandleErrorNoSuchWindow()
         {
-            WindowsDriver<WindowsElement> multiWindowsSession = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
-            Assert.IsNotNull(multiWindowsSession);
-            Assert.IsNotNull(multiWindowsSession.SessionId);
-
-            var handles = multiWindowsSession.WindowHandles;
-            Assert.IsNotNull(handles);
-            Assert.IsTrue(handles.Count > 0);
-            multiWindowsSession.Quit();
+            try
+            {
+                string windowHandle = Utility.GetOrphanedSession().CurrentWindowHandle;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException e)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, e.Message);
+            }
         }
 
         [TestMethod]
         public void GetWindowHandlesClassicApp()
         {
-            WindowsDriver<WindowsElement> multiWindowsSession = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
-            Assert.IsNotNull(multiWindowsSession);
-            Assert.IsNotNull(multiWindowsSession.SessionId);
+            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
+            Assert.IsNotNull(session);
+            Assert.IsNotNull(session.SessionId);
 
-            var windowHandlesBefore = multiWindowsSession.WindowHandles;
-            Assert.IsNotNull(windowHandlesBefore);
-            Assert.IsTrue(windowHandlesBefore.Count > 0);
-
-            multiWindowsSession.FindElementByName("File").Click();
-            multiWindowsSession.FindElementByName("Save As...").Click();
-
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
-            var windowHandlesAfter = multiWindowsSession.WindowHandles;
-            Assert.IsNotNull(windowHandlesAfter);
-            Assert.AreEqual(windowHandlesBefore.Count + 1, windowHandlesAfter.Count);
-
-            foreach (var windowHandle in windowHandlesAfter)
-            {
-                multiWindowsSession.SwitchTo().Window(windowHandle);
-                multiWindowsSession.Close();
-            }
-
-            multiWindowsSession.Quit();
+            var handles = session.WindowHandles;
+            Assert.IsNotNull(handles);
+            Assert.IsTrue(handles.Count > 0);
+            session.Quit();
         }
 
         [TestMethod]
@@ -146,7 +145,6 @@ namespace W3CWebDriver
 
             // Open a new window
             multiWindowsSession.Keyboard.SendKeys(OpenQA.Selenium.Keys.Control + "n" + OpenQA.Selenium.Keys.Control);
-
             System.Threading.Thread.Sleep(5000); // Sleep for 5 seconds
             var multipleWindowHandles = multiWindowsSession.WindowHandles;
             Assert.IsTrue(multipleWindowHandles.Count > 1);
@@ -173,66 +171,107 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorCloseWindowAlreadyClosedApplication()
+        public void SwitchWindowsErrorEmptyValue()
         {
-            // Attempt to close the previously closed application window
+            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+
             try
             {
-                Utility.GetOrphanedSession().Close();
+                session.SwitchTo().Window(string.Empty);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException e)
+            catch (Exception e)
             {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, e.Message);
+                Assert.AreEqual("Missing Command Parameter: name", e.Message);
             }
+
+            session.Quit();
         }
 
         [TestMethod]
-        public void ErrorGetWindowHandleAlreadyClosedApplication()
+        public void SwitchWindowsErrorForeignWindowHandle()
         {
+            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+            WindowsDriver<WindowsElement> foreignSession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
+            Assert.IsNotNull(session.SessionId);
+            Assert.IsNotNull(foreignSession.SessionId);
+
+            // Get a foreign window handle from a different application/process under foreignSession
+            var foreignTopLevelWindow = foreignSession.CurrentWindowHandle;
+            Assert.IsFalse(string.IsNullOrEmpty(foreignTopLevelWindow));
+
             try
             {
-                string windowHandle = Utility.GetOrphanedSession().CurrentWindowHandle;
+                session.SwitchTo().Window(foreignTopLevelWindow);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException e)
+            catch (Exception e)
             {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, e.Message);
+                Assert.AreEqual("Window handle does not belong to the same process/application", e.Message);
             }
+
+            foreignSession.Quit();
+            session.Quit();
         }
 
         [TestMethod]
-        public void ErrorSwitchWindowsAlreadyClosedApplication()
+        public void SwitchWindowsErrorInvalidValue()
         {
-            WindowsDriver<WindowsElement> singleWindowSession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
-            Assert.IsNotNull(singleWindowSession);
-            Assert.IsNotNull(singleWindowSession.SessionId);
+            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
 
-            // Get the current window handle
-            string windowHandle = singleWindowSession.CurrentWindowHandle;
-            Assert.IsNotNull(windowHandle);
-            Assert.AreNotEqual(string.Empty, windowHandle);
+            try
+            {
+                session.SwitchTo().Window("-1");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("String cannot contain a minus sign if the base is not 10.", e.Message);
+            }
 
-            // Close the application window without deleting the session
-            singleWindowSession.Close();
-            Assert.IsNotNull(singleWindowSession);
-            Assert.IsNotNull(singleWindowSession.SessionId);
+            session.Quit();
+        }
 
-            // Sleep for 3 seconds until the window is properly closed
+        [TestMethod]
+        public void SwitchWindowsErrorNonTopLevelWindowHandle()
+        {
+            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+            var nonTopLevelWindowHandle = session.FindElementByClassName("Windows.UI.Core.CoreWindow").GetAttribute("NativeWindowHandle");
+            var nonTopLevelWindowHandleHex = Convert.ToInt32(nonTopLevelWindowHandle).ToString("x");
+
+            try
+            {
+                session.SwitchTo().Window(nonTopLevelWindowHandleHex); // This needs to be in Hex e.g. 0x00880088
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message.EndsWith("is not a top level window handle"));
+            }
+
+            session.Quit();
+        }
+
+        [TestMethod]
+        public void SwitchWindowsErrorNoSuchWindow()
+        {
+            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+
+            // Get an orphaned window handle from a closed application
+            var orphanedTopLevelWindow = Utility.GetOrphanedWindowHandle();
             System.Threading.Thread.Sleep(3000);
 
             try
             {
-                // Attempt to switch to a an orphaned window
-                singleWindowSession.SwitchTo().Window(windowHandle);
+                session.SwitchTo().Window(orphanedTopLevelWindow);
                 Assert.Fail("Exception should have been thrown");
             }
             catch (System.InvalidOperationException e)
             {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, e.Message);
+                Assert.AreEqual("A request to switch to a window could not be satisfied because the window could not be found.", e.Message);
             }
 
-            singleWindowSession.Quit();
+            session.Quit();
         }
     }
 

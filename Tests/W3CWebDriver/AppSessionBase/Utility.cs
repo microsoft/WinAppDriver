@@ -24,6 +24,7 @@ namespace W3CWebDriver
     {
         private static WindowsDriver<WindowsElement> orphanedSession;
         private static WindowsElement orphanedElement;
+        private static string orphanedWindowHandle;
 
         ~Utility()
         {
@@ -36,6 +37,24 @@ namespace W3CWebDriver
             appCapabilities.SetCapability("app", appId);
             return new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
         }
+
+        public static bool CurrentWindowIsAlive(WindowsDriver<WindowsElement> remoteSession)
+        {
+            bool windowIsAlive = false;
+
+            if (remoteSession != null)
+            {
+                try
+                {
+                    windowIsAlive = !string.IsNullOrEmpty(remoteSession.CurrentWindowHandle) && remoteSession.CurrentWindowHandle != "0";
+                    windowIsAlive = true;
+                }
+                catch { }
+            }
+
+            return windowIsAlive;
+        }
+
 
         public static WindowsElement GetOrphanedElement()
         {
@@ -51,7 +70,7 @@ namespace W3CWebDriver
         public static WindowsDriver<WindowsElement> GetOrphanedSession()
         {
             // Re-initialize orphaned session and element if they are compromised
-            if (orphanedSession == null || orphanedElement == null)
+            if (orphanedSession == null || orphanedElement == null || string.IsNullOrEmpty(orphanedWindowHandle))
             {
                 InitializeOrphanedSession();
             }
@@ -59,8 +78,20 @@ namespace W3CWebDriver
             return orphanedSession;
         }
 
+        public static string GetOrphanedWindowHandle()
+        {
+            // Re-initialize orphaned session and element if they are compromised
+            if (orphanedSession == null || orphanedElement == null || string.IsNullOrEmpty(orphanedWindowHandle))
+            {
+                InitializeOrphanedSession();
+            }
+
+            return orphanedWindowHandle;
+        }
+
         private static void CleanupOrphanedSession()
         {
+            orphanedWindowHandle = null;
             orphanedElement = null;
 
             // Cleanup after the session if exists
@@ -77,6 +108,7 @@ namespace W3CWebDriver
             CleanupOrphanedSession();
             orphanedSession = CreateNewSession(CommonTestSettings.CalculatorAppId);
             orphanedElement = orphanedSession.FindElementByAccessibilityId("Header");
+            orphanedWindowHandle = orphanedSession.CurrentWindowHandle;
             orphanedSession.Close();
         }
     }
