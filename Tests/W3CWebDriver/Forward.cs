@@ -30,27 +30,26 @@ namespace W3CWebDriver
         {
             session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId);
             Assert.IsNotNull(session);
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
 
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.MicrosoftUrl + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + OpenQA.Selenium.Keys.Enter);
+            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
             var originalTitle = session.Title;
             Assert.AreNotEqual(String.Empty, originalTitle);
 
             // Navigate to different URLs
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.GitHubUrl + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutTabsURL + OpenQA.Selenium.Keys.Enter);
+            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
             var newTitle = session.Title;
             Assert.AreNotEqual(originalTitle, newTitle);
 
             // Navigate back to original URL
             session.Navigate().Back();
-            System.Threading.Thread.Sleep(5000); // Sleep for 5 seconds
+            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
             Assert.AreEqual(originalTitle, session.Title);
 
             // Navigate forward to original URL
             session.Navigate().Forward();
-            System.Threading.Thread.Sleep(5000); // Sleep for 5 seconds
+            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
             Assert.AreEqual(newTitle, session.Title);
 
             session.Quit();

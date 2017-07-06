@@ -21,11 +21,8 @@ using OpenQA.Selenium.Remote;
 namespace W3CWebDriver
 {
     [TestClass]
-    public class TouchDoubleClick : EdgeBase
+    public class TouchDoubleClick : CalculatorBase
     {
-        private static WindowsDriver<WindowsElement> calculatorSession;
-        private static RemoteTouchScreen calculatorTouchScreen;
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
@@ -35,104 +32,59 @@ namespace W3CWebDriver
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            // Cleanup, close, and delete calculator session in case the cleanup steps were interrupted by exception
-            calculatorTouchScreen = null;
-
-            if (calculatorSession != null)
-            {
-                calculatorSession.Quit();
-                calculatorSession = null;
-            }
-
             TearDown();
         }
 
         [TestMethod]
         public void DoubleTap()
         {
-            // Launch calculator for this specific test case
-            calculatorSession = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
-            Assert.IsNotNull(calculatorSession);
-            Assert.IsNotNull(calculatorSession.SessionId);
-
             // Save application window original size and position
-            var originalSize = calculatorSession.Manage().Window.Size;
-            var originalPosition = calculatorSession.Manage().Window.Position;
+            var originalSize = session.Manage().Window.Size;
+            var originalPosition = session.Manage().Window.Position;
 
             // Get maximized window size
-            calculatorSession.Manage().Window.Maximize();
-            var maximizedSize = calculatorSession.Manage().Window.Size;
+            session.Manage().Window.Maximize();
+            var maximizedSize = session.Manage().Window.Size;
             Assert.IsNotNull(maximizedSize);
 
             // Shrink the window size by 100 pixels each side from maximized size to ensure size changes when maximized
             int offset = 100;
-            calculatorSession.Manage().Window.Size = new System.Drawing.Size(maximizedSize.Width - offset, maximizedSize.Height - offset);
-            calculatorSession.Manage().Window.Position = new System.Drawing.Point(offset, offset);
+            session.Manage().Window.Size = new System.Drawing.Size(maximizedSize.Width - offset, maximizedSize.Height - offset);
+            session.Manage().Window.Position = new System.Drawing.Point(offset, offset);
             System.Threading.Thread.Sleep(1000); // Sleep for 1 second
-            var currentWindowSize = calculatorSession.Manage().Window.Size;
+            var currentWindowSize = session.Manage().Window.Size;
             Assert.IsNotNull(currentWindowSize);
             Assert.AreNotEqual(maximizedSize.Width, currentWindowSize.Width);
             Assert.AreNotEqual(maximizedSize.Height, currentWindowSize.Height);
 
             // Perform double tap touch on the title bar to maximize calculator window
-            calculatorTouchScreen = new RemoteTouchScreen(calculatorSession);
-            Assert.IsNotNull(calculatorTouchScreen);
-            calculatorTouchScreen.DoubleTap(calculatorSession.FindElementByAccessibilityId("AppNameTitle").Coordinates);
+            Assert.IsNotNull(touchScreen);
+            touchScreen.DoubleTap(session.FindElementByAccessibilityId("AppNameTitle").Coordinates);
             System.Threading.Thread.Sleep(1000); // Sleep for 1 second
-            currentWindowSize = calculatorSession.Manage().Window.Size;
+            currentWindowSize = session.Manage().Window.Size;
             Assert.IsNotNull(currentWindowSize);
             Assert.AreEqual(maximizedSize.Width, currentWindowSize.Width);
             Assert.AreEqual(maximizedSize.Height, currentWindowSize.Height);
 
             // Restore application window original size and position
-            calculatorSession.Manage().Window.Size = originalSize;
-            calculatorSession.Manage().Window.Position = originalPosition;
+            session.Manage().Window.Size = originalSize;
+            session.Manage().Window.Position = originalPosition;
             System.Threading.Thread.Sleep(1000); // Sleep for 1 second
-
-            // Close the calculator application and delete the session after cleaning up
-            calculatorTouchScreen = null;
-            calculatorSession.Quit();
-            calculatorSession = null;
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException))]
-        public void ErrorTouchClosedWindow()
-        {
-            // Open a new window, retrieve an element, and close the window to get an orphaned element
-            var orphanedElement = GetOrphanedElement(session);
-            Assert.IsNotNull(orphanedElement);
-
-            // Perform double tap touch on the orphaned element
-            touchScreen.DoubleTap(orphanedElement.Coordinates);
-            Assert.Fail("Exception should have been thrown");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchInvalidElement()
-        {
-            ErrorTouchInvalidElement("doubleclick");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException))]
         public void ErrorTouchStaleElement()
         {
-            // Navigate to a webpage, save a reference to an element, and navigate away to get a stale element
-            var staleElement = GetStaleElement(session);
-            Assert.IsNotNull(staleElement);
-
-            // Perform double tap touch on stale element
-            touchScreen.DoubleTap(staleElement.Coordinates);
-            Assert.Fail("Exception should have been thrown");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorTouchInvalidArguments()
-        {
-            ErrorTouchInvalidArguments("doubleclick");
+            try
+            {
+                // Perform single tap touch on stale element
+                touchScreen.SingleTap(GetStaleElement().Coordinates);
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (System.InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }

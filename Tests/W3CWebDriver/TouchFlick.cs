@@ -38,25 +38,25 @@ namespace W3CWebDriver
         [TestMethod]
         public void ArbitraryFlick()
         {
-            // Navigate to GitHub
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.GitHubUrl + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
+            // Navigate to Edge about:flags page
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + OpenQA.Selenium.Keys.Enter);
+            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
 
-            // Use Homepage link in GitHub page as a reference element
-            var gitHubHomePageLink = session.FindElementByName("Homepage");
-            Assert.IsNotNull(gitHubHomePageLink);
-            Assert.IsTrue(gitHubHomePageLink.Displayed);
+            // Use the reset all button on Edge about:flags page as a reference element
+            var resetAllFlagsButton = session.FindElementByAccessibilityId("ResetAllFlags");
+            Assert.IsNotNull(resetAllFlagsButton);
+            Assert.IsTrue(resetAllFlagsButton.Displayed);
 
             // Perform flick up touch action to scroll the page down hiding the Homepage link element from the view
             // Good value typically goes around 160 - 200 pixels with diminishing delta on the bigger values
             touchScreen.Flick(0, 180);
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
-            Assert.IsFalse(gitHubHomePageLink.Displayed);
+            Assert.IsFalse(resetAllFlagsButton.Displayed);
 
-            // Perform flick down touch action to scroll the page up restoring the Homepage link element into the view
+            // Perform flick down touch action to scroll the page up restoring the button element into the view
             touchScreen.Flick(0, -360);
             System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
-            Assert.IsTrue(gitHubHomePageLink.Displayed);
+            Assert.IsTrue(resetAllFlagsButton.Displayed);
         }
     }
 }

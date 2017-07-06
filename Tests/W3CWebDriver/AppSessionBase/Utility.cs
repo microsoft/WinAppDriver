@@ -38,6 +38,24 @@ namespace W3CWebDriver
             return new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
         }
 
+        public static bool CurrentWindowIsAlive(WindowsDriver<WindowsElement> remoteSession)
+        {
+            bool windowIsAlive = false;
+
+            if (remoteSession != null)
+            {
+                try
+                {
+                    windowIsAlive = !string.IsNullOrEmpty(remoteSession.CurrentWindowHandle) && remoteSession.CurrentWindowHandle != "0";
+                    windowIsAlive = true;
+                }
+                catch { }
+            }
+
+            return windowIsAlive;
+        }
+
+
         public static WindowsElement GetOrphanedElement()
         {
             // Re-initialize orphaned session and element if they are compromised
