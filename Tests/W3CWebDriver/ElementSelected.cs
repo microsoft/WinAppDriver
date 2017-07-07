@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace W3CWebDriver
 {
@@ -35,34 +36,6 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementSelectedStateNoSuchWindow()
-        {
-            try
-            {
-                var selected = Utility.GetOrphanedElement().Enabled;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorGetElementSelectedStateStaleElement()
-        {
-            try
-            {
-                var selected = GetStaleElement().Selected;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
-            }
-        }
-
-        [TestMethod]
         public void GetElementSelectedState()
         {
             WindowsElement elementWorldClock = session.FindElementByAccessibilityId("WorldClockPivotItem");
@@ -78,10 +51,38 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetElementSelectedStateUnselectableElement()
+        public void GetElementSelectedState_UnselectableElement()
         {
             WindowsElement elementAddButton = session.FindElementByAccessibilityId("AddAlarmButton");
             Assert.IsFalse(elementAddButton.Selected);
+        }
+
+        [TestMethod]
+        public void GetElementSelectedStateError_NoSuchWindow()
+        {
+            try
+            {
+                var selected = Utility.GetOrphanedElement().Enabled;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void GetElementSelectedStateError_StaleElement()
+        {
+            try
+            {
+                var selected = GetStaleElement().Selected;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }

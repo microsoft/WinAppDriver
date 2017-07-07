@@ -15,8 +15,9 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
+using System;
+using System.Drawing;
+using System.Threading;
 
 namespace W3CWebDriver
 {
@@ -36,7 +37,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void DoubleTap()
+        public void TouchDoubleTap()
         {
             // Save application window original size and position
             var originalSize = session.Manage().Window.Size;
@@ -48,19 +49,19 @@ namespace W3CWebDriver
             Assert.IsNotNull(maximizedSize);
 
             // Shrink the window size by 100 pixels each side from maximized size to ensure size changes when maximized
-            int offset = 100;
-            session.Manage().Window.Size = new System.Drawing.Size(maximizedSize.Width - offset, maximizedSize.Height - offset);
-            session.Manage().Window.Position = new System.Drawing.Point(offset, offset);
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            int offset = 500;
+            session.Manage().Window.Size = new Size(maximizedSize.Width - offset, maximizedSize.Height - offset);
+            session.Manage().Window.Position = new Point(offset, offset);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             var currentWindowSize = session.Manage().Window.Size;
             Assert.IsNotNull(currentWindowSize);
-            Assert.AreNotEqual(maximizedSize.Width, currentWindowSize.Width);
-            Assert.AreNotEqual(maximizedSize.Height, currentWindowSize.Height);
+            Assert.IsTrue(maximizedSize.Width >= currentWindowSize.Width);
+            Assert.IsTrue(maximizedSize.Height >= currentWindowSize.Height);
 
             // Perform double tap touch on the title bar to maximize calculator window
             Assert.IsNotNull(touchScreen);
             touchScreen.DoubleTap(session.FindElementByAccessibilityId("AppNameTitle").Coordinates);
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             currentWindowSize = session.Manage().Window.Size;
             Assert.IsNotNull(currentWindowSize);
             Assert.AreEqual(maximizedSize.Width, currentWindowSize.Width);
@@ -69,19 +70,19 @@ namespace W3CWebDriver
             // Restore application window original size and position
             session.Manage().Window.Size = originalSize;
             session.Manage().Window.Position = originalPosition;
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            Thread.Sleep(TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
-        public void ErrorTouchStaleElement()
+        public void TouchDoubleTapError_StaleElement()
         {
             try
             {
-                // Perform single tap touch on stale element
-                touchScreen.SingleTap(GetStaleElement().Coordinates);
+                // Perform double tap touch on stale element
+                touchScreen.DoubleTap(GetStaleElement().Coordinates);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException exception)
+            catch (InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
             }

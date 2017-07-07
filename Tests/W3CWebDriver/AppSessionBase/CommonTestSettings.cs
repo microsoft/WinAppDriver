@@ -30,8 +30,8 @@ namespace W3CWebDriver
         public const string EdgeAboutFlagsURL = "about:flags";
         public const string EdgeAboutTabsURL = "about:tabs";
 
-        public const string TestFileName = "TestFile.txt";
-        public const string TestFolderLocation = "%TEMP%";
+        public const string TestFileName = @"TestFile.txt";
+        public const string TestFolderLocation = @"%TEMP%";
     }
 
     public class ErrorStrings
@@ -40,5 +40,8 @@ namespace W3CWebDriver
         public const string NoSuchElement = "An element could not be located on the page using the given search parameters.";
         public const string NoSuchWindow = "Currently selected window has been closed";
         public const string StaleElementReference = "An element command failed because the referenced element is no longer attached to the DOM.";
+        public const string UnimplementedCommandLocator = "Unexpected error. Unimplemented Command: {0} locator strategy is not supported";
+        public const string UnimplementedCommandTimeoutType = "Unexpected error. Unimplemented Command: {0} timeout type is not supported";
+        public const string XPathLookupError = "Invalid XPath expression: {0} (XPathLookupError)";
     }
 }

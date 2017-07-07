@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace W3CWebDriver
 {
@@ -35,34 +36,6 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementLocationInViewNoSuchWindow()
-        {
-            try
-            {
-                var locationInView = Utility.GetOrphanedElement().LocationOnScreenOnceScrolledIntoView;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorGetElementLocationInViewStaleElement()
-        {
-            try
-            {
-                var locationInView = GetStaleElement().LocationOnScreenOnceScrolledIntoView;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
-            }
-        }
-
-        [TestMethod]
         public void GetElementLocationInView()
         {
             WindowsElement num5Button = session.FindElementByAccessibilityId("num5Button");
@@ -79,6 +52,34 @@ namespace W3CWebDriver
             // Num 8 is on the right of Num 7 and on top of Num 5 (Y increases from top to bottom)
             Assert.IsTrue(num8Button.LocationOnScreenOnceScrolledIntoView.X > num7Button.LocationOnScreenOnceScrolledIntoView.X);
             Assert.IsTrue(num8Button.LocationOnScreenOnceScrolledIntoView.Y < num5Button.LocationOnScreenOnceScrolledIntoView.Y);
+        }
+
+        [TestMethod]
+        public void GetElementLocationInViewError_NoSuchWindow()
+        {
+            try
+            {
+                var locationInView = Utility.GetOrphanedElement().LocationOnScreenOnceScrolledIntoView;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void GetElementLocationInViewError_StaleElement()
+        {
+            try
+            {
+                var locationInView = GetStaleElement().LocationOnScreenOnceScrolledIntoView;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }

@@ -14,10 +14,11 @@
 //
 //******************************************************************************
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
+using System;
+using System.Threading;
 
 namespace W3CWebDriver
 {
@@ -27,24 +28,24 @@ namespace W3CWebDriver
         private WindowsDriver<WindowsElement> session = null;
 
         [TestMethod]
-        public void NavigateBackBrowser()
+        public void NavigateBack_Browser()
         {
             session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId);
             Assert.IsNotNull(session);
 
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + Keys.Enter);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             var originalTitle = session.Title;
-            Assert.AreNotEqual(String.Empty, originalTitle);
+            Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate to different URLs
             var addressEditBox = session.FindElementByAccessibilityId("addressEditBox");
-            addressEditBox.SendKeys(CommonTestSettings.EdgeAboutBlankURL + OpenQA.Selenium.Keys.Enter);
+            addressEditBox.SendKeys(CommonTestSettings.EdgeAboutBlankURL + Keys.Enter);
             Assert.AreNotEqual(originalTitle, session.Title);
 
             // Navigate back to original URL
             session.Navigate().Back();
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.AreEqual(originalTitle, session.Title);
 
             session.Quit();
@@ -52,7 +53,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void NavigateBackModernApp()
+        public void NavigateBack_ModernApp()
         {
             session = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
             Assert.IsNotNull(session);
@@ -71,22 +72,18 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void NavigateBackSystemApp()
+        public void NavigateBack_SystemApp()
         {
             session = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
             Assert.IsNotNull(session);
 
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             var originalTitle = session.Title;
-            Assert.AreNotEqual(String.Empty, originalTitle);
+            Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate Windows Explorer to change folder
-            var targetLocation = @"%TEMP%\";
-            var addressBandRoot = session.FindElementByClassName("Address Band Root");
-            var addressToolbar = addressBandRoot.FindElementByAccessibilityId("1001"); // Address Band Toolbar
-            session.Mouse.Click(addressToolbar.Coordinates);
-            addressBandRoot.FindElementByAccessibilityId("41477").SendKeys(targetLocation + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            session.Keyboard.SendKeys(Keys.Alt + "d" + Keys.Alt + CommonTestSettings.TestFolderLocation + Keys.Enter);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.AreNotEqual(originalTitle, session.Title);
 
             // Navigate back to the original folder
@@ -98,14 +95,14 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorNavigateBackNoSuchWindow()
+        public void NavigateBackError_NoSuchWindow()
         {
             try
             {
                 Utility.GetOrphanedSession().Navigate().Back();
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException exception)
+            catch (InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }

@@ -15,6 +15,7 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace W3CWebDriver
 {
@@ -42,14 +43,14 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetOrientationNoSuchWindow()
+        public void GetOrientationError_NoSuchWindow()
         {
             try
             {
                 var orientation = Utility.GetOrphanedSession().Orientation;
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException exception)
+            catch (InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }

@@ -14,6 +14,7 @@
 //
 //******************************************************************************
 
+using System;
 using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -43,5 +44,20 @@ namespace W3CWebDriver
             xmlDoc.LoadXml(source);
             Assert.IsTrue(xmlDoc.SelectNodes("//ListItem").Count > 0);
         }
+
+        [TestMethod]
+        public void GetSourceError_NoSuchWindow()
+        {
+            try
+            {
+                var source = Utility.GetOrphanedSession().PageSource;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
     }
 }

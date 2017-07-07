@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace W3CWebDriver
 {
@@ -35,34 +36,6 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementLocationNoSuchWindow()
-        {
-            try
-            {
-                var location = Utility.GetOrphanedElement().Location;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorGetElementLocationStaleElement()
-        {
-            try
-            {
-                var location = GetStaleElement().Location;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
-            }
-        }
-
-        [TestMethod]
         public void GetElementLocation()
         {
             WindowsElement num5Button = session.FindElementByAccessibilityId("num5Button");
@@ -79,6 +52,34 @@ namespace W3CWebDriver
             // Num 8 is on the right of Num 7 and on top of Num 5 (Y increases from top to bottom)
             Assert.IsTrue(num8Button.Location.X > num7Button.Location.X);
             Assert.IsTrue(num8Button.Location.Y < num5Button.Location.Y);
+        }
+
+        [TestMethod]
+        public void GetElementLocationError_NoSuchWindow()
+        {
+            try
+            {
+                var location = Utility.GetOrphanedElement().Location;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void GetElementLocationError_StaleElement()
+        {
+            try
+            {
+                var location = GetStaleElement().Location;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }

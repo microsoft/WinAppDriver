@@ -15,6 +15,7 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 using System.Diagnostics;
@@ -42,7 +43,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void SetImplicitTimeoutFindElementFound()
+        public void SetImplicitTimeout_FindElementFound()
         {
             session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs)));
             stopWatch.Restart();
@@ -56,7 +57,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void SetImplicitTimeoutFindElementNotFound()
+        public void SetImplicitTimeout_FindElementNotFound()
         {
             session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs)));
 
@@ -66,7 +67,7 @@ namespace W3CWebDriver
                 WindowsElement element = session.FindElementByAccessibilityId("InvalidAccessibiliyId");
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException exception)
+            catch (InvalidOperationException exception)
             {
                 stopWatch.Stop();
 
@@ -77,7 +78,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void SetImplicitTimeoutFindElementsFound()
+        public void SetImplicitTimeout_FindElementsFound()
         {
             session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs)));
             stopWatch.Restart();
@@ -92,7 +93,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void SetImplicitTimeoutFindElementsNotFound()
+        public void SetImplicitTimeout_FindElementsNotFound()
         {
             session.Manage().Timeouts().ImplicitlyWait(TimeSpan.Zero);
             stopWatch.Restart();
@@ -106,11 +107,45 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException))]
-        public void ErrorSetImplicitTimeoutBadValue()
+        public void SetImplicitTimeoutError_BadValue()
         {
-            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(Convert.ToDouble(-1)));
-            Assert.Fail("Exception should have been thrown");
+            try
+            {
+                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(Convert.ToDouble(-1)));
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual("Bad Command Parameter: ms:-1, type:implicit", exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void SetImplicitTimeoutError_UnsupportedTypePageLoad()
+        {
+            try
+            {
+                session.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs)));
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (WebDriverException exception)
+            {
+                Assert.AreEqual(string.Format(ErrorStrings.UnimplementedCommandTimeoutType, "page load"), exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void SetImplicitTimeoutError_UnsupportedTypeScript()
+        {
+            try
+            {
+                session.Manage().Timeouts().SetScriptTimeout(TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs)));
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (WebDriverException exception)
+            {
+                Assert.AreEqual(string.Format(ErrorStrings.UnimplementedCommandTimeoutType, "script"), exception.Message);
+            }
         }
     }
 }

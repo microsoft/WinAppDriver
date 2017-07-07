@@ -26,7 +26,7 @@ namespace W3CWebDriver
     public class Sessions
     {
         [TestMethod]
-        public void GetSessionsCurrentList()
+        public void GetSessions_CurrentList()
         {
             using (HttpWebResponse response = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/sessions").GetResponse() as HttpWebResponse)
             {
@@ -41,7 +41,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetSessionsSingleEntry()
+        public void GetSessions_SingleEntry()
         {
             WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
             Assert.IsNotNull(session);
@@ -74,7 +74,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetSessionsMultipleEntry()
+        public void GetSessions_MultipleEntry()
         {
             WindowsDriver<WindowsElement> alarmSession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
             Assert.IsNotNull(alarmSession);

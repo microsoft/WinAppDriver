@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace W3CWebDriver
 {
@@ -35,20 +36,6 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetActiveElementNoSuchWindow()
-        {
-            try
-            {
-                WindowsElement activeElement = Utility.GetOrphanedSession().SwitchTo().ActiveElement() as WindowsElement;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
         public void GetActiveElement()
         {
             WindowsElement activeElement = session.SwitchTo().ActiveElement() as WindowsElement;
@@ -56,7 +43,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetActiveElementFocusableElement()
+        public void GetActiveElement_FocusableElement()
         {
             WindowsElement num8Button = session.FindElementByAccessibilityId("num8Button");
             num8Button.Click();
@@ -73,7 +60,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetActiveElementNonFocusableElement()
+        public void GetActiveElement_NonFocusableElement()
         {
             WindowsElement header = session.FindElementByAccessibilityId("Header");
             header.Click();
@@ -87,6 +74,20 @@ namespace W3CWebDriver
             Assert.IsNotNull(activeElementAfter);
             Assert.AreNotEqual(clearMemoryButton, activeElementAfter);
             Assert.AreEqual(activeElement, activeElementAfter);
+        }
+
+        [TestMethod]
+        public void GetActiveElementError_NoSuchWindow()
+        {
+            try
+            {
+                WindowsElement activeElement = Utility.GetOrphanedSession().SwitchTo().ActiveElement() as WindowsElement;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
         }
     }
 }

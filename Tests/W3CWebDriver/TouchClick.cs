@@ -15,6 +15,8 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Threading;
 
 namespace W3CWebDriver
 {
@@ -34,10 +36,10 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void SingleTap()
+        public void TouchSingleTap()
         {
             session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
@@ -47,14 +49,14 @@ namespace W3CWebDriver
 
             // Perform single tap touch on the back button
             touchScreen.SingleTap(session.FindElementByName("Back").Coordinates);
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            Thread.Sleep(TimeSpan.FromSeconds(1));
 
             // Make sure the page you went to is the page we started on
             Assert.AreEqual(originalTitle, session.Title);
         }
 
         [TestMethod]
-        public void ErrorTouchStaleElement()
+        public void TouchSingleTapError_StaleElement()
         {
             try
             {
@@ -62,7 +64,7 @@ namespace W3CWebDriver
                 touchScreen.SingleTap(GetStaleElement().Coordinates);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException exception)
+            catch (InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
             }

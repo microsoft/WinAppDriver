@@ -15,7 +15,6 @@
 //******************************************************************************
 
 using System;
-using System.Net;
 using System.Drawing;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -39,33 +38,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetAlarmPivotItemScreenshot()
-        {
-            WindowsElement element = session.FindElementByAccessibilityId("AlarmPivotItem");
-            var screenshot = element.GetScreenshot();
-            using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
-            {
-                Image screenshotImage = Image.FromStream(msScreenshot);
-                Assert.IsTrue(screenshotImage.Height > 0);
-                Assert.IsTrue(screenshotImage.Width > 0);
-            }
-        }
-
-        [TestMethod]
-        public void GetWorldClockScreenshot()
-        {
-            WindowsElement element = session.FindElementByAccessibilityId("WorldClockPivotItem");
-            var screenshot = element.GetScreenshot();
-            using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
-            {
-                Image screenshotImage = Image.FromStream(msScreenshot);
-                Assert.IsTrue(screenshotImage.Height > 0);
-                Assert.IsTrue(screenshotImage.Width > 0);
-            }
-        }
-
-        [TestMethod]
-        public void GetAddAlarmScreenshot()
+        public void GetElementScreenshot()
         {
             WindowsElement element = session.FindElementByAccessibilityId("AddAlarmButton");
             var screenshot = element.GetScreenshot();
@@ -78,15 +51,30 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetAlarmListScreenshot()
+        public void GetElementScreenshotError_NoSuchWindow()
         {
-            WindowsElement element = session.FindElementByAccessibilityId("AlarmListView");
-            var screenshot = element.GetScreenshot();
-            using (MemoryStream msScreenshot = new MemoryStream(screenshot.AsByteArray))
+            try
             {
-                Image screenshotImage = Image.FromStream(msScreenshot);
-                Assert.IsTrue(screenshotImage.Height > 0);
-                Assert.IsTrue(screenshotImage.Width > 0);
+                var screenshot = Utility.GetOrphanedElement().GetScreenshot();
+                Assert.Fail("Exception should have been thrown because there is no such window");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void GetElementScreenshotError_StaleElement()
+        {
+            try
+            {
+                var screenshot = GetStaleElement().GetScreenshot();
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
             }
         }
 
@@ -103,59 +91,14 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetClosedWindowScreenshot()
+        public void GetScreenshotError_NoSuchWindow()
         {
             try
             {
                 Utility.GetOrphanedSession().GetScreenshot();
                 Assert.Fail("Exception should have been thrown because there is no such window");
             }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(System.Net.WebException))]
-        public void ErrorGetInvalidElementScreenshot()
-        {
-            var request = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/session/" + session.SessionId + "/element/invalidElement/screenshot");
-            request.Method = "GET";
-            WebResponse response = request.GetResponse();
-            Assert.Fail("Exception should have been thrown because element is invalid");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void ErrorGetStaleElementScreenshot()
-        {
-            session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
-            WindowsElement element = session.FindElementByAccessibilityId("StopwatchPlayPauseButton");
-            var screenshot1 = element.GetScreenshot();
-            using (MemoryStream msScreenshot1 = new MemoryStream(screenshot1.AsByteArray))
-            {
-                Image screenshotImage1 = Image.FromStream(msScreenshot1);
-                Assert.IsTrue(screenshotImage1.Height > 0);
-                Assert.IsTrue(screenshotImage1.Width > 0);
-            }
-
-            session.FindElementByAccessibilityId("WorldClockPivotItem").Click();
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second to allow screen to switch fully
-
-            var screenshot = element.GetScreenshot();
-            Assert.Fail("Exception should have been thrown because element is stale");
-        }
-
-        [TestMethod]
-        public void ErrorGetClosedSessionElementScreenshot()
-        {
-            try
-            {
-                Utility.GetOrphanedElement().GetScreenshot();
-                Assert.Fail("Exception should have been thrown because there is no such window");
-            }
-            catch (System.InvalidOperationException exception)
+            catch (InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }

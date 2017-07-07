@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace W3CWebDriver
 {
@@ -35,34 +36,6 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorClearElementNoSuchWindow()
-        {
-            try
-            {
-                Utility.GetOrphanedElement().Clear();
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorClearElementStaleElement()
-        {
-            try
-            {
-                GetStaleElement().Clear();
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
-            }
-        }
-
-        [TestMethod]
         public void ClearElement()
         {
             // Open a new alarm page and clear the alarm name repeatedly
@@ -76,6 +49,53 @@ namespace W3CWebDriver
             Assert.AreNotEqual(string.Empty, textBox.Text);
             textBox.Clear();
             Assert.AreEqual(string.Empty, textBox.Text);
+        }
+
+        [TestMethod]
+        public void ClearElementError_ElementNotVisible()
+        {
+            // Navigate to Stopwatch tab and attempt to click on addAlarmButton that is no longer displayed
+            WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
+            session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
+            Assert.IsFalse(addAlarmButton.Displayed);
+
+            try
+            {
+                addAlarmButton.Clear();
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.ElementNotVisible, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void ClearElementError_NoSuchWindow()
+        {
+            try
+            {
+                Utility.GetOrphanedElement().Clear();
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void ClearElementError_StaleElement()
+        {
+            try
+            {
+                GetStaleElement().Clear();
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }
