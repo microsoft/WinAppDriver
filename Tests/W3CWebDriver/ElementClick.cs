@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace W3CWebDriver
 {
@@ -35,54 +36,6 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorClickElementNotVisible()
-        {
-            try
-            {
-                // Navigate to Stopwatch tab and attempt to click on addAlarmButton that is no longer displayed
-                WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
-                Assert.IsTrue(addAlarmButton.Displayed);
-                WindowsElement stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
-                stopwatchPivotItem.Click();
-                Assert.IsFalse(addAlarmButton.Displayed);
-                addAlarmButton.Click();
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.ElementNotVisible, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorClickElementNoSuchWindow()
-        {
-            try
-            {
-                Utility.GetOrphanedElement().Click();
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorClickElementStaleElement()
-        {
-            try
-            {
-                GetStaleElement().Click();
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
-            }
-        }
-
-        [TestMethod]
         public void ClickElement()
         {
             // Open a new alarm page and try clicking on visible and non-visible element in the time picker
@@ -92,7 +45,7 @@ namespace W3CWebDriver
             WindowsElement hourSelector = session.FindElementByAccessibilityId("HourLoopingSelector");
             hourSelector.FindElementByName("8").Click();
             Assert.AreEqual("8", hourSelector.Text);
-            
+
             // initially non-visible element that is implicitly scrolled into view once clicked
             WindowsElement minuteSelector = session.FindElementByAccessibilityId("MinuteLoopingSelector");
             minuteSelector.FindElementByName("30").Click();
@@ -111,6 +64,53 @@ namespace W3CWebDriver
             alarmPivot.Click();
             Assert.IsFalse(worldPivot.Selected);
             Assert.IsTrue(alarmPivot.Selected);
+        }
+
+        [TestMethod]
+        public void ClickElementError_ElementNotVisible()
+        {
+            // Navigate to Stopwatch tab and attempt to click on addAlarmButton that is no longer displayed
+            WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
+            session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
+            Assert.IsFalse(addAlarmButton.Displayed);
+
+            try
+            {
+                addAlarmButton.Click();
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.ElementNotVisible, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void ClickElementError_NoSuchWindow()
+        {
+            try
+            {
+                Utility.GetOrphanedElement().Click();
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void ClickElementError_StaleElement()
+        {
+            try
+            {
+                GetStaleElement().Click();
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }

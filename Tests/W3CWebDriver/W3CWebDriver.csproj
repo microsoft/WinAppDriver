@@ -97,7 +97,7 @@
     <Compile Include="AppSessionBase\EdgeBase.cs" />
     <Compile Include="ElementAttribute.cs" />
     <Compile Include="ElementSelected.cs" />
-    <Compile Include="Keys.cs" />
+    <Compile Include="SendKeys.cs" />
     <Compile Include="ElementSendKeys.cs" />
     <Compile Include="Screenshot.cs" />
     <Compile Include="Source.cs" />

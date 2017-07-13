@@ -14,15 +14,11 @@
 //
 //******************************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
+using System;
+using System.Threading;
 
 namespace W3CWebDriver
 {
@@ -53,7 +49,7 @@ namespace W3CWebDriver
             }
 
             // Track the Microsoft Edge starting page title to be used to initialize all test cases
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             startingPageTitle = session.Title;
 
             // Handle Microsoft Edge restored state by starting fresh
@@ -62,7 +58,7 @@ namespace W3CWebDriver
                 try
                 {
                     session.FindElementByXPath("//Button[@Name='Start fresh']").Click();
-                    System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+                    Thread.Sleep(TimeSpan.FromSeconds(3));
                     startingPageTitle = session.Title;
                 }
                 catch { }
@@ -109,20 +105,20 @@ namespace W3CWebDriver
             RemoteWebElement staleElement = null;
 
             session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutTabsURL + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate to Edge about:flags page
             session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(2000); // Sleep for 2 seconds
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             Assert.AreNotEqual(originalTitle, session.Title);
 
             // Save a reference to Reset all flags button on the page and navigate back to home
             staleElement = session.FindElementByAccessibilityId("ResetAllFlags");
             Assert.IsNotNull(staleElement);
             session.Navigate().Back();
-            System.Threading.Thread.Sleep(1000);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.AreEqual(originalTitle, session.Title);
 
             return staleElement;

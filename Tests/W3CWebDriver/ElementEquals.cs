@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace W3CWebDriver
 {
@@ -39,7 +40,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void CompareNonEqualElements()
+        public void CompareElements()
         {
             WindowsElement header = session.FindElementByAccessibilityId("Header");
             Assert.IsNotNull(header);
@@ -50,7 +51,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorCompareElementsNoSuchElement()
+        public void CompareElementsError_NoSuchElement()
         {
             try
             {
@@ -58,14 +59,14 @@ namespace W3CWebDriver
                 var comparison = referenceElement.Equals(Utility.GetOrphanedElement());
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException exception)
+            catch (InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.NoSuchElement, exception.Message);
             }
         }
 
         [TestMethod]
-        public void ErrorCompareElementsNoSuchWindow()
+        public void CompareElementsError_NoSuchWindow()
         {
             try
             {
@@ -73,37 +74,35 @@ namespace W3CWebDriver
                 var comparison = Utility.GetOrphanedElement().Equals(referenceElement);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException exception)
+            catch (InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
         }
 
         [TestMethod]
-        public void ErrorCompareElementsStaleElement()
+        public void CompareElementsError_StaleElement()
         {
             try
             {
                 Assert.AreNotEqual(GetStaleElement(), referenceElement);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException exception)
+            catch (InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
             }
         }
 
         [TestMethod]
-        public void ErrorCompareElementsStaleElementInverted()
+        public void CompareElementsError_StaleElementParameter()
         {
-            WindowsElement staleElement = GetStaleElement();
-
             try
             {
-                Assert.AreNotEqual(referenceElement, staleElement);
+                Assert.AreNotEqual(referenceElement, GetStaleElement());
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException exception)
+            catch (InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
             }

@@ -15,6 +15,8 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Threading;
 
 namespace W3CWebDriver
 {
@@ -34,27 +36,43 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void LongTap()
+        public void TouchLongTap()
         {
             // Create a new test alarm
             string alarmName = "LongTapTest";
             DeletePreviouslyCreatedAlarmEntry(alarmName);
             AddAlarmEntry(alarmName);
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 second
+            Thread.Sleep(TimeSpan.FromSeconds(3));
 
-            var alarmEntries = session.FindElementsByXPath(string.Format("//ListItem[starts-with(@Name, \"{0}\")]", alarmName));
+            var alarmEntries = session.FindElementsByXPath($"//ListItem[starts-with(@Name, \"{alarmName}\")]");
             Assert.IsNotNull(alarmEntries);
             Assert.AreEqual(1, alarmEntries.Count);
 
             // Open a the context menu on the alarm entry using long tap (press and hold) action and click delete
             touchScreen.LongPress(alarmEntries[0].Coordinates);
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Thread.Sleep(TimeSpan.FromSeconds(3));
             session.FindElementByName("Delete").Click();
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 second
+            Thread.Sleep(TimeSpan.FromSeconds(3));
 
-            alarmEntries = session.FindElementsByXPath(string.Format("//ListItem[starts-with(@Name, \"{0}\")]", alarmName));
+            alarmEntries = session.FindElementsByXPath($"//ListItem[starts-with(@Name, \"{alarmName}\")]");
             Assert.IsNotNull(alarmEntries);
             Assert.AreEqual(0, alarmEntries.Count);
         }
+
+        [TestMethod]
+        public void TouchLongTapError_StaleElement()
+        {
+            try
+            {
+                // Perform long press touch on stale element
+                touchScreen.LongPress(GetStaleElement().Coordinates);
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
+        }
+
     }
 }

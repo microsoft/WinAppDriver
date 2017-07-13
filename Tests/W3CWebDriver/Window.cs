@@ -16,8 +16,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System.Drawing;
 
 namespace W3CWebDriver
 {
@@ -40,7 +42,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void CloseWindowErrorNoSuchWindow()
+        public void CloseWindowError_NoSuchWindow()
         {
             // Attempt to close the previously closed application window
             try
@@ -48,9 +50,9 @@ namespace W3CWebDriver
                 Utility.GetOrphanedSession().Close();
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, e.Message);
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
         }
 
@@ -67,21 +69,21 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetWindowHandleErrorNoSuchWindow()
+        public void GetWindowHandleError_NoSuchWindow()
         {
             try
             {
                 string windowHandle = Utility.GetOrphanedSession().CurrentWindowHandle;
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, e.Message);
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
         }
 
         [TestMethod]
-        public void GetWindowHandlesClassicApp()
+        public void GetWindowHandles_ClassicApp()
         {
             WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
             Assert.IsNotNull(session);
@@ -94,7 +96,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetWindowHandlesModernApp()
+        public void GetWindowHandles_ModernApp()
         {
             WindowsDriver<WindowsElement> multiWindowsSession = Utility.CreateNewSession(CommonTestSettings.EdgeAppId);
             Assert.IsNotNull(multiWindowsSession);
@@ -105,19 +107,18 @@ namespace W3CWebDriver
             Assert.IsTrue(windowHandlesBefore.Count > 0);
 
             // Preserve previously opened Edge window(s) and only manipulate newly opened windows
-            List<String> previouslyOpenedEdgeWindows = new List<String>(windowHandlesBefore);
+            List<string> previouslyOpenedEdgeWindows = new List<string>(windowHandlesBefore);
             previouslyOpenedEdgeWindows.Remove(multiWindowsSession.CurrentWindowHandle);
 
             // Open a new window
             multiWindowsSession.Keyboard.SendKeys(OpenQA.Selenium.Keys.Control + "n" + OpenQA.Selenium.Keys.Control);
-
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Thread.Sleep(TimeSpan.FromSeconds(3));
             var windowHandlesAfter = multiWindowsSession.WindowHandles;
             Assert.IsNotNull(windowHandlesAfter);
             Assert.AreEqual(windowHandlesBefore.Count + 1, windowHandlesAfter.Count);
 
             // Preserve previously opened Edge Windows by only closing newly opened windows
-            List<String> newlyOpenedEdgeWindows = new List<String>(windowHandlesAfter);
+            List<string> newlyOpenedEdgeWindows = new List<string>(windowHandlesAfter);
             foreach (var previouslyOpenedEdgeWindow in previouslyOpenedEdgeWindows)
             {
                 newlyOpenedEdgeWindows.Remove(previouslyOpenedEdgeWindow);
@@ -140,23 +141,23 @@ namespace W3CWebDriver
             Assert.IsNotNull(multiWindowsSession.SessionId);
 
             // Preserve previously opened Edge window(s) and only manipulate newly opened windows
-            List<String> previouslyOpenedEdgeWindows = new List<String>(multiWindowsSession.WindowHandles);
+            List<string> previouslyOpenedEdgeWindows = new List<string>(multiWindowsSession.WindowHandles);
             previouslyOpenedEdgeWindows.Remove(multiWindowsSession.CurrentWindowHandle);
 
             // Open a new window
             multiWindowsSession.Keyboard.SendKeys(OpenQA.Selenium.Keys.Control + "n" + OpenQA.Selenium.Keys.Control);
-            System.Threading.Thread.Sleep(5000); // Sleep for 5 seconds
+            Thread.Sleep(TimeSpan.FromSeconds(3));
             var multipleWindowHandles = multiWindowsSession.WindowHandles;
             Assert.IsTrue(multipleWindowHandles.Count > 1);
 
             // Preserve previously opened Edge Windows by only operating on newly opened windows
-            List<String> newlyOpenedEdgeWindows = new List<String>(multipleWindowHandles);
+            List<string> newlyOpenedEdgeWindows = new List<string>(multipleWindowHandles);
             foreach (var previouslyOpenedEdgeWindow in previouslyOpenedEdgeWindows)
             {
                 newlyOpenedEdgeWindows.Remove(previouslyOpenedEdgeWindow);
             }
 
-            string previousWindowHandle = String.Empty;
+            string previousWindowHandle = string.Empty;
 
             foreach (var windowHandle in newlyOpenedEdgeWindows)
             {
@@ -171,7 +172,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void SwitchWindowsErrorEmptyValue()
+        public void SwitchWindowsError_EmptyValue()
         {
             WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
 
@@ -180,16 +181,16 @@ namespace W3CWebDriver
                 session.SwitchTo().Window(string.Empty);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("Missing Command Parameter: name", e.Message);
+                Assert.AreEqual("Missing Command Parameter: name", exception.Message);
             }
 
             session.Quit();
         }
 
         [TestMethod]
-        public void SwitchWindowsErrorForeignWindowHandle()
+        public void SwitchWindowsError_ForeignWindowHandle()
         {
             WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
             WindowsDriver<WindowsElement> foreignSession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
@@ -205,9 +206,9 @@ namespace W3CWebDriver
                 session.SwitchTo().Window(foreignTopLevelWindow);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("Window handle does not belong to the same process/application", e.Message);
+                Assert.AreEqual("Window handle does not belong to the same process/application", exception.Message);
             }
 
             foreignSession.Quit();
@@ -215,7 +216,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void SwitchWindowsErrorInvalidValue()
+        public void SwitchWindowsError_InvalidValue()
         {
             WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
 
@@ -224,16 +225,16 @@ namespace W3CWebDriver
                 session.SwitchTo().Window("-1");
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("String cannot contain a minus sign if the base is not 10.", e.Message);
+                Assert.AreEqual("String cannot contain a minus sign if the base is not 10.", exception.Message);
             }
 
             session.Quit();
         }
 
         [TestMethod]
-        public void SwitchWindowsErrorNonTopLevelWindowHandle()
+        public void SwitchWindowsError_NonTopLevelWindowHandle()
         {
             WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
             var nonTopLevelWindowHandle = session.FindElementByClassName("Windows.UI.Core.CoreWindow").GetAttribute("NativeWindowHandle");
@@ -244,31 +245,31 @@ namespace W3CWebDriver
                 session.SwitchTo().Window(nonTopLevelWindowHandleHex); // This needs to be in Hex e.g. 0x00880088
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.IsTrue(e.Message.EndsWith("is not a top level window handle"));
+                Assert.IsTrue(exception.Message.EndsWith("is not a top level window handle"));
             }
 
             session.Quit();
         }
 
         [TestMethod]
-        public void SwitchWindowsErrorNoSuchWindow()
+        public void SwitchWindowsError_NoSuchWindow()
         {
             WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
 
             // Get an orphaned window handle from a closed application
             var orphanedTopLevelWindow = Utility.GetOrphanedWindowHandle();
-            System.Threading.Thread.Sleep(3000);
+            Thread.Sleep(TimeSpan.FromSeconds(3));
 
             try
             {
                 session.SwitchTo().Window(orphanedTopLevelWindow);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("A request to switch to a window could not be satisfied because the window could not be found.", e.Message);
+                Assert.AreEqual("A request to switch to a window could not be satisfied because the window could not be found.", exception.Message);
             }
 
             session.Quit();
@@ -279,8 +280,8 @@ namespace W3CWebDriver
     public class WindowTransform
     {
         protected static WindowsDriver<WindowsElement> WindowTransformSession;
-        protected static System.Drawing.Size OriginalSize;
-        protected static System.Drawing.Point OriginalPosition;
+        protected static Size OriginalSize;
+        protected static Point OriginalPosition;
 
         [ClassInitialize]
         public static void Setup(TestContext context)
@@ -328,12 +329,40 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
+        public void GetWindowPositionError_NoSuchWindow()
+        {
+            try
+            {
+                var windowPosition = Utility.GetOrphanedSession().Manage().Window.Position;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
         public void GetWindowSize()
         {
             var windowSize = WindowTransformSession.Manage().Window.Size;
             Assert.IsNotNull(windowSize);
             Assert.AreEqual(OriginalSize.Height, windowSize.Height);
             Assert.AreEqual(OriginalSize.Width, windowSize.Width);
+        }
+
+        [TestMethod]
+        public void GetWindowSizeError_NoSuchWindow()
+        {
+            try
+            {
+                var windowSize = Utility.GetOrphanedSession().Manage().Window.Size;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
         }
 
         [TestMethod]
@@ -347,10 +376,24 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
+        public void MaximizeWindowError_NoSuchWindow()
+        {
+            try
+            {
+                Utility.GetOrphanedSession().Manage().Window.Maximize();
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
         public void SetWindowPosition()
         {
             int offset = 100;
-            WindowTransformSession.Manage().Window.Position = new System.Drawing.Point(OriginalPosition.X + offset, OriginalPosition.Y + offset);
+            WindowTransformSession.Manage().Window.Position = new Point(OriginalPosition.X + offset, OriginalPosition.Y + offset);
             var windowPosition = WindowTransformSession.Manage().Window.Position;
             Assert.IsNotNull(windowPosition);
             Assert.AreEqual(OriginalPosition.X + offset, windowPosition.X);
@@ -358,9 +401,9 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void SetWindowPositionToOrigin()
+        public void SetWindowPosition_ToOrigin()
         {
-            var origin = new System.Drawing.Point(0, 0);
+            var origin = new Point(0, 0);
             WindowTransformSession.Manage().Window.Position = origin;
             var position = WindowTransformSession.Manage().Window.Position;
             Assert.AreEqual(origin.X, position.X);
@@ -368,21 +411,51 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
+        public void SetWindowPositionError_NoSuchWindow()
+        {
+            try
+            {
+                Utility.GetOrphanedSession().Manage().Window.Position = new Point(0, 0);
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
         public void SetWindowSize()
         {
+            // The calculator app has a minimum width and height. Setting below the minimum values will resize it to the
+            // minimum size instead of the new width and height. The values below are chosen to exceed this minimum size.
             int offset = 100;
-            int newWidth = 300;
-            int newHeight = 500;
+            int newWidth = 350;
+            int newHeight = 550;
 
-            WindowTransformSession.Manage().Window.Size = new System.Drawing.Size(newWidth, newHeight);
+            WindowTransformSession.Manage().Window.Size = new Size(newWidth, newHeight);
             var windowSize = WindowTransformSession.Manage().Window.Size;
             Assert.AreEqual(newWidth, windowSize.Width);
             Assert.AreEqual(newHeight, windowSize.Height);
 
-            WindowTransformSession.Manage().Window.Size = new System.Drawing.Size(newWidth + offset, newHeight + offset);
+            WindowTransformSession.Manage().Window.Size = new Size(newWidth + offset, newHeight + offset);
             windowSize = WindowTransformSession.Manage().Window.Size;
             Assert.AreEqual(newWidth + offset, windowSize.Width);
             Assert.AreEqual(newHeight + offset, windowSize.Height);
+        }
+
+        [TestMethod]
+        public void SetWindowSizeError_NoSuchWindow()
+        {
+            try
+            {
+                Utility.GetOrphanedSession().Manage().Window.Size = new Size(1000, 1000);
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
         }
     }
 }

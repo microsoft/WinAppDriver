@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace W3CWebDriver
 {
@@ -35,35 +36,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementDisplayedStateNoSuchWindow()
-        {
-            try
-            {
-                var displayed = Utility.GetOrphanedElement().Displayed;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorGetElementDisplayedStateStaleElement()
-        {
-            try
-            {
-                var displayed = GetStaleElement().Displayed;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void GetElementDisplayed()
+        public void GetElementDisplayedState()
         {
             WindowsElement alarmPivotItem = session.FindElementByAccessibilityId("AlarmPivotItem");
             WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
@@ -86,6 +59,34 @@ namespace W3CWebDriver
             WindowsElement minuteLoopingSelector = session.FindElementByAccessibilityId("MinuteLoopingSelector");
             Assert.IsTrue(minuteLoopingSelector.FindElementByName("00").Displayed);
             Assert.IsFalse(minuteLoopingSelector.FindElementByName("30").Displayed);
+        }
+
+        [TestMethod]
+        public void GetElementDisplayedStateError_NoSuchWindow()
+        {
+            try
+            {
+                var displayed = Utility.GetOrphanedElement().Displayed;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void GetElementDisplayedStateError_StaleElement()
+        {
+            try
+            {
+                var displayed = GetStaleElement().Displayed;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }

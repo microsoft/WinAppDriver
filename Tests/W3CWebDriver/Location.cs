@@ -14,10 +14,7 @@
 //
 //******************************************************************************
 
-using System.IO;
-using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
 
 namespace W3CWebDriver
 {
@@ -39,19 +36,12 @@ namespace W3CWebDriver
         [TestMethod]
         public void GetLocation()
         {
-            var request = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/session/" + session.SessionId + "/location/");
-            request.Method = "GET";
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-            {
-                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                JObject responseObject = JObject.Parse(responseString);
-
-                JToken valueToken = responseObject["value"];
-                Assert.IsNotNull(valueToken);
-                Assert.IsNotNull(valueToken["altitude"]);
-                Assert.IsNotNull(valueToken["latitude"]);
-                Assert.IsNotNull(valueToken["longitude"]);
-            }
+            OpenQA.Selenium.Appium.Location geoLocation = session.Location;
+            Assert.IsNotNull(geoLocation.Altitude);
+            Assert.IsNotNull(geoLocation.Latitude);
+            Assert.IsNotNull(geoLocation.Longitude);
+            Assert.IsTrue(System.Math.Abs(geoLocation.Latitude) <= 90);
+            Assert.IsTrue(System.Math.Abs(geoLocation.Longitude) <= 180);
         }
     }
 }

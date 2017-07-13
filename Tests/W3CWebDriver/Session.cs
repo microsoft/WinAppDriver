@@ -16,6 +16,7 @@
 
 using System;
 using System.Net;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
@@ -94,7 +95,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void CreateSessionErrorEmptyAppId()
+        public void CreateSessionError_EmptyAppId()
         {
             try
             {
@@ -103,14 +104,14 @@ namespace W3CWebDriver
                 session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("Capability: app cannot be empty", e.Message);
+                Assert.AreEqual("Capability: app cannot be empty", exception.Message);
             }
         }
 
         [TestMethod]
-        public void CreateSessionErrorInvalidAppIdClassicApp()
+        public void CreateSessionError_InvalidAppIdClassicApp()
         {
             try
             {
@@ -119,14 +120,14 @@ namespace W3CWebDriver
                 session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("The system cannot find the file specified", e.Message);
+                Assert.AreEqual("The system cannot find the file specified", exception.Message);
             }
         }
 
         [TestMethod]
-        public void CreateSessionErrorInvalidAppIdModernApp()
+        public void CreateSessionError_InvalidAppIdModernApp()
         {
             try
             {
@@ -135,14 +136,14 @@ namespace W3CWebDriver
                 session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("Value does not fall within the expected range.", e.Message);
+                Assert.AreEqual("Value does not fall within the expected range.", exception.Message);
             }
         }
 
         [TestMethod]
-        public void CreateSessionErrorInvalidSessionId()
+        public void CreateSessionError_InvalidSessionId()
         {
             try
             {
@@ -153,7 +154,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void CreateSessionErrorMissingAppLaunchSpecifier()
+        public void CreateSessionError_MissingAppLaunchSpecifier()
         {
             try
             {
@@ -162,14 +163,14 @@ namespace W3CWebDriver
                 session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("Bad capabilities. Specify either app or appTopLevelWindow to create a session", e.Message);
+                Assert.AreEqual("Bad capabilities. Specify either app or appTopLevelWindow to create a session", exception.Message);
             }
         }
 
         [TestMethod]
-        public void CreateSessionErrorRedundantAppLaunchSpecifiers()
+        public void CreateSessionError_RedundantAppLaunchSpecifiers()
         {
             try
             {
@@ -180,9 +181,9 @@ namespace W3CWebDriver
                 session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("Bad capabilities. Specify either app or appTopLevelWindow to create a session", e.Message);
+                Assert.AreEqual("Bad capabilities. Specify either app or appTopLevelWindow to create a session", exception.Message);
             }
         }
 
@@ -231,7 +232,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void CreateSessionFromExistingWindowHandleErrorEmptyValue()
+        public void CreateSessionFromExistingWindowHandleError_EmptyValue()
         {
             try
             {
@@ -240,14 +241,14 @@ namespace W3CWebDriver
                 session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("Capability: appTopLevelWindow cannot be empty", e.Message);
+                Assert.AreEqual("Capability: appTopLevelWindow cannot be empty", exception.Message);
             }
         }
 
         [TestMethod]
-        public void CreateSessionFromExistingWindowHandleErrorInvalidValue()
+        public void CreateSessionFromExistingWindowHandleError_InvalidValue()
         {
             try
             {
@@ -256,14 +257,14 @@ namespace W3CWebDriver
                 session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("String cannot contain a minus sign if the base is not 10.", e.Message);
+                Assert.AreEqual("String cannot contain a minus sign if the base is not 10.", exception.Message);
             }
         }
 
         [TestMethod]
-        public void CreateSessionFromExistingWindowHandleErrorNonTopLevelWindowHandle()
+        public void CreateSessionFromExistingWindowHandleError_NonTopLevelWindowHandle()
         {
             // Get a non top level window element
             WindowsDriver<WindowsElement> sideSession = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
@@ -276,20 +277,20 @@ namespace W3CWebDriver
                 session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("Cannot find active window specified by capabilities: appTopLevelWindow", e.Message);
+                Assert.AreEqual("Cannot find active window specified by capabilities: appTopLevelWindow", exception.Message);
             }
 
             sideSession.Quit();
         }
 
         [TestMethod]
-        public void CreateSessionFromExistingWindowHandleErrorStaleWindowHandle()
+        public void CreateSessionFromExistingWindowHandleError_StaleWindowHandle()
         {
             // Get a stale window handle from an orphaned session which window has been closed
             var staleTopLevelWindow = Utility.GetOrphanedWindowHandle();
-            System.Threading.Thread.Sleep(3000);
+            Thread.Sleep(TimeSpan.FromSeconds(3));
 
             try
             {
@@ -298,14 +299,14 @@ namespace W3CWebDriver
                 session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("Cannot find active window specified by capabilities: appTopLevelWindow", e.Message);
+                Assert.AreEqual("Cannot find active window specified by capabilities: appTopLevelWindow", exception.Message);
             }
         }
 
         [TestMethod]
-        public void CreateSessionWithArgumentsClassicApp()
+        public void CreateSessionWithArguments_ClassicApp()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
@@ -325,7 +326,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void CreateSessionWithArgumentsModernApp()
+        public void CreateSessionWithArguments_ModernApp()
         {
             // Launch a new Edge window in private mode using appArguments
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
@@ -340,7 +341,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void CreateSessionWithArgumentsSystemApp()
+        public void CreateSessionWithArguments_SystemApp()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.ExplorerAppId);
@@ -374,9 +375,9 @@ namespace W3CWebDriver
             Assert.IsNotNull(session.SessionId);
 
             // Verify that the open dialog is indeed starting from the working directory provided
-            session.Keyboard.SendKeys(OpenQA.Selenium.Keys.Control + "o" + OpenQA.Selenium.Keys.Control); // Launch file open dialog
-            session.Keyboard.SendKeys(OpenQA.Selenium.Keys.Alt + "d" + OpenQA.Selenium.Keys.Alt); // Use shortcut to highlight the address bar
-            System.Threading.Thread.Sleep(3000);
+            session.Keyboard.SendKeys(Keys.Control + "o" + Keys.Control); // Launch file open dialog
+            session.Keyboard.SendKeys(Keys.Alt + "d" + Keys.Alt); // Use shortcut to highlight the address bar
+            Thread.Sleep(TimeSpan.FromSeconds(3));
             Assert.AreEqual(rootFolderFullPath, session.FindElementByName("Address").Text);
             session.FindElementByName("Cancel").Click();
             session.Quit();
@@ -388,8 +389,8 @@ namespace W3CWebDriver
         {
             // Use File Explorer to get the temporary folder full path
             WindowsDriver<WindowsElement> explorerSession = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
-            explorerSession.Keyboard.SendKeys(OpenQA.Selenium.Keys.Alt + "d" + OpenQA.Selenium.Keys.Alt + CommonTestSettings.TestFolderLocation + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(2000);
+            explorerSession.Keyboard.SendKeys(Keys.Alt + "d" + Keys.Alt + CommonTestSettings.TestFolderLocation + Keys.Enter);
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             string tempFolderFullPath = explorerSession.Title;
 
             // Launch Notepad with a filename argument and temporary folder path as the working directory
@@ -418,17 +419,17 @@ namespace W3CWebDriver
             session = null;
 
             // Verify that the file is indeed saved in the working directory and delete it
-            explorerSession.FindElementByAccessibilityId("SearchEditBox").SendKeys(CommonTestSettings.TestFileName + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(2000);
+            explorerSession.FindElementByAccessibilityId("SearchEditBox").SendKeys(CommonTestSettings.TestFileName + Keys.Enter);
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             WindowsElement testFileEntry = explorerSession.FindElementByName(CommonTestSettings.TestFileName);
             testFileEntry.Click();
-            testFileEntry.SendKeys(OpenQA.Selenium.Keys.Delete);
+            testFileEntry.SendKeys(Keys.Delete);
             explorerSession.Quit();
             explorerSession = null;
         }
 
         [TestMethod]
-        public void CreateSessionWithWorkingDirectoryErrorInvalidValue()
+        public void CreateSessionWithWorkingDirectoryError_InvalidValue()
         {
             try
             {
@@ -438,14 +439,14 @@ namespace W3CWebDriver
                 session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.AreEqual("The directory name is invalid", e.Message);
+                Assert.AreEqual("The directory name is invalid", exception.Message);
             }
         }
 
         [TestMethod]
-        public void DeleteSessionClassicApp()
+        public void DeleteSession_ClassicApp()
         {
             session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
             Assert.IsNotNull(session.SessionId);
@@ -456,7 +457,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void DeleteSessionDesktop()
+        public void DeleteSession_Desktop()
         {
             session = Utility.CreateNewSession(CommonTestSettings.DesktopAppId);
             Assert.IsNotNull(session.SessionId);
@@ -467,7 +468,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void DeleteSessionModernApp()
+        public void DeleteSession_ModernApp()
         {
             session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
             Assert.IsNotNull(session.SessionId);
@@ -478,7 +479,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void DeleteSessionSystemApp()
+        public void DeleteSession_SystemApp()
         {
             session = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
             Assert.IsNotNull(session.SessionId);
@@ -489,7 +490,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetSessionCapabilities()
+        public void MiscellaneousSession_GetSessionCapabilities()
         {
             session = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
             Assert.IsNotNull(session.SessionId);
@@ -503,7 +504,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void MultipleSessions()
+        public void MiscellaneousSession_MultiSessionsMultiInstances()
         {
             WindowsDriver<WindowsElement> session1 = null;
             WindowsDriver<WindowsElement> session2 = null;
@@ -531,7 +532,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void MultipleSessionsSingleInstanceApplication()
+        public void MiscellaneousSession_MultiSessionsSingleInstance()
         {
             WindowsDriver<WindowsElement> session1 = null;
             WindowsDriver<WindowsElement> session2 = null;
@@ -559,7 +560,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void SessionOperationErrorStaleSessionId()
+        public void MiscellaneousSessionError_StaleSessionId()
         {
             try
             {
@@ -568,9 +569,9 @@ namespace W3CWebDriver
                 string applicationTitle = session.Title;
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (Exception e)
+            catch (InvalidOperationException exception)
             {
-                Assert.IsTrue(e.Message.StartsWith("No active session with ID title"));
+                Assert.IsTrue(exception.Message.StartsWith("No active session with ID title"));
             }
         }
     }

@@ -17,6 +17,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
+using System;
+using System.Threading;
 
 namespace W3CWebDriver
 {
@@ -49,10 +51,10 @@ namespace W3CWebDriver
             if (!header.Text.Equals("Standard"))
             {
                 session.FindElementByAccessibilityId("NavButton").Click();
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(TimeSpan.FromSeconds(1));
                 var splitViewPane = session.FindElementByClassName("SplitViewPane");
                 splitViewPane.FindElementByName("Standard Calculator").Click();
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(TimeSpan.FromSeconds(1));
                 Assert.AreEqual("Standard", header.Text);
             }
         }
@@ -89,11 +91,11 @@ namespace W3CWebDriver
                 session.FindElementByAccessibilityId("MemoryButton").Click();
             }
 
-            System.Threading.Thread.Sleep(1000);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             WindowsElement staleElement = session.FindElementByAccessibilityId("MemoryListView").FindElementByName("0") as WindowsElement;
             session.FindElementByAccessibilityId("ClearMemory").Click();
             header.Click(); // Dismiss memory flyout that could be displayed if calculator is in compact mode
-            System.Threading.Thread.Sleep(1000);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             return staleElement;
         }
     }

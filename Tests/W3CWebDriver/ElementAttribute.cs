@@ -15,6 +15,7 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace W3CWebDriver
 {
@@ -34,35 +35,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementAttributeNoSuchWindow()
-        {
-            try
-            {
-                var attribute = Utility.GetOrphanedElement().GetAttribute("Attribute");
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorGetElementAttributeStaleElement()
-        {
-            try
-            {
-                var attribute = GetStaleElement().GetAttribute("Attribute");
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void GetValidElementAttribute()
+        public void GetElementAttribute()
         {
             // NOTE: The attributes below are only a subset of supported attributes.
             //       Use inspect.exe to identify all available attributes of an element
@@ -81,7 +54,7 @@ namespace W3CWebDriver
             Assert.AreEqual(element.GetAttribute("IsControlElement"), "True");
 
             // Arbitrary value attributes
-            Assert.IsTrue(System.Convert.ToInt32(element.GetAttribute("ProcessId")) > 0);
+            Assert.IsTrue(Convert.ToInt32(element.GetAttribute("ProcessId")) > 0);
             Assert.IsFalse(string.IsNullOrEmpty(element.GetAttribute("RuntimeId")));
 
             // Arbitrary value array attributes
@@ -99,11 +72,39 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetInvalidElementAttribute()
+        public void GetElementAttribute_InvalidAttribute()
         {
-            // Getting the value of an invalid attribute should return null
+            // Getting the value of an invalid/unset attribute should return null
             string invalidAttribute = alarmTabElement.GetAttribute("InvalidAttribute");
             Assert.AreEqual(invalidAttribute, null);
+        }
+
+        [TestMethod]
+        public void GetElementAttributeError_NoSuchWindow()
+        {
+            try
+            {
+                var attribute = Utility.GetOrphanedElement().GetAttribute("Attribute");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void GetElementAttributeError_StaleElement()
+        {
+            try
+            {
+                var attribute = GetStaleElement().GetAttribute("Attribute");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }

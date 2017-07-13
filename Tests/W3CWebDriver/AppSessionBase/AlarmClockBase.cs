@@ -14,7 +14,6 @@
 //
 //******************************************************************************
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
@@ -57,7 +56,7 @@ namespace W3CWebDriver
         }
 
         [TestInitialize]
-        public void TestInit()
+        public virtual void TestInit()
         {
             // Attempt to go back to the main page in case Alarm & Clock app is started in EditAlarm view
             try
@@ -71,7 +70,10 @@ namespace W3CWebDriver
             }
 
             Assert.IsNotNull(alarmTabElement);
-            alarmTabElement.Click();
+            if (!alarmTabElement.Selected)
+            {
+                alarmTabElement.Click();
+            }
         }
 
         protected void AddAlarmEntry(string alarmName)
@@ -88,7 +90,7 @@ namespace W3CWebDriver
             {
                 try
                 {
-                    var alarmEntry = session.FindElementByXPath(string.Format("//ListItem[starts-with(@Name, \"{0}\")]", alarmName));
+                    var alarmEntry = session.FindElementByXPath($"//ListItem[starts-with(@Name, \"{alarmName}\")]");
                     session.Mouse.ContextClick(alarmEntry.Coordinates);
                     session.FindElementByName("Delete").Click();
                 }
@@ -126,7 +128,7 @@ namespace W3CWebDriver
             session.FindElementByAccessibilityId("AddAlarmButton").Click();
             WindowsElement staleElement = session.FindElementByAccessibilityId("CancelButton");
             staleElement.Click();
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(System.TimeSpan.FromSeconds(1));
             return staleElement;
         }
     }

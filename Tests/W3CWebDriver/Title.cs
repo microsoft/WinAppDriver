@@ -14,10 +14,9 @@
 //
 //******************************************************************************
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
+using System;
 
 namespace W3CWebDriver
 {
@@ -27,7 +26,7 @@ namespace W3CWebDriver
         private WindowsDriver<WindowsElement> session = null;
 
         [TestMethod]
-        public void GetTitleClassicApp()
+        public void GetTitle_ClassicApp()
         {
             session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
             Assert.IsNotNull(session);
@@ -38,7 +37,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetTitleDesktop()
+        public void GetTitle_Desktop()
         {
             session = Utility.CreateNewSession(CommonTestSettings.DesktopAppId);
             Assert.IsNotNull(session);
@@ -49,7 +48,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void GetTitleModernApp()
+        public void GetTitle_ModernApp()
         {
             session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
             Assert.IsNotNull(session);
@@ -60,14 +59,14 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetTitleNoSuchWindow()
+        public void GetTitleError_NoSuchWindow()
         {
             try
             {
                 var title = Utility.GetOrphanedSession().Title;
                 Assert.Fail("Exception should have been thrown");
             }
-            catch (System.InvalidOperationException exception)
+            catch (InvalidOperationException exception)
             {
                 Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }

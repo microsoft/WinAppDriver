@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace W3CWebDriver
 {
@@ -32,34 +33,6 @@ namespace W3CWebDriver
         public static void ClassCleanup()
         {
             TearDown();
-        }
-
-        [TestMethod]
-        public void ErrorGetElementEnabledStateNoSuchWindow()
-        {
-            try
-            {
-                var enabled = Utility.GetOrphanedElement().Enabled;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorGetElementEnabledStateStaleElement()
-        {
-            try
-            {
-                var enabled = GetStaleElement().Enabled;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
-            }
         }
 
         [TestMethod]
@@ -82,6 +55,34 @@ namespace W3CWebDriver
             // Clear memory again to re-disable clearMemoryButton
             clearMemoryButton.Click();
             Assert.IsFalse(clearMemoryButton.Enabled);
+        }
+
+        [TestMethod]
+        public void GetElementEnabledStateError_NoSuchWindow()
+        {
+            try
+            {
+                var enabled = Utility.GetOrphanedElement().Enabled;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void GetElementEnabledStateError_StaleElement()
+        {
+            try
+            {
+                var enabled = GetStaleElement().Enabled;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }

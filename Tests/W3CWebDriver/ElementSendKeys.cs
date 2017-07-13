@@ -14,173 +14,173 @@
 //
 //******************************************************************************
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
+using System;
+using System.Threading;
 
 namespace W3CWebDriver
 {
     [TestClass]
-    public class ElementSendKeys
+    public class ElementSendKeys : AlarmClockBase
     {
-        protected static WindowsDriver<WindowsElement> session;
-        protected static WindowsElement editBox;
+        private static WindowsElement alarmNameTextBox;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
-            Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
-
-            editBox = session.FindElementByClassName("Edit");
-            Assert.IsNotNull(editBox);
+            Setup(context);
         }
 
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            if (session != null)
-            {
-                ClearEditBox();
-                session.Quit();
-                session = null;
-            }
+            TearDown();
         }
 
         [TestInitialize]
-        public void TestInitialize()
+        public override void TestInit()
         {
-            ClearEditBox();
-        }
-
-        public static void ClearEditBox()
-        {
-            // Select all text and delete using keyboard shortcut Ctrl + A and Delete
-            editBox.SendKeys(OpenQA.Selenium.Keys.Control + "a");
-            editBox.SendKeys(OpenQA.Selenium.Keys.Delete);
-            Assert.AreEqual(String.Empty, editBox.Text);
-        }
-
-        [TestMethod]
-        public void SendAlphabetLowerCase()
-        {
-            editBox.SendKeys("abcdefghijklmnopqrstuvwxyz");
-            Assert.AreEqual("abcdefghijklmnopqrstuvwxyz", editBox.Text);
-        }
-
-        [TestMethod]
-        public void SendAlphabetUpperCase()
-        {
-            editBox.SendKeys("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-            Assert.AreEqual("ABCDEFGHIJKLMNOPQRSTUVWXYZ", editBox.Text);
-        }
-
-        [TestMethod]
-        public void SendEmptySequence()
-        {
-            editBox.SendKeys(String.Empty);
-            Assert.AreEqual(String.Empty, editBox.Text);
-        }
-
-        [TestMethod]
-        public void SendModifierAlt()
-        {
-            editBox.SendKeys(OpenQA.Selenium.Keys.Alt + "ED" + OpenQA.Selenium.Keys.Alt); // Insert Time/Date
-            Assert.IsTrue(editBox.Text.Length > 0);
-        }
-
-        [TestMethod]
-        public void SendModifierControl()
-        {
-            editBox.SendKeys("789");
-            editBox.SendKeys(OpenQA.Selenium.Keys.Control + "a" + OpenQA.Selenium.Keys.Control); // Select all
-            editBox.SendKeys(OpenQA.Selenium.Keys.Control + "c" + OpenQA.Selenium.Keys.Control); // Copy
-            editBox.SendKeys(OpenQA.Selenium.Keys.Control + "vvv" + OpenQA.Selenium.Keys.Control); // Paste 3 times
-            Assert.AreEqual("789789789", editBox.Text);
-        }
-
-        [TestMethod]
-        public void SendModifierImplicitRelease()
-        {
-            // SendKeys implicitly depress all modifier at the end of the sequence (every API call)
-            editBox.SendKeys(OpenQA.Selenium.Keys.Shift + "abcdefghijklmnopqrstuvwxyz1234567890"); // Implicit shift release at the end of the sequence
-            editBox.SendKeys("abcdefghijklmnopqrstuvwxyz1234567890" + OpenQA.Selenium.Keys.Shift); 
-            editBox.SendKeys("abcdefghijklmnopqrstuvwxyz1234567890");
-            Assert.AreEqual("ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890", editBox.Text);
-        }
-
-        [TestMethod]
-        public void SendModifierShift()
-        {
-            editBox.SendKeys(OpenQA.Selenium.Keys.Shift + "abcdefghijklmnopqrstuvwxyz\n1234567890\t`-=[]\\;',./" + OpenQA.Selenium.Keys.Shift);
-            Assert.AreEqual("ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n!@#$%^&*()\t~_+{}|:\"<>?", editBox.Text); // Assumes 101 keys US Keyboard layout
-        }
-
-        [TestMethod]
-        public void SendNonPrintableKeys()
-        {
-            editBox.SendKeys("9");
-            editBox.SendKeys(OpenQA.Selenium.Keys.Home + "8");
-            editBox.SendKeys(OpenQA.Selenium.Keys.Home + "7");
-            editBox.SendKeys(OpenQA.Selenium.Keys.Home + OpenQA.Selenium.Keys.Tab);
-            editBox.SendKeys(OpenQA.Selenium.Keys.Home + OpenQA.Selenium.Keys.Enter);
-            editBox.SendKeys(OpenQA.Selenium.Keys.Up + OpenQA.Selenium.Keys.Tab + "78");
-            editBox.SendKeys(OpenQA.Selenium.Keys.Home + OpenQA.Selenium.Keys.Enter);
-            editBox.SendKeys(OpenQA.Selenium.Keys.Up + OpenQA.Selenium.Keys.Tab + "7");
-            Assert.AreEqual("\t7\r\n\t78\r\n\t789", editBox.Text);
-        }
-
-        [TestMethod]
-        public void SendNumber()
-        {
-            editBox.SendKeys("0123456789");
-            Assert.AreEqual("0123456789", editBox.Text);
-        }
-
-        [TestMethod]
-        public void SendSymbolsEscapedCharacter()
-        {
-            // Line endings such as \r or \n are replaced with \r\n
-            // form feeds (\f) or vertical tab feeds (\v) are removed
-            editBox.SendKeys("\a\b\f\n\r\t\v\'\"\\\r\n");
-            Assert.AreEqual("\r\n\r\n\t\'\"\\\r\n\r\n", editBox.Text);
-        }
-
-        [TestMethod]
-        public void SendSymbolsKeys()
-        {
-            editBox.SendKeys("`-=[]\\;',./~!@#$%^&*()_+{}|:\"<>?");
-            Assert.AreEqual("`-=[]\\;',./~!@#$%^&*()_+{}|:\"<>?", editBox.Text);
-        }
-
-        [TestMethod]
-        public void SendModifierWindowsKey()
-        {
-            WindowsDriver<WindowsElement> desktopSession = Utility.CreateNewSession(CommonTestSettings.DesktopAppId);
-            Assert.IsNotNull(desktopSession);
-
-            // Launch action center using Window Keys + A
-            editBox.SendKeys(OpenQA.Selenium.Keys.Command + "a" + OpenQA.Selenium.Keys.Command);
-            WindowsElement actionCenterElement = null;
-
-            // Before Windows 10 Anniversary and Creators Update Action Center name had lower case c for "center"
+            // Open new alarm page if app is currently in different view
             try
             {
-                actionCenterElement = desktopSession.FindElementByName("Action Center");
+                alarmNameTextBox = session.FindElementByAccessibilityId("AlarmNameTextBox");
             }
             catch
             {
-                actionCenterElement = desktopSession.FindElementByName("Action center");
+                base.TestInit();
+                alarmTabElement.FindElementByAccessibilityId("AddAlarmButton").Click();
+                alarmNameTextBox = session.FindElementByAccessibilityId("AlarmNameTextBox");
             }
 
-            Assert.IsNotNull(actionCenterElement);
+            // Select all text and delete using keyboard shortcut Ctrl + A and Delete
+            alarmNameTextBox.SendKeys(Keys.Control + "a");
+            alarmNameTextBox.SendKeys(Keys.Delete);
+            Assert.AreEqual(string.Empty, alarmNameTextBox.Text);
+        }
 
-            // Dismiss action center and cleanup the temporary session
-            actionCenterElement.SendKeys(OpenQA.Selenium.Keys.Escape);
-            editBox.Click();
-            desktopSession.Quit();
+        [TestMethod]
+        public void SendKeysToElement_Alphabet()
+        {
+            alarmNameTextBox.SendKeys("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            Assert.AreEqual("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", alarmNameTextBox.Text);
+        }
+
+        [TestMethod]
+        public void SendKeysToElement_EmptySequence()
+        {
+            alarmNameTextBox.SendKeys(string.Empty);
+            Assert.AreEqual(string.Empty, alarmNameTextBox.Text);
+        }
+
+        [TestMethod]
+        public void SendKeysToElement_ModifierAlt()
+        {
+            alarmNameTextBox.SendKeys(Keys.Alt + Keys.NumberPad0 + Keys.NumberPad3 + Keys.NumberPad3 + Keys.Alt); // Insert 1/2 character by using alt codes
+            Assert.AreEqual("!", alarmNameTextBox.Text);
+        }
+
+        [TestMethod]
+        public void SendKeysToElement_ModifierControl()
+        {
+            alarmNameTextBox.SendKeys("789");
+            alarmNameTextBox.SendKeys(Keys.Control + "a" + Keys.Control); // Select all
+            alarmNameTextBox.SendKeys(Keys.Control + "c" + Keys.Control); // Copy
+            alarmNameTextBox.SendKeys(Keys.Control + "vvv" + Keys.Control); // Paste 3 times
+            Assert.AreEqual("789789789", alarmNameTextBox.Text);
+        }
+
+        [TestMethod]
+        public void SendKeysToElement_ModifierImplicitRelease()
+        {
+            // SendKeys implicitly depress all modifier at the end of the sequence (every API call)
+            alarmNameTextBox.SendKeys(Keys.Shift + "abcwxyz1237890"); // Implicit shift release at the end of the sequence
+            alarmNameTextBox.SendKeys("abcwxyz1237890" + Keys.Shift);
+            alarmNameTextBox.SendKeys("abcwxyz1237890");
+            Assert.AreEqual("ABCWXYZ!@#&*()abcwxyz1237890abcwxyz1237890", alarmNameTextBox.Text);
+        }
+
+        [TestMethod]
+        public void SendKeysToElement_ModifierShift()
+        {
+            alarmNameTextBox.SendKeys(Keys.Shift + "abcwxyz1237890`-=[]\\;',./" + Keys.Shift);
+            Assert.AreEqual("ABCWXYZ!@#&*()~_+{}|:\"<>?", alarmNameTextBox.Text); // Assumes 101 keys US Keyboard layout
+        }
+
+        [TestMethod]
+        public void SendKeysToElement_NonPrintableKeys()
+        {
+            alarmNameTextBox.SendKeys("9");
+            alarmNameTextBox.SendKeys(Keys.Home + "8");
+            alarmNameTextBox.SendKeys(Keys.Left + "7");
+            Assert.AreEqual("789", alarmNameTextBox.Text);
+        }
+
+        [TestMethod]
+        public void SendKeysToElement_Number()
+        {
+            alarmNameTextBox.SendKeys("0123456789");
+            Assert.AreEqual("0123456789", alarmNameTextBox.Text);
+        }
+
+        [TestMethod]
+        public void SendKeysToElement_SymbolsKeys()
+        {
+            alarmNameTextBox.SendKeys("`-=[]\\;',./~!@#$%^&*()_+{}|:\"<>?");
+            Assert.AreEqual("`-=[]\\;',./~!@#$%^&*()_+{}|:\"<>?", alarmNameTextBox.Text);
+        }
+
+        [TestMethod]
+        public void SendKeysToElementError_ElementNotVisible()
+        {
+            // Navigate to Stopwatch tab and attempt to click on addAlarmButton that is no longer displayed
+            base.TestInit();
+            WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
+            session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            Assert.IsFalse(addAlarmButton.Displayed);
+
+            try
+            {
+                addAlarmButton.SendKeys("keys");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.ElementNotVisible, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void SendKeysToElementError_NoSuchWindow()
+        {
+            try
+            {
+                Utility.GetOrphanedElement().SendKeys("keys");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void SendKeysToElementError_StaleElement()
+        {
+            try
+            {
+                WindowsElement staleElement = session.FindElementByAccessibilityId("CancelButton");
+                staleElement.Click();
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                staleElement.SendKeys("keys");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }

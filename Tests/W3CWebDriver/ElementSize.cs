@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace W3CWebDriver
 {
@@ -35,34 +36,6 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementSizeNoSuchWindow()
-        {
-            try
-            {
-                var size = Utility.GetOrphanedElement().Size;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorGetElementSizeStaleElement()
-        {
-            try
-            {
-                var size = GetStaleElement().Size;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
-            }
-        }
-
-        [TestMethod]
         public void GetElementSize()
         {
             WindowsElement clearButton = session.FindElementByAccessibilityId("clearButton");
@@ -78,6 +51,34 @@ namespace W3CWebDriver
             // Clear button is always bigger than Mem button
             Assert.IsTrue(clearButton.Size.Width > memButton.Size.Width);
             Assert.IsTrue(clearButton.Size.Height > memButton.Size.Height);
+        }
+
+        [TestMethod]
+        public void GetElementSizeError_NoSuchWindow()
+        {
+            try
+            {
+                var size = Utility.GetOrphanedElement().Size;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void GetElementSizeError_StaleElement()
+        {
+            try
+            {
+                var size = GetStaleElement().Size;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }

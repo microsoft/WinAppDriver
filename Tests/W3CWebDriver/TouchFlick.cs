@@ -15,8 +15,8 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
-using System.Net;
+using System;
+using System.Threading;
 
 namespace W3CWebDriver
 {
@@ -36,11 +36,11 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ArbitraryFlick()
+        public void TouchFlick_Arbitrary()
         {
             // Navigate to Edge about:flags page
             session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + OpenQA.Selenium.Keys.Enter);
-            System.Threading.Thread.Sleep(1000); // Sleep for 1 second
+            Thread.Sleep(TimeSpan.FromSeconds(1));
 
             // Use the reset all button on Edge about:flags page as a reference element
             var resetAllFlagsButton = session.FindElementByAccessibilityId("ResetAllFlags");
@@ -50,12 +50,12 @@ namespace W3CWebDriver
             // Perform flick up touch action to scroll the page down hiding the Homepage link element from the view
             // Good value typically goes around 160 - 200 pixels with diminishing delta on the bigger values
             touchScreen.Flick(0, 180);
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Thread.Sleep(TimeSpan.FromSeconds(3));
             Assert.IsFalse(resetAllFlagsButton.Displayed);
 
             // Perform flick down touch action to scroll the page up restoring the button element into the view
             touchScreen.Flick(0, -360);
-            System.Threading.Thread.Sleep(3000); // Sleep for 3 seconds
+            Thread.Sleep(TimeSpan.FromSeconds(3));
             Assert.IsTrue(resetAllFlagsButton.Displayed);
         }
     }

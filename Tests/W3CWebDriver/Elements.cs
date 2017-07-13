@@ -15,6 +15,8 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+using System;
 
 namespace W3CWebDriver
 {
@@ -34,53 +36,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException))]
-        public void ErrorFindElementsByInvalidXPath()
-        {
-            var elements = session.FindElementsByXPath("//*//]");
-            Assert.Fail("Exception should have been thrown");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.WebDriverException))]
-        public void ErrorFindElementsByUnsupportedLocatorCSSSelector()
-        {
-            var elements = session.FindElementsByCssSelector("Query");
-            Assert.Fail("Exception should have been thrown");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.WebDriverException))]
-        public void ErrorFindElementsByUnsupportedLocatorLinkText()
-        {
-            var elements = session.FindElementsByLinkText("Query");
-            Assert.Fail("Exception should have been thrown");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(OpenQA.Selenium.WebDriverException))]
-        public void ErrorFindElementsByUnsupportedLocatorPartialLinkText()
-        {
-            var elements = session.FindElementsByPartialLinkText("Query");
-            Assert.Fail("Exception should have been thrown");
-        }
-
-        [TestMethod]
-        public void ErrorFindElementsNoSuchWindow()
-        {
-            try
-            {
-                var elements = Utility.GetOrphanedSession().FindElementsByAccessibilityId("An accessibility id");
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void FindElementsByAccessibilityId()
+        public void FindElements_ByAccessibilityId()
         {
             var elements = session.FindElementsByAccessibilityId("AlarmPivotItem");
             Assert.IsNotNull(elements);
@@ -89,7 +45,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void FindElementsByClassName()
+        public void FindElements_ByClassName()
         {
             var elements = session.FindElementsByClassName("PivotItem");
             Assert.IsNotNull(elements);
@@ -98,7 +54,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void FindElementsByName()
+        public void FindElements_ByName()
         {
             session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
             var elements = session.FindElementsByName("Reset");
@@ -107,56 +63,16 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void FindElementsByNonExistentAccessibilityId()
+        public void FindElements_ByRuntimeId()
         {
-            var elements = session.FindElementsByAccessibilityId("NonExistentAccessibiliyId");
+            var elements = session.FindElementsById(alarmTabElement.Id);
             Assert.IsNotNull(elements);
-            Assert.AreEqual(0, elements.Count);
+            Assert.AreEqual(1, elements.Count);
+            Assert.IsTrue(elements.Contains(alarmTabElement));
         }
 
         [TestMethod]
-        public void FindElementsByNonExistentClassName()
-        {
-            var elements = session.FindElementsByClassName("NonExistentClassName");
-            Assert.IsNotNull(elements);
-            Assert.AreEqual(0, elements.Count);
-        }
-
-
-        [TestMethod]
-        public void FindElementsByNonExistentName()
-        {
-            var elements = session.FindElementsByName("NonExistentName");
-            Assert.IsNotNull(elements);
-            Assert.AreEqual(0, elements.Count);
-        }
-
-        [TestMethod]
-        public void FindElementsByNonExistentRuntimeId()
-        {
-            var elements = session.FindElementsById("NonExistentRuntimeId");
-            Assert.IsNotNull(elements);
-            Assert.AreEqual(0, elements.Count);
-        }
-
-        [TestMethod]
-        public void FindElementsByNonExistentTagName()
-        {
-            var elements = session.FindElementsByTagName("NonExistentTagName");
-            Assert.IsNotNull(elements);
-            Assert.AreEqual(0, elements.Count);
-        }
-
-        [TestMethod]
-        public void FindElementsByNonExistentXPath()
-        {
-            var elements = session.FindElementsByXPath("//NonExistentElement");
-            Assert.IsNotNull(elements);
-            Assert.AreEqual(0, elements.Count);
-        }
-
-        [TestMethod]
-        public void FindElementsByTagName()
+        public void FindElements_ByTagName()
         {
             var elements = session.FindElementsByTagName("Button");
             Assert.IsNotNull(elements);
@@ -167,7 +83,7 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void FindElementsByXPath()
+        public void FindElements_ByXPath()
         {
             var elements = session.FindElementsByXPath("//Button");
             Assert.IsNotNull(elements);
@@ -175,6 +91,125 @@ namespace W3CWebDriver
             // There are at least 7 buttons in Windows 10 Alarms & Clock app
             // Version 1511: 10, Version 1607: 7, Version 1703: 8
             Assert.IsTrue(elements.Count >= 7);
+        }
+
+        [TestMethod]
+        public void FindElementsByNonExistent_AccessibilityId()
+        {
+            var elements = session.FindElementsByAccessibilityId("NonExistentAccessibiliyId");
+            Assert.IsNotNull(elements);
+            Assert.AreEqual(0, elements.Count);
+        }
+
+        [TestMethod]
+        public void FindElementsByNonExistent_ClassName()
+        {
+            var elements = session.FindElementsByClassName("NonExistentClassName");
+            Assert.IsNotNull(elements);
+            Assert.AreEqual(0, elements.Count);
+        }
+
+
+        [TestMethod]
+        public void FindElementsByNonExistent_Name()
+        {
+            var elements = session.FindElementsByName("NonExistentName");
+            Assert.IsNotNull(elements);
+            Assert.AreEqual(0, elements.Count);
+        }
+
+        [TestMethod]
+        public void FindElementsByNonExistent_RuntimeId()
+        {
+            var elements = session.FindElementsById("NonExistentRuntimeId");
+            Assert.IsNotNull(elements);
+            Assert.AreEqual(0, elements.Count);
+        }
+
+        [TestMethod]
+        public void FindElementsByNonExistent_TagName()
+        {
+            var elements = session.FindElementsByTagName("NonExistentTagName");
+            Assert.IsNotNull(elements);
+            Assert.AreEqual(0, elements.Count);
+        }
+
+        [TestMethod]
+        public void FindElementsByNonExistent_XPath()
+        {
+            var elements = session.FindElementsByXPath("//NonExistentElement");
+            Assert.IsNotNull(elements);
+            Assert.AreEqual(0, elements.Count);
+        }
+
+        [TestMethod]
+        public void FindElementsError_NoSuchWindow()
+        {
+            try
+            {
+                var elements = Utility.GetOrphanedSession().FindElementsByAccessibilityId("An accessibility id");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void FindElementsError_UnsupportedLocatorCSSSelector()
+        {
+            try
+            {
+                var elements = session.FindElementsByCssSelector("Query");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (WebDriverException exception)
+            {
+                Assert.AreEqual(string.Format(ErrorStrings.UnimplementedCommandLocator, "css selector"), exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void FindElementsError_UnsupportedLocatorLinkText()
+        {
+            try
+            {
+                var elements = session.FindElementsByLinkText("Query");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (WebDriverException exception)
+            {
+                Assert.AreEqual(string.Format(ErrorStrings.UnimplementedCommandLocator, "link text"), exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void FindElementsError_UnsupportedLocatorPartialLinkText()
+        {
+            try
+            {
+                var elements = session.FindElementsByPartialLinkText("Query");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (WebDriverException exception)
+            {
+                Assert.AreEqual(string.Format(ErrorStrings.UnimplementedCommandLocator, "partial link text"), exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void FindElementsError_XPathLookupErrorExpression()
+        {
+            try
+            {
+                var elements = session.FindElementsByXPath("//*//]");
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(string.Format(ErrorStrings.XPathLookupError, "//*//]"), exception.Message);
+            }
         }
     }
 }

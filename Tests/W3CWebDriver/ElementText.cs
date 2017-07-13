@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace W3CWebDriver
 {
@@ -32,34 +33,6 @@ namespace W3CWebDriver
         public static void ClassCleanup()
         {
             TearDown();
-        }
-
-        [TestMethod]
-        public void ErrorGetElementTextNoSuchWindow()
-        {
-            try
-            {
-                var text = Utility.GetOrphanedElement().Text;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorGetElementTextStaleElement()
-        {
-            try
-            {
-                var text = GetStaleElement().Text;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
-            }
         }
 
         [TestMethod]
@@ -88,6 +61,34 @@ namespace W3CWebDriver
             Assert.AreEqual(string.Empty, textBox.Text);
             textBox.SendKeys("Test alarm name text box!");
             Assert.AreEqual("Test alarm name text box!", textBox.Text);
+        }
+
+        [TestMethod]
+        public void GetElementTextError_NoSuchWindow()
+        {
+            try
+            {
+                var text = Utility.GetOrphanedElement().Text;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void GetElementTextError_StaleElement()
+        {
+            try
+            {
+                var text = GetStaleElement().Text;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }

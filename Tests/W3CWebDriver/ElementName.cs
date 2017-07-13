@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace W3CWebDriver
 {
@@ -35,34 +36,6 @@ namespace W3CWebDriver
         }
 
         [TestMethod]
-        public void ErrorGetElementTagNameNoSuchWindow()
-        {
-            try
-            {
-                var tagName = Utility.GetOrphanedElement().TagName;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorGetElementTagNameStaleElement()
-        {
-            try
-            {
-                var tagName = GetStaleElement().TagName;
-                Assert.Fail("Exception should have been thrown");
-            }
-            catch (System.InvalidOperationException exception)
-            {
-                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
-            }
-        }
-
-        [TestMethod]
         public void GetElementTagName()
         {
             WindowsElement header = session.FindElementByAccessibilityId("Header");
@@ -70,6 +43,34 @@ namespace W3CWebDriver
 
             WindowsElement plusButton = session.FindElementByAccessibilityId("NavButton");
             Assert.AreEqual("ControlType.Button", plusButton.TagName);
+        }
+
+        [TestMethod]
+        public void GetElementTagNameError_NoSuchWindow()
+        {
+            try
+            {
+                var tagName = Utility.GetOrphanedElement().TagName;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
+            }
+        }
+
+        [TestMethod]
+        public void GetElementTagNameError_StaleElement()
+        {
+            try
+            {
+                var tagName = GetStaleElement().TagName;
+                Assert.Fail("Exception should have been thrown");
+            }
+            catch (InvalidOperationException exception)
+            {
+                Assert.AreEqual(ErrorStrings.StaleElementReference, exception.Message);
+            }
         }
     }
 }
