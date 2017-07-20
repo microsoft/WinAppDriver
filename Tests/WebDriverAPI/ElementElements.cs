@@ -58,7 +58,7 @@ namespace WebDriverAPI
         {
             var stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
             stopwatchPivotItem.Click();
-            var elements = stopwatchPivotItem.FindElementsByName("Reset");
+            var elements = stopwatchPivotItem.FindElementsByName("Start");
             Assert.IsNotNull(elements);
             Assert.AreEqual(1, elements.Count);
         }

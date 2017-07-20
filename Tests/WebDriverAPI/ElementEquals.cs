@@ -42,7 +42,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void CompareElements()
         {
-            WindowsElement header = session.FindElementByAccessibilityId("Header");
+            WindowsElement header = session.FindElementByAccessibilityId("AppNameTitle");
             Assert.IsNotNull(header);
             Assert.IsFalse(header.Equals(referenceElement));
             Assert.IsFalse(referenceElement.Equals(header));

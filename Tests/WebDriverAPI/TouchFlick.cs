@@ -15,6 +15,7 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using System;
 using System.Threading;
 
@@ -39,7 +40,7 @@ namespace WebDriverAPI
         public void TouchFlick_Arbitrary()
         {
             // Navigate to Edge about:flags page
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + OpenQA.Selenium.Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(Keys.Alt + 'd' + Keys.Alt + CommonTestSettings.EdgeAboutFlagsURL + Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(1));
 
             // Use the reset all button on Edge about:flags page as a reference element

@@ -30,17 +30,13 @@ namespace WebDriverAPI
         [TestMethod]
         public void NavigateBack_Browser()
         {
-            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private");
-            Assert.IsNotNull(session);
-
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + Keys.Enter);
+            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private " + CommonTestSettings.EdgeAboutFlagsURL);
             Thread.Sleep(TimeSpan.FromSeconds(1));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate to different URLs
-            var addressEditBox = session.FindElementByAccessibilityId("addressEditBox");
-            addressEditBox.SendKeys(CommonTestSettings.EdgeAboutBlankURL + Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(Keys.Alt + 'd' + Keys.Alt + CommonTestSettings.EdgeAboutBlankURL + Keys.Enter);
             Assert.AreNotEqual(originalTitle, session.Title);
 
             // Navigate back to original URL

@@ -62,11 +62,11 @@ namespace WebDriverAPI
         [TestMethod]
         public void GetActiveElement_NonFocusableElement()
         {
-            WindowsElement header = session.FindElementByAccessibilityId("Header");
-            header.Click();
+            WindowsElement recallMemoryButton = session.FindElementByAccessibilityId("MemRecall");
+            recallMemoryButton.Click();
             WindowsElement activeElement = session.SwitchTo().ActiveElement() as WindowsElement;
             Assert.IsNotNull(activeElement);
-            Assert.AreNotEqual(header, activeElement);
+            Assert.AreNotEqual(recallMemoryButton, activeElement);
 
             WindowsElement clearMemoryButton = session.FindElementByAccessibilityId("ClearMemoryButton");
             clearMemoryButton.Click();

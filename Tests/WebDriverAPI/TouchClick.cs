@@ -15,6 +15,7 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using System;
 using System.Threading;
 
@@ -38,13 +39,14 @@ namespace WebDriverAPI
         [TestMethod]
         public void TouchSingleTap()
         {
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + OpenQA.Selenium.Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(Keys.Alt + 'd' + Keys.Alt + CommonTestSettings.EdgeAboutFlagsURL + Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(1));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate to Edge blank page to create navigation history
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutBlankURL + OpenQA.Selenium.Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(Keys.Alt + 'd' + Keys.Alt + CommonTestSettings.EdgeAboutBlankURL + Keys.Enter);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.AreNotEqual(originalTitle, session.Title);
 
             // Perform single tap touch on the back button

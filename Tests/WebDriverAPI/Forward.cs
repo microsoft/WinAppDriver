@@ -30,16 +30,13 @@ namespace WebDriverAPI
         [TestMethod]
         public void NavigateForward_Browser()
         {
-            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private");
-            Assert.IsNotNull(session);
-
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + Keys.Enter);
+            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private " + CommonTestSettings.EdgeAboutFlagsURL);
             Thread.Sleep(TimeSpan.FromSeconds(1));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate to different URLs
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutTabsURL + Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(Keys.Alt + 'd' + Keys.Alt + CommonTestSettings.EdgeAboutTabsURL + Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(1));
             var newTitle = session.Title;
             Assert.AreNotEqual(originalTitle, newTitle);

@@ -36,7 +36,15 @@ namespace WebDriverAPI
                 session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
                 Assert.IsNotNull(session);
                 Assert.IsNotNull(session.SessionId);
-                header = session.FindElementByAccessibilityId("Header");
+
+                try
+                {
+                    header = session.FindElementByAccessibilityId("Header");
+                }
+                catch
+                {
+                    header = session.FindElementByAccessibilityId("ContentPresenter");
+                }
                 Assert.IsNotNull(header);
 
                 // Initialize touch screen object
@@ -44,18 +52,15 @@ namespace WebDriverAPI
                 Assert.IsNotNull(touchScreen);
             }
 
-            // Set focus on the calculator window
-            header.Click();
-
             // Ensure that calculator is in standard mode
-            if (!header.Text.Equals("Standard"))
+            if (!header.Text.Equals("Standard", StringComparison.OrdinalIgnoreCase))
             {
                 session.FindElementByAccessibilityId("NavButton").Click();
                 Thread.Sleep(TimeSpan.FromSeconds(1));
                 var splitViewPane = session.FindElementByClassName("SplitViewPane");
                 splitViewPane.FindElementByName("Standard Calculator").Click();
                 Thread.Sleep(TimeSpan.FromSeconds(1));
-                Assert.AreEqual("Standard", header.Text);
+                Assert.IsTrue(header.Text.Equals("Standard", StringComparison.OrdinalIgnoreCase));
             }
         }
 
@@ -95,7 +100,7 @@ namespace WebDriverAPI
             WindowsElement staleElement = session.FindElementByAccessibilityId("MemoryListView").FindElementByName("0") as WindowsElement;
             session.FindElementByAccessibilityId("ClearMemory").Click();
             header.Click(); // Dismiss memory flyout that could be displayed if calculator is in compact mode
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            Thread.Sleep(TimeSpan.FromSeconds(1.5));
             return staleElement;
         }
     }

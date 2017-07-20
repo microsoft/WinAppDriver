@@ -17,6 +17,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
+using System;
+using System.Threading;
 
 namespace WebDriverAPI
 {
@@ -35,6 +37,9 @@ namespace WebDriverAPI
                 session = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
                 Assert.IsNotNull(session);
                 Assert.IsNotNull(session.SessionId);
+
+                // Set implicit timeout to 1 second to make element search to retry twice every 500 ms
+                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
 
                 // Initialize touch screen object
                 touchScreen = new RemoteTouchScreen(session);
@@ -66,6 +71,7 @@ namespace WebDriverAPI
             catch
             {
                 session.Navigate().Back();
+                Thread.Sleep(TimeSpan.FromSeconds(1));
                 alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
             }
 
@@ -124,11 +130,11 @@ namespace WebDriverAPI
 
         protected static WindowsElement GetStaleElement()
         {
-            // Open the add alarm page, locate the cancel button, and click it to get a stale cancel button
+            // Open the add alarm page, locate the save button, and click it to get a stale save button
             session.FindElementByAccessibilityId("AddAlarmButton").Click();
-            WindowsElement staleElement = session.FindElementByAccessibilityId("CancelButton");
-            staleElement.Click();
-            System.Threading.Thread.Sleep(System.TimeSpan.FromSeconds(1));
+            WindowsElement staleElement = session.FindElementByAccessibilityId("AlarmSaveButton");
+            session.Navigate().Back(); // Dismiss add alarm page
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             return staleElement;
         }
     }

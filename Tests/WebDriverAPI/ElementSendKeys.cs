@@ -51,6 +51,7 @@ namespace WebDriverAPI
             {
                 base.TestInit();
                 alarmTabElement.FindElementByAccessibilityId("AddAlarmButton").Click();
+                Thread.Sleep(TimeSpan.FromSeconds(1));
                 alarmNameTextBox = session.FindElementByAccessibilityId("AlarmNameTextBox");
             }
 
@@ -77,8 +78,10 @@ namespace WebDriverAPI
         [TestMethod]
         public void SendKeysToElement_ModifierAlt()
         {
-            alarmNameTextBox.SendKeys(Keys.Alt + Keys.NumberPad0 + Keys.NumberPad3 + Keys.NumberPad3 + Keys.Alt); // Insert 1/2 character by using alt codes
-            Assert.AreEqual("!", alarmNameTextBox.Text);
+            alarmNameTextBox.SendKeys(Keys.Space);
+            Assert.AreEqual("True", alarmNameTextBox.GetAttribute("HasKeyboardFocus"));
+            alarmNameTextBox.SendKeys(Keys.Alt + Keys.Enter + Keys.Alt); // Alt + Enter moves the focus to the next element
+            Assert.AreEqual("False", alarmNameTextBox.GetAttribute("HasKeyboardFocus"));
         }
 
         [TestMethod]
@@ -111,6 +114,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void SendKeysToElement_NonPrintableKeys()
         {
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             alarmNameTextBox.SendKeys("9");
             alarmNameTextBox.SendKeys(Keys.Home + "8");
             alarmNameTextBox.SendKeys(Keys.Left + "7");
@@ -171,10 +175,9 @@ namespace WebDriverAPI
         {
             try
             {
-                WindowsElement staleElement = session.FindElementByAccessibilityId("CancelButton");
-                staleElement.Click();
+                session.FindElementByAccessibilityId("CancelButton").Click();
                 Thread.Sleep(TimeSpan.FromSeconds(1));
-                staleElement.SendKeys("keys");
+                alarmNameTextBox.SendKeys("keys");
                 Assert.Fail("Exception should have been thrown");
             }
             catch (InvalidOperationException exception)

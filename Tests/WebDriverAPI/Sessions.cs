@@ -76,8 +76,8 @@ namespace WebDriverAPI
         [TestMethod]
         public void GetSessions_MultipleEntry()
         {
-            WindowsDriver<WindowsElement> alarmSession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
-            Assert.IsNotNull(alarmSession);
+            WindowsDriver<WindowsElement> calculatorSession = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+            Assert.IsNotNull(calculatorSession);
 
             WindowsDriver<WindowsElement> notepadSession = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
             Assert.IsNotNull(notepadSession);
@@ -95,34 +95,34 @@ namespace WebDriverAPI
                 openSessionsCount = capabilitiesArray.Count;
                 Assert.IsTrue(openSessionsCount >= 2);
 
-                // Verify that both alarm and notepad sessions are created
-                JToken alarmSessionEntry = null;
+                // Verify that both calculator and notepad sessions are created
+                JToken calculatorSessionEntry = null;
                 JToken notepadSessionEntry = null;
                 foreach (var entry in capabilitiesArray.Children())
                 {
-                    if (entry["id"].ToString() == alarmSession.SessionId.ToString())
+                    if (entry["id"].ToString() == calculatorSession.SessionId.ToString())
                     {
-                        alarmSessionEntry = entry;
+                        calculatorSessionEntry = entry;
                     }
                     else if (entry["id"].ToString() == notepadSession.SessionId.ToString())
                     {
                         notepadSessionEntry = entry;
                     }
 
-                    if (alarmSessionEntry != null && notepadSessionEntry != null)
+                    if (calculatorSessionEntry != null && notepadSessionEntry != null)
                     {
                         break;
                     }
                 }
 
-                Assert.IsNotNull(alarmSessionEntry);
-                Assert.AreEqual(CommonTestSettings.AlarmClockAppId, alarmSessionEntry["capabilities"]["app"].ToString());
+                Assert.IsNotNull(calculatorSessionEntry);
+                Assert.AreEqual(CommonTestSettings.CalculatorAppId, calculatorSessionEntry["capabilities"]["app"].ToString());
                 Assert.IsNotNull(notepadSessionEntry);
                 Assert.AreEqual(CommonTestSettings.NotepadAppId, notepadSessionEntry["capabilities"]["app"].ToString());
             }
 
             // Close the newly created sessions
-            alarmSession.Quit();
+            calculatorSession.Quit();
             notepadSession.Quit();
 
             using (HttpWebResponse response = WebRequest.Create(CommonTestSettings.WindowsApplicationDriverUrl + "/sessions").GetResponse() as HttpWebResponse)

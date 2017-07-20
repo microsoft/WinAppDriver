@@ -225,7 +225,7 @@ namespace WebDriverAPI
 
             // Verify that newly created session is indeed attached to the correct application top level window
             Assert.AreEqual(existingSession.CurrentWindowHandle, session.CurrentWindowHandle);
-            Assert.AreEqual(existingSession.FindElementByAccessibilityId("Header"), session.FindElementByAccessibilityId("Header"));
+            Assert.AreEqual(existingSession.FindElementByAccessibilityId("AppNameTitle"), session.FindElementByAccessibilityId("AppNameTitle"));
             existingSession.Quit();
             session.Quit();
             session = null;
@@ -333,6 +333,7 @@ namespace WebDriverAPI
             appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
             appCapabilities.SetCapability("appArguments", "-private");
             session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             Assert.IsTrue(session.Title.Contains("InPrivate"));
@@ -355,43 +356,15 @@ namespace WebDriverAPI
         }
 
         [TestMethod]
-        public void CreateSessionWithWorkingDirectory()
-        {
-            // Use File Explorer to get the root folder full path
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.ExplorerAppId);
-            appCapabilities.SetCapability("appArguments", @"\"); // Open File Explorer at the root folder using argument '\'
-            WindowsDriver<WindowsElement> explorerSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            string rootFolderFullPath = explorerSession.Title;
-            explorerSession.Quit();
-
-            // Launch Notepad with root folder path as the working directory
-            // NOTE: The working directory parameter is only applied to classic windows application and ignored for modern application
-            appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
-            appCapabilities.SetCapability("appWorkingDir", rootFolderFullPath); // Open Notepad using the root folder as current working directory
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
-
-            // Verify that the open dialog is indeed starting from the working directory provided
-            session.Keyboard.SendKeys(Keys.Control + "o" + Keys.Control); // Launch file open dialog
-            session.Keyboard.SendKeys(Keys.Alt + "d" + Keys.Alt); // Use shortcut to highlight the address bar
-            Thread.Sleep(TimeSpan.FromSeconds(3));
-            Assert.AreEqual(rootFolderFullPath, session.FindElementByName("Address").Text);
-            session.FindElementByName("Cancel").Click();
-            session.Quit();
-            session = null;
-        }
-
-        [TestMethod]
         public void CreateSessionWithWorkingDirectoryAndArguments()
         {
             // Use File Explorer to get the temporary folder full path
             WindowsDriver<WindowsElement> explorerSession = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
             explorerSession.Keyboard.SendKeys(Keys.Alt + "d" + Keys.Alt + CommonTestSettings.TestFolderLocation + Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(2));
-            string tempFolderFullPath = explorerSession.Title;
+            explorerSession.Keyboard.SendKeys(Keys.Alt + "d" + Keys.Alt); // Select the address edit box using Alt + d shortcut
+            string tempFolderFullPath = explorerSession.SwitchTo().ActiveElement().Text;
+            Assert.IsFalse(string.IsNullOrEmpty(tempFolderFullPath));
 
             // Launch Notepad with a filename argument and temporary folder path as the working directory
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
@@ -421,7 +394,17 @@ namespace WebDriverAPI
             // Verify that the file is indeed saved in the working directory and delete it
             explorerSession.FindElementByAccessibilityId("SearchEditBox").SendKeys(CommonTestSettings.TestFileName + Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(2));
-            WindowsElement testFileEntry = explorerSession.FindElementByName(CommonTestSettings.TestFileName);
+            WindowsElement testFileEntry = null;
+            try
+            {
+                testFileEntry = explorerSession.FindElementByName("Items View").FindElementByName(CommonTestSettings.TestFileName + ".txt") as WindowsElement;  // In case extension is added automatically
+            }
+            catch
+            {
+                testFileEntry = explorerSession.FindElementByName("Items View").FindElementByName(CommonTestSettings.TestFileName) as WindowsElement;
+            }
+
+            Assert.IsNotNull(testFileEntry);
             testFileEntry.Click();
             testFileEntry.SendKeys(Keys.Delete + Keys.Escape);
             explorerSession.Quit();

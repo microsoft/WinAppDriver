@@ -57,6 +57,7 @@ namespace WebDriverAPI
             // Navigate to Stopwatch tab and attempt to click on addAlarmButton that is no longer displayed
             WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
             session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.IsFalse(addAlarmButton.Displayed);
 
             try
