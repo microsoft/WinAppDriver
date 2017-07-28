@@ -27,11 +27,22 @@ namespace WebDriverAPI
     {
         private WindowsDriver<WindowsElement> session = null;
 
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            if (session != null)
+            {
+                session.Quit();
+                session = null;
+            }
+        }
+
         [TestMethod]
         public void NavigateForward_Browser()
         {
             session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private " + CommonTestSettings.EdgeAboutFlagsURL);
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
@@ -50,16 +61,13 @@ namespace WebDriverAPI
             session.Navigate().Forward();
             Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.AreEqual(newTitle, session.Title);
-
-            session.Quit();
+            EdgeBase.CloseEdge(session);
         }
 
         [TestMethod]
         public void NavigateForward_SystemApp()
         {
             session = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
-            Assert.IsNotNull(session);
-
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
@@ -76,8 +84,6 @@ namespace WebDriverAPI
             // Navigate forward to the target folder
             session.Navigate().Forward();
             Assert.AreEqual(newTitle, session.Title);
-
-            session.Quit();
         }
 
         [TestMethod]

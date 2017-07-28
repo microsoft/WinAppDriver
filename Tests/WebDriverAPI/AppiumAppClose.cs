@@ -24,9 +24,21 @@ namespace WebDriverAPI
     [TestClass]
     public class AppiumAppClose
     {
+        private WindowsDriver<WindowsElement> session = null;
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            if (session != null)
+            {
+                session.Quit();
+                session = null;
+            }
+        }
+
         private void CloseApplication(string applicationId)
         {
-            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(applicationId);
+            session = Utility.CreateNewSession(applicationId);
             Assert.IsNotNull(session.SessionId);
             Assert.AreNotEqual(string.Empty, session.Title);
             Assert.AreNotEqual(string.Empty, session.CurrentWindowHandle);
@@ -34,7 +46,7 @@ namespace WebDriverAPI
 
             session.CloseApp();
 
-            Thread.Sleep(TimeSpan.FromSeconds(3));
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             Assert.IsNotNull(session.SessionId);
             Assert.AreEqual(0, session.WindowHandles.Count);
 
@@ -47,8 +59,6 @@ namespace WebDriverAPI
             {
                 Assert.AreEqual(ErrorStrings.NoSuchWindow, exception.Message);
             }
-
-            session.Quit();
         }
 
         [TestMethod]
