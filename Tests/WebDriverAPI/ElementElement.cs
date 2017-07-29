@@ -39,19 +39,19 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindNestedElement_ByAccessibilityId()
         {
-            WindowsElement element = alarmTabElement.FindElementByAccessibilityId("AlarmListView") as WindowsElement;
+            WindowsElement element = alarmTabElement.FindElementByAccessibilityId("AddAlarmButton") as WindowsElement;
             Assert.IsNotNull(element);
 
-            WindowsElement alarmListViewElement = session.FindElementByAccessibilityId("AlarmListView") as WindowsElement;
-            Assert.IsNotNull(alarmListViewElement);
+            WindowsElement addAlarmButtonElement = session.FindElementByAccessibilityId("AddAlarmButton") as WindowsElement;
+            Assert.IsNotNull(addAlarmButtonElement);
 
-            Assert.AreEqual(alarmListViewElement, element);
+            Assert.AreEqual(addAlarmButtonElement, element);
         }
 
         [TestMethod]
         public void FindNestedElement_ByClassName()
         {
-            WindowsElement element = alarmTabElement.FindElementByClassName("ListView") as WindowsElement;
+            WindowsElement element = alarmTabElement.FindElementByClassName("ApplicationBar") as WindowsElement;
             Assert.IsNotNull(element);
         }
 

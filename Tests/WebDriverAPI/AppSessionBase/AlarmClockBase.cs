@@ -132,6 +132,7 @@ namespace WebDriverAPI
         {
             // Open the add alarm page, locate the save button, and click it to get a stale save button
             session.FindElementByAccessibilityId("AddAlarmButton").Click();
+            Thread.Sleep(TimeSpan.FromSeconds(0.5));
             WindowsElement staleElement = session.FindElementByAccessibilityId("AlarmSaveButton");
             session.Navigate().Back(); // Dismiss add alarm page
             Thread.Sleep(TimeSpan.FromSeconds(2));

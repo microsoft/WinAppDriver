@@ -20,6 +20,7 @@ using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
 using System.Drawing;
+using OpenQA.Selenium;
 
 namespace WebDriverAPI
 {
@@ -129,7 +130,7 @@ namespace WebDriverAPI
             previouslyOpenedEdgeWindows.Remove(session.CurrentWindowHandle);
 
             // Open a new window
-            session.Keyboard.SendKeys(OpenQA.Selenium.Keys.Control + "n" + OpenQA.Selenium.Keys.Control);
+            session.Keyboard.SendKeys(Keys.Control + "n" + Keys.Control);
             Thread.Sleep(TimeSpan.FromSeconds(3));
             var windowHandlesAfter = session.WindowHandles;
             Assert.IsNotNull(windowHandlesAfter);
@@ -160,7 +161,7 @@ namespace WebDriverAPI
             previouslyOpenedEdgeWindows.Remove(session.CurrentWindowHandle);
 
             // Open a new window
-            session.Keyboard.SendKeys(OpenQA.Selenium.Keys.Control + "n" + OpenQA.Selenium.Keys.Control);
+            session.Keyboard.SendKeys(Keys.Control + "n" + Keys.Control);
             Thread.Sleep(TimeSpan.FromSeconds(3));
             var multipleWindowHandles = session.WindowHandles;
             Assert.IsTrue(multipleWindowHandles.Count > 1);

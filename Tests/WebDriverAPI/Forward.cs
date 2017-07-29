@@ -42,7 +42,7 @@ namespace WebDriverAPI
         {
             session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private " + CommonTestSettings.EdgeAboutFlagsURL);
             session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
-            Thread.Sleep(TimeSpan.FromSeconds(2));
+            Thread.Sleep(TimeSpan.FromSeconds(2.5));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
@@ -55,7 +55,7 @@ namespace WebDriverAPI
             // Navigate back to original URL
             session.Navigate().Back();
             Thread.Sleep(TimeSpan.FromSeconds(1));
-            Assert.AreEqual(originalTitle, session.Title);
+            Assert.AreNotEqual(newTitle, session.Title);
 
             // Navigate forward to original URL
             session.Navigate().Forward();
