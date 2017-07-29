@@ -42,7 +42,7 @@ namespace WebDriverAPI
             Assert.AreNotEqual(source.Length, 0);
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(source);
-            Assert.IsTrue(xmlDoc.SelectNodes("//ListItem").Count > 0);
+            Assert.IsTrue(xmlDoc.SelectNodes("//Button").Count > 0);
         }
 
         [TestMethod]

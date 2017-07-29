@@ -32,7 +32,6 @@ namespace WebDriverAPI
         {
             session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
             Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
 
             editBox = session.FindElementByClassName("Edit");
             Assert.IsNotNull(editBox);

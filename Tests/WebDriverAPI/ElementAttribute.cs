@@ -42,11 +42,11 @@ namespace WebDriverAPI
             var element = alarmTabElement;
 
             // Fixed value string attributes
-            Assert.AreEqual(element.GetAttribute("Name"), "Alarm");
+            Assert.IsTrue(element.GetAttribute("Name").StartsWith("Alarm"));  // name is Alarm or Alarm tab on the older version
+            Assert.IsTrue(element.GetAttribute("LegacyName").StartsWith("Alarm")); // Shows as Legacy|Accessible.Name in inspect.exe
             Assert.AreEqual(element.GetAttribute("AutomationId"), "AlarmPivotItem");
             Assert.AreEqual(element.GetAttribute("FrameworkId"), "XAML");
             Assert.AreEqual(element.GetAttribute("ClassName"), "PivotItem");
-            Assert.AreEqual(element.GetAttribute("LegacyName"), "Alarm"); // Shows as Legacy|Accessible.Name in inspect.exe
 
             // Fixed value boolean attributes
             Assert.AreEqual(element.GetAttribute("IsEnabled"), "True");

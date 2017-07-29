@@ -25,15 +25,22 @@ namespace WebDriverAPI
     {
         private WindowsDriver<WindowsElement> session = null;
 
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            if (session != null)
+            {
+                session.Quit();
+                session = null;
+            }
+        }
+
         [TestMethod]
         public void GetTitle_ClassicApp()
         {
             session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
             Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
             Assert.AreEqual("Untitled - Notepad", session.Title);
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
@@ -41,10 +48,7 @@ namespace WebDriverAPI
         {
             session = Utility.CreateNewSession(CommonTestSettings.DesktopAppId);
             Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
             Assert.IsTrue(session.Title.StartsWith("Desktop"));
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
@@ -52,10 +56,7 @@ namespace WebDriverAPI
         {
             session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
             Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
             Assert.AreEqual("Calculator", session.Title);
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]

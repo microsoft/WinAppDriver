@@ -27,56 +27,59 @@ namespace WebDriverAPI
     {
         private WindowsDriver<WindowsElement> session = null;
 
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            if (session != null)
+            {
+                session.Quit();
+                session = null;
+            }
+        }
+
         [TestMethod]
         public void NavigateBack_Browser()
         {
-            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private");
-            Assert.IsNotNull(session);
-
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + Keys.Enter);
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private " + CommonTestSettings.EdgeAboutFlagsURL);
+            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
+            Thread.Sleep(TimeSpan.FromSeconds(2.5));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate to different URLs
-            var addressEditBox = session.FindElementByAccessibilityId("addressEditBox");
-            addressEditBox.SendKeys(CommonTestSettings.EdgeAboutBlankURL + Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(Keys.Alt + 'd' + Keys.Alt + CommonTestSettings.EdgeAboutBlankURL + Keys.Enter);
             Assert.AreNotEqual(originalTitle, session.Title);
 
             // Navigate back to original URL
             session.Navigate().Back();
             Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.AreEqual(originalTitle, session.Title);
-
-            session.Quit();
-            session = null;
+            EdgeBase.CloseEdge(session);
         }
 
         [TestMethod]
         public void NavigateBack_ModernApp()
         {
             session = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
-            Assert.IsNotNull(session);
+            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
+
+            // Ensure alarms & clock are in Alarm Pivot view
+            session.Navigate().Back();
+            session.FindElementByAccessibilityId("AlarmPivotItem").Click();
 
             // Navigate to New Alarm view
-            session.FindElementByAccessibilityId("AlarmPivotItem").Click();
             session.FindElementByAccessibilityId("AddAlarmButton").Click();
             Assert.IsNotNull(session.FindElementByAccessibilityId("EditAlarmHeader"));
 
             // Navigate back to the original view
             session.Navigate().Back();
             Assert.IsNotNull(session.FindElementByAccessibilityId("AlarmPivotItem"));
-
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
         public void NavigateBack_SystemApp()
         {
             session = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
-            Assert.IsNotNull(session);
-
             Thread.Sleep(TimeSpan.FromSeconds(1));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
@@ -89,9 +92,6 @@ namespace WebDriverAPI
             // Navigate back to the original folder
             session.Navigate().Back();
             Assert.AreEqual(originalTitle, session.Title);
-
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]

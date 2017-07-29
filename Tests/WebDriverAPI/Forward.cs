@@ -27,19 +27,27 @@ namespace WebDriverAPI
     {
         private WindowsDriver<WindowsElement> session = null;
 
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            if (session != null)
+            {
+                session.Quit();
+                session = null;
+            }
+        }
+
         [TestMethod]
         public void NavigateForward_Browser()
         {
-            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private");
-            Assert.IsNotNull(session);
-
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + Keys.Enter);
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private " + CommonTestSettings.EdgeAboutFlagsURL);
+            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
+            Thread.Sleep(TimeSpan.FromSeconds(2.5));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate to different URLs
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutTabsURL + Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(Keys.Alt + 'd' + Keys.Alt + CommonTestSettings.EdgeAboutTabsURL + Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(1));
             var newTitle = session.Title;
             Assert.AreNotEqual(originalTitle, newTitle);
@@ -47,22 +55,19 @@ namespace WebDriverAPI
             // Navigate back to original URL
             session.Navigate().Back();
             Thread.Sleep(TimeSpan.FromSeconds(1));
-            Assert.AreEqual(originalTitle, session.Title);
+            Assert.AreNotEqual(newTitle, session.Title);
 
             // Navigate forward to original URL
             session.Navigate().Forward();
             Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.AreEqual(newTitle, session.Title);
-
-            session.Quit();
+            EdgeBase.CloseEdge(session);
         }
 
         [TestMethod]
         public void NavigateForward_SystemApp()
         {
             session = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
-            Assert.IsNotNull(session);
-
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
@@ -79,8 +84,6 @@ namespace WebDriverAPI
             // Navigate forward to the target folder
             session.Navigate().Forward();
             Assert.AreEqual(newTitle, session.Title);
-
-            session.Quit();
         }
 
         [TestMethod]

@@ -40,12 +40,13 @@ namespace WebDriverAPI
         {
             // Pivot Item element returns the name
             WindowsElement pivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
-            Assert.AreEqual("Stopwatch", pivotItem.Text);
+            Assert.IsTrue(pivotItem.Text.StartsWith("Stopwatch")); // StopWatchPivotItem text is Stopwatch or Stopwatch tab on older app version
 
             // Button element returns the button name
             WindowsElement button = session.FindElementByAccessibilityId("AddAlarmButton");
-            Assert.AreEqual("Add new alarm", button.Text);
+            Assert.IsTrue(button.Text.Equals("Add new alarm") || button.Text.Equals("New")); // Add new alarm button is New on older app version
             button.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
 
             // TextBlock element returns the text value
             WindowsElement textBlock = session.FindElementByAccessibilityId("EditAlarmHeader");

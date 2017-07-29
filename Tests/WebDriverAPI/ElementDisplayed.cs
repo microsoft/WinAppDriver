@@ -45,14 +45,15 @@ namespace WebDriverAPI
             // Navigate to Stopwatch tab
             WindowsElement stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
             stopwatchPivotItem.Click();
-            WindowsElement stopwatchResetButton = session.FindElementByAccessibilityId("StopWatchResetButton");
-            Assert.IsTrue(stopwatchResetButton.Displayed);
+            WindowsElement stopwatchStartButton = session.FindElementByName("Start");
+            Assert.IsTrue(stopwatchStartButton.Displayed);
             Assert.IsFalse(addAlarmButton.Displayed);
 
             // Navigate back to Alarm tab
             alarmPivotItem.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.IsTrue(addAlarmButton.Displayed);
-            Assert.IsFalse(stopwatchResetButton.Displayed);
+            Assert.IsFalse(stopwatchStartButton.Displayed);
 
             // Open a new alarm page and verify that 00 minute is displayed while 30 minute is hidden in the time picker
             addAlarmButton.Click();

@@ -19,6 +19,7 @@ namespace WebDriverAPI
     public class CommonTestSettings
     {
         public const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
+
         public const string AlarmClockAppId = "Microsoft.WindowsAlarms_8wekyb3d8bbwe!App";
         public const string CalculatorAppId = "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App";
         public const string DesktopAppId = "Root";
@@ -30,7 +31,7 @@ namespace WebDriverAPI
         public const string EdgeAboutFlagsURL = "about:flags";
         public const string EdgeAboutTabsURL = "about:tabs";
 
-        public const string TestFileName = @"TestFile.txt";
+        public const string TestFileName = @"TestFile";
         public const string TestFolderLocation = @"%TEMP%";
     }
 

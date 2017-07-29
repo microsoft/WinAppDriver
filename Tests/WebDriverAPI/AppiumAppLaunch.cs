@@ -22,11 +22,23 @@ namespace WebDriverAPI
     [TestClass]
     public class AppiumAppLaunch
     {
+        private WindowsDriver<WindowsElement> session = null;
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            if (session != null)
+            {
+                session.Quit();
+                session = null;
+            }
+        }
+
         [TestMethod]
         public void Launch_ClassicApp()
         {
-            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
-            Assert.IsNotNull(session.SessionId);
+            session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
+            var originalSessionId = session.SessionId;
             var originalTitle = session.Title;
             var originalLaunchedWindowHandle = session.CurrentWindowHandle;
 
@@ -36,16 +48,16 @@ namespace WebDriverAPI
 
             // Re-launch notepad application in the same session using the same capabilities configuration
             session.LaunchApp();
+            Assert.AreEqual(originalSessionId, session.SessionId);
             Assert.AreEqual(originalTitle, session.Title);
             Assert.AreNotEqual(originalLaunchedWindowHandle, session.CurrentWindowHandle);
-            session.Quit();
         }
 
         [TestMethod]
         public void Launch_ModernApp()
         {
-            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
-            Assert.IsNotNull(session.SessionId);
+            session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+            var originalSessionId = session.SessionId;
             var originalTitle = session.Title;
             var originalWindowHandlesCount = session.WindowHandles.Count;
             var originalLaunchedWindowHandle = session.CurrentWindowHandle;
@@ -53,6 +65,7 @@ namespace WebDriverAPI
             // Re-launch calculator application in the same session using the same capabilities configuration
             // This will create a new calculator window and point the current active session to it
             session.LaunchApp();
+            Assert.AreEqual(originalSessionId, session.SessionId);
             Assert.AreEqual(originalTitle, session.Title);
             Assert.AreEqual(originalWindowHandlesCount + 1, session.WindowHandles.Count);
             Assert.AreNotEqual(originalLaunchedWindowHandle, session.CurrentWindowHandle);
@@ -60,14 +73,13 @@ namespace WebDriverAPI
             session.Close();
             session.SwitchTo().Window(originalLaunchedWindowHandle);
             session.Close();
-            session.Quit();
         }
 
         [TestMethod]
         public void Launch_SystemApp()
         {
-            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
-            Assert.IsNotNull(session.SessionId);
+            session = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
+            var originalSessionId = session.SessionId;
             var originalTitle = session.Title;
             var originalWindowHandlesCount = session.WindowHandles.Count;
             var originalLaunchedWindowHandle = session.CurrentWindowHandle;
@@ -75,6 +87,7 @@ namespace WebDriverAPI
             // Re-launch Windows Explorer in the same session using the same capabilities configuration
             // This will create a new explorer window and point the current active session to it
             session.LaunchApp();
+            Assert.AreEqual(originalSessionId, session.SessionId);
             Assert.AreEqual(originalTitle, session.Title);
             Assert.AreEqual(originalWindowHandlesCount + 1, session.WindowHandles.Count);
             Assert.AreNotEqual(originalLaunchedWindowHandle, session.CurrentWindowHandle);
@@ -82,7 +95,6 @@ namespace WebDriverAPI
             session.Close();
             session.SwitchTo().Window(originalLaunchedWindowHandle);
             session.Close();
-            session.Quit();
         }
     }
 }

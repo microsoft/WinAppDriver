@@ -20,25 +20,38 @@ using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
 using System.Drawing;
+using OpenQA.Selenium;
 
 namespace WebDriverAPI
 {
     [TestClass]
     public class Window
     {
+        private WindowsDriver<WindowsElement> session = null;
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            if (session != null)
+            {
+                session.Quit();
+                session = null;
+            }
+        }
+
         [TestMethod]
         public void CloseWindow()
         {
-            WindowsDriver<WindowsElement> singleWindowSession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
-            Assert.IsNotNull(singleWindowSession.SessionId);
+            session = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
+            Assert.IsNotNull(session.SessionId);
 
             // Close the application window without deleting the session
-            singleWindowSession.Close();
-            Assert.IsNotNull(singleWindowSession);
-            Assert.IsNotNull(singleWindowSession.SessionId);
+            session.Close();
+            Assert.IsNotNull(session);
+            Assert.IsNotNull(session.SessionId);
 
             // Delete the session
-            singleWindowSession.Quit();
+            session.Quit();
         }
 
         [TestMethod]
@@ -59,13 +72,11 @@ namespace WebDriverAPI
         [TestMethod]
         public void GetWindowHandle()
         {
-            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+            session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
             Assert.IsNotNull(session.SessionId);
 
             string windowHandle = session.CurrentWindowHandle;
             Assert.IsNotNull(windowHandle);
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
@@ -85,35 +96,43 @@ namespace WebDriverAPI
         [TestMethod]
         public void GetWindowHandles_ClassicApp()
         {
-            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
+            session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
             Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
 
             var handles = session.WindowHandles;
             Assert.IsNotNull(handles);
             Assert.IsTrue(handles.Count > 0);
-            session.Quit();
+        }
+
+        [TestMethod]
+        public void GetWindowHandles_Desktop()
+        {
+            session = Utility.CreateNewSession(CommonTestSettings.DesktopAppId);
+            Assert.IsNotNull(session);
+
+            var handles = session.WindowHandles;
+            Assert.IsNotNull(handles);
+            Assert.AreEqual(0, handles.Count);
         }
 
         [TestMethod]
         public void GetWindowHandles_ModernApp()
         {
-            WindowsDriver<WindowsElement> multiWindowsSession = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private");
-            Assert.IsNotNull(multiWindowsSession);
-            Assert.IsNotNull(multiWindowsSession.SessionId);
+            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private");
+            Assert.IsNotNull(session);
 
-            var windowHandlesBefore = multiWindowsSession.WindowHandles;
+            var windowHandlesBefore = session.WindowHandles;
             Assert.IsNotNull(windowHandlesBefore);
             Assert.IsTrue(windowHandlesBefore.Count > 0);
 
             // Preserve previously opened Edge window(s) and only manipulate newly opened windows
             List<string> previouslyOpenedEdgeWindows = new List<string>(windowHandlesBefore);
-            previouslyOpenedEdgeWindows.Remove(multiWindowsSession.CurrentWindowHandle);
+            previouslyOpenedEdgeWindows.Remove(session.CurrentWindowHandle);
 
             // Open a new window
-            multiWindowsSession.Keyboard.SendKeys(OpenQA.Selenium.Keys.Control + "n" + OpenQA.Selenium.Keys.Control);
+            session.Keyboard.SendKeys(Keys.Control + "n" + Keys.Control);
             Thread.Sleep(TimeSpan.FromSeconds(3));
-            var windowHandlesAfter = multiWindowsSession.WindowHandles;
+            var windowHandlesAfter = session.WindowHandles;
             Assert.IsNotNull(windowHandlesAfter);
             Assert.AreEqual(windowHandlesBefore.Count + 1, windowHandlesAfter.Count);
 
@@ -126,28 +145,25 @@ namespace WebDriverAPI
 
             foreach (var windowHandle in newlyOpenedEdgeWindows)
             {
-                multiWindowsSession.SwitchTo().Window(windowHandle);
-                multiWindowsSession.Close();
+                session.SwitchTo().Window(windowHandle);
+                EdgeBase.CloseEdge(session);
             }
-
-            multiWindowsSession.Quit();
         }
 
         [TestMethod]
         public void SwitchWindows()
         {
-            WindowsDriver<WindowsElement> multiWindowsSession = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private");
-            Assert.IsNotNull(multiWindowsSession);
-            Assert.IsNotNull(multiWindowsSession.SessionId);
+            session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, CommonTestSettings.EdgeAboutBlankURL);
+            Assert.IsNotNull(session);
 
             // Preserve previously opened Edge window(s) and only manipulate newly opened windows
-            List<string> previouslyOpenedEdgeWindows = new List<string>(multiWindowsSession.WindowHandles);
-            previouslyOpenedEdgeWindows.Remove(multiWindowsSession.CurrentWindowHandle);
+            List<string> previouslyOpenedEdgeWindows = new List<string>(session.WindowHandles);
+            previouslyOpenedEdgeWindows.Remove(session.CurrentWindowHandle);
 
             // Open a new window
-            multiWindowsSession.Keyboard.SendKeys(OpenQA.Selenium.Keys.Control + "n" + OpenQA.Selenium.Keys.Control);
+            session.Keyboard.SendKeys(Keys.Control + "n" + Keys.Control);
             Thread.Sleep(TimeSpan.FromSeconds(3));
-            var multipleWindowHandles = multiWindowsSession.WindowHandles;
+            var multipleWindowHandles = session.WindowHandles;
             Assert.IsTrue(multipleWindowHandles.Count > 1);
 
             // Preserve previously opened Edge Windows by only operating on newly opened windows
@@ -161,20 +177,18 @@ namespace WebDriverAPI
 
             foreach (var windowHandle in newlyOpenedEdgeWindows)
             {
-                multiWindowsSession.SwitchTo().Window(windowHandle);
-                Assert.AreEqual(multiWindowsSession.CurrentWindowHandle, windowHandle);
+                session.SwitchTo().Window(windowHandle);
+                Assert.AreEqual(session.CurrentWindowHandle, windowHandle);
                 Assert.AreNotEqual(windowHandle, previousWindowHandle);
                 previousWindowHandle = windowHandle;
-                multiWindowsSession.Close();
+                EdgeBase.CloseEdge(session);
             }
-
-            multiWindowsSession.Quit();
         }
 
         [TestMethod]
         public void SwitchWindowsError_EmptyValue()
         {
-            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+            session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
 
             try
             {
@@ -185,40 +199,50 @@ namespace WebDriverAPI
             {
                 Assert.AreEqual("Missing Command Parameter: name", exception.Message);
             }
-
-            session.Quit();
         }
 
         [TestMethod]
         public void SwitchWindowsError_ForeignWindowHandle()
         {
-            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
-            WindowsDriver<WindowsElement> foreignSession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
-            Assert.IsNotNull(session.SessionId);
-            Assert.IsNotNull(foreignSession.SessionId);
-
-            // Get a foreign window handle from a different application/process under foreignSession
-            var foreignTopLevelWindow = foreignSession.CurrentWindowHandle;
-            Assert.IsFalse(string.IsNullOrEmpty(foreignTopLevelWindow));
+            WindowsDriver<WindowsElement> mainSession = null;
+            WindowsDriver<WindowsElement> foreignSession = null;
 
             try
             {
-                session.SwitchTo().Window(foreignTopLevelWindow);
+                mainSession = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+                foreignSession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
+                Assert.IsNotNull(mainSession.SessionId);
+                Assert.IsNotNull(foreignSession.SessionId);
+
+                // Get a foreign window handle from a different application/process under foreignSession
+                var foreignTopLevelWindow = foreignSession.CurrentWindowHandle;
+                Assert.IsFalse(string.IsNullOrEmpty(foreignTopLevelWindow));
+
+                mainSession.SwitchTo().Window(foreignTopLevelWindow);
                 Assert.Fail("Exception should have been thrown");
             }
             catch (InvalidOperationException exception)
             {
                 Assert.AreEqual("Window handle does not belong to the same process/application", exception.Message);
             }
+            finally
+            {
+                if (foreignSession != null)
+                {
+                    foreignSession.Quit();
+                }
 
-            foreignSession.Quit();
-            session.Quit();
+                if (foreignSession != null)
+                {
+                    mainSession.Quit();
+                }
+            }
         }
 
         [TestMethod]
         public void SwitchWindowsError_InvalidValue()
         {
-            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+            session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
 
             try
             {
@@ -229,14 +253,12 @@ namespace WebDriverAPI
             {
                 Assert.AreEqual("String cannot contain a minus sign if the base is not 10.", exception.Message);
             }
-
-            session.Quit();
         }
 
         [TestMethod]
         public void SwitchWindowsError_NonTopLevelWindowHandle()
         {
-            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+            session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
             var nonTopLevelWindowHandle = session.FindElementByClassName("Windows.UI.Core.CoreWindow").GetAttribute("NativeWindowHandle");
             var nonTopLevelWindowHandleHex = Convert.ToInt32(nonTopLevelWindowHandle).ToString("x");
 
@@ -249,14 +271,12 @@ namespace WebDriverAPI
             {
                 Assert.IsTrue(exception.Message.EndsWith("is not a top level window handle"));
             }
-
-            session.Quit();
         }
 
         [TestMethod]
         public void SwitchWindowsError_NoSuchWindow()
         {
-            WindowsDriver<WindowsElement> session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+            session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
 
             // Get an orphaned window handle from a closed application
             var orphanedTopLevelWindow = Utility.GetOrphanedWindowHandle();
@@ -271,8 +291,6 @@ namespace WebDriverAPI
             {
                 Assert.AreEqual("A request to switch to a window could not be satisfied because the window could not be found.", exception.Message);
             }
-
-            session.Quit();
         }
     }
 

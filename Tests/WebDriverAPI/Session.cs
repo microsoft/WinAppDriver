@@ -28,6 +28,23 @@ namespace WebDriverAPI
     public class Session
     {
         private WindowsDriver<WindowsElement> session = null;
+        private WindowsDriver<WindowsElement> secondarySession = null;
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            if (session != null)
+            {
+                session.Quit();
+                session = null;
+            }
+
+            if (secondarySession != null)
+            {
+                secondarySession.Quit();
+                secondarySession = null;
+            }
+        }
 
         [TestMethod]
         public void CreateSession_ClassicApp()
@@ -38,8 +55,6 @@ namespace WebDriverAPI
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             Assert.IsTrue(session.Title.Contains("Notepad"));
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
@@ -51,8 +66,6 @@ namespace WebDriverAPI
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             Assert.IsTrue(session.Title.Contains("Notepad"));
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
@@ -64,8 +77,6 @@ namespace WebDriverAPI
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             Assert.IsTrue(session.Title.Contains("Desktop"));
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
@@ -77,8 +88,6 @@ namespace WebDriverAPI
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             Assert.AreEqual("Calculator", session.Title);
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
@@ -90,8 +99,6 @@ namespace WebDriverAPI
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             Assert.AreEqual("File Explorer", session.Title);
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
@@ -191,8 +198,8 @@ namespace WebDriverAPI
         public void CreateSessionFromExistingWindowHandle_ClassicApp()
         {
             // Get the top level window handle of a running application
-            WindowsDriver<WindowsElement> existingSession = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
-            var existingApplicationTopLevelWindow = existingSession.CurrentWindowHandle;
+            secondarySession = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
+            var existingApplicationTopLevelWindow = secondarySession.CurrentWindowHandle;
 
             // Create a new session by attaching to an existing application top level window
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
@@ -202,19 +209,16 @@ namespace WebDriverAPI
             Assert.IsNotNull(session.SessionId);
 
             // Verify that newly created session is indeed attached to the correct application top level window
-            Assert.AreEqual(existingSession.CurrentWindowHandle, session.CurrentWindowHandle);
-            Assert.AreEqual(existingSession.FindElementByClassName("Edit"), session.FindElementByClassName("Edit"));
-            existingSession.Quit();
-            session.Quit();
-            session = null;
+            Assert.AreEqual(secondarySession.CurrentWindowHandle, session.CurrentWindowHandle);
+            Assert.AreEqual(secondarySession.FindElementByClassName("Edit"), session.FindElementByClassName("Edit"));
         }
 
         [TestMethod]
         public void CreateSessionFromExistingWindowHandle_ModernApp()
         {
             // Get the top level window handle of a running application
-            WindowsDriver<WindowsElement> existingSession = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
-            var existingApplicationTopLevelWindow = existingSession.CurrentWindowHandle;
+            secondarySession = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+            var existingApplicationTopLevelWindow = secondarySession.CurrentWindowHandle;
 
             // Create a new session by attaching to an existing application top level window
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
@@ -224,11 +228,8 @@ namespace WebDriverAPI
             Assert.IsNotNull(session.SessionId);
 
             // Verify that newly created session is indeed attached to the correct application top level window
-            Assert.AreEqual(existingSession.CurrentWindowHandle, session.CurrentWindowHandle);
-            Assert.AreEqual(existingSession.FindElementByAccessibilityId("Header"), session.FindElementByAccessibilityId("Header"));
-            existingSession.Quit();
-            session.Quit();
-            session = null;
+            Assert.AreEqual(secondarySession.CurrentWindowHandle, session.CurrentWindowHandle);
+            Assert.AreEqual(secondarySession.FindElementByAccessibilityId("AppNameTitle"), session.FindElementByAccessibilityId("AppNameTitle"));
         }
 
         [TestMethod]
@@ -267,8 +268,8 @@ namespace WebDriverAPI
         public void CreateSessionFromExistingWindowHandleError_NonTopLevelWindowHandle()
         {
             // Get a non top level window element
-            WindowsDriver<WindowsElement> sideSession = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
-            var nonTopLevelWindowHandle = sideSession.FindElementByClassName("Windows.UI.Core.CoreWindow").GetAttribute("NativeWindowHandle");
+            secondarySession = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
+            var nonTopLevelWindowHandle = secondarySession.FindElementByClassName("Windows.UI.Core.CoreWindow").GetAttribute("NativeWindowHandle");
 
             try
             {
@@ -281,8 +282,6 @@ namespace WebDriverAPI
             {
                 Assert.AreEqual("Cannot find active window specified by capabilities: appTopLevelWindow", exception.Message);
             }
-
-            sideSession.Quit();
         }
 
         [TestMethod]
@@ -321,8 +320,6 @@ namespace WebDriverAPI
             notFoundDialog.FindElementByName("No").Click();
 
             Assert.IsTrue(session.Title.Contains("Notepad"));
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
@@ -331,13 +328,13 @@ namespace WebDriverAPI
             // Launch a new Edge window in private mode using appArguments
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
-            appCapabilities.SetCapability("appArguments", "-private");
+            appCapabilities.SetCapability("appArguments", CommonTestSettings.EdgeAboutBlankURL);
             session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
-            Assert.IsTrue(session.Title.Contains("InPrivate"));
-            session.Quit();
-            session = null;
+            Thread.Sleep(TimeSpan.FromSeconds(2));
+            Assert.IsTrue(session.Title.Contains("Blank page"));
+            EdgeBase.CloseEdge(session);
         }
 
         [TestMethod]
@@ -350,48 +347,18 @@ namespace WebDriverAPI
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
             Assert.AreEqual("Documents", session.Title);
-            session.Quit();
-            session = null;
-        }
-
-        [TestMethod]
-        public void CreateSessionWithWorkingDirectory()
-        {
-            // Use File Explorer to get the root folder full path
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.ExplorerAppId);
-            appCapabilities.SetCapability("appArguments", @"\"); // Open File Explorer at the root folder using argument '\'
-            WindowsDriver<WindowsElement> explorerSession = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            string rootFolderFullPath = explorerSession.Title;
-            explorerSession.Quit();
-
-            // Launch Notepad with root folder path as the working directory
-            // NOTE: The working directory parameter is only applied to classic windows application and ignored for modern application
-            appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", CommonTestSettings.NotepadAppId);
-            appCapabilities.SetCapability("appWorkingDir", rootFolderFullPath); // Open Notepad using the root folder as current working directory
-            session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
-            Assert.IsNotNull(session);
-            Assert.IsNotNull(session.SessionId);
-
-            // Verify that the open dialog is indeed starting from the working directory provided
-            session.Keyboard.SendKeys(Keys.Control + "o" + Keys.Control); // Launch file open dialog
-            session.Keyboard.SendKeys(Keys.Alt + "d" + Keys.Alt); // Use shortcut to highlight the address bar
-            Thread.Sleep(TimeSpan.FromSeconds(3));
-            Assert.AreEqual(rootFolderFullPath, session.FindElementByName("Address").Text);
-            session.FindElementByName("Cancel").Click();
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
         public void CreateSessionWithWorkingDirectoryAndArguments()
         {
             // Use File Explorer to get the temporary folder full path
-            WindowsDriver<WindowsElement> explorerSession = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
-            explorerSession.Keyboard.SendKeys(Keys.Alt + "d" + Keys.Alt + CommonTestSettings.TestFolderLocation + Keys.Enter);
+            secondarySession = Utility.CreateNewSession(CommonTestSettings.ExplorerAppId);
+            secondarySession.Keyboard.SendKeys(Keys.Alt + "d" + Keys.Alt + CommonTestSettings.TestFolderLocation + Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(2));
-            string tempFolderFullPath = explorerSession.Title;
+            secondarySession.Keyboard.SendKeys(Keys.Alt + "d" + Keys.Alt); // Select the address edit box using Alt + d shortcut
+            string tempFolderFullPath = secondarySession.SwitchTo().ActiveElement().Text;
+            Assert.IsFalse(string.IsNullOrEmpty(tempFolderFullPath));
 
             // Launch Notepad with a filename argument and temporary folder path as the working directory
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
@@ -419,13 +386,21 @@ namespace WebDriverAPI
             session = null;
 
             // Verify that the file is indeed saved in the working directory and delete it
-            explorerSession.FindElementByAccessibilityId("SearchEditBox").SendKeys(CommonTestSettings.TestFileName + Keys.Enter);
+            secondarySession.FindElementByAccessibilityId("SearchEditBox").SendKeys(CommonTestSettings.TestFileName + Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(2));
-            WindowsElement testFileEntry = explorerSession.FindElementByName(CommonTestSettings.TestFileName);
+            WindowsElement testFileEntry = null;
+            try
+            {
+                testFileEntry = secondarySession.FindElementByName("Items View").FindElementByName(CommonTestSettings.TestFileName + ".txt") as WindowsElement;  // In case extension is added automatically
+            }
+            catch
+            {
+                testFileEntry = secondarySession.FindElementByName("Items View").FindElementByName(CommonTestSettings.TestFileName) as WindowsElement;
+            }
+
+            Assert.IsNotNull(testFileEntry);
             testFileEntry.Click();
             testFileEntry.SendKeys(Keys.Delete + Keys.Escape);
-            explorerSession.Quit();
-            explorerSession = null;
         }
 
         [TestMethod]
@@ -498,65 +473,36 @@ namespace WebDriverAPI
             ICapabilities capabilities = session.Capabilities;
             Assert.AreEqual(CommonTestSettings.AlarmClockAppId, capabilities.GetCapability("app"));
             Assert.AreEqual("Windows", capabilities.GetCapability("platformName"));
-
-            session.Quit();
-            session = null;
         }
 
         [TestMethod]
         public void MiscellaneousSession_MultiSessionsMultiInstances()
         {
-            WindowsDriver<WindowsElement> session1 = null;
-            WindowsDriver<WindowsElement> session2 = null;
+            session = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
+            Assert.IsNotNull(session.SessionId);
+            Assert.IsTrue(session.Title.Contains("Notepad"));
 
-            try
-            {
-                session1 = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
-                Assert.IsNotNull(session1.SessionId);
-                Assert.IsTrue(session1.Title.Contains("Notepad"));
+            secondarySession = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
+            Assert.IsNotNull(secondarySession.SessionId);
+            Assert.IsTrue(secondarySession.Title.Contains("Notepad"));
 
-                session2 = Utility.CreateNewSession(CommonTestSettings.NotepadAppId);
-                Assert.IsNotNull(session2.SessionId);
-                Assert.IsTrue(session2.Title.Contains("Notepad"));
-
-                Assert.AreNotEqual(session1.SessionId, session2.SessionId);
-                Assert.AreNotEqual(session1.CurrentWindowHandle, session2.CurrentWindowHandle);
-            }
-            finally
-            {
-                session1.Quit();
-                session1 = null;
-                session2.Quit();
-                session2 = null;
-            }
+            Assert.AreNotEqual(session.SessionId, secondarySession.SessionId);
+            Assert.AreNotEqual(session.CurrentWindowHandle, secondarySession.CurrentWindowHandle);
         }
 
         [TestMethod]
         public void MiscellaneousSession_MultiSessionsSingleInstance()
         {
-            WindowsDriver<WindowsElement> session1 = null;
-            WindowsDriver<WindowsElement> session2 = null;
+            session = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
+            Assert.IsNotNull(session.SessionId);
+            Assert.AreEqual("Alarms & Clock", session.Title);
 
-            try
-            {
-                session1 = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
-                Assert.IsNotNull(session1.SessionId);
-                Assert.AreEqual("Alarms & Clock", session1.Title);
+            secondarySession = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
+            Assert.IsNotNull(secondarySession.SessionId);
+            Assert.AreEqual("Alarms & Clock", secondarySession.Title);
 
-                session2 = Utility.CreateNewSession(CommonTestSettings.AlarmClockAppId);
-                Assert.IsNotNull(session2.SessionId);
-                Assert.AreEqual("Alarms & Clock", session2.Title);
-
-                Assert.AreNotEqual(session1.SessionId, session2.SessionId);
-                Assert.AreEqual(session1.CurrentWindowHandle, session2.CurrentWindowHandle);
-            }
-            finally
-            {
-                session1.Quit();
-                session1 = null;
-                session2.Quit();
-                session2 = null;
-            }
+            Assert.AreNotEqual(session.SessionId, secondarySession.SessionId);
+            Assert.AreEqual(session.CurrentWindowHandle, secondarySession.CurrentWindowHandle);
         }
 
         [TestMethod]

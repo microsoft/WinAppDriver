@@ -15,6 +15,7 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 using System;
@@ -39,7 +40,7 @@ namespace WebDriverAPI
 
                 // Launch the Edge browser app
                 session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private");
-                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
+                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
                 Assert.IsNotNull(session);
                 Assert.IsNotNull(session.SessionId);
 
@@ -73,21 +74,25 @@ namespace WebDriverAPI
             // Close the application and delete the session
             if (session != null)
             {
-                try
-                {
-                    session.Close();
-                    var currentHandle = session.CurrentWindowHandle; // This should throw if the window is closed successfully
-
-                    // When the Edge window remains open because of multiple tabs are open, attempt to close modal dialog
-                    var closeAllButton = session.FindElementByXPath("//Button[@Name='Close all']");
-                    closeAllButton.Click();
-
-                }
-                catch { }
-
+                CloseEdge(session);
                 session.Quit();
                 session = null;
             }
+        }
+
+        public static void CloseEdge(WindowsDriver<WindowsElement> edgeSession)
+        {
+            try
+            {
+                edgeSession.Close();
+                var currentHandle = edgeSession.CurrentWindowHandle; // This should throw if the window is closed successfully
+
+                // When the Edge window remains open because of multiple tabs are open, attempt to close modal dialog
+                var closeAllButton = edgeSession.FindElementByXPath("//Button[@Name='Close all']");
+                closeAllButton.Click();
+
+            }
+            catch { }
         }
 
         [TestInitialize]
@@ -104,13 +109,13 @@ namespace WebDriverAPI
         {
             RemoteWebElement staleElement = null;
 
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutTabsURL + OpenQA.Selenium.Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(Keys.Alt + 'd' + Keys.Alt + CommonTestSettings.EdgeAboutTabsURL + Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(2));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate to Edge about:flags page
-            session.FindElementByAccessibilityId("addressEditBox").SendKeys(CommonTestSettings.EdgeAboutFlagsURL + OpenQA.Selenium.Keys.Enter);
+            session.FindElementByAccessibilityId("addressEditBox").SendKeys(Keys.Alt + 'd' + Keys.Alt + CommonTestSettings.EdgeAboutFlagsURL + Keys.Enter);
             Thread.Sleep(TimeSpan.FromSeconds(2));
             Assert.AreNotEqual(originalTitle, session.Title);
 
