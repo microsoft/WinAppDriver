@@ -16,6 +16,8 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateThumbprint>0CA738D6E3AA015B7E3CFB902333F76791E1E082</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>..\..\WinAppDriver.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -297,6 +299,7 @@
     <Content Include="Assets\RelativePanel.png" />
     <Content Include="Assets\splash-sdk.png" />
     <Content Include="Assets\smalltile-sdk.png" />
+    <Content Include="Assets\squaretile-sdk.png" />
     <Content Include="Assets\SplitView.png" />
     <Content Include="Assets\treetops.jpg" />
     <Content Include="Assets\storelogo-sdk.png" />

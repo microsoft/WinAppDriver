@@ -42,6 +42,8 @@
 ipch/
 obj/
 [Bb]in
+[Aa]pp[Pp]ackages/
+[Bb]undle[Aa]rtifacts/
 
 #ignore all *.lock.json files
 *.lock.json
