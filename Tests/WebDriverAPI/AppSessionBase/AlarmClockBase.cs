@@ -72,7 +72,16 @@ namespace WebDriverAPI
             {
                 session.Navigate().Back();
                 Thread.Sleep(TimeSpan.FromSeconds(1));
-                alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
+
+                try
+                {
+                    alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
+                }
+                catch
+                {
+                    session.FindElementByAccessibilityId("Back").Click(); // Press back button if navigating back somehow failed
+                    alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
+                }
             }
 
             Assert.IsNotNull(alarmTabElement);
