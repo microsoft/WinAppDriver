@@ -48,7 +48,7 @@ namespace CalculatorTest
             // TODO: Use a proper appium/webdriver nuget package that allow us to query based on automationId
             CalculatorSession.FindElementByXPath("//Button[@Name=\"Clear\"]").Click();
             CalculatorSession.FindElementByXPath("//Button[@Name=\"Seven\"]").Click();
-            CalculatorResult = CalculatorSession.FindElementByName("Display is  7 ") as RemoteWebElement;
+            CalculatorResult = CalculatorSession.FindElementByName("Display is 7") as RemoteWebElement;
             Assert.IsNotNull(CalculatorResult);
         }
 
@@ -68,7 +68,7 @@ namespace CalculatorTest
         public void Clear()
         {
             CalculatorSession.FindElementByName("Clear").Click();
-            Assert.AreEqual("Display is  0 ", CalculatorResult.Text);
+            Assert.AreEqual("Display is 0", CalculatorResult.Text);
         }
 
         [TestMethod]
@@ -78,7 +78,7 @@ namespace CalculatorTest
             CalculatorSession.FindElementByName("Plus").Click();
             CalculatorSession.FindElementByName("Seven").Click();
             CalculatorSession.FindElementByName("Equals").Click();
-            Assert.AreEqual("Display is  8 ", CalculatorResult.Text);
+            Assert.AreEqual("Display is 8", CalculatorResult.Text);
         }
 
         [TestMethod]
@@ -93,7 +93,7 @@ namespace CalculatorTest
             CalculatorSession.FindElementByXPath("//Button[@Name=\"Divide by\"]").Click();
             CalculatorSession.FindElementByXPath("//Button[@Name=\"Eight\"]").Click();
             CalculatorSession.FindElementByXPath("//Button[@Name=\"Equals\"]").Click();
-            Assert.AreEqual("Display is  8 ", CalculatorResult.Text);
+            Assert.AreEqual("Display is 8", CalculatorResult.Text);
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace CalculatorTest
             CalculatorSession.FindElementByName("One").Click();
             CalculatorSession.FindElementByName("One").Click();
             CalculatorSession.FindElementByName("Equals").Click();
-            Assert.AreEqual("Display is  8 ", CalculatorResult.Text);
+            Assert.AreEqual("Display is 8", CalculatorResult.Text);
         }
 
         [TestMethod]
@@ -115,7 +115,7 @@ namespace CalculatorTest
             CalculatorSession.FindElementByName("Multiply by").Click();
             CalculatorSession.FindElementByName("Nine").Click();
             CalculatorSession.FindElementByName("Equals").Click();
-            Assert.AreEqual("Display is  81 ", CalculatorResult.Text);
+            Assert.AreEqual("Display is 81", CalculatorResult.Text);
         }
 
         [TestMethod]
@@ -125,7 +125,7 @@ namespace CalculatorTest
             CalculatorSession.FindElementByName("Minus").Click();
             CalculatorSession.FindElementByName("One").Click();
             CalculatorSession.FindElementByName("Equals").Click();
-            Assert.AreEqual("Display is  8 ", CalculatorResult.Text);
+            Assert.AreEqual("Display is 8", CalculatorResult.Text);
         }
     }
 }
