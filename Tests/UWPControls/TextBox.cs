@@ -145,14 +145,6 @@ namespace UWPControls
             Assert.AreEqual(string.Empty, textBoxElement1.Text);
             textBoxElement1.SendKeys("abcde12345!@#$%");
             Assert.AreEqual("abcde12345!@#$%", textBoxElement1.Text);
-
-            // Highlight the first 3 characters in the textBox
-            textBoxElement1.SendKeys(Keys.Home + Keys.Shift + Keys.Right + Keys.Right + Keys.Right + Keys.Shift);
-            Assert.AreEqual("abc", textBoxElement1.Text); // Only the highlighted characters should be returned
-
-            // Use Ctrl + A to select all text
-            textBoxElement1.SendKeys(Keys.Control + "a" + Keys.Control);
-            Assert.AreEqual("abcde12345!@#$%", textBoxElement1.Text);
         }
     }
 }

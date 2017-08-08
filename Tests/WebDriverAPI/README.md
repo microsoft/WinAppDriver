@@ -4,18 +4,24 @@ WebDriverAPI is a collection of test scenarios that covers every WebDriver comma
 
 The test scenarios are written against Windows 10 built-in apps such as **Calculator**, **Alarms & Clock**, **Notepad**, **File Explorer**, and **Microsoft Edge Browser**. Therefore these tests can simply be run on Windows 10 PC running Windows Application Driver.
 
-## Requirement
+
+## Requirements
+
 - Windows 10 PC with the latest Windows 10 version (Version 1607 or later)
 - Microsoft Visual Studio 2015 or later
 
+
 ## Getting Started
+
 1. Open `WebDriverAPI.sln` in Visual Studio
 2. Select **Test** > **Windows** > **Test Explorer**
 3. Select **Run All** on the test pane or through menu **Test** > **Run** > **All Tests**
 
 > Once the project is successfully built, you can use the **TestExplorer** to pick and choose the test scenario(s) to run
 
+
 ## Command Summary
+
 | HTTP   	| Path                                                                              	|
 |--------	|-----------------------------------------------------------------------------------	|
 | GET    	| [/status                                           ](./Status.cs)                 	|
@@ -79,9 +85,11 @@ The test scenarios are written against Windows 10 built-in apps such as **Calcul
 | GET    	| [/session/:sessionId/window_handle                 ](./Window.cs)                 	|
 | GET    	| [/session/:sessionId/window_handles                ](./Window.cs)                 	|
 
+
 ## Command Reference
 
 These tests are written to verify each API endpoint behavior and error values as specified in [JSON Wire Protocol](https://github.com/SeleniumHQ/selenium/wiki/JsonWireProtocol) document.
+
 
 ## Adding/Updating Test Scenario
 

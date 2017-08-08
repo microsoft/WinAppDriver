@@ -24,7 +24,7 @@ namespace UWPControls
     public class UWPControlsBase
     {
         private const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
-        private const string AppUIBasicAppId = "a5bd3fa2-e27f-49e9-9041-47c97e903ecc_8wekyb3d8bbwe!App";
+        private const string AppUIBasicAppId = "WinAppDriver.AppUIBasics_xh1ske9axcpv8!App";
         protected static WindowsDriver<WindowsElement> session = null;
 
         public static void Setup(TestContext context)
@@ -40,9 +40,17 @@ namespace UWPControls
                 DesiredCapabilities appCapabilities = new DesiredCapabilities();
                 appCapabilities.SetCapability("app", AppUIBasicAppId);
                 session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
-                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
                 Assert.IsNotNull(session);
                 Assert.IsNotNull(session.SessionId);
+
+                // Dismiss the disclaimer window that may pop up on the very first application launch
+                try
+                {
+                    session.FindElementByName("Disclaimer").FindElementByName("Accept").Click();
+                }
+                catch { }
+
+                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
             }
         }
 

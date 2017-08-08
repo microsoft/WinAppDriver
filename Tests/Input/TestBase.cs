@@ -64,7 +64,7 @@ namespace Input
             {
                 // Launch the test app
                 DesiredCapabilities appCapabilities = new DesiredCapabilities();
-                appCapabilities.SetCapability("app", "1c9e0fb1-6eac-41ec-976a-ae74264a7f8e_80c4904e66sn0!App");
+                appCapabilities.SetCapability("app", "WinAppDriver.Input_xh1ske9axcpv8!App");
                 appCapabilities.SetCapability("deviceName", "WindowsPC");
                 AppSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
                 Assert.IsNotNull(AppSession);
