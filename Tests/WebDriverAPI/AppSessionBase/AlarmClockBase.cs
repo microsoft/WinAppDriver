@@ -38,8 +38,8 @@ namespace WebDriverAPI
                 Assert.IsNotNull(session);
                 Assert.IsNotNull(session.SessionId);
 
-                // Set implicit timeout to 1 second to make element search to retry twice every 500 ms
-                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
+                // Set implicit timeout to 1.5 seconds to make element search to retry every 500 ms for at most three times
+                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1.5));
 
                 // Initialize touch screen object
                 touchScreen = new RemoteTouchScreen(session);

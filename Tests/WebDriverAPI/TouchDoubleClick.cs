@@ -15,6 +15,7 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Appium.Windows;
 using System;
 using System.Drawing;
 using System.Threading;
@@ -39,38 +40,31 @@ namespace WebDriverAPI
         [TestMethod]
         public void TouchDoubleTap()
         {
-            // Save application window original size and position
-            var originalSize = session.Manage().Window.Size;
-            var originalPosition = session.Manage().Window.Position;
+            WindowsElement maximizeButton = session.FindElementByAccessibilityId("Maximize");
+            Assert.IsNotNull(maximizeButton);
+            
+            // Restore the calculator window if it is currently maximized
+            if (!maximizeButton.Text.Contains("Maximize"))
+            {
+                maximizeButton.Click();
+            }
 
-            // Get maximized window size
-            session.Manage().Window.Maximize();
-            var maximizedSize = session.Manage().Window.Size;
-            Assert.IsNotNull(maximizedSize);
+            // Verify that window is currently not maximized and set focus on appNameTitle
+            Assert.IsTrue(maximizeButton.Text.Contains("Maximize"));
+            WindowsElement appNameTitle = session.FindElementByAccessibilityId("AppNameTitle");
+            appNameTitle.Click();
 
-            // Shrink the window size by 100 pixels each side from maximized size to ensure size changes when maximized
-            int offset = 500;
-            session.Manage().Window.Size = new Size(maximizedSize.Width - offset, maximizedSize.Height - offset);
-            session.Manage().Window.Position = new Point(offset, offset);
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-            var currentWindowSize = session.Manage().Window.Size;
-            Assert.IsNotNull(currentWindowSize);
-            Assert.IsTrue(maximizedSize.Width >= currentWindowSize.Width);
-            Assert.IsTrue(maximizedSize.Height >= currentWindowSize.Height);
-
-            // Perform double tap touch on the title bar to maximize calculator window
+            // Perform double tap touch on the title bar to maximize the calculator window
             Assert.IsNotNull(touchScreen);
-            touchScreen.DoubleTap(session.FindElementByAccessibilityId("AppNameTitle").Coordinates);
+            touchScreen.DoubleTap(appNameTitle.Coordinates);
             Thread.Sleep(TimeSpan.FromSeconds(1));
-            currentWindowSize = session.Manage().Window.Size;
-            Assert.IsNotNull(currentWindowSize);
-            Assert.AreEqual(maximizedSize.Width, currentWindowSize.Width);
-            Assert.AreEqual(maximizedSize.Height, currentWindowSize.Height);
+            Assert.IsFalse(maximizeButton.Text.Contains("Maximize"));
 
-            // Restore application window original size and position
-            session.Manage().Window.Size = originalSize;
-            session.Manage().Window.Position = originalPosition;
+            // Perform double tap touch on the title bar to restore the calculator window
+            Assert.IsNotNull(touchScreen);
+            touchScreen.DoubleTap(appNameTitle.Coordinates);
             Thread.Sleep(TimeSpan.FromSeconds(1));
+            Assert.IsTrue(maximizeButton.Text.Contains("Maximize"));
         }
 
         [TestMethod]

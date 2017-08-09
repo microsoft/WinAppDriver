@@ -391,6 +391,7 @@ namespace WebDriverAPI
             Assert.IsNotNull(windowSize);
             Assert.IsTrue(OriginalSize.Height <= windowSize.Height);
             Assert.IsTrue(OriginalSize.Width <= windowSize.Width);
+            Assert.IsTrue(WindowTransformSession.FindElementByAccessibilityId("Maximize").Text.Contains("Restore"));
         }
 
         [TestMethod]

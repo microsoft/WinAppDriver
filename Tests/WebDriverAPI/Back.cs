@@ -48,6 +48,7 @@ namespace WebDriverAPI
 
             // Navigate to different URLs
             session.FindElementByAccessibilityId("addressEditBox").SendKeys(Keys.Alt + 'd' + Keys.Alt + CommonTestSettings.EdgeAboutBlankURL + Keys.Enter);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.AreNotEqual(originalTitle, session.Title);
 
             // Navigate back to original URL
