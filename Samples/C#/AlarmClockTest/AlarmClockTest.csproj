@@ -71,7 +71,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Scenario.cs" />
+    <Compile Include="AlarmClockSession.cs" />
+    <Compile Include="ScenarioStopwatch.cs" />
+    <Compile Include="ScenarioAlarm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
