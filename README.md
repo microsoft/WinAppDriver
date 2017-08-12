@@ -1,4 +1,4 @@
-# Windows Application Driver (Beta)
+# Windows Application Driver
 
 Windows Application Driver is a service to support Selenium-like UI Test Automation on Windows Applications. This service supports testing **Universal Windows Platform (UWP)** and **Classic Windows (Win32)** apps on **Windows 10 PCs**. Windows Application Driver complies to the [JSON Wire Protocol](https://github.com/SeleniumHQ/selenium/wiki/JsonWireProtocol) standard and some application management functionalities defined by **Appium**. If you've been looking for better support for using [Appium](http://appium.io) to test Windows Applications, then this service is for you!
 
@@ -265,4 +265,4 @@ For more details visit the Appium documentation: <http://appium.io/slate/en/mast
 
 
 ## Vote on New Features
-Go to <https://wpdev.uservoice.com/forums/110705-universal-windows-platform> and enter requests under the **UI Testing** category.
+Add your feature request in [issues](../../issues/) or :+1: (+1) existing issues labeled as **Enhancement**
