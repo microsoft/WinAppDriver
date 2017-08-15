@@ -30,7 +30,7 @@ namespace WebDriverAPI
 
         public static void Setup(TestContext context)
         {
-            // Launch Alarm Clock if it is not yet launched
+            // Launch Alarms & Clock application if it is not yet launched
             if (session == null || touchScreen == null || !Utility.CurrentWindowIsAlive(session))
             {
                 TearDown();
