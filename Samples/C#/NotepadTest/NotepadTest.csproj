@@ -71,12 +71,13 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="AdvancedScenario.cs" />
-    <Compile Include="Scenario.cs" />
+    <Compile Include="NotepadSession.cs" />
+    <Compile Include="ScenarioPopupDialog.cs" />
+    <Compile Include="ScenarioMenuItem.cs" />
+    <Compile Include="ScenarioEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>
