@@ -400,7 +400,8 @@ namespace WebDriverAPI
 
             Assert.IsNotNull(testFileEntry);
             testFileEntry.Click();
-            testFileEntry.SendKeys(Keys.Delete + Keys.Escape);
+            testFileEntry.SendKeys(Keys.Delete);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
