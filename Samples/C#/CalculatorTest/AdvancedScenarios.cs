@@ -15,6 +15,7 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Interactions;
 
 namespace CalculatorTest
 {
@@ -38,6 +39,46 @@ namespace CalculatorTest
         {
             CalculatorSession.FindElementByName("Clear").Click();
             Assert.AreEqual("0", _GetCalculatorResultText());
+        }
+
+        [TestMethod]
+        public void Addition_ScreenShotLogging()
+        {
+            //New Action to be able hover on elements
+            Actions action = new Actions(CalculatorSession);
+
+            //Move mouse to hover over control 'One'     
+            action.MoveToElement(CalculatorSession.FindElementByName("One")).Build().Perform();
+            //Take a screenshot of the mouse hover over control 'One'
+            _GetScreenshot(CalculatorSession, TestContext.TestName, CalculatorSession.FindElementByName("One").Text);
+            //Click on control 'One'
+            CalculatorSession.FindElementByName("One").Click();
+            //Move mouse to hover over control 'Plus'     
+            action.MoveToElement(CalculatorSession.FindElementByName("Plus")).Build().Perform();
+            //Take a screenshot of the mouse hover over control 'Plus'
+            _GetScreenshot(CalculatorSession, TestContext.TestName, CalculatorSession.FindElementByName("Plus").Text);
+            //Click on control 'Plus'
+            CalculatorSession.FindElementByName("Plus").Click();
+            //Move mouse to hover over control 'Seven'     
+            action.MoveToElement(CalculatorSession.FindElementByName("Seven")).Build().Perform();
+            //Take a screenshot of the mouse hover over control 'Seven'
+            _GetScreenshot(CalculatorSession, TestContext.TestName, CalculatorSession.FindElementByName("Seven").Text);
+            //Click on control 'Seven'
+            CalculatorSession.FindElementByName("Seven").Click();
+            //Move mouse to hover over control 'Equals'     
+            action.MoveToElement(CalculatorSession.FindElementByName("Equals")).Build().Perform();
+            //Take a screenshot of the mouse hover over control 'Equals'
+            _GetScreenshot(CalculatorSession, TestContext.TestName, CalculatorSession.FindElementByName("Equals").Text);
+            //Click on control 'Equals'
+            CalculatorSession.FindElementByName("Equals").Click();
+            //Move mouse to hover over control 'CalculatorResults'     
+            action.MoveToElement(CalculatorSession.FindElementByAccessibilityId("CalculatorResults")).Build().Perform();
+            //Take a screenshot of the mouse hover over control 'Calculator Results'
+            _GetScreenshot(CalculatorSession, TestContext.TestName, _GetCalculatorResultText());
+
+            //Assert Result is valid
+            Assert.AreEqual("8", _GetCalculatorResultText());
+
         }
 
         [TestMethod]
