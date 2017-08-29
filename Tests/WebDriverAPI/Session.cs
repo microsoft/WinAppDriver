@@ -325,7 +325,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void CreateSessionWithArguments_ModernApp()
         {
-            // Launch a new Edge window in private mode using appArguments
+            // Open about:blank page in Microsoft Edge using appArguments
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", CommonTestSettings.EdgeAppId);
             appCapabilities.SetCapability("appArguments", CommonTestSettings.EdgeAboutBlankURL);

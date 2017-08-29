@@ -91,6 +91,7 @@ namespace AlarmClockTest
             stopwatchPlayPauseButton.Click();
             Assert.AreEqual("Pause", stopwatchPlayPauseButton.Text);
             Assert.IsFalse(stopwatchResetButton.Displayed);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
 
             // Pause the stopwatch and verify that stopwatchPlayPauseButton switched back from Pause to Start while stopwatchResetButton is enabled
             stopwatchPlayPauseButton.Click();

@@ -36,10 +36,27 @@ namespace WebDriverAPI
         }
 
         [TestMethod]
-        public void GetActiveElement()
+        public void GetActiveElement_Empty()
         {
+            // Set focus on the application by switching window to itself
+            session.SwitchTo().Window(session.CurrentWindowHandle);
+
+            // Verify that active element id is not empty when the current session/application owns the focus
             WindowsElement activeElement = session.SwitchTo().ActiveElement() as WindowsElement;
             Assert.IsNotNull(activeElement);
+            Assert.AreNotEqual(string.Empty, activeElement.Id);
+
+            // Open Windows start menu to deliberately take focus away from the calculator
+            session.Keyboard.PressKey(OpenQA.Selenium.Keys.Meta + OpenQA.Selenium.Keys.Meta);
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
+
+            // Verify that active element id is now empty as the current session/application no longer owns the focus
+            activeElement = session.SwitchTo().ActiveElement() as WindowsElement;
+            Assert.IsNotNull(activeElement);
+            Assert.AreEqual(string.Empty, activeElement.Id);
+
+            // Dismiss start menu
+            session.Keyboard.PressKey(OpenQA.Selenium.Keys.Escape);
         }
 
         [TestMethod]
