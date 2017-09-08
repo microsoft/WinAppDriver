@@ -46,7 +46,6 @@ namespace WebDriverAPI
 
             session.CloseApp();
 
-            Thread.Sleep(TimeSpan.FromSeconds(2));
             Assert.IsNotNull(session.SessionId);
             Assert.AreEqual(0, session.WindowHandles.Count);
 

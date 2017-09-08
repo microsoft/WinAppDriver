@@ -51,7 +51,7 @@ namespace WebDriverAPI
             {
                 base.TestInit();
                 alarmTabElement.FindElementByAccessibilityId("AddAlarmButton").Click();
-                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Thread.Sleep(TimeSpan.FromSeconds(1.5));
                 alarmNameTextBox = session.FindElementByAccessibilityId("AlarmNameTextBox");
             }
 

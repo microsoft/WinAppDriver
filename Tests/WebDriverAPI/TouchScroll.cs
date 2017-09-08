@@ -93,24 +93,19 @@ namespace WebDriverAPI
 
             var minuteSelector = session.FindElementByAccessibilityId("MinuteLoopingSelector");
             var minute00 = session.FindElementByName("00");
-            var minute05 = session.FindElementByName("05");
             Assert.IsNotNull(minuteSelector);
             Assert.IsNotNull(minute00);
-            Assert.IsNotNull(minute05);
             Assert.IsTrue(minute00.Displayed);
-            Assert.IsFalse(minute05.Displayed);
 
-            // Perform scroll down touch action to scroll the minute showing 05 minutes that was hidden
+            // Perform scroll down touch action to scroll the minute hiding 00 minutes that was shown
             touchScreen.Scroll(minuteSelector.Coordinates, 0, -55);
             Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.IsFalse(minute00.Displayed);
-            Assert.IsTrue(minute05.Displayed);
 
-            // Perform scroll up touch action to scroll the the minute back showing 00 minutes that was shown
+            // Perform scroll up touch action to scroll the the minute back showing 00 minutes that was hidden
             touchScreen.Scroll(minuteSelector.Coordinates, 0, 55);
             Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.IsTrue(minute00.Displayed);
-            Assert.IsFalse(minute05.Displayed);
 
             // Navigate back to the original view
             session.Navigate().Back();

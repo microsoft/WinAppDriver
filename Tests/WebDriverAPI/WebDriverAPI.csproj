@@ -80,6 +80,8 @@
     <Compile Include="ElementClick.cs" />
     <Compile Include="ElementEnabled.cs" />
     <Compile Include="ElementDisplayed.cs" />
+    <Compile Include="TouchDownMoveUp.cs" />
+    <Compile Include="Mouse.cs" />
     <Compile Include="ElementText.cs" />
     <Compile Include="ElementClear.cs" />
     <Compile Include="ElementSize.cs" />

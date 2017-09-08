@@ -41,14 +41,14 @@ namespace WebDriverAPI
         public void NavigateForward_Browser()
         {
             session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private " + CommonTestSettings.EdgeAboutFlagsURL);
-            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
-            Thread.Sleep(TimeSpan.FromSeconds(2.5));
+            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);
 
             // Navigate to different URLs
             session.FindElementByAccessibilityId("addressEditBox").SendKeys(Keys.Alt + 'd' + Keys.Alt + CommonTestSettings.EdgeAboutTabsURL + Keys.Enter);
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             var newTitle = session.Title;
             Assert.AreNotEqual(originalTitle, newTitle);
 

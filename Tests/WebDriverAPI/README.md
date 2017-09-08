@@ -31,10 +31,10 @@ The test scenarios are written against Windows 10 built-in apps such as **Calcul
 | POST   	| [/session/:sessionId/appium/app/launch             ](./AppiumAppClose.cs)         	|
 | POST   	| [/session/:sessionId/appium/app/close              ](./AppiumAppLaunch.cs)        	|
 | POST   	| [/session/:sessionId/back                          ](./Back.cs)                   	|
-| POST   	|  /session/:sessionId/buttondown                                                   	|
-| POST   	|  /session/:sessionId/buttonup                                                     	|
-| POST   	|  /session/:sessionId/click                                                        	|
-| POST   	|  /session/:sessionId/doubleclick                                                  	|
+| POST   	| [/session/:sessionId/buttondown                    ](./Mouse.cs)                  	|
+| POST   	| [/session/:sessionId/buttonup                      ](./Mouse.cs)                  	|
+| POST   	| [/session/:sessionId/click                         ](./Mouse.cs)                  	|
+| POST   	| [/session/:sessionId/doubleclick                   ](./Mouse.cs)                  	|
 | POST   	| [/session/:sessionId/element                       ](./Element.cs)                	|
 | POST   	| [/session/:sessionId/elements                      ](./Elements.cs)               	|
 | POST   	| [/session/:sessionId/element/active                ](./ElementActive.cs)          	|
@@ -57,7 +57,7 @@ The test scenarios are written against Windows 10 built-in apps such as **Calcul
 | POST   	| [/session/:sessionId/forward                       ](./Forward.cs)                	|
 | POST   	| [/session/:sessionId/keys                          ](./SendKeys.cs)               	|
 | GET    	| [/session/:sessionId/location                      ](./Location.cs)               	|
-| POST   	|  /session/:sessionId/moveto                                                       	|
+| POST   	| [/session/:sessionId/moveto                        ](./Mouse.cs)                  	|
 | GET    	| [/session/:sessionId/orientation                   ](./Orientation.cs)            	|
 | GET    	| [/session/:sessionId/screenshot                    ](./Screenshot.cs)             	|
 | GET    	| [/session/:sessionId/source                        ](./Source.cs)                 	|
@@ -65,13 +65,13 @@ The test scenarios are written against Windows 10 built-in apps such as **Calcul
 | GET    	| [/session/:sessionId/title                         ](./Title.cs)                  	|
 | POST   	| [/session/:sessionId/touch/click                   ](./TouchClick.cs)             	|
 | POST   	| [/session/:sessionId/touch/doubleclick             ](./TouchDoubleClick.cs)       	|
-| POST   	|  /session/:sessionId/touch/down                                                   	|
+| POST   	| [/session/:sessionId/touch/down                    ](./TouchDownMoveUp.cs)        	|
 | POST   	| [/session/:sessionId/touch/flick                   ](./TouchFlick.cs)             	|
 | POST   	| [/session/:sessionId/touch/longclick               ](./TouchLongClick.cs)         	|
-| POST   	|  /session/:sessionId/touch/move                                                   	|
+| POST   	| [/session/:sessionId/touch/move                    ](./TouchDownMoveUp.cs)        	|
 | POST   	|  /session/:sessionId/touch/multi/perform                                          	|
 | POST   	| [/session/:sessionId/touch/scroll                  ](./TouchScroll.cs)            	|
-| POST   	|  /session/:sessionId/touch/up                                                     	|
+| POST   	| [/session/:sessionId/touch/up                      ](./TouchDownMoveUp.cs)        	|
 | DELETE 	| [/session/:sessionId/window                        ](./Window.cs)                 	|
 | POST   	| [/session/:sessionId/window                        ](./Window.cs)                 	|
 | POST   	| [/session/:sessionId/window/maximize               ](./Window.cs)                 	|

@@ -45,6 +45,7 @@ namespace WebDriverAPI
             // Navigate to Stopwatch tab
             WindowsElement stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
             stopwatchPivotItem.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             WindowsElement stopwatchStartButton = session.FindElementByName("Start");
             Assert.IsTrue(stopwatchStartButton.Displayed);
             Assert.IsFalse(addAlarmButton.Displayed);

@@ -16,9 +16,8 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
-using System;
-using System.Drawing;
 using System.Threading;
+using System;
 
 namespace WebDriverAPI
 {
@@ -40,19 +39,20 @@ namespace WebDriverAPI
         [TestMethod]
         public void TouchDoubleTap()
         {
+            WindowsElement appNameTitle = session.FindElementByAccessibilityId("AppNameTitle");
             WindowsElement maximizeButton = session.FindElementByAccessibilityId("Maximize");
-            Assert.IsNotNull(maximizeButton);
-            
+
+            // Set focus on the application by switching window to itself
+            session.SwitchTo().Window(session.CurrentWindowHandle);
+
             // Restore the calculator window if it is currently maximized
             if (!maximizeButton.Text.Contains("Maximize"))
             {
                 maximizeButton.Click();
             }
 
-            // Verify that window is currently not maximized and set focus on appNameTitle
+            // Verify that window is currently not maximized
             Assert.IsTrue(maximizeButton.Text.Contains("Maximize"));
-            WindowsElement appNameTitle = session.FindElementByAccessibilityId("AppNameTitle");
-            appNameTitle.Click();
 
             // Perform double tap touch on the title bar to maximize the calculator window
             Assert.IsNotNull(touchScreen);

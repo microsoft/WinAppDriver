@@ -11,10 +11,10 @@ This Github project provides:
 
 **Videos about WinAppDriver**
 
-<https://channel9.msdn.com/events/Connect/2016/202> - 8 minutes overview with demos
-<https://channel9.msdn.com/events/Build/2016/Panel-Engineering-Quality> - Session with Jonathan Lipps
-<https://channel9.msdn.com/events/Build/2016/P499> - Longer discussion
-<https://www.youtube.com/watch?v=XAJVpvaEchY> - C# demo with calculator sample walkthrough
+- <https://channel9.msdn.com/events/Connect/2016/202> - 8 minutes overview with demos
+- <https://channel9.msdn.com/events/Build/2016/Panel-Engineering-Quality> - Session with Jonathan Lipps
+- <https://channel9.msdn.com/events/Build/2016/P499> - Longer discussion
+- <https://www.youtube.com/watch?v=XAJVpvaEchY> - C# demo with calculator sample walkthrough
 
 
 ## Getting Started
@@ -42,7 +42,7 @@ WinAppDriver.exe 10.0.0.10 4723/wd/hub
 
 ### Running on a Remote Machine
 
-Windows Application Driver can run remotely on any Windows 10 machine with `WinAppDriver.exe` installed and running. This *test machine* can then serve any JSON wire protocol commands coming from the *test runner* remotely through the network. Below are the steps to the one time setup for the *test machine* to receive inbound requests:
+Windows Application Driver can run remotely on any Windows 10 machine with `WinAppDriver.exe` installed and running. This *test machine* can then serve any JSON wire protocol commands coming from the *test runner* remotely through the network. Below are the steps to the one-time setup for the *test machine* to receive inbound requests:
 
 1. On the *test machine* you want to run the test application on, open up **Windows Firewall with Advanced Security**
    - Select **Inbound Rules** -> **New Rule...**
@@ -55,7 +55,7 @@ Windows Application Driver can run remotely on any Windows 10 machine with `WinA
 2. Run `ipconfig.exe` to determine your machine's local IP address
    > **Note**: Setting `*` as the IP address command line option will cause it to bind to all bound IP addresses on the machine
 3. Run `WinAppDriver.exe` as **administrator** with command line arguments as seen above specifying local IP and port
-4. On the *test runner* machine where the runner and scripts are, update the the test script to point to the IP of the remote *test machine*
+4. On the *test runner* machine where the runner and scripts are, update the test script to point to the IP of the remote *test machine*
 5. Execute the test script on the *test runner* to perform the test actions against the test application on the remote *test machine*.
 
 
@@ -243,13 +243,14 @@ Windows Application Driver supports various locators to find UI element in the a
 | FindElementById              	| id               	| RuntimeId (decimal)                    	| 42.333896.3.1	|
 | FindElementByName            	| name             	| Name                                   	| Calculator   	|
 | FindElementByTagName         	| tag name         	| LocalizedControlType (upper camel case)	| Text         	|
+| FindElementByXPath           	| xpath            	| Any                                    	| //Button[0]  	|
 
 
 ## Inspecting UI Elements
 
 The latest Microsoft Visual Studio version by default includes the Windows SDK with a great tool to inspect the application you are testing. This tool allows you to see every UI element/node that you can query using Windows Application Driver. This **inspect.exe** tool can be found under the Windows SDK folder which is typically `C:\Program Files (x86)\Windows Kits\10\bin\x86`
 
-More detailed documentation on Inspect is available on MSDN <"https://msdn.microsoft.com/library/windows/desktop/dd318521(v=vs.85).aspx">.
+More detailed documentation on Inspect is available on MSDN <https://msdn.microsoft.com/library/windows/desktop/dd318521(v=vs.85).aspx>.
 
 
 ## Using Appium
