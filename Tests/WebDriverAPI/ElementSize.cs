@@ -51,6 +51,15 @@ namespace WebDriverAPI
             // Clear button is always bigger than Mem button
             Assert.IsTrue(clearButton.Size.Width > memButton.Size.Width);
             Assert.IsTrue(clearButton.Size.Height > memButton.Size.Height);
+
+            WindowsElement applicationWindow = session.FindElementByClassName("ApplicationFrameWindow");
+            Assert.IsNotNull(applicationWindow);
+            Assert.AreEqual(session.Manage().Window.Size.Width, applicationWindow.Size.Width);
+            Assert.AreEqual(session.Manage().Window.Size.Height, applicationWindow.Size.Height);
+
+            // Application top level window is always bigger than its button
+            Assert.IsTrue(applicationWindow.Size.Width > clearButton.Size.Width);
+            Assert.IsTrue(applicationWindow.Size.Height > clearButton.Size.Height);
         }
 
         [TestMethod]

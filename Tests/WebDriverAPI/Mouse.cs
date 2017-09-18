@@ -76,8 +76,18 @@ namespace WebDriverAPI
             session.Mouse.ContextClick(appNameTitle.Coordinates);
             Thread.Sleep(TimeSpan.FromSeconds(1.5));
             WindowsDriver<WindowsElement> desktopSession = Utility.CreateNewSession(CommonTestSettings.DesktopAppId);
-            Assert.IsNotNull(desktopSession.FindElementByName("System").FindElementByName("Minimize"));
-            clearButton.Click(); // Dismiss the context menu
+            try
+            {
+                Assert.IsNotNull(desktopSession.FindElementByName("System").FindElementByName("Minimize"));
+                clearButton.Click(); // Dismiss the context menu
+            }
+            finally
+            {
+                if (desktopSession != null)
+                {
+                    desktopSession.Quit();
+                }
+            }
         }
 
         [TestMethod]
