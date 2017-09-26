@@ -17,38 +17,70 @@
 # Recommend checking  out more Ruby examples for Appium, including setup instructions here
 # https://github.com/appium/sample-code/tree/master/sample-code/examples/ruby
 
-# TODO: Once we have better Appium integration update this test to use the Appium gem
 require 'selenium-webdriver'
+require 'rubygems'
+require 'appium_lib'
 
-$CalculatorSession
-$CalculatorResult
+# $CalculatorSession is a Selenium::WebDriver instance defined in setup_steps.rb
 
-def caps 
-    {
-        platformName: "WINDOWS", platform: "WINDOWS", deviceName: "mydevice", app: "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App" 
-    }
+When /^I see "([^\"]*)"$/ do |text|
+
+   result = $CalculatorSession.find_elements(:name, text)[0]
+   unless result != nil
+       fail("'#{text}' was not found.")
+   end
 end
 
-def assert &block
-    raise AssertionError unless yield
+When /^I wait to see "([^\"]*)"$/ do |text|
+
+    wait = Selenium::WebDriver::Wait.new :timeout => 30
+    wait.until { $CalculatorSession.find_elements(:name, text)[0] != nil }
 end
 
-def setup
-    $CalculatorSession = Selenium::WebDriver.for(:remote, :url => "http://127.0.0.1:4723/", :desired_capabilities => caps )
-    
-    $CalculatorSession.find_elements(:name, "Clear")[0].click;
-    $CalculatorSession.find_elements(:name, "Seven")[0].click;
-    $CalculatorResult = $CalculatorSession.find_elements(:name, "Display is  7 ")[0];
-    assert{$CalculatorResult != nil}
-    $CalculatorSession.find_elements(:name, "Clear")[0].click;
+When /^I press "([^\"]*)"$/ do |text|
+
+    $CalculatorSession.find_element(:name, text).click()
 end
 
-def addition
-    $CalculatorSession.find_elements(:name, "One")[0].click;
-    $CalculatorSession.find_elements(:name, "Plus")[0].click;
-    $CalculatorSession.find_elements(:name, "Seven")[0].click;
-    $CalculatorSession.find_elements(:name, "Equals")[0].click;
-    assert{$CalculatorResult.text == "Display is  8 "};
+When /^I press "([^\"]*)" by id$/ do |control_id|
+
+    $CalculatorSession.find_element(:accessibility_id, control_id).click()
+end
+
+# FIXME:
+# {"using":"xpath","value":"//Button[@Name='Nine']"}
+# HTTP/1.1 404 Not Found
+# Content-Length: 139
+# Content-Type: application/json
+# {"status":7,"value":{"error":"no such element","message":"An element could not be located on the page using the given search parameters."}}
+When /^I press "([^\"]*)" by xpath$/ do |x_path_name|
+
+    $CalculatorSession.find_element(:xpath, "//Button[@Name='#{x_path_name}']").click()
+end
+
+# FIXME:
+# {"using":"xpath","value":"//Button[@AutomationId=\"num9button\"]"}
+# HTTP/1.1 404 Not Found
+# Content-Length: 139
+# Content-Type: application/json
+# {"status":7,"value":{"error":"no such element","message":"An element could not be located on the page using the given search parameters."}}
+When /^I press "([^\"]*)" by automation$/ do |automation_id|
+
+    $CalculatorSession.find_element(:xpath, "//Button[@AutomationId=\"#{automation_id}\"]").click()
+end
+
+When /^I see the result is "([^\"]*)"$/ do |expected|
+
+    actual = return_results().sub! 'Display is', ''
+    actual = actual.strip()
+
+    unless actual.eql? expected
+        fail("Expected '#{expected}' but result is '#{actual}'.")
+    end
+end
+
+def return_results()
+    return $CalculatorSession.find_element(:accessibility_id, "CalculatorResults").text
 end
 
 def combination
@@ -73,14 +105,3 @@ def division
     $CalculatorSession.find_elements(:name, "Equals")[0].click;
     assert{$CalculatorResult.text == "Display is  8 "};
 end
-
-def teardown
-    $CalculatorSession.quit
-end
-
-# run through the tests
-setup
-addition
-combination
-division
-teardown
