@@ -98,7 +98,7 @@ namespace WebDriverAPI
             session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
-            Assert.AreEqual("File Explorer", session.Title);
+            Assert.IsTrue(session.Title == "File Explorer" || session.Title == "This PC");
         }
 
         [TestMethod]
