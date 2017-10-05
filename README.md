@@ -253,7 +253,7 @@ The latest Microsoft Visual Studio version by default includes the Windows SDK w
 More detailed documentation on Inspect is available on MSDN <https://msdn.microsoft.com/library/windows/desktop/dd318521(v=vs.85).aspx>.
 
 
-## Using Appium
+## Using WinAppDriver with Appium
 
 Windows Application Driver is integrated with Appium, meaning if you use Appium as part of the test runner then it will launch `WinAppDriver.exe` and proxy the requests for you.
 
