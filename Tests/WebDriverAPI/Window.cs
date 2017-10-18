@@ -52,6 +52,7 @@ namespace WebDriverAPI
 
             // Delete the session
             session.Quit();
+            session = null;
         }
 
         [TestMethod]
