@@ -2,14 +2,14 @@
 
 UWPControls is a collection of test scenarios that covers basic interactions with [Universal Windows Platform controls (UI elements)](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/). Use this as a reference on how to interact with certain UWP controls you have in your application.
 
-The test scenarios are written against [AppUIBasics](../ApplicationUnderTests/AppUIBasics) application that contains all UWP basic controls. This application needs to be installed once in the machine you are running your test. Follow the instruction on the application [README](../ApplicationUnderTests/AppUIBasics/README.md).
+The test scenarios are written against [AppUIBasics](../../ApplicationUnderTests/AppUIBasics) application that contains all UWP basic controls. This application needs to be installed once in the machine you are running your test. Follow the instruction on the application [README](../../ApplicationUnderTests/AppUIBasics/README.md).
 
 
 ## Requirements
 
 - Windows 10 PC with the latest Windows 10 version (Version 1607 or later)
 - Microsoft Visual Studio 2015 or later
-- [AppUIBasics](../ApplicationUnderTests/AppUIBasics) application
+- [AppUIBasics](../../ApplicationUnderTests/AppUIBasics) application
 
 
 ## Getting Started

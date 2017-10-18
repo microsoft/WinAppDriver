@@ -2,14 +2,14 @@
 
 Input is a collection of test scenarios that covers various input methods such as swipe and pinch multitouch gesture.
 
-The test scenarios are written against [Input](../ApplicationUnderTests/Input) application that logs the input event received by the target element.. This application needs to be installed once in the machine you are running your test. Follow the instruction on the application [README](../ApplicationUnderTests/Input/README.md).
+The test scenarios are written against [Input](../../ApplicationUnderTests/Input) application that logs the input event received by the target element.. This application needs to be installed once in the machine you are running your test. Follow the instruction on the application [README](../../ApplicationUnderTests/Input/README.md).
 
 
 ## Requirements
 
 - Windows 10 PC with the latest Windows 10 version (Version 1607 or later)
 - Microsoft Visual Studio 2015 or later
-- [Input](../ApplicationUnderTests/Input) application
+- [Input](../../ApplicationUnderTests/Input) application
 
 
 ## Getting Started

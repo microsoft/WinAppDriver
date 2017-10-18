@@ -1,6 +1,6 @@
 # AppUIBasics
 
-AppUIBasics is a sample Universal Windows Platfrom application created to showcase various controls (UI elements) that can be added to your application. This application is taken from <https://github.com/Microsoft/Windows-universal-samples/tree/master/Samples/XamlUIBasics/cs/AppUIBasics> and slightly modified to run independently. This application contains all the controls that are tested in [UWPControls Test](../Tests/UWPControls/) project.
+AppUIBasics is a sample Universal Windows Platfrom application created to showcase various controls (UI elements) that can be added to your application. This application is taken from <https://github.com/Microsoft/Windows-universal-samples/tree/master/Samples/XamlUIBasics/cs/AppUIBasics> and slightly modified to run independently. This application contains all the controls that are tested in [UWPControls Test](../../Tests/UWPControls/) project.
 
 
 ## Requirements
@@ -17,4 +17,4 @@ AppUIBasics is a sample Universal Windows Platfrom application created to showca
 3. Select **Build** > **Build Solution** to build the application
 4. Select **Build** > **Deploy Solution** to deploy the application
 
-> Once the application is successfully built and installed, you can run any of the test in the [UWPControls Test](../Tests/UWPControls/) project.
+> Once the application is successfully built and installed, you can run any of the test in the [UWPControls Test](../../Tests/UWPControls/) project.
