@@ -69,7 +69,6 @@ The test scenarios are written against Windows 10 built-in apps such as **Calcul
 | POST   	| [/session/:sessionId/touch/flick                   ](./TouchFlick.cs)             	|
 | POST   	| [/session/:sessionId/touch/longclick               ](./TouchLongClick.cs)         	|
 | POST   	| [/session/:sessionId/touch/move                    ](./TouchDownMoveUp.cs)        	|
-| POST   	|  /session/:sessionId/touch/multi/perform                                          	|
 | POST   	| [/session/:sessionId/touch/scroll                  ](./TouchScroll.cs)            	|
 | POST   	| [/session/:sessionId/touch/up                      ](./TouchDownMoveUp.cs)        	|
 | DELETE 	| [/session/:sessionId/window                        ](./Window.cs)                 	|
