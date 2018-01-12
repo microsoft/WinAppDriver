@@ -39,6 +39,7 @@
 *.manifest
 *.rc
 *~
+.vs
 ipch/
 obj/
 [Bb]in
