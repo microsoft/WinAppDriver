@@ -55,7 +55,7 @@ Windows Application Driver can run remotely on any Windows 10 machine with `WinA
    
    Below command when run in admin command prompt gives same result
    ```
-   netsh advfirewall firewall add rule name="Windows application driver" dir=in action=allow protocol=TCP localport=4723
+   netsh advfirewall firewall add rule name="WinAppDriver remote" dir=in action=allow protocol=TCP localport=4723
    ```
    
 2. Run `ipconfig.exe` to determine your machine's local IP address
