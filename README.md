@@ -21,7 +21,7 @@ This Github project provides:
 
 ### Frequently Asked Questions 
 
-For answers to common questions and/or best practices in using WinAppDriver, please view our updated FAQ page [here](https://github.com/Microsoft/WinAppDriver/wiki/FAQ). 
+For answers to common questions and/or best practices in using WinAppDriver, please refer to our updated [FAQ page](https://github.com/Microsoft/WinAppDriver/wiki/Frequently-Asked-Questions). 
 
 ### System Requirements
 
