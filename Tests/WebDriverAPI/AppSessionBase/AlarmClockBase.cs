@@ -63,7 +63,7 @@ namespace WebDriverAPI
         [TestInitialize]
         public virtual void TestInit()
         {
-            // Attempt to go back to the main page in case Alarm & Clock app is started in EditAlarm view
+            // Attempt to go back to the main page in case Alarms & Clock app is started in EditAlarm view
             try
             {
                 alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
@@ -107,6 +107,7 @@ namespace WebDriverAPI
                 {
                     var alarmEntry = session.FindElementByXPath($"//ListItem[starts-with(@Name, \"{alarmName}\")]");
                     session.Mouse.ContextClick(alarmEntry.Coordinates);
+                    Thread.Sleep(TimeSpan.FromSeconds(3));
                     session.FindElementByName("Delete").Click();
                 }
                 catch
