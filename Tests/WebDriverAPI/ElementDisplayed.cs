@@ -58,6 +58,7 @@ namespace WebDriverAPI
 
             // Open a new alarm page and verify that 00 minute is displayed while 30 minute is hidden in the time picker
             addAlarmButton.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             WindowsElement minuteLoopingSelector = session.FindElementByAccessibilityId("MinuteLoopingSelector");
             Assert.IsTrue(minuteLoopingSelector.FindElementByName("00").Displayed);
             Assert.IsFalse(minuteLoopingSelector.FindElementByName("30").Displayed);
