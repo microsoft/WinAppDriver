@@ -19,6 +19,10 @@ This Github project provides:
 
 ## Getting Started
 
+### Frequently Asked Questions 
+
+For answers to common questions and/or best practices in using WinAppDriver, please refer to our updated [FAQ page](https://github.com/Microsoft/WinAppDriver/wiki/Frequently-Asked-Questions). 
+
 ### System Requirements
 
 - Windows 10 PC
@@ -39,24 +43,6 @@ WinAppDriver.exe 10.0.0.10 4723/wd/hub
 ```
 
 > **Note**: You must run `WinAppDriver.exe` as **administrator** to listen to a different IP address and port.
-
-### Running on a Remote Machine
-
-Windows Application Driver can run remotely on any Windows 10 machine with `WinAppDriver.exe` installed and running. This *test machine* can then serve any JSON wire protocol commands coming from the *test runner* remotely through the network. Below are the steps to the one-time setup for the *test machine* to receive inbound requests:
-
-1. On the *test machine* you want to run the test application on, open up **Windows Firewall with Advanced Security**
-   - Select **Inbound Rules** -> **New Rule...**
-   - **Rule Type** -> **Port**
-   - Select **TCP**
-   - Choose specific local port (4723 is WinAppDriver standard)
-   - **Action** -> **Allow the connection**
-   - **Profile** -> select all
-   - **Name** -> optional, choose name for rule (e.g. WinAppDriver remote)
-2. Run `ipconfig.exe` to determine your machine's local IP address
-   > **Note**: Setting `*` as the IP address command line option will cause it to bind to all bound IP addresses on the machine
-3. Run `WinAppDriver.exe` as **administrator** with command line arguments as seen above specifying local IP and port
-4. On the *test runner* machine where the runner and scripts are, update the test script to point to the IP of the remote *test machine*
-5. Execute the test script on the *test runner* to perform the test actions against the test application on the remote *test machine*.
 
 
 ## Samples
@@ -114,40 +100,6 @@ NotepadSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:472
 // Use the session to control the app
 NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
 ```
-
-### Creating a Desktop Session
-
-One test session typically corresponds to one app top level window. As long as you have your session alive, you can send input interactions and navigate the app elements tree. On a Windows 10 PC however, an app could trigger external changes such as toast notifications, app tiles, etc. In addition, some apps also respond to external events that can be triggered through the start menu or other sources. Windows Application Driver supports all these scenarios by exposing the entire desktop through a **Root** session that can be created as shown below.
-
-```c#
-DesiredCapabilities appCapabilities = new DesiredCapabilities();
-appCapabilities.SetCapability("app", "Root");
-DesktopSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
-
-// Use the session to control the desktop
-DesktopSession.Keyboard.PressKey(OpenQA.Selenium.Keys.Command + "a" + OpenQA.Selenium.Keys.Command);
-```
-
-### Attaching to an Existing App Window
-
-In some cases, you may want to test applications that are not launched in a conventional way like shown above. For instance, the Cortana application is always running and will not launch a UI window until triggered through **Start Menu** or a keyboard shortcut. In this case, you can create a new session in Windows Application Driver by providing the application top level window handle as a hex string (E.g. `0xB822E2`). This window handle can be retrieved from various methods including the **Desktop Session** mentioned above. This mechanism can also be used for applications that have unusually long startup times. Below is an example of creating a test session for the **Cortana** app after launching the UI using a keyboard shortcut and locating the window using the **Desktop Session**.
-
-```c#
-DesktopSession.Keyboard.SendKeys(Keys.Meta + "s" + Keys.Meta);
-
-var CortanaWindow = DesktopSession.FindElementByName("Cortana");
-var CortanaTopLevelWindowHandle = CortanaWindow.GetAttribute("NativeWindowHandle");
-CortanaTopLevelWindowHandle = (int.Parse(CortanaTopLevelWindowHandle)).ToString("x"); // Convert to Hex
-
-// Create session by attaching to Cortana top level window
-DesiredCapabilities appCapabilities = new DesiredCapabilities();
-appCapabilities.SetCapability("appTopLevelWindow", CortanaTopLevelWindowHandle);
-CortanaSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
-
-// Use the session to control Cortana
-CortanaSession.FindElementByAccessibilityId("SearchTextBox").SendKeys("add");
-```
-
 
 ## Supported Capabilities
 
