@@ -66,6 +66,7 @@ namespace WebDriverAPI
 
             // Ensure alarms & clock are in Alarm Pivot view
             session.Navigate().Back();
+            session.DismissAlarmDialogIfThere();
             session.FindElementByAccessibilityId("AlarmPivotItem").Click();
 
             // Navigate to New Alarm view
@@ -74,6 +75,7 @@ namespace WebDriverAPI
 
             // Navigate back to the original view
             session.Navigate().Back();
+            session.DismissAlarmDialogIfThere();
             Assert.IsNotNull(session.FindElementByAccessibilityId("AlarmPivotItem"));
         }
 

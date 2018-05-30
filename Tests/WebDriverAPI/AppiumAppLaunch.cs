@@ -66,7 +66,7 @@ namespace WebDriverAPI
             // This will create a new calculator window and point the current active session to it
             session.LaunchApp();
             Assert.AreEqual(originalSessionId, session.SessionId);
-            Assert.AreEqual(originalTitle, session.Title);
+            Assert.IsTrue(originalTitle.Contains(session.Title));
             Assert.AreEqual(originalWindowHandlesCount + 1, session.WindowHandles.Count);
             Assert.AreNotEqual(originalLaunchedWindowHandle, session.CurrentWindowHandle);
 
