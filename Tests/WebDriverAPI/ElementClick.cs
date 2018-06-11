@@ -52,8 +52,7 @@ namespace WebDriverAPI
             Assert.AreEqual("30", minuteSelector.Text);
 
             // Return to main page and click on pivot items to switch between tabs
-            session.FindElementByAccessibilityId("CancelButton").Click();
-
+            DismissAddAlarmPage();
             WindowsElement worldPivot = session.FindElementByAccessibilityId("WorldClockPivotItem");
             WindowsElement alarmPivot = session.FindElementByAccessibilityId("AlarmPivotItem");
 

@@ -130,6 +130,9 @@ namespace WebDriverAPI
             List<string> previouslyOpenedEdgeWindows = new List<string>(windowHandlesBefore);
             previouslyOpenedEdgeWindows.Remove(session.CurrentWindowHandle);
 
+            // Set focus on itself
+            session.SwitchTo().Window(session.CurrentWindowHandle);
+
             // Open a new window
             session.Keyboard.SendKeys(Keys.Control + "n" + Keys.Control);
             Thread.Sleep(TimeSpan.FromSeconds(3));
@@ -160,6 +163,9 @@ namespace WebDriverAPI
             // Preserve previously opened Edge window(s) and only manipulate newly opened windows
             List<string> previouslyOpenedEdgeWindows = new List<string>(session.WindowHandles);
             previouslyOpenedEdgeWindows.Remove(session.CurrentWindowHandle);
+
+            // Set focus on itself
+            session.SwitchTo().Window(session.CurrentWindowHandle);
 
             // Open a new window
             session.Keyboard.SendKeys(Keys.Control + "n" + Keys.Control);

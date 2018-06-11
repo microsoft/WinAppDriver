@@ -79,10 +79,12 @@ namespace WebDriverAPI
 
             // Navigate back to the original folder
             session.Navigate().Back();
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.AreEqual(originalTitle, session.Title);
 
             // Navigate forward to the target folder
             session.Navigate().Forward();
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.AreEqual(newTitle, session.Title);
         }
 

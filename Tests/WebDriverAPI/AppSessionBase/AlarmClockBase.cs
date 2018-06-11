@@ -70,20 +70,8 @@ namespace WebDriverAPI
             }
             catch
             {
-                session.Navigate().Back();
-                Thread.Sleep(TimeSpan.FromSeconds(1));
-                session.DismissAlarmDialogIfThere();
-
-                try
-                {
-                    alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
-                }
-                catch
-                {
-                    session.FindElementByAccessibilityId("Back").Click(); // Press back button if navigating back somehow failed
-                    session.DismissAlarmDialogIfThere();
-                    alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
-                }
+                DismissAddAlarmPage();
+                alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
             }
 
             Assert.IsNotNull(alarmTabElement);
@@ -146,10 +134,23 @@ namespace WebDriverAPI
             session.FindElementByAccessibilityId("AddAlarmButton").Click();
             Thread.Sleep(TimeSpan.FromSeconds(0.5));
             WindowsElement staleElement = session.FindElementByAccessibilityId("AlarmSaveButton");
-            session.Navigate().Back(); // Dismiss add alarm page
-            session.DismissAlarmDialogIfThere();
+            DismissAddAlarmPage();
             Thread.Sleep(TimeSpan.FromSeconds(2));
             return staleElement;
+        }
+
+        protected static void DismissAddAlarmPage()
+        {
+            try
+            {
+                session.FindElementByAccessibilityId("CancelButton").Click(); // Press cancel button to dismiss any non-main page
+            }
+            catch
+            {
+                session.FindElementByAccessibilityId("Back").Click(); // Press back button if cancel button above somehow failed
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                session.DismissAlarmDialogIfThere();
+            }
         }
     }
 }
