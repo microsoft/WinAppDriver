@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+      signType indicates which certificates are used to sign the output
+      signType = "StrongName = 72 , Authenticode = 10006 , Both = 72 & 10006"
+-->
+<SignConfigXML>
+  <!-- Release Win32 sign job -->
+  <job platform="x86" configuration="Release" dest="__RELBINPATH__\Signed" jobname="WinAppDriver UIRecorder" approvers="gillesk;timargo">
+    <!-- Win32 -->
+    <file src="__RELBINPATH__\UIXPathLib.dll" signType="Authenticode" dest="__RELBINPATH__\Signed\UIXPathLib.dll" />
+    <file src="__RELBINPATH__\WinAppDriverUiRecorder.exe" signType="Authenticode" dest="__RELBINPATH__\Signed\WinAppDriverUiRecorder.exe" />
+  </job>
+  <job platform="x64" configuration="Release" dest="__RELBINPATH__\Signed" jobname="WinAppDriver UIRecorder" approvers="gillesk;timargo">
+    <!-- X64 -->
+    <file src="__RELBINPATH__\UIXPathLib.dll" signType="Authenticode" dest="__RELBINPATH__\Signed\UIXPathLib.dll" />
+    <file src="__RELBINPATH__\WinAppDriverUiRecorder.exe" signType="Authenticode" dest="__RELBINPATH__\Signed\WinAppDriverUiRecorder.exe" />
+  </job>
+</SignConfigXML>
