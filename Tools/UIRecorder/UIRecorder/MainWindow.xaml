@@ -1,0 +1,107 @@
+﻿<!--
+//*********************************************************
+//
+// Copyright (c) Microsoft. All rights reserved.
+// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
+// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
+// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+//
+//*********************************************************
+-->
+<Window x:Class="WinAppDriverUIRecorder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinAppDriverUIRecorder"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed"
+        Title="WAD UIRecorder" Height="500" Width="330">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid  Name="gridXPath">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2" />
+                    <RowDefinition Height= "{Binding TabCodeHeight}" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <RichTextBox Name="rtbXPath" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="Honeydew">
+                        <RichTextBox.ContextMenu>
+                            <ContextMenu Name="MenuXPathTextBox">
+                                <MenuItem Header="Copy Full XPath" Click="MenuCopy"/>
+                            </ContextMenu>
+                        </RichTextBox.ContextMenu>
+                    </RichTextBox>
+                </Grid>
+                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="Azure"/>
+                <Grid Grid.Row="2">
+                    <TabControl Name="tabControl">
+                        <TabItem>
+                            <TabItem.Header>
+                                <Label Content="XML Nodes" MouseLeftButtonDown="TabItemNodes_Click"  HorizontalAlignment="Stretch"/>
+                            </TabItem.Header>
+                            <TextBox Name="textBoxXml" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+                        </TabItem>
+                        <TabItem Name="tabItemCode">
+                            <TabItem.Header>
+                                <Label Content="C# Code" MouseLeftButtonDown="TabItemCode_Click"  HorizontalAlignment="Stretch"/>
+                            </TabItem.Header>
+                            <TextBox Name="textBoxCode" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="30" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                    <ComboBox Name="comboBoxRecordedUi" SelectionChanged="comboBoxRecordedUi_SelectionChanged" Margin="5,1,5,1"
+                                  Background="Ivory" >
+                        </ComboBox>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Button Name="btnWinAppDriverCode" Click="btnWinAppDriverCode_Click" Loaded="btnWinAppDriverCode_Loaded">
+                             <Button.ToolTip>
+                                <ToolTip>
+                                    <TextBlock Name="toolTipText" Text= "Generate and copy C# code to Clipboard" />
+                                </ToolTip>
+                            </Button.ToolTip>
+                            <Button.Content>
+                                <Image Source="Resource/copy.png" Stretch="Fill" />
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Button Content="Record" Name="btnRecord" Click="btnRecord_Click" Margin="5,1,5,1"
+                        ToolTip="Record UI interaction (Please wait for flashing rect before each mouse click)"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Button Content="Clear" Name="btnClear"  Click="btnClear_Click" Margin="5,1,5,1"
+                        ToolTip="Clear all" Loaded="btnClear_Loaded" />
+            </Grid>
+            <Grid Grid.Column="2">
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
