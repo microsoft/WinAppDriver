@@ -55,6 +55,7 @@ namespace Paint3DTest
             // Close the application and delete the session
             if (session != null)
             {
+                ClosePaint3D();
                 session.Quit();
                 session = null;
             }
@@ -73,6 +74,7 @@ namespace Paint3DTest
                 // Create a new Paint 3D project by pressing Ctrl + N
                 session.SwitchTo().Window(session.CurrentWindowHandle);
                 session.Keyboard.SendKeys(Keys.Control + "n" + Keys.Control);
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
                 DismissSaveConfirmDialog();
             }
         }
@@ -81,7 +83,21 @@ namespace Paint3DTest
         {
             try
             {
-                session.FindElementByAccessibilityId("CloseSaveConfirmDialog").FindElementByAccessibilityId("SecondaryBtnG3").Click();
+                WindowsElement closeSaveConfirmDialog = session.FindElementByAccessibilityId("CloseSaveConfirmDialog");
+                closeSaveConfirmDialog.FindElementByAccessibilityId("SecondaryBtnG3").Click();
+            }
+            catch { }
+        }
+
+        private static void ClosePaint3D()
+        {
+            try
+            {
+                session.Close();
+                string currentHandle = session.CurrentWindowHandle; // This should throw if the window is closed successfully
+
+                // When the Paint 3D window remains open because of save confirmation dialog, attempt to close modal dialog
+                DismissSaveConfirmDialog();
             }
             catch { }
         }

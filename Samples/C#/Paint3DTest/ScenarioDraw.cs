@@ -82,11 +82,11 @@ namespace Paint3DTest
             ActionSequence eraseSequence = new ActionSequence(penDevice, 0);
             eraseSequence.AddAction(penDevice.CreatePointerMove(inkCanvas, A.X - 5, E.Y, TimeSpan.Zero));
             eraseSequence.AddAction(penDevice.CreatePointerDown(PointerButton.PenEraser));
-            eraseSequence.AddAction(penDevice.CreatePointerMove(inkCanvas, B.X + 5, E.Y, TimeSpan.Zero));
+            eraseSequence.AddAction(penDevice.CreatePointerMove(inkCanvas, B.X + 5, E.Y, TimeSpan.FromSeconds(.5)));
             eraseSequence.AddAction(penDevice.CreatePointerUp(PointerButton.PenEraser));
             eraseSequence.AddAction(penDevice.CreatePointerMove(inkCanvas, E.X, C.Y, TimeSpan.Zero));
             eraseSequence.AddAction(penDevice.CreatePointerDown(PointerButton.PenEraser));
-            eraseSequence.AddAction(penDevice.CreatePointerMove(inkCanvas, E.X, B.Y, TimeSpan.Zero));
+            eraseSequence.AddAction(penDevice.CreatePointerMove(inkCanvas, E.X, B.Y, TimeSpan.FromSeconds(.5)));
             eraseSequence.AddAction(penDevice.CreatePointerUp(PointerButton.PenEraser));
             session.PerformActions(new List<ActionSequence> { eraseSequence });
 
