@@ -36,7 +36,7 @@ namespace StickyNotesTest
             {
                 try
                 {
-                    // Create a new session to laucnh or bring up Sticky Notes application
+                    // Create a new session to launch or bring up Sticky Notes application
                     // Note: All sticky note windows are parented to Modern_Sticky_Top_Window pane
                     DesiredCapabilities appCapabilities = new DesiredCapabilities();
                     appCapabilities.SetCapability("app", StickyNotesAppId);

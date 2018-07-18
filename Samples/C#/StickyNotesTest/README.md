@@ -96,6 +96,6 @@ Windows Application Driver supports all W3C WebDriver pointer action **origins**
 ## Adding/Updating Test Scenario
 
 Please follow the guidelines below to maintain test reliability and conciseness:
-1. Group test methods based on the UI view page such as Alarm, Stopwatch, Timer, etc.
+1. Group test methods based on scenario such as Drawing
 2. Maintain original state after test runs and keep clean state in between tests when possible
 3. Only add tests that provide additional value to the sample
