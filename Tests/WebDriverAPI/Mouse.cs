@@ -72,7 +72,7 @@ namespace WebDriverAPI
             // Open a context menu on the application title bar to expose the context menu and verify that it contains minimize.
             // The context menu is parented on the desktop instead of the application. Thus, a desktop session is used to find it.
             // This command implicitly invoke /session/:sessionId/moveto and /session/:sessionId/click with button 2 parameter
-            WindowsElement appNameTitle = session.FindElementByAccessibilityId("AppNameTitle");
+            WindowsElement appNameTitle = session.FindCalculatorTitleByAccessibilityId();
             session.Mouse.ContextClick(appNameTitle.Coordinates);
             Thread.Sleep(TimeSpan.FromSeconds(1.5));
             WindowsDriver<WindowsElement> desktopSession = Utility.CreateNewSession(CommonTestSettings.DesktopAppId);
@@ -100,7 +100,7 @@ namespace WebDriverAPI
             Assert.IsTrue(maximizeButton.Text.Contains("Maximize"));
 
             // Perform mouse double click on the title bar to maximize the Calculator window
-            WindowsElement appNameTitle = session.FindElementByAccessibilityId("AppNameTitle");
+            WindowsElement appNameTitle = session.FindCalculatorTitleByAccessibilityId();
             session.Mouse.MouseMove(appNameTitle.Coordinates);
             session.Mouse.DoubleClick(null); // Pass null as this command omit the given parameter
             Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -117,7 +117,7 @@ namespace WebDriverAPI
         public void MouseDownMoveUp()
         {
             const int offset = 100;
-            WindowsElement appNameTitle = session.FindElementByAccessibilityId("AppNameTitle");
+            WindowsElement appNameTitle = session.FindCalculatorTitleByAccessibilityId();
             Assert.IsNotNull(appNameTitle);
 
             // Save application window original position

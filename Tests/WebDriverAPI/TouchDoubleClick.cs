@@ -39,7 +39,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void TouchDoubleTap()
         {
-            WindowsElement appNameTitle = session.FindElementByAccessibilityId("AppNameTitle");
+            WindowsElement appNameTitle = session.FindCalculatorTitleByAccessibilityId();
             WindowsElement maximizeButton = session.FindElementByAccessibilityId("Maximize");
 
             // Set focus on the application by switching window to itself

@@ -113,7 +113,7 @@ namespace WebDriverAPI
             // Create new calculator session and close the window to get an orphaned element
             CleanupOrphanedSession();
             orphanedSession = CreateNewSession(CommonTestSettings.CalculatorAppId);
-            orphanedElement = orphanedSession.FindElementByAccessibilityId("AppNameTitle");
+            orphanedElement = orphanedSession.FindCalculatorTitleByAccessibilityId();
             orphanedWindowHandle = orphanedSession.CurrentWindowHandle;
             orphanedSession.Close();
         }

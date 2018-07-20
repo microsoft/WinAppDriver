@@ -47,7 +47,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void TouchDownMoveUp_DragAndDrop()
         {
-            WindowsElement appNameTitle = session.FindElementByAccessibilityId("AppNameTitle");
+            WindowsElement appNameTitle = session.FindCalculatorTitleByAccessibilityId();
             Point titleBarLocation = new Point(appNameTitle.Location.X + appNameTitle.Size.Width / 2, appNameTitle.Location.Y + appNameTitle.Size.Height / 2);
             const int offset = 100;
 

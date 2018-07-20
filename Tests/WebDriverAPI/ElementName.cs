@@ -38,7 +38,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void GetElementTagName()
         {
-            WindowsElement header = session.FindElementByAccessibilityId("AppNameTitle");
+            WindowsElement header = session.FindCalculatorTitleByAccessibilityId();
             Assert.AreEqual("ControlType.Text", header.TagName);
 
             WindowsElement navButton = session.FindElementByAccessibilityId("NavButton");

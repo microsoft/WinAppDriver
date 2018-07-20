@@ -56,7 +56,7 @@ namespace WebDriverAPI
         {
             session = Utility.CreateNewSession(CommonTestSettings.CalculatorAppId);
             Assert.IsNotNull(session);
-            Assert.AreEqual("Calculator", session.Title);
+            Assert.IsTrue(session.Title.Contains("Calculator"));
         }
 
         [TestMethod]

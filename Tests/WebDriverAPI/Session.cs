@@ -87,7 +87,7 @@ namespace WebDriverAPI
             session = new WindowsDriver<WindowsElement>(new Uri(CommonTestSettings.WindowsApplicationDriverUrl), appCapabilities);
             Assert.IsNotNull(session);
             Assert.IsNotNull(session.SessionId);
-            Assert.AreEqual("Calculator", session.Title);
+            Assert.IsTrue(session.Title.Contains("Calculator"));
         }
 
         [TestMethod]
@@ -229,7 +229,7 @@ namespace WebDriverAPI
 
             // Verify that newly created session is indeed attached to the correct application top level window
             Assert.AreEqual(secondarySession.CurrentWindowHandle, session.CurrentWindowHandle);
-            Assert.AreEqual(secondarySession.FindElementByAccessibilityId("AppNameTitle"), session.FindElementByAccessibilityId("AppNameTitle"));
+            Assert.AreEqual(secondarySession.FindCalculatorTitleByAccessibilityId(), session.FindCalculatorTitleByAccessibilityId());
         }
 
         [TestMethod]
