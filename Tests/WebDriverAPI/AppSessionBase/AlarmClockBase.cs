@@ -39,7 +39,7 @@ namespace WebDriverAPI
                 Assert.IsNotNull(session.SessionId);
 
                 // Set implicit timeout to 2.5 seconds to make element search to retry every 500 ms for at most five times
-                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2.5));
+                session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2.5);
 
                 // Initialize touch screen object
                 touchScreen = new RemoteTouchScreen(session);

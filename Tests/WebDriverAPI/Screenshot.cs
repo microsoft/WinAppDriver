@@ -16,9 +16,9 @@
 
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium.Windows;
 
 namespace WebDriverAPI
@@ -50,7 +50,7 @@ namespace WebDriverAPI
                 OpenQA.Selenium.Screenshot alarmPivotItemScreenshot1 = alarmPivotItem1.GetScreenshot();               
 
                 // Save the AlarmPivotItem screenshot capture locally on the machine running the test
-                alarmPivotItemScreenshot1.SaveAsFile(@"ScreenshotAlarmPivotItem.png", ImageFormat.Png);
+                alarmPivotItemScreenshot1.SaveAsFile(@"ScreenshotAlarmPivotItem.png", ScreenshotImageFormat.Png);
 
                 // Using the Desktop session, locate the same AlarmPivotItem element in Alarms & Clock app to be captured
                 desktopSession = Utility.CreateNewSession(CommonTestSettings.DesktopAppId);
@@ -142,14 +142,14 @@ namespace WebDriverAPI
                 OpenQA.Selenium.Screenshot alarmsClockScreenshot = session.GetScreenshot();
 
                 // Save the application screenshot capture locally on the machine running the test
-                alarmsClockScreenshot.SaveAsFile(@"ScreenshotAlarmsClockApplication.png", ImageFormat.Png);
+                alarmsClockScreenshot.SaveAsFile(@"ScreenshotAlarmsClockApplication.png", ScreenshotImageFormat.Png);
 
                 // Capture the entire desktop using the Desktop session
                 desktopSession = Utility.CreateNewSession(CommonTestSettings.DesktopAppId);
                 OpenQA.Selenium.Screenshot desktopScreenshot = desktopSession.GetScreenshot();
 
                 // Save the desktop screenshot capture locally on the machine running the test
-                desktopScreenshot.SaveAsFile(@"ScreenshotDesktop.png", ImageFormat.Png);
+                desktopScreenshot.SaveAsFile(@"ScreenshotDesktop.png", ScreenshotImageFormat.Png);
 
                 using (MemoryStream msScreenshot1 = new MemoryStream(alarmsClockScreenshot.AsByteArray))
                 using (MemoryStream msScreenshot2 = new MemoryStream(notepadScreenshot.AsByteArray))
