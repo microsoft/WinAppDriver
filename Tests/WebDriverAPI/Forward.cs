@@ -41,7 +41,7 @@ namespace WebDriverAPI
         public void NavigateForward_Browser()
         {
             session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private " + CommonTestSettings.EdgeAboutFlagsURL);
-            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
+            session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             Thread.Sleep(TimeSpan.FromSeconds(3));
             var originalTitle = session.Title;
             Assert.AreNotEqual(string.Empty, originalTitle);

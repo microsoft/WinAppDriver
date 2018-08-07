@@ -40,7 +40,7 @@ namespace WebDriverAPI
 
                 // Launch the Edge browser app
                 session = Utility.CreateNewSession(CommonTestSettings.EdgeAppId, "-private");
-                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
+                session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
                 Assert.IsNotNull(session);
                 Assert.IsNotNull(session.SessionId);
 

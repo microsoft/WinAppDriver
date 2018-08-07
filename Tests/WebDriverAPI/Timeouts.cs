@@ -45,7 +45,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void SetImplicitTimeout_FindElementFound()
         {
-            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs)));
+            session.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs));
             stopWatch.Restart();
             WindowsElement element = session.FindElementByAccessibilityId("AlarmPivotItem");
             stopWatch.Stop();
@@ -59,7 +59,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void SetImplicitTimeout_FindElementNotFound()
         {
-            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs)));
+            session.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs));
 
             try
             {
@@ -80,7 +80,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void SetImplicitTimeout_FindElementsFound()
         {
-            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs)));
+            session.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs));
             stopWatch.Restart();
             var elements = session.FindElementsByAccessibilityId("AlarmPivotItem");
             stopWatch.Stop();
@@ -95,7 +95,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void SetImplicitTimeout_FindElementsNotFound()
         {
-            session.Manage().Timeouts().ImplicitlyWait(TimeSpan.Zero);
+            session.Manage().Timeouts().ImplicitWait = TimeSpan.Zero;
             stopWatch.Restart();
             var elements = session.FindElementsByAccessibilityId("InvalidAccessibiliyId");
             stopWatch.Stop();
@@ -111,7 +111,7 @@ namespace WebDriverAPI
         {
             try
             {
-                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(Convert.ToDouble(-1)));
+                session.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(Convert.ToDouble(-1));
                 Assert.Fail("Exception should have been thrown");
             }
             catch (InvalidOperationException exception)
@@ -125,7 +125,7 @@ namespace WebDriverAPI
         {
             try
             {
-                session.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs)));
+                session.Manage().Timeouts().PageLoad = TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs));
                 Assert.Fail("Exception should have been thrown");
             }
             catch (WebDriverException exception)
@@ -139,7 +139,7 @@ namespace WebDriverAPI
         {
             try
             {
-                session.Manage().Timeouts().SetScriptTimeout(TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs)));
+                session.Manage().Timeouts().AsynchronousJavaScript = TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs));
                 Assert.Fail("Exception should have been thrown");
             }
             catch (WebDriverException exception)
