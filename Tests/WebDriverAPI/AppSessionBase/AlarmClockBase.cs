@@ -152,5 +152,19 @@ namespace WebDriverAPI
                 session.DismissAlarmDialogIfThere();
             }
         }
+
+        protected static WindowsElement FindAppTitleBar()
+        {
+            WindowsElement element;
+            try
+            {
+                element = session.FindElementByAccessibilityId("AppName");
+            }
+            catch (InvalidOperationException)
+            {
+                element = session.FindElementByAccessibilityId("TitleBar");
+            }
+            return element;
+        }
     }
 }

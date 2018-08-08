@@ -47,6 +47,36 @@ namespace WebDriverAPI
         }
 
         [TestMethod]
+        public void Pen_Click_BarrelButton()
+        {
+            // Create a new test alarm
+            string alarmName = "PenBarrelButtonTest";
+            DeletePreviouslyCreatedAlarmEntry(alarmName);
+            AddAlarmEntry(alarmName);
+            Thread.Sleep(TimeSpan.FromSeconds(3));
+
+            var alarmEntries = session.FindElementsByXPath($"//ListItem[starts-with(@Name, \"{alarmName}\")]");
+            Assert.IsNotNull(alarmEntries);
+            Assert.AreEqual(1, alarmEntries.Count);
+
+            // Open a the context menu on the alarm entry using long tap (press and hold) action and click delete
+            PointerInputDevice penDevice = new PointerInputDevice(PointerKind.Pen);
+            ActionSequence sequence = new ActionSequence(penDevice, 0);
+            sequence.AddAction(penDevice.CreatePointerMove(alarmEntries[0], 0, 0, TimeSpan.Zero));
+            sequence.AddAction(penDevice.CreatePointerDown(PointerButton.PenBarrel));
+            sequence.AddAction(penDevice.CreatePointerUp(PointerButton.PenBarrel));
+            session.PerformActions(new List<ActionSequence> { sequence });
+
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            session.FindElementByName("Delete").Click();
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+
+            alarmEntries = session.FindElementsByXPath($"//ListItem[starts-with(@Name, \"{alarmName}\")]");
+            Assert.IsNotNull(alarmEntries);
+            Assert.AreEqual(0, alarmEntries.Count);
+        }
+
+        [TestMethod]
         public void Pen_Click_OriginElement()
         {
             var alarmPivotItem = session.FindElementByAccessibilityId("AlarmPivotItem");
@@ -161,7 +191,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void Pen_DoubleClick()
         {
-            WindowsElement appNameTitle = session.FindElementByAccessibilityId("AppName");
+            WindowsElement appNameTitle = FindAppTitleBar();
             WindowsElement maximizeButton = session.FindElementByAccessibilityId("Maximize");
 
             // Set focus on the application by switching window to itself
@@ -203,7 +233,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void Pen_DragAndDrop()
         {
-            WindowsElement appNameTitle = session.FindElementByAccessibilityId("AppName");
+            WindowsElement appNameTitle = FindAppTitleBar();
             const int offset = 100;
 
             // Save application window original position
@@ -286,7 +316,6 @@ namespace WebDriverAPI
             Assert.IsNotNull(alarmEntries);
             Assert.AreEqual(0, alarmEntries.Count);
         }
-
 
         [TestMethod]
         public void Pen_Scroll_Horizontal()

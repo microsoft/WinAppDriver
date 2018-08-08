@@ -161,7 +161,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void Touch_DoubleClick()
         {
-            WindowsElement appNameTitle = session.FindElementByAccessibilityId("AppName");
+            WindowsElement appNameTitle = FindAppTitleBar();
             WindowsElement maximizeButton = session.FindElementByAccessibilityId("Maximize");
 
             // Set focus on the application by switching window to itself
@@ -203,7 +203,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void Touch_DragAndDrop()
         {
-            WindowsElement appNameTitle = session.FindElementByAccessibilityId("AppName");
+            WindowsElement appNameTitle = FindAppTitleBar();
             const int offset = 100;
 
             // Save application window original position
@@ -286,7 +286,6 @@ namespace WebDriverAPI
             Assert.IsNotNull(alarmEntries);
             Assert.AreEqual(0, alarmEntries.Count);
         }
-
 
         [TestMethod]
         public void Touch_Scroll_Horizontal()

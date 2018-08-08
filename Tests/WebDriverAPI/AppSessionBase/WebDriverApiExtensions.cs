@@ -26,11 +26,11 @@ namespace WebDriverAPI
             WindowsElement element;
             try
             {
-                element = session.FindElementByAccessibilityId("AppNameTitle");
+                element = session.FindElementByAccessibilityId("AppName");
             }
             catch (InvalidOperationException)
             {
-                element = session.FindElementByAccessibilityId("AppName");
+                element = session.FindElementByAccessibilityId("AppNameTitle");
             }
             return element;
         }
