@@ -123,6 +123,7 @@ Below are the capabilities that can be used to create Windows Application Driver
 | POST   	| /session                                          	|
 | GET    	| /sessions                                         	|
 | DELETE 	| /session/:sessionId                               	|
+| POST   	| /session/:sessionId/actions (v1.1 RC)         	|
 | POST   	| /session/:sessionId/appium/app/launch             	|
 | POST   	| /session/:sessionId/appium/app/close              	|
 | POST   	| /session/:sessionId/back                          	|
