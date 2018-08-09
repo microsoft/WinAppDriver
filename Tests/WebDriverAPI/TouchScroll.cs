@@ -107,8 +107,8 @@ namespace WebDriverAPI
             Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.IsTrue(minute00.Displayed);
 
-            // Navigate back to the original view
-            session.Navigate().Back();
+            // Dismiss add alarm page
+            DismissAddAlarmPage();
         }
 
         [TestMethod]

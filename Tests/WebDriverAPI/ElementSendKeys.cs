@@ -175,7 +175,7 @@ namespace WebDriverAPI
         {
             try
             {
-                session.FindElementByAccessibilityId("CancelButton").Click();
+                DismissAddAlarmPage();
                 Thread.Sleep(TimeSpan.FromSeconds(1));
                 alarmNameTextBox.SendKeys("keys");
                 Assert.Fail("Exception should have been thrown");

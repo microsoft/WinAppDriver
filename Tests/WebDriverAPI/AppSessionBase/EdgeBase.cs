@@ -116,14 +116,14 @@ namespace WebDriverAPI
 
             // Navigate to Edge about:flags page
             session.FindElementByAccessibilityId("addressEditBox").SendKeys(Keys.Alt + 'd' + Keys.Alt + CommonTestSettings.EdgeAboutFlagsURL + Keys.Enter);
-            Thread.Sleep(TimeSpan.FromSeconds(2));
+            Thread.Sleep(TimeSpan.FromSeconds(3));
             Assert.AreNotEqual(originalTitle, session.Title);
 
             // Save a reference to Reset all flags button on the page and navigate back to home
             staleElement = session.FindElementByAccessibilityId("ResetAllFlags");
             Assert.IsNotNull(staleElement);
             session.Navigate().Back();
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            Thread.Sleep(TimeSpan.FromSeconds(3));
             Assert.AreEqual(originalTitle, session.Title);
 
             return staleElement;
