@@ -18,6 +18,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 using System;
+using Applitools.Images;
 
 namespace CalculatorTest
 {
@@ -29,8 +30,14 @@ namespace CalculatorTest
 
         protected static WindowsDriver<WindowsElement> session;
 
+        protected static Eyes eyes;
+
         public static void Setup(TestContext context)
         {
+            eyes = new Eyes();
+
+            eyes.ApiKey = System.Environment.GetEnvironmentVariable("APPLITOOLS_API_KEY");
+
             // Launch Calculator application if it is not yet launched
             if (session == null)
             {

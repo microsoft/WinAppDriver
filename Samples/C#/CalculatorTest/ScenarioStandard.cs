@@ -30,12 +30,31 @@ namespace CalculatorTest
         [TestMethod]
         public void Addition()
         {
-            // Find the buttons by their names and click them in sequence to peform 1 + 7 = 8
-            session.FindElementByName("One").Click();
-            session.FindElementByName("Plus").Click();
-            session.FindElementByName("Seven").Click();
-            session.FindElementByName("Equals").Click();
-            Assert.AreEqual("8", GetCalculatorResultText());
+            eyes.Open("Calc", "Addition");
+
+            try
+            {
+                // Find the buttons by their names and click them in sequence to peform 1 + 7 = 8
+                session.FindElementByName("One").Click();
+                eyes.CheckImage(session.GetScreenshot().AsByteArray, "One");
+
+                session.FindElementByName("Plus").Click();
+                eyes.CheckImage(session.GetScreenshot().AsByteArray, "Plus");
+
+                session.FindElementByName("Seven").Click();
+                eyes.CheckImage(session.GetScreenshot().AsByteArray, "Seven");
+
+                session.FindElementByName("Equals").Click();            
+                eyes.CheckImage(session.GetScreenshot().AsByteArray , "Result");
+
+                eyes.Close(false);
+
+                Assert.AreEqual("8", GetCalculatorResultText());
+            }
+            finally
+            {
+                eyes.AbortIfNotClosed();
+            }
         }
 
         [TestMethod]
