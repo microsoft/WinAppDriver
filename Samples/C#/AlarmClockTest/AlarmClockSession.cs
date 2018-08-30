@@ -79,7 +79,7 @@ namespace AlarmClockTest
             catch
             {
                 // Click back button if application is in a nested page such as New Alarm or New Timer
-                session.FindElementByAccessibilityId("Back").Click();
+                session.FindElementByAccessibilityId("CancelButton").Click();
                 Thread.Sleep(TimeSpan.FromSeconds(1));
                 alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
             }

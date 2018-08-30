@@ -75,6 +75,7 @@
     <Compile Include="ScenarioStopwatch.cs" />
     <Compile Include="ScenarioAlarm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScenarioTimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

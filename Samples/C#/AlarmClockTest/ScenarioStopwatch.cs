@@ -29,7 +29,7 @@ namespace AlarmClockTest
         [TestMethod]
         public void StopwatchLap()
         {
-            int numberOfEntry = 3;
+            int numberOfEntry = 5;
             var stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
 
             // Start the stopwatch
@@ -60,13 +60,13 @@ namespace AlarmClockTest
             Assert.IsFalse(firstLapEntry.Displayed);
 
             // Horizontally scroll the list up and verify that the fist lap entry is now displayed while the last entry is now hidden
-            touchScreen.Scroll(lapListView.Coordinates, 0, -50);
+            touchScreen.Scroll(lapListView.Coordinates, 0, -150);
             Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.IsTrue(firstLapEntry.Displayed);
             Assert.IsFalse(lastLapEntry.Displayed);
 
             // Horizontally scroll the list down and verify that the last lap entry is now displayed while the first entry is now hidden again
-            touchScreen.Scroll(lapListView.Coordinates, 0, 50);
+            touchScreen.Scroll(lapListView.Coordinates, 0, 150);
             Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.IsTrue(lastLapEntry.Displayed);
             Assert.IsFalse(firstLapEntry.Displayed);

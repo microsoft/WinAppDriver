@@ -16,6 +16,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Drawing;
 using System.Collections.Generic;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Appium.Interactions;
@@ -34,6 +35,7 @@ namespace PaintTest
     {
         private WindowsElement inkCanvas;
         private WindowsElement undoButton;
+        private static Size originalSize;
 
         private const int defaultRadius = 300; // half of ABCD square side. E.g. distance between AB
         private const int radiusOffset = 10;   // distance between concentric square in pixels
@@ -235,11 +237,19 @@ namespace PaintTest
         {
             // Create session to launch or bring up Paint application
             Setup(context);
+
+            // Save application window original size and temporarily set it to 1400 x 1000
+            originalSize = session.Manage().Window.Size;
+            Assert.IsNotNull(originalSize);
+            session.Manage().Window.Size = new Size(1400, 1000);
         }
 
         [ClassCleanup]
         public static void ClassCleanup()
         {
+            // Restore application window original size and position
+            session.Manage().Window.Size = originalSize;
+
             TearDown();
         }
 
