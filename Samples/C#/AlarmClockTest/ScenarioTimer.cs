@@ -25,38 +25,38 @@ namespace AlarmClockTest
     {
         private const string NewTimerName = "Sample Test Timer";
 
-        [TestMethod]
-        public void AddTimer()
-        {
-            session.FindElementByAccessibilityId("AddTimerButton").Click();
-            session.FindElementByAccessibilityId("HourLoopingSelector").FindElementByName("5").Click();
-            session.FindElementByAccessibilityId("TimerNameTextBox").Clear();
-            session.FindElementByAccessibilityId("TimerNameTextBox").SendKeys(NewTimerName);
-            session.FindElementByAccessibilityId("TimerStartButton").Click();
-
-            Assert.IsNotNull(session.FindElementByAccessibilityId("TimerListView"));
-            var timers = session.FindElementByAccessibilityId("TimerListView").FindElementsByClassName("ListViewItem");
-            Assert.IsTrue(timers.Count > 0);
-            var timer = timers[timers.Count - 1];
-            Assert.IsTrue(timer.FindElementByAccessibilityId("TimerResetButton").Enabled);
-            Assert.AreEqual(NewTimerName, timer.FindElementByAccessibilityId("TimerNameText").Text);
-
-            timer.SendKeys(OpenQA.Selenium.Keys.Delete + OpenQA.Selenium.Keys.Enter);
-        }
-
-        //* Pre-baked action
+        // Pre-baked action
         //session.FindElementByAccessibilityId("AddTimerButton").Click();
         //session.FindElementByAccessibilityId("HourLoopingSelector").FindElementByName("5").Click();
         //session.FindElementByAccessibilityId("TimerNameTextBox").Clear();
         //session.FindElementByAccessibilityId("TimerNameTextBox").SendKeys(NewTimerName);
         //session.FindElementByAccessibilityId("TimerStartButton").Click();
+        ///
 
+        // Pre-baked inspection
         //Assert.IsNotNull(session.FindElementByAccessibilityId("TimerListView"));
-        //var timers = session.FindElementByAccessibilityId("TimerListView").FindElementsByClassName("ListViewItem");
-        //Assert.IsTrue(timers.Count > 0);
-        //var timer = timers[timers.Count - 1];
-        //Assert.IsTrue(timer.FindElementByAccessibilityId("TimerResetButton").Enabled);
-        //Assert.AreEqual(NewTimerName, timer.FindElementByAccessibilityId("TimerNameText").Text);
+        //var timerEntries = session.FindElementByAccessibilityId("TimerListView").FindElementsByClassName("ListViewItem");
+        //Assert.IsTrue(timerEntries.Count > 0);
+        //var timerEntry = timerEntries[timerEntries.Count - 1];
+        //var timerEntryResetButton = timerEntry.FindElementByAccessibilityId("TimerResetButton");
+        //var timerEntryText = timerEntry.FindElementByAccessibilityId("TimerNameText");
+        //Assert.IsTrue(timerEntryResetButton.Enabled);
+        //Assert.AreEqual(NewTimerName, timerEntryText.Text);
+        ///
+
+        // Pre-baked cleanup
+        //timerEntry.SendKeys(OpenQA.Selenium.Keys.Delete + OpenQA.Selenium.Keys.Enter);
+        ///
+
+        [TestInitialize]
+        public override void TestInit()
+        {
+            // Invoke base class test initialization to ensure that the app is in the main page
+            base.TestInit();
+
+            // Navigate to Timer tab
+            session.FindElementByAccessibilityId("TimerPivotItem").Click();
+        }
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -84,16 +84,6 @@ namespace AlarmClockTest
             }
 
             TearDown();
-        }
-
-        [TestInitialize]
-        public override void TestInit()
-        {
-            // Invoke base class test initialization to ensure that the app is in the main page
-            base.TestInit();
-
-            // Navigate to Timer tab
-            session.FindElementByAccessibilityId("TimerPivotItem").Click();
         }
     }
 }
