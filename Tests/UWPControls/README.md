@@ -18,6 +18,8 @@ The test scenarios are written against [AppUIBasics](../../ApplicationUnderTests
 2. Select **Test** > **Windows** > **Test Explorer**
 3. Select **Run All** on the test pane or through menu **Test** > **Run** > **All Tests**
 
+Note: The target application <em>AppUIBasics</em> will need to have been built and deployed [using the instructions here](https://github.com/Microsoft/WinAppDriver/tree/master/ApplicationUnderTests/AppUIBasics) prior to running the tests.
+
 > Once the project is successfully built, you can use the **TestExplorer** to pick and choose the test scenario(s) to run
 
 
