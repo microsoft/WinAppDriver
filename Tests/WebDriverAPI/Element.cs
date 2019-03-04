@@ -39,7 +39,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindElement_ByAccessibilityId()
         {
-            WindowsElement element = session.FindElementByAccessibilityId("AlarmPivotItem");
+            WindowsElement element = session.FindElementByAccessibilityId(AlarmTabAutomationId);
             Assert.IsNotNull(element);
             Assert.AreEqual(alarmTabElement, element);
         }
@@ -47,7 +47,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindElement_ByClassName()
         {
-            WindowsElement element = session.FindElementByClassName("PivotItem");
+            WindowsElement element = session.FindElementByClassName(AlarmTabClassName);
             Assert.IsNotNull(element);
             Assert.AreEqual(alarmTabElement, element);
         }
@@ -55,7 +55,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindElement_ByName()
         {
-            session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
+            session.FindElementByAccessibilityId(StopwatchTabAutomationId).Click();
             WindowsElement element = session.FindElementByName("Reset");
             Assert.IsNotNull(element);
         }
@@ -78,8 +78,8 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindElement_ByXPath()
         {
-            WindowsElement alarmTab = session.FindElementByXPath("//Button[@AutomationId=\"MoreButton\"]");
-            Assert.IsNotNull(alarmTab);
+            WindowsElement element = session.FindElementByXPath("//Button[@AutomationId=\"MoreButton\"]");
+            Assert.IsNotNull(element);
         }
 
         [TestMethod]

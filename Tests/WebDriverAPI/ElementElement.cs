@@ -39,7 +39,19 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindNestedElement_ByAccessibilityId()
         {
-            WindowsElement element = alarmTabElement.FindElementByAccessibilityId("AddAlarmButton") as WindowsElement;
+            WindowsElement ancestorElement;
+
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                ancestorElement = session.FindElementByAccessibilityId("AlarmCollectionPageCommandBar");
+            }
+            else
+            {
+                ancestorElement = alarmTabElement;
+            }
+
+            WindowsElement element = ancestorElement.FindElementByAccessibilityId("AddAlarmButton") as WindowsElement;
             Assert.IsNotNull(element);
 
             WindowsElement addAlarmButtonElement = session.FindElementByAccessibilityId("AddAlarmButton") as WindowsElement;
@@ -51,17 +63,37 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindNestedElement_ByClassName()
         {
-            WindowsElement element = alarmTabElement.FindElementByClassName("ApplicationBar") as WindowsElement;
-            Assert.IsNotNull(element);
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                WindowsElement ancestorElement = session.FindElementByClassName("ApplicationBar");
+                WindowsElement element = ancestorElement.FindElementByClassName("AppBarButton") as WindowsElement;
+                Assert.IsNotNull(element);
+            }
+            else
+            {
+                WindowsElement element = alarmTabElement.FindElementByClassName("ApplicationBar") as WindowsElement;
+                Assert.IsNotNull(element);
+            }
         }
 
         [TestMethod]
         public void FindNestedElement_ByName()
         {
-            var stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
-            stopwatchPivotItem.Click();
-            WindowsElement element = stopwatchPivotItem.FindElementByName("Reset") as WindowsElement;
-            Assert.IsNotNull(element);
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                WindowsElement ancestorElement = session.FindElementByClassName("ApplicationBar");
+                WindowsElement element = ancestorElement.FindElementByName("Add new alarm") as WindowsElement;
+                Assert.IsNotNull(element);
+            }
+            else
+            {
+                var stopwatchPivotItem = session.FindElementByAccessibilityId(StopwatchTabAutomationId);
+                stopwatchPivotItem.Click();
+                WindowsElement element = stopwatchPivotItem.FindElementByName("Reset") as WindowsElement;
+                Assert.IsNotNull(element);
+            }
         }
 
         [TestMethod]
@@ -76,15 +108,35 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindNestedElement_ByTagName()
         {
-            WindowsElement element = alarmTabElement.FindElementByTagName("Button") as WindowsElement;
-            Assert.IsNotNull(element);
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                WindowsElement ancestorElement = session.FindElementByClassName("ApplicationBar");
+                WindowsElement element = ancestorElement.FindElementByTagName("Button") as WindowsElement;
+                Assert.IsNotNull(element);
+            }
+            else
+            {
+                WindowsElement element = alarmTabElement.FindElementByTagName("Button") as WindowsElement;
+                Assert.IsNotNull(element);
+            }
         }
 
         [TestMethod]
         public void FindNestedElement_ByXPath()
         {
-            WindowsElement element = alarmTabElement.FindElementByXPath("//Button[@AutomationId=\"MoreButton\"]") as WindowsElement;
-            Assert.IsNotNull(element);
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                WindowsElement ancestorElement = session.FindElementByClassName("ApplicationBar");
+                WindowsElement element = ancestorElement.FindElementByXPath("//Button[@AutomationId=\"MoreButton\"]") as WindowsElement;
+                Assert.IsNotNull(element);
+            }
+            else
+            {
+                WindowsElement element = alarmTabElement.FindElementByXPath("//Button[@AutomationId=\"MoreButton\"]") as WindowsElement;
+                Assert.IsNotNull(element);
+            }
         }
 
         [TestMethod]

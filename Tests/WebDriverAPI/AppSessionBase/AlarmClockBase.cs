@@ -28,6 +28,12 @@ namespace WebDriverAPI
         protected static RemoteTouchScreen touchScreen;
         protected WindowsElement alarmTabElement;
 
+        // UI elements attributes that differ between Alarms & Clock versions
+        protected string AlarmTabAutomationId;
+        protected string AlarmTabClassName;
+        protected string StopwatchTabAutomationId;
+        protected string WorldClockTabAutomationId;
+
         public static void Setup(TestContext context)
         {
             // Launch Alarms & Clock application if it is not yet launched
@@ -66,18 +72,36 @@ namespace WebDriverAPI
             // Attempt to go back to the main page in case Alarms & Clock app is started in EditAlarm view
             try
             {
-                alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
+                alarmTabElement = FindAlarmTabElement();
             }
             catch
             {
                 DismissAddAlarmPage();
-                alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
+                alarmTabElement = FindAlarmTabElement();
             }
 
             Assert.IsNotNull(alarmTabElement);
             if (!alarmTabElement.Selected)
             {
                 alarmTabElement.Click();
+            }
+
+            // Different Alarm & Clock application version uses different UI elements
+            if (alarmTabElement.GetAttribute("AutomationId") == "AlarmButton")
+            {
+                // Latest version of Alarms & Clock application
+                AlarmTabClassName = "ListViewItem";
+                AlarmTabAutomationId = "AlarmButton";
+                StopwatchTabAutomationId = "StopwatchButton";
+                WorldClockTabAutomationId = "ClockButton";
+            }
+            else
+            {
+                // Earlier version of Alarms & Clock application
+                AlarmTabClassName = "PivotItem";
+                AlarmTabAutomationId = "AlarmPivotItem";
+                StopwatchTabAutomationId = "StopwatchPivotItem";
+                WorldClockTabAutomationId = "WorldClockPivotItem";
             }
         }
 
@@ -110,7 +134,7 @@ namespace WebDriverAPI
         protected void CreateStopwatchLapEntries(uint numberOfEntry)
         {
             // Navigate to Stopwatch tab
-            var stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
+            var stopwatchPivotItem = session.FindElementByAccessibilityId(StopwatchTabAutomationId);
             stopwatchPivotItem.Click();
 
             // Reset stopwatch
@@ -151,6 +175,24 @@ namespace WebDriverAPI
                 Thread.Sleep(TimeSpan.FromSeconds(1));
                 session.DismissAlarmDialogIfThere();
             }
+        }
+
+        protected static WindowsElement FindAlarmTabElement()
+        {
+            WindowsElement element;
+            try
+            {
+                // The latest Alarms & Clock application uses a ListViewItem
+                // with "AlarmButton" automation id as the alarm tab selector
+                element = session.FindElementByAccessibilityId("AlarmButton");
+            }
+            catch (InvalidOperationException)
+            {
+                // The previous version of Alarms & Clock app uses a PivotItem with
+                // "AlarmPivotItem" automation id as the alarm tab selector
+                element = session.FindElementByAccessibilityId("AlarmPivotItem");
+            }
+            return element;
         }
 
         protected static WindowsElement FindAppTitleBar()

@@ -47,7 +47,7 @@ namespace WebDriverAPI
         {
             session.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs));
             stopWatch.Restart();
-            WindowsElement element = session.FindElementByAccessibilityId("AlarmPivotItem");
+            WindowsElement element = session.FindElementByAccessibilityId(AlarmTabAutomationId);
             stopWatch.Stop();
 
             // The element should be found within the implicit timeout
@@ -82,7 +82,7 @@ namespace WebDriverAPI
         {
             session.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(Convert.ToDouble(implicitTimeoutMs));
             stopWatch.Restart();
-            var elements = session.FindElementsByAccessibilityId("AlarmPivotItem");
+            var elements = session.FindElementsByAccessibilityId(AlarmTabAutomationId);
             stopWatch.Stop();
 
             // The elements should be found within the implicit timeout

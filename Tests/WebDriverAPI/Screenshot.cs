@@ -46,7 +46,7 @@ namespace WebDriverAPI
             try
             {
                 // Locate the AlarmPivotItem element in Alarms & Clock app to be captured
-                WindowsElement alarmPivotItem1 = session.FindElementByAccessibilityId("AlarmPivotItem");
+                WindowsElement alarmPivotItem1 = session.FindElementByAccessibilityId(AlarmTabAutomationId);
                 OpenQA.Selenium.Screenshot alarmPivotItemScreenshot1 = alarmPivotItem1.GetScreenshot();               
 
                 // Save the AlarmPivotItem screenshot capture locally on the machine running the test
@@ -54,7 +54,7 @@ namespace WebDriverAPI
 
                 // Using the Desktop session, locate the same AlarmPivotItem element in Alarms & Clock app to be captured
                 desktopSession = Utility.CreateNewSession(CommonTestSettings.DesktopAppId);
-                WindowsElement alarmPivotItem2 = desktopSession.FindElementByAccessibilityId("AlarmPivotItem");
+                WindowsElement alarmPivotItem2 = desktopSession.FindElementByAccessibilityId(AlarmTabAutomationId);
                 OpenQA.Selenium.Screenshot alarmPivotItemScreenshot2 = alarmPivotItem2.GetScreenshot();
 
                 // Using the Desktop session, locate the Alarms & Clock app top level window to be captured
