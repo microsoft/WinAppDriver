@@ -34,7 +34,7 @@ namespace NotepadTest
         public void PopupDialogSaveFile()
         {
             session.FindElementByName("File").Click();
-            session.FindElementByName("Save As...").Click();
+            session.FindElementByXPath($"//MenuItem[starts-with(@Name, \"Save As\")]").Click();
             Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for 1 second until the save dialog appears
             session.FindElementByAccessibilityId("FileNameControlHost").SendKeys(TargetSaveLocation + TestFileName);
             session.FindElementByName("Save").Click();
@@ -82,7 +82,11 @@ namespace NotepadTest
             }
             catch
             {
-                testFileEntry = windowsExplorerSession.FindElementByName("Items View").FindElementByName(TestFileName) as WindowsElement;
+                try
+                {
+                    testFileEntry = windowsExplorerSession.FindElementByName("Items View").FindElementByName(TestFileName) as WindowsElement;
+                }
+                catch { }
             }
 
             // Delete the test file when it exists
