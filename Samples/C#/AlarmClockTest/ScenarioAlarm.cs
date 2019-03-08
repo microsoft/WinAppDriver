@@ -30,6 +30,7 @@ namespace AlarmClockTest
         public void AlarmAdd()
         {
             // Navigate to New Alarm page
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             session.FindElementByAccessibilityId("AddAlarmButton").Click();
 
             // Set alarm name
@@ -119,7 +120,7 @@ namespace AlarmClockTest
             base.TestInit();
 
             // Navigate to Alarm tab
-            session.FindElementByAccessibilityId("AlarmPivotItem").Click();
+            session.FindElementByAccessibilityId("AlarmButton").Click();
         }
     }
 }

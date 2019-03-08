@@ -29,15 +29,14 @@ namespace AlarmClockTest
         [TestMethod]
         public void StopwatchLap()
         {
-            int numberOfEntry = 3;
-            var stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
+            int numberOfEntry = 8;
 
             // Start the stopwatch
-            var stopwatchPlayPauseButton = stopwatchPivotItem.FindElementByAccessibilityId("StopwatchPlayPauseButton");
+            var stopwatchPlayPauseButton = session.FindElementByAccessibilityId("StopwatchPlayPauseButton");
             stopwatchPlayPauseButton.Click();
 
             // Create lap entries
-            var stopwatchLapButton = stopwatchPivotItem.FindElementByAccessibilityId("StopWatchLapButton");
+            var stopwatchLapButton = session.FindElementByAccessibilityId("StopWatchLapButton");
             for (uint count = 0; count < numberOfEntry; count++)
             {
                 stopwatchLapButton.Click();
@@ -48,7 +47,7 @@ namespace AlarmClockTest
             Thread.Sleep(TimeSpan.FromSeconds(0.5));
 
             // Verify that the lap entries are created
-            var lapListView = stopwatchPivotItem.FindElementByAccessibilityId("LapsAndSplitsListView");
+            var lapListView = session.FindElementByAccessibilityId("LapsAndSplitsListView");
             var lapEntries = lapListView.FindElementsByClassName("ListViewItem");
             Assert.IsNotNull(lapEntries);
             Assert.AreEqual(numberOfEntry, lapEntries.Count);
@@ -60,13 +59,13 @@ namespace AlarmClockTest
             Assert.IsFalse(firstLapEntry.Displayed);
 
             // Horizontally scroll the list up and verify that the fist lap entry is now displayed while the last entry is now hidden
-            touchScreen.Scroll(lapListView.Coordinates, 0, -50);
+            touchScreen.Scroll(lapListView.Coordinates, 0, -100);
             Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.IsTrue(firstLapEntry.Displayed);
             Assert.IsFalse(lastLapEntry.Displayed);
 
             // Horizontally scroll the list down and verify that the last lap entry is now displayed while the first entry is now hidden again
-            touchScreen.Scroll(lapListView.Coordinates, 0, 50);
+            touchScreen.Scroll(lapListView.Coordinates, 0, 100);
             Thread.Sleep(TimeSpan.FromSeconds(1));
             Assert.IsTrue(lastLapEntry.Displayed);
             Assert.IsFalse(firstLapEntry.Displayed);
@@ -75,15 +74,14 @@ namespace AlarmClockTest
         [TestMethod]
         public void StopwatchStart()
         {
-            var stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
-            var stopwatchResetButton = stopwatchPivotItem.FindElementByAccessibilityId("StopWatchResetButton");
+            var stopwatchResetButton = session.FindElementByAccessibilityId("StopWatchResetButton");
 
             // Track the reset stopwatch timer text for comparison
-            var stopwatchTimer = stopwatchPivotItem.FindElementByAccessibilityId("StopwatchTimerText");
+            var stopwatchTimer = session.FindElementByAccessibilityId("StopwatchTimerText");
             string stopwatchTimerText = stopwatchTimer.GetAttribute("Name");
 
             // Verify that the stopwatchPlayPauseButton button says Start and the stopwatchResetButton is disabled
-            var stopwatchPlayPauseButton = stopwatchPivotItem.FindElementByAccessibilityId("StopwatchPlayPauseButton");
+            var stopwatchPlayPauseButton = session.FindElementByAccessibilityId("StopwatchPlayPauseButton");
             Assert.AreEqual("Start", stopwatchPlayPauseButton.Text);
             Assert.IsFalse(stopwatchResetButton.Enabled);
 
@@ -103,7 +101,6 @@ namespace AlarmClockTest
             Assert.AreNotEqual(stopwatchTimerText, stopwatchTimer.GetAttribute("Name"));
         }
 
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
@@ -112,7 +109,7 @@ namespace AlarmClockTest
             // Save application window original size and temporarily set it to 500 x 500
             originalSize = session.Manage().Window.Size;
             Assert.IsNotNull(originalSize);
-            session.Manage().Window.Size = new Size(500, 500);
+            session.Manage().Window.Size = new Size(550, 500);
         }
 
         [ClassCleanup]
@@ -131,7 +128,7 @@ namespace AlarmClockTest
             base.TestInit();
 
             // Navigate to Stopwatch tab
-            session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
+            session.FindElementByAccessibilityId("StopwatchButton").Click();
 
             // Stop the stopwatch if it is running and reset it
             TestCleanup();

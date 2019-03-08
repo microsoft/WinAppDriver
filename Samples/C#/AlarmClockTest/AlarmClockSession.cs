@@ -45,7 +45,7 @@ namespace AlarmClockTest
                 Assert.IsNotNull(session.SessionId);
 
                 // Set implicit timeout to 1.5 seconds to make element search to retry every 500 ms for at most three times
-                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1.5));
+                session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1.5);
 
                 // Initialize touch screen object
                 touchScreen = new RemoteTouchScreen(session);
@@ -69,24 +69,24 @@ namespace AlarmClockTest
         [TestInitialize]
         public virtual void TestInit()
         {
-            WindowsElement alarmTabElement = null;
+            WindowsElement alarmButtonElement = null;
 
             // Attempt to go back to the main page in case Alarms & Clock app is started in EditAlarm view
             try
             {
-                alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
+                alarmButtonElement = session.FindElementByAccessibilityId("AlarmButton");
             }
             catch
             {
-                // Click back button if application is in a nested page such as New Alarm or New Timer
-                session.FindElementByAccessibilityId("Back").Click();
+                // Click cancel button if application is in a nested page such as New Alarm or New Timer
+                session.FindElementByAccessibilityId("CancelButton").Click();
                 Thread.Sleep(TimeSpan.FromSeconds(1));
-                alarmTabElement = session.FindElementByAccessibilityId("AlarmPivotItem");
+                alarmButtonElement = session.FindElementByAccessibilityId("AlarmButton");
             }
 
-            // Verify that the app is in the main view showing alarmTabElement
-            Assert.IsNotNull(alarmTabElement);
-            Assert.IsTrue(alarmTabElement.Displayed);
+            // Verify that the app is in the main view showing alarmButtonElement
+            Assert.IsNotNull(alarmButtonElement);
+            Assert.IsTrue(alarmButtonElement.Displayed);
         }
     }
 }
