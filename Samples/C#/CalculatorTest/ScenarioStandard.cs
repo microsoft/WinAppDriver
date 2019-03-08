@@ -106,7 +106,7 @@ namespace CalculatorTest
             // Ensure that calculator is in standard mode
             if (!header.Text.Equals("Standard", StringComparison.OrdinalIgnoreCase))
             {
-                session.FindElementByAccessibilityId("NavButton").Click();
+                session.FindElementByAccessibilityId("TogglePaneButton").Click();
                 Thread.Sleep(TimeSpan.FromSeconds(1));
                 var splitViewPane = session.FindElementByClassName("SplitViewPane");
                 splitViewPane.FindElementByName("Standard Calculator").Click();
