@@ -38,7 +38,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindElements_ByAccessibilityId()
         {
-            var elements = session.FindElementsByAccessibilityId("AlarmPivotItem");
+            var elements = session.FindElementsByAccessibilityId(AlarmTabAutomationId);
             Assert.IsNotNull(elements);
             Assert.AreEqual(1, elements.Count);
             Assert.IsTrue(elements.Contains(alarmTabElement));
@@ -47,16 +47,18 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindElements_ByClassName()
         {
-            var elements = session.FindElementsByClassName("PivotItem");
+            // There are 4 tabs element that can be ListItem or PivotItem depending on the
+            // application version. This test excpects to see at least 4 of these elements
+            var elements = session.FindElementsByClassName(AlarmTabClassName);
             Assert.IsNotNull(elements);
-            Assert.AreEqual(4, elements.Count);
+            Assert.IsTrue(elements.Count >= 4);
             Assert.IsTrue(elements.Contains(alarmTabElement));
         }
 
         [TestMethod]
         public void FindElements_ByName()
         {
-            session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
+            session.FindElementByAccessibilityId(StopwatchTabAutomationId).Click();
             var elements = session.FindElementsByName("Start");
             Assert.IsNotNull(elements);
             Assert.AreEqual(1, elements.Count);
@@ -74,23 +76,47 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindElements_ByTagName()
         {
-            var elements = session.FindElementsByTagName("Button");
-            Assert.IsNotNull(elements);
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                // There are 4 ListItem tabs elements in the navigation bar.
+                // This test excpects to see at least 4 of these elements.
+                var elements = session.FindElementsByTagName("ListItem");
+                Assert.IsNotNull(elements);
+                Assert.IsTrue(elements.Count >= 4);
+            }
+            else
+            {
+                var elements = session.FindElementsByTagName("Button");
+                Assert.IsNotNull(elements);
 
-            // There are at least 7 buttons in Windows 10 Alarms & Clock app
-            // Version 1511: 10, Version 1607: 7, Version 1703: 8
-            Assert.IsTrue(elements.Count >= 7);
+                // There are at least 7 buttons in Windows 10 Alarms & Clock app
+                // Version 1511: 10, Version 1607: 7, Version 1703: 8
+                Assert.IsTrue(elements.Count >= 7);
+            }
         }
 
         [TestMethod]
         public void FindElements_ByXPath()
         {
-            var elements = session.FindElementsByXPath("//Button");
-            Assert.IsNotNull(elements);
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                // There are 4 ListItem tabs elements in the navigation bar.
+                // This test excpects to see at least 4 of these elements.
+                var elements = session.FindElementsByXPath("//ListItem");
+                Assert.IsNotNull(elements);
+                Assert.IsTrue(elements.Count >= 4);
+            }
+            else
+            {
+                var elements = session.FindElementsByXPath("//Button");
+                Assert.IsNotNull(elements);
 
-            // There are at least 7 buttons in Windows 10 Alarms & Clock app
-            // Version 1511: 10, Version 1607: 7, Version 1703: 8
-            Assert.IsTrue(elements.Count >= 7);
+                // There are at least 7 buttons in Windows 10 Alarms & Clock app
+                // Version 1511: 10, Version 1607: 7, Version 1703: 8
+                Assert.IsTrue(elements.Count >= 7);
+            }
         }
 
         [TestMethod]

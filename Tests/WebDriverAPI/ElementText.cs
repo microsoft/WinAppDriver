@@ -39,7 +39,7 @@ namespace WebDriverAPI
         public void GetElementText()
         {
             // Pivot Item element returns the name
-            WindowsElement pivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
+            WindowsElement pivotItem = session.FindElementByAccessibilityId(StopwatchTabAutomationId);
             Assert.IsTrue(pivotItem.Text.StartsWith("Stopwatch")); // StopWatchPivotItem text is Stopwatch or Stopwatch tab on older app version
 
             // Button element returns the button name

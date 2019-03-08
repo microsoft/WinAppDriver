@@ -38,8 +38,8 @@ namespace WebDriverAPI
         [TestMethod]
         public void GetElementSelectedState()
         {
-            WindowsElement elementWorldClock = session.FindElementByAccessibilityId("WorldClockPivotItem");
-            WindowsElement elementAlarmClock = session.FindElementByAccessibilityId("AlarmPivotItem");
+            WindowsElement elementWorldClock = session.FindElementByAccessibilityId(WorldClockTabAutomationId);
+            WindowsElement elementAlarmClock = session.FindElementByAccessibilityId(AlarmTabAutomationId);
 
             elementWorldClock.Click();
             Assert.IsTrue(elementWorldClock.Selected);

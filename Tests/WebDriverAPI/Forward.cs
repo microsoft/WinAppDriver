@@ -54,12 +54,12 @@ namespace WebDriverAPI
 
             // Navigate back to original URL
             session.Navigate().Back();
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             Assert.AreNotEqual(newTitle, session.Title);
 
             // Navigate forward to original URL
             session.Navigate().Forward();
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            Thread.Sleep(TimeSpan.FromSeconds(2));
             Assert.AreEqual(newTitle, session.Title);
             EdgeBase.CloseEdge(session);
         }

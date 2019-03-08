@@ -55,7 +55,17 @@ namespace WebDriverAPI
             // Ensure that calculator is in standard mode
             if (!header.Text.Equals("Standard", StringComparison.OrdinalIgnoreCase))
             {
-                session.FindElementByAccessibilityId("NavButton").Click();
+                try
+                {
+                    // Current version of Calculator application
+                    session.FindElementByAccessibilityId("TogglePaneButton").Click();
+                }
+                catch
+                {
+                    // Previous version of Calculator application
+                    session.FindElementByAccessibilityId("NavButton").Click();
+                }
+
                 Thread.Sleep(TimeSpan.FromSeconds(1));
                 var splitViewPane = session.FindElementByClassName("SplitViewPane");
                 splitViewPane.FindElementByName("Standard Calculator").Click();

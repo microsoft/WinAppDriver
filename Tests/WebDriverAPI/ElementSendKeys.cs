@@ -50,7 +50,8 @@ namespace WebDriverAPI
             catch
             {
                 base.TestInit();
-                alarmTabElement.FindElementByAccessibilityId("AddAlarmButton").Click();
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                session.FindElementByAccessibilityId("AddAlarmButton").Click();
                 Thread.Sleep(TimeSpan.FromSeconds(1.5));
                 alarmNameTextBox = session.FindElementByAccessibilityId("AlarmNameTextBox");
             }
@@ -138,21 +139,30 @@ namespace WebDriverAPI
         [TestMethod]
         public void SendKeysToElementError_ElementNotVisible()
         {
-            // Navigate to Stopwatch tab and attempt to click on addAlarmButton that is no longer displayed
             base.TestInit();
-            WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
-            session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-            Assert.IsFalse(addAlarmButton.Displayed);
 
-            try
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
             {
-                addAlarmButton.SendKeys("keys");
-                Assert.Fail("Exception should have been thrown");
+                // The latest Alarms & Clock application destroys the previous view instead of hiding it
             }
-            catch (InvalidOperationException exception)
+            else
             {
-                Assert.AreEqual(ErrorStrings.ElementNotVisible, exception.Message);
+                // Navigate to Stopwatch tab and attempt to click on addAlarmButton that is no longer displayed
+                WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
+                session.FindElementByAccessibilityId(StopwatchTabAutomationId).Click();
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Assert.IsFalse(addAlarmButton.Displayed);
+
+                try
+                {
+                    addAlarmButton.SendKeys("keys");
+                    Assert.Fail("Exception should have been thrown");
+                }
+                catch (InvalidOperationException exception)
+                {
+                    Assert.AreEqual(ErrorStrings.ElementNotVisible, exception.Message);
+                }
             }
         }
 

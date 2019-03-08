@@ -53,8 +53,8 @@ namespace WebDriverAPI
 
             // Return to main page and click on pivot items to switch between tabs
             DismissAddAlarmPage();
-            WindowsElement worldPivot = session.FindElementByAccessibilityId("WorldClockPivotItem");
-            WindowsElement alarmPivot = session.FindElementByAccessibilityId("AlarmPivotItem");
+            WindowsElement worldPivot = session.FindElementByAccessibilityId(WorldClockTabAutomationId);
+            WindowsElement alarmPivot = session.FindElementByAccessibilityId(AlarmTabAutomationId);
 
             worldPivot.Click();
             Assert.IsTrue(worldPivot.Selected);
@@ -68,20 +68,28 @@ namespace WebDriverAPI
         [TestMethod]
         public void ClickElementError_ElementNotVisible()
         {
-            // Navigate to Stopwatch tab and attempt to click on addAlarmButton that is no longer displayed
-            WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
-            session.FindElementByAccessibilityId("StopwatchPivotItem").Click();
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            Assert.IsFalse(addAlarmButton.Displayed);
-
-            try
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
             {
-                addAlarmButton.Click();
-                Assert.Fail("Exception should have been thrown");
+                // The latest Alarms & Clock application destroys the previous view instead of hiding it
             }
-            catch (InvalidOperationException exception)
+            else
             {
-                Assert.AreEqual(ErrorStrings.ElementNotVisible, exception.Message);
+                // Navigate to Stopwatch tab and attempt to click on addAlarmButton that is no longer displayed
+                WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
+                session.FindElementByAccessibilityId(StopwatchTabAutomationId).Click();
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                Assert.IsFalse(addAlarmButton.Displayed);
+
+                try
+                {
+                    addAlarmButton.Click();
+                    Assert.Fail("Exception should have been thrown");
+                }
+                catch (InvalidOperationException exception)
+                {
+                    Assert.AreEqual(ErrorStrings.ElementNotVisible, exception.Message);
+                }
             }
         }
 

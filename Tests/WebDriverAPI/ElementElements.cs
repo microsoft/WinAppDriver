@@ -38,7 +38,7 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindNestedElements_ByAccessibilityId()
         {
-            var elements = alarmTabElement.FindElementsByAccessibilityId("AlarmPivotItem");
+            var elements = alarmTabElement.FindElementsByAccessibilityId(AlarmTabAutomationId);
             Assert.IsNotNull(elements);
             Assert.AreEqual(1, elements.Count);
             Assert.IsTrue(elements.Contains(alarmTabElement));
@@ -47,20 +47,42 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindNestedElements_ByClassName()
         {
-            var elements = session.FindElementByAccessibilityId("HomePagePivot").FindElementsByClassName("PivotItem");
-            Assert.IsNotNull(elements);
-            Assert.AreEqual(4, elements.Count);
-            Assert.IsTrue(elements.Contains(alarmTabElement));
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                var elements = session.FindElementByAccessibilityId("TopNavMenuItemsHost").FindElementsByClassName("ListViewItem");
+                Assert.IsNotNull(elements);
+                Assert.AreEqual(4, elements.Count);
+                Assert.IsTrue(elements.Contains(alarmTabElement));
+            }
+            else
+            {
+                var elements = session.FindElementByAccessibilityId("HomePagePivot").FindElementsByClassName("PivotItem");
+                Assert.IsNotNull(elements);
+                Assert.AreEqual(4, elements.Count);
+                Assert.IsTrue(elements.Contains(alarmTabElement));
+            }
         }
 
         [TestMethod]
         public void FindNestedElements_ByName()
         {
-            var stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
-            stopwatchPivotItem.Click();
-            var elements = stopwatchPivotItem.FindElementsByName("Start");
-            Assert.IsNotNull(elements);
-            Assert.AreEqual(1, elements.Count);
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                var menuItems = session.FindElementByAccessibilityId("TopNavMenuItemsHost");
+                var elements = menuItems.FindElementsByName("Stopwatch");
+                Assert.IsNotNull(elements);
+                Assert.AreEqual(1, elements.Count);
+            }
+            else
+            {
+                var stopwatchPivotItem = session.FindElementByAccessibilityId(StopwatchTabAutomationId);
+                stopwatchPivotItem.Click();
+                var elements = stopwatchPivotItem.FindElementsByName("Start");
+                Assert.IsNotNull(elements);
+                Assert.AreEqual(1, elements.Count);
+            }
         }
 
         [TestMethod]
@@ -75,25 +97,44 @@ namespace WebDriverAPI
         [TestMethod]
         public void FindNestedElements_ByTagName()
         {
-            var elements = session.FindElementByAccessibilityId("HomePagePivot").FindElementsByTagName("Button");
-            Assert.IsNotNull(elements);
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                var elements = session.FindElementByAccessibilityId("TopNavMenuItemsHost").FindElementsByTagName("ListItem");
+                Assert.IsNotNull(elements);
+                Assert.AreEqual(4, elements.Count);
+            }
+            else
+            {
+                var elements = session.FindElementByAccessibilityId("HomePagePivot").FindElementsByTagName("Button");
+                Assert.IsNotNull(elements);
 
-            // There are at least 4 buttons in Windows 10 Alarms & Clock HomePagePivot
-            // Version 1511: 5, Version 1607: 5, Version 1703: 4
-            Assert.IsTrue(elements.Count >= 4);
+                // There are at least 4 buttons in Windows 10 Alarms & Clock HomePagePivot
+                // Version 1511: 5, Version 1607: 5, Version 1703: 4
+                Assert.IsTrue(elements.Count >= 4);
+            }
         }
 
         [TestMethod]
         public void FindNestedElements_ByXPath()
         {
-            var elements = session.FindElementByAccessibilityId("HomePagePivot").FindElementsByXPath("//Button");
-            Assert.IsNotNull(elements);
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                var elements = session.FindElementByAccessibilityId("TopNavMenuItemsHost").FindElementsByXPath("//ListItem");
+                Assert.IsNotNull(elements);
+                Assert.AreEqual(4, elements.Count);
+            }
+            else
+            {
+                var elements = session.FindElementByAccessibilityId("HomePagePivot").FindElementsByXPath("//Button");
+                Assert.IsNotNull(elements);
 
-            // There are at least 4 buttons in Windows 10 Alarms & Clock HomePagePivot
-            // Version 1511: 5, Version 1607: 5, Version 1703: 4
-            Assert.IsTrue(elements.Count >= 4);
+                // There are at least 4 buttons in Windows 10 Alarms & Clock HomePagePivot
+                // Version 1511: 5, Version 1607: 5, Version 1703: 4
+                Assert.IsTrue(elements.Count >= 4);
+            }
         }
-
 
         [TestMethod]
         public void FindNestedElementsByNonExistent_AccessibilityId()

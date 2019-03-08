@@ -38,49 +38,65 @@ namespace WebDriverAPI
         [TestMethod]
         public void TouchScroll_Arbitrary()
         {
-            var alarmPivotItem = session.FindElementByAccessibilityId("AlarmPivotItem");
-            var stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
-            Assert.IsNotNull(alarmPivotItem);
-            Assert.IsNotNull(stopwatchPivotItem);
-            Assert.IsTrue(alarmPivotItem.Selected);
-            Assert.IsFalse(stopwatchPivotItem.Selected);
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                // The latest Alarms & Clock application no longer has horizontal scroll UI elements
+            }
+            else
+            {
+                var alarmPivotItem = session.FindElementByAccessibilityId(AlarmTabAutomationId);
+                var stopwatchPivotItem = session.FindElementByAccessibilityId(StopwatchTabAutomationId);
+                Assert.IsNotNull(alarmPivotItem);
+                Assert.IsNotNull(stopwatchPivotItem);
+                Assert.IsTrue(alarmPivotItem.Selected);
+                Assert.IsFalse(stopwatchPivotItem.Selected);
 
-            // Perform scroll right touch action to switch from Alarm tab to Stopwatch tab
-            touchScreen.Scroll(100, 0);
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-            Assert.IsFalse(alarmPivotItem.Selected);
-            Assert.IsTrue(stopwatchPivotItem.Selected);
+                // Perform scroll right touch action to switch from Alarm tab to Stopwatch tab
+                touchScreen.Scroll(100, 0);
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Assert.IsFalse(alarmPivotItem.Selected);
+                Assert.IsTrue(stopwatchPivotItem.Selected);
 
-            // Perform scroll left touch action to scroll back from Stopwatch tab to Alarm tab
-            touchScreen.Scroll(-100, 0);
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-            Assert.IsTrue(alarmPivotItem.Selected);
-            Assert.IsFalse(stopwatchPivotItem.Selected);
+                // Perform scroll left touch action to scroll back from Stopwatch tab to Alarm tab
+                touchScreen.Scroll(-100, 0);
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Assert.IsTrue(alarmPivotItem.Selected);
+                Assert.IsFalse(stopwatchPivotItem.Selected);
+            }
         }
 
         [TestMethod]
         public void TouchScrollOnElement_Horizontal()
         {
-            var homePagePivot = session.FindElementByAccessibilityId("HomePagePivot");
-            var alarmPivotItem = session.FindElementByAccessibilityId("AlarmPivotItem");
-            var worldClockPivotItem = session.FindElementByAccessibilityId("WorldClockPivotItem");
-            Assert.IsNotNull(homePagePivot);
-            Assert.IsNotNull(alarmPivotItem);
-            Assert.IsNotNull(worldClockPivotItem);
-            Assert.IsTrue(alarmPivotItem.Selected);
-            Assert.IsFalse(worldClockPivotItem.Selected);
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                // The latest Alarms & Clock application no longer has horizontal scroll UI elements
+            }
+            else
+            {
+                var homePagePivot = session.FindElementByAccessibilityId("HomePagePivot");
+                var alarmPivotItem = session.FindElementByAccessibilityId(AlarmTabAutomationId);
+                var worldClockPivotItem = session.FindElementByAccessibilityId(WorldClockTabAutomationId);
+                Assert.IsNotNull(homePagePivot);
+                Assert.IsNotNull(alarmPivotItem);
+                Assert.IsNotNull(worldClockPivotItem);
+                Assert.IsTrue(alarmPivotItem.Selected);
+                Assert.IsFalse(worldClockPivotItem.Selected);
 
-            // Perform scroll left touch action to switch from Alarm tab to WorldClock tab
-            touchScreen.Scroll(homePagePivot.Coordinates, -100, 0);
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-            Assert.IsFalse(alarmPivotItem.Selected);
-            Assert.IsTrue(worldClockPivotItem.Selected);
+                // Perform scroll left touch action to switch from Alarm tab to WorldClock tab
+                touchScreen.Scroll(homePagePivot.Coordinates, -100, 0);
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Assert.IsFalse(alarmPivotItem.Selected);
+                Assert.IsTrue(worldClockPivotItem.Selected);
 
-            // Perform scroll right touch action to scroll back from WorldClock tab to Alarm tab
-            touchScreen.Scroll(homePagePivot.Coordinates, 100, 0);
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-            Assert.IsTrue(alarmPivotItem.Selected);
-            Assert.IsFalse(worldClockPivotItem.Selected);
+                // Perform scroll right touch action to scroll back from WorldClock tab to Alarm tab
+                touchScreen.Scroll(homePagePivot.Coordinates, 100, 0);
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Assert.IsTrue(alarmPivotItem.Selected);
+                Assert.IsFalse(worldClockPivotItem.Selected);
+            }
         }
 
         [TestMethod]

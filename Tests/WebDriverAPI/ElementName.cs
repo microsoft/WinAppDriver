@@ -41,7 +41,17 @@ namespace WebDriverAPI
             WindowsElement header = session.FindCalculatorTitleByAccessibilityId();
             Assert.AreEqual("ControlType.Text", header.TagName);
 
-            WindowsElement navButton = session.FindElementByAccessibilityId("NavButton");
+            WindowsElement navButton;
+            try
+            {
+                // Current version of Calculator application
+                navButton = session.FindElementByAccessibilityId("TogglePaneButton");
+            }
+            catch
+            {
+                // Previous version of Calculator application
+                navButton = session.FindElementByAccessibilityId("NavButton");
+            }
             Assert.AreEqual("ControlType.Button", navButton.TagName);
         }
 

@@ -79,8 +79,8 @@ namespace WebDriverAPI
         [TestMethod]
         public void Pen_Click_OriginElement()
         {
-            var alarmPivotItem = session.FindElementByAccessibilityId("AlarmPivotItem");
-            var worldClockPivotItem = session.FindElementByAccessibilityId("WorldClockPivotItem");
+            var alarmPivotItem = session.FindElementByAccessibilityId(AlarmTabAutomationId);
+            var worldClockPivotItem = session.FindElementByAccessibilityId(WorldClockTabAutomationId);
             Assert.IsNotNull(alarmPivotItem);
             Assert.IsNotNull(worldClockPivotItem);
             Assert.IsTrue(alarmPivotItem.Selected);
@@ -113,8 +113,8 @@ namespace WebDriverAPI
         [TestMethod]
         public void Pen_Click_OriginPointer()
         {
-            WindowsElement alarmPivotItem = session.FindElementByAccessibilityId("AlarmPivotItem");
-            WindowsElement worldClockPivotItem = session.FindElementByAccessibilityId("WorldClockPivotItem");
+            WindowsElement alarmPivotItem = session.FindElementByAccessibilityId(AlarmTabAutomationId);
+            WindowsElement worldClockPivotItem = session.FindElementByAccessibilityId(WorldClockTabAutomationId);
             int relativeX = 0; // Initial x coordinate
             int relativeY = 0; // Initial y coordinate
             Assert.IsNotNull(alarmPivotItem);
@@ -153,8 +153,8 @@ namespace WebDriverAPI
         [TestMethod]
         public void Pen_Click_OriginViewport()
         {
-            WindowsElement alarmPivotItem = session.FindElementByAccessibilityId("AlarmPivotItem");
-            WindowsElement worldClockPivotItem = session.FindElementByAccessibilityId("WorldClockPivotItem");
+            WindowsElement alarmPivotItem = session.FindElementByAccessibilityId(AlarmTabAutomationId);
+            WindowsElement worldClockPivotItem = session.FindElementByAccessibilityId(WorldClockTabAutomationId);
             int x = worldClockPivotItem.Location.X; // x coordinate of UI element relative to application window
             int y = worldClockPivotItem.Location.Y; // y coordinate of UI element relative to application window
             Assert.IsNotNull(alarmPivotItem);
@@ -320,39 +320,47 @@ namespace WebDriverAPI
         [TestMethod]
         public void Pen_Scroll_Horizontal()
         {
-            WindowsElement homePagePivot = session.FindElementByAccessibilityId("HomePagePivot");
-            WindowsElement alarmPivotItem = session.FindElementByAccessibilityId("AlarmPivotItem");
-            WindowsElement worldClockPivotItem = session.FindElementByAccessibilityId("WorldClockPivotItem");
-            Assert.IsNotNull(homePagePivot);
-            Assert.IsNotNull(alarmPivotItem);
-            Assert.IsNotNull(worldClockPivotItem);
-            Assert.IsTrue(alarmPivotItem.Selected);
-            Assert.IsFalse(worldClockPivotItem.Selected);
+            // Different Alarm & Clock application version uses different UI elements
+            if (AlarmTabClassName == "ListViewItem")
+            {
+                // The latest Alarms & Clock application no longer has horizontal scroll UI elements
+            }
+            else
+            {
+                WindowsElement homePagePivot = session.FindElementByAccessibilityId("HomePagePivot");
+                WindowsElement alarmPivotItem = session.FindElementByAccessibilityId(AlarmTabAutomationId);
+                WindowsElement worldClockPivotItem = session.FindElementByAccessibilityId(WorldClockTabAutomationId);
+                Assert.IsNotNull(homePagePivot);
+                Assert.IsNotNull(alarmPivotItem);
+                Assert.IsNotNull(worldClockPivotItem);
+                Assert.IsTrue(alarmPivotItem.Selected);
+                Assert.IsFalse(worldClockPivotItem.Selected);
 
-            // Perform scroll left pen action to switch from Alarm to WorldClock tab
-            PointerInputDevice penDevice = new PointerInputDevice(PointerKind.Pen);
-            ActionSequence sequence = new ActionSequence(penDevice, 0);
-            sequence.AddAction(penDevice.CreatePointerMove(homePagePivot, 0, 0, TimeSpan.Zero));
-            sequence.AddAction(penDevice.CreatePointerDown(PointerButton.PenContact));
-            sequence.AddAction(penDevice.CreatePointerMove(homePagePivot, -session.Manage().Window.Size.Width / 2, 0, TimeSpan.FromSeconds(.5)));
-            sequence.AddAction(penDevice.CreatePointerUp(PointerButton.PenContact));
-            session.PerformActions(new List<ActionSequence> { sequence });
+                // Perform scroll left pen action to switch from Alarm to WorldClock tab
+                PointerInputDevice penDevice = new PointerInputDevice(PointerKind.Pen);
+                ActionSequence sequence = new ActionSequence(penDevice, 0);
+                sequence.AddAction(penDevice.CreatePointerMove(homePagePivot, 0, 0, TimeSpan.Zero));
+                sequence.AddAction(penDevice.CreatePointerDown(PointerButton.PenContact));
+                sequence.AddAction(penDevice.CreatePointerMove(homePagePivot, -session.Manage().Window.Size.Width / 2, 0, TimeSpan.FromSeconds(.5)));
+                sequence.AddAction(penDevice.CreatePointerUp(PointerButton.PenContact));
+                session.PerformActions(new List<ActionSequence> { sequence });
 
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-            Assert.IsFalse(alarmPivotItem.Selected);
-            Assert.IsTrue(worldClockPivotItem.Selected);
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Assert.IsFalse(alarmPivotItem.Selected);
+                Assert.IsTrue(worldClockPivotItem.Selected);
 
-            // Perform scroll right pen action to switch back from WorldClock to Alarm tab
-            sequence = new ActionSequence(penDevice, 0);
-            sequence.AddAction(penDevice.CreatePointerMove(homePagePivot, 0, 0, TimeSpan.Zero));
-            sequence.AddAction(penDevice.CreatePointerDown(PointerButton.PenContact));
-            sequence.AddAction(penDevice.CreatePointerMove(homePagePivot, session.Manage().Window.Size.Width / 2, 0, TimeSpan.FromSeconds(.5)));
-            sequence.AddAction(penDevice.CreatePointerUp(PointerButton.PenContact));
-            session.PerformActions(new List<ActionSequence> { sequence });
+                // Perform scroll right pen action to switch back from WorldClock to Alarm tab
+                sequence = new ActionSequence(penDevice, 0);
+                sequence.AddAction(penDevice.CreatePointerMove(homePagePivot, 0, 0, TimeSpan.Zero));
+                sequence.AddAction(penDevice.CreatePointerDown(PointerButton.PenContact));
+                sequence.AddAction(penDevice.CreatePointerMove(homePagePivot, session.Manage().Window.Size.Width / 2, 0, TimeSpan.FromSeconds(.5)));
+                sequence.AddAction(penDevice.CreatePointerUp(PointerButton.PenContact));
+                session.PerformActions(new List<ActionSequence> { sequence });
 
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-            Assert.IsTrue(alarmPivotItem.Selected);
-            Assert.IsFalse(worldClockPivotItem.Selected);
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Assert.IsTrue(alarmPivotItem.Selected);
+                Assert.IsFalse(worldClockPivotItem.Selected);
+            }
         }
 
         [TestMethod]

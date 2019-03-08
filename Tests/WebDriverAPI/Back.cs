@@ -53,7 +53,7 @@ namespace WebDriverAPI
 
             // Navigate back to original URL
             session.Navigate().Back();
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            Thread.Sleep(TimeSpan.FromSeconds(3));
             Assert.AreEqual(originalTitle, session.Title);
             EdgeBase.CloseEdge(session);
         }
@@ -67,7 +67,14 @@ namespace WebDriverAPI
             // Ensure alarms & clock are in Alarm Pivot view
             session.Navigate().Back();
             session.DismissAlarmDialogIfThere();
-            session.FindElementByAccessibilityId("AlarmPivotItem").Click();
+            try
+            {
+                session.FindElementByAccessibilityId("AlarmButton").Click();
+            }
+            catch (InvalidOperationException)
+            {
+                session.FindElementByAccessibilityId("AlarmPivotItem").Click();
+            }
 
             // Navigate to New Alarm view
             session.FindElementByAccessibilityId("AddAlarmButton").Click();
@@ -76,7 +83,7 @@ namespace WebDriverAPI
             // Navigate back to the original view
             session.Navigate().Back();
             session.DismissAlarmDialogIfThere();
-            Assert.IsNotNull(session.FindElementByAccessibilityId("AlarmPivotItem"));
+            Assert.IsNotNull(session.FindElementByAccessibilityId("AddAlarmButton"));
         }
 
         [TestMethod]

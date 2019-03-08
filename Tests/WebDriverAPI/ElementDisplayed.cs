@@ -17,6 +17,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium.Windows;
 using System;
+using System.Threading;
 
 namespace WebDriverAPI
 {
@@ -38,30 +39,32 @@ namespace WebDriverAPI
         [TestMethod]
         public void GetElementDisplayedState()
         {
-            WindowsElement alarmPivotItem = session.FindElementByAccessibilityId("AlarmPivotItem");
-            WindowsElement addAlarmButton = session.FindElementByAccessibilityId("AddAlarmButton");
-            Assert.IsTrue(addAlarmButton.Displayed);
+            // Navigate to add alarm page
+            session.FindElementByAccessibilityId("AddAlarmButton").Click();
+            session.FindElementByAccessibilityId("AlarmTimePicker").Click();
+            Thread.Sleep(TimeSpan.FromSeconds(1));
 
-            // Navigate to Stopwatch tab
-            WindowsElement stopwatchPivotItem = session.FindElementByAccessibilityId("StopwatchPivotItem");
-            stopwatchPivotItem.Click();
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            WindowsElement stopwatchStartButton = session.FindElementByName("Start");
-            Assert.IsTrue(stopwatchStartButton.Displayed);
-            Assert.IsFalse(addAlarmButton.Displayed);
+            var minuteSelector = session.FindElementByAccessibilityId("MinuteLoopingSelector");
+            var minute00 = session.FindElementByName("00");
+            var minute30 = session.FindElementByName("30");
+            Assert.IsNotNull(minuteSelector);
+            Assert.IsNotNull(minute00);
+            Assert.IsNotNull(minute30);
+            Assert.IsTrue(minute00.Displayed);
+            Assert.IsFalse(minute30.Displayed);
 
-            // Navigate back to Alarm tab
-            alarmPivotItem.Click();
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            Assert.IsTrue(addAlarmButton.Displayed);
-            Assert.IsFalse(stopwatchStartButton.Displayed);
+            // Select minute 30 to scroll it into view
+            minute30.Click();
+            Assert.IsFalse(minute00.Displayed);
+            Assert.IsTrue(minute30.Displayed);
 
-            // Open a new alarm page and verify that 00 minute is displayed while 30 minute is hidden in the time picker
-            addAlarmButton.Click();
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            WindowsElement minuteLoopingSelector = session.FindElementByAccessibilityId("MinuteLoopingSelector");
-            Assert.IsTrue(minuteLoopingSelector.FindElementByName("00").Displayed);
-            Assert.IsFalse(minuteLoopingSelector.FindElementByName("30").Displayed);
+            // Select minute 00 to scroll it back into view
+            minute00.Click();
+            Assert.IsTrue(minute00.Displayed);
+            Assert.IsFalse(minute30.Displayed);
+
+            // Dismiss add alarm page
+            DismissAddAlarmPage();
         }
 
         [TestMethod]
