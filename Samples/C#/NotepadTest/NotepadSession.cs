@@ -46,7 +46,7 @@ namespace NotepadTest
                 Assert.AreEqual("Untitled - Notepad", session.Title);
 
                 // Set implicit timeout to 1.5 seconds to make element search to retry every 500 ms for at most three times
-                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1.5));
+                session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1.5);
 
                 // Keep track of the edit box to be used throughout the session
                 editBox = session.FindElementByClassName("Edit");

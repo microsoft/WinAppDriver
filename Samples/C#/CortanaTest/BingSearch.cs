@@ -41,9 +41,9 @@ namespace CortanaTest
             Assert.IsNotNull(bingPane);
 
             // Verify that a shortcut to "System settings Add or remove programs" is shown as a search result
-            var bingResult = bingPane.FindElementByXPath("//DataItem[starts-with(@Name, \"Add or remove\")]");
+            var bingResult = bingPane.FindElementByXPath("//ListItem[starts-with(@Name, \"Add or remove\")]");
             Assert.IsNotNull(bingResult);
-            Assert.IsTrue(bingResult.Text.EndsWith("System settings"));
+            Assert.IsTrue(bingResult.Text.Contains("System settings"));
         }
 
         [TestMethod]
@@ -100,7 +100,7 @@ namespace CortanaTest
             Assert.IsNotNull(cortanaSession);
 
             // Set implicit timeout to 5 seconds to make element search to retry every 500 ms for at most ten times
-            cortanaSession.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+            cortanaSession.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
 
         [ClassCleanup]
