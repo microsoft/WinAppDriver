@@ -15,13 +15,14 @@
 //******************************************************************************
 
 #include "StdAfx.h"
+#include <oleacc.h>
 #include <windowsx.h>
 #include <regex>
 #include "UiTreeWalk.h"
 #include "ControlTypeId.h"
 
 const int MinDist = 50;
-static const WCHAR* c_chNodeFormat = L"<%s LocalizedControlType=\"%s\" ClassName=\"%s\" Name=\"%s\" AutomationId=\"%s\" x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\" Pos=\"%s\"/>\n";
+static const WCHAR* c_chNodeFormat = L"/%s[LocalizedControlType=\"%s\"][ClassName=\"%s\"][Name=\"%s\"][AutomationId=\"%s\"][x=%d][y=%d][width=%d][height=%d][lx=%d][ly=%d][position()=%s][RuntimeId=\"%s\"]\n";
 static const size_t MaxNameLength = 64;
 
 WCHAR UiTreeWalk::s_chBuffer[BUFFERSIZE];
@@ -141,18 +142,65 @@ void UiTreeWalk::UnInit()
     }
 }
 
-HRESULT UiTreeWalk::AppendUiAttributes(IUIAutomationElement* pCurUia, int nPos, std::wstring& wstr)
+HRESULT UiTreeWalk::AppendUiAttributes(long left, long top, IUIAutomationElement* pCurUia, long nPos, std::wstring& wstr)
 {
+    SAFEARRAY *rid;
+    REQUIRE_SUCCESS_HR(pCurUia->GetRuntimeId(&rid));
+    LONG lbound;
+    REQUIRE_SUCCESS_HR(SafeArrayGetLBound(rid, 1, &lbound));
+    LONG ubound;
+    REQUIRE_SUCCESS_HR(SafeArrayGetUBound(rid, 1, &ubound));
+
+    CComBSTR bstrRuntimeId;
+    LONG runtimeId = 0;
+    WCHAR temp[16];
+    for (LONG i = lbound; i <= ubound; i++)
+    {
+        REQUIRE_SUCCESS_HR(SafeArrayGetElement(rid, &i, &runtimeId));
+        _ltow_s(runtimeId, temp, 10);
+        REQUIRE_SUCCESS_HR(bstrRuntimeId.Append(temp));
+        
+        if (i < ubound)
+        {
+            REQUIRE_SUCCESS_HR(bstrRuntimeId.Append(L"."));
+        }
+    }
+
+    REQUIRE_SUCCESS_HR(SafeArrayDestroy(rid));
+
+    if (bstrRuntimeId == NULL)
+    {
+        wsprintf(temp, L"%lu", reinterpret_cast<std::uintptr_t>(pCurUia));
+        bstrRuntimeId = temp;
+    }
+
+    CComPtr<IUIAutomationElement> spUia(pCurUia);
+    auto it = cachedAutoElements.find(bstrRuntimeId);
+    if (it == cachedAutoElements.end())
+    {
+        cachedAutoElements.insert(std::make_pair(bstrRuntimeId, spUia));
+    }
+    else
+    {
+        it->second = spUia;
+    }
+
     CComBSTR bstrClass;
     REQUIRE_SUCCESS_HR(pCurUia->get_CurrentClassName(&bstrClass));
     bstrClass = bstrClass == NULL ? L"" : bstrClass;
+    std::wstring shortClass(bstrClass, SysStringLen(bstrClass));
+    bool bStartWith = XmlEncode(shortClass, MaxNameLength);
+    if (bStartWith == true || shortClass.length() >= MaxNameLength)
+    {
+        shortClass.insert(0, L"starts-with:");
+    }
 
     CComBSTR bstrName;
     REQUIRE_SUCCESS_HR(pCurUia->get_CurrentName(&bstrName));
     bstrName = bstrName == NULL ? L"" : bstrName;
 
     std::wstring shortName(bstrName, SysStringLen(bstrName));
-    bool bStartWith = XmlEncode(shortName, MaxNameLength);
+    bStartWith = XmlEncode(shortName, MaxNameLength);
 
     if (bStartWith == true || shortName.length() >= MaxNameLength)
     {
@@ -200,21 +248,24 @@ HRESULT UiTreeWalk::AppendUiAttributes(IUIAutomationElement* pCurUia, int nPos, 
     }
     else
     {
-        wsprintf(chPos, L"%d", nPos);
-    }
+        wsprintf(chPos, L"%d", nPos + 1); // xpath index starts at 1
+    } 
 
     wsprintf(UiTreeWalk::s_chBuffer,
         c_chNodeFormat,
         bstrProgrammaticName.m_str,
         bstrCtrlType.m_str,
-        bstrClass.m_str,
+        shortClass.c_str(),
         shortName.c_str(),
         shortAutoId.c_str(),
         rect.left,
         rect.top,
         rect.right - rect.left,
         rect.bottom - rect.top,
-        chPos);
+        left - rect.left,
+        top - rect.top,
+        chPos,
+        bstrRuntimeId.m_str);
 
     if (wcslen(UiTreeWalk::s_chBuffer) > 0)
     {
@@ -336,10 +387,9 @@ HRESULT UiTreeWalk::ElementContainingPoint(long left, long top, IUIAutomationEle
         }
     }
 
-    spChildren.Release();;
+    spChildren.Release();
     REQUIRE_SUCCESS_HR(pCur->FindAll(TreeScope::TreeScope_Subtree, m_spFindAllCondition, &spChildren.p));
-    
-    if(spChildren == nullptr)
+    if (spChildren == nullptr)
         return S_FALSE;
 
     int countAll = 0;
@@ -388,18 +438,25 @@ HRESULT UiTreeWalk::PathFromRootToTarget(long left, long top)
 
     BOOL bStartFromRoot = TRUE;
 
-    // desktop icons or IE11
     HWND hRoot = GetAncestor(m_hWndTarget, GA_ROOT);
     if (hRoot != NULL)
     {
-        WCHAR chClassName[16]{ 0 };
+        WCHAR chClassName[64]{ 0 };
         GetClassName(hRoot, chClassName, ARRAYSIZE(chClassName));
         if (wcslen(chClassName) > 0)
         {
-            if (wcscmp(L"Progman", chClassName) == 0
-                || wcscmp(L"IEFrame", chClassName) == 0
-                || wcscmp(L"SysListView32", chClassName) == 0)
+            if (wcsncmp(L"Chrome_WidgetWin", chClassName, 16) == 0
+                || wcsncmp(L"MozillaWindowClass", chClassName, 18) == 0)
             {
+                // Chrome and Firefox 
+                return PathFromTargetToRoot(left, top);
+            }
+
+            if (wcsncmp(L"Progman", chClassName, 7) == 0
+                || wcsncmp(L"IEFrame", chClassName, 7) == 0
+                || wcsncmp(L"SysListView32", chClassName, 13) == 0)
+            {
+                // desktop icons or IE11
                 bStartFromRoot = FALSE;
             }
         }
@@ -444,14 +501,14 @@ HRESULT UiTreeWalk::PathFromRootToTarget(long left, long top)
     }
 
     std::wstring uiPath;
-    HRESULT hr = GetChildUiNode(spStart, spTarget, uiPath);
+    HRESULT hr = GetChildUiNode(left, top, spStart, spTarget, uiPath);
     if (hr == S_OK)
     {
-        AppendUiAttributes(spStart, 0, uiPath);
+        AppendUiAttributes(left, top, spStart, 0, uiPath);
 
         if (bStartFromRoot == FALSE)
         {
-            AppendUiAttributes(spRoot, 0, uiPath);
+            AppendUiAttributes(left, top, spRoot, 0, uiPath);
         }
 
         swprintf_s(s_chBuffer, BUFFERSIZE, L"%s", uiPath.c_str());
@@ -464,13 +521,13 @@ HRESULT UiTreeWalk::PathFromRootToTarget(long left, long top)
     }
     else
     {
-        return E_FAIL;
+        PathFromTargetToRoot(left, top);
     }
 
     return S_OK;
 }
 
-HRESULT UiTreeWalk::GetChildUiNode(IUIAutomationElement* pCur, IUIAutomationElement* pFromPoint, std::wstring& uiPath)
+HRESULT UiTreeWalk::GetChildUiNode(long left, long top, IUIAutomationElement* pCur, IUIAutomationElement* pFromPoint, std::wstring& uiPath)
 {
     if (CancelCurrentTask())
     {
@@ -502,9 +559,9 @@ HRESULT UiTreeWalk::GetChildUiNode(IUIAutomationElement* pCur, IUIAutomationElem
 
             if (spChild != nullptr && bFoundTarget == FALSE)
             {
-                if (GetChildUiNode(spChild, pFromPoint, uiPath) == S_OK)
+                if (GetChildUiNode(left, top, spChild, pFromPoint, uiPath) == S_OK)
                 {
-                    AppendUiAttributes(spChild, i, uiPath);
+                    AppendUiAttributes(left, top, spChild, i, uiPath);
                     return S_OK;
                 }
             }
@@ -566,7 +623,7 @@ BOOL UiTreeWalk::CancelCurrentTask()
 {
     MSG msg;
     PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE);
-    if ((msg.message >= msgThreadTest && msg.message <= msgGetXPath) || (msg.message == WM_QUIT))
+    if ((msg.message >= msgThreadTest && msg.message < msgThreadLast) || (msg.message == WM_QUIT))
     {
         InvalidateTargetRect();
         return TRUE;
@@ -629,6 +686,13 @@ long UiTreeWalk::UiTreeWalkerThreadProc(void* pVoidData)
             SetEvent(UiTreeWalk::s_hEventPathReady);
             break;
         }
+        case msgHighlight:
+        {
+            pUiTreeWalk->InvalidateTargetRect();
+            pUiTreeWalk->FindCachedUI();
+            SetEvent(UiTreeWalk::s_hEventPathReady);
+            break;
+        }
         case msgThreadTest:
         {
             SetEvent(UiTreeWalk::s_hEventPathReady);
@@ -648,6 +712,99 @@ long UiTreeWalk::UiTreeWalkerThreadProc(void* pVoidData)
     delete pUiTreeWalk;
 
     CoUninitialize();
+    return 0;
+}
+
+void UiTreeWalk::FindCachedUI()
+{
+    CComBSTR runtimeId(s_chBuffer);
+
+    auto it = cachedAutoElements.find(runtimeId);
+    if (it != cachedAutoElements.end())
+    {
+        auto cachedUi = it->second;
+
+        if (SUCCEEDED(cachedUi->get_CurrentBoundingRectangle(&s_rectTargetElement)))
+        {
+            DrawYellowHighlightRect(m_hdcDeskTop, s_rectTargetElement);
+            Sleep(500);
+            DrawYellowHighlightRect(m_hdcDeskTop, s_rectTargetElement);
+        }
+    }
+}
+
+long UiTreeWalk::HighlightCachedUI(_In_ LPWSTR lpRumtimeId, _Out_ RECT *pRect)
+{
+    swprintf_s(s_chBuffer, BUFFERSIZE, L"%s", lpRumtimeId);
+    ResetEvent(UiTreeWalk::s_hEventPathReady);
+
+    PostThreadMessage(UiTreeWalk::s_dwUiTreeWalkerThread, msgHighlight, 0, 0);
+
+    if (WAIT_OBJECT_0 == WaitForSingleObject(UiTreeWalk::s_hEventPathReady, dwWaitUiWalk))
+    {
+        memcpy(pRect, &s_rectTargetElement, sizeof(RECT));
+    }
+    else
+    {
+        memset(pRect, 0, sizeof(RECT));
+    }
 
     return 0;
+}
+
+HRESULT UiTreeWalk::GetParentUiNode(long left, long top, IUIAutomationTreeWalker *pTreeWalker, IUIAutomationElement* pCurUia, std::wstring& result)
+{
+    if (CancelCurrentTask())
+    {
+        return S_FALSE;
+    }
+
+    int nPos = -1;
+    AppendUiAttributes(left, top, pCurUia, nPos, result);
+
+    CComPtr<IUIAutomationElement> spParent;
+    if (FAILED(pTreeWalker->GetParentElement(pCurUia, &spParent.p)))
+    {
+        // Edge workaround
+        UIA_HWND uiaHwnd;
+        if (SUCCEEDED(pCurUia->get_CurrentNativeWindowHandle(&uiaHwnd)))
+        {
+            HWND hwnd = GetAncestor(reinterpret_cast<HWND>(uiaHwnd), GA_PARENT);
+            if (hwnd != nullptr)
+            {
+                REQUIRE_SUCCESS_HR(m_spAutomation->ElementFromHandle(hwnd, &spParent.p));
+            }
+        }
+    }
+
+    if (spParent != nullptr)
+    {
+        return GetParentUiNode(left, top, pTreeWalker, spParent, result);
+    }
+    else
+    {
+        return S_OK;
+    }
+}
+
+HRESULT UiTreeWalk::PathFromTargetToRoot(long left, long top)
+{
+    m_pt = { left,top };
+    CComPtr<IUIAutomationElement> spUia;
+
+    REQUIRE_SUCCESS_HR(m_spAutomation->ElementFromPoint(m_pt, &spUia.p));
+
+    REQUIRE_SUCCESS_HR(spUia->get_CurrentBoundingRectangle(&s_rectTargetElement));
+
+    std::wstring uiPath;
+    HRESULT hr = GetParentUiNode(left, top, m_spTreeWalker, spUia, uiPath);
+    if (hr == S_OK)
+    {
+        swprintf_s(s_chBuffer, BUFFERSIZE, L"%s", uiPath.c_str());
+        DrawHighlight();
+
+        m_nHighlightTimer = SetTimer(NULL, 0, 500, NULL);
+    }
+
+    return hr;
 }

@@ -1,0 +1,57 @@
+﻿<Window x:Class="WinAppDriverUIRecorder.WindowEditNodeAttribute"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinAppDriverUIRecorder"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Title="Edit Node Attributes" Height="365" Width="800">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="575" />
+            <ColumnDefinition Width="2" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Label Content="Name" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="43"/>
+            <ComboBox Name="comboBoxName" HorizontalAlignment="Left" Margin="98,41,0,0" VerticalAlignment="Top" Width="88" SelectionChanged="comboBoxName_SelectionChanged"/>
+            <TextBox Name="textBoxName" TextChanged="textBoxName_TextChanged" HorizontalAlignment="Left" Height="23" Margin="191,41,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="374"/>
+            <Label Content="ClassName" HorizontalAlignment="Left" Margin="10,74,0,0" VerticalAlignment="Top" Width="69"/>
+            <ComboBox Name="comboboxClass" HorizontalAlignment="Left" Margin="98,78,0,0" VerticalAlignment="Top" Width="88" SelectionChanged="comboboxClass_SelectionChanged"/>
+            <TextBox Name="textBoxClassName" TextChanged="textBoxClassName_TextChanged" HorizontalAlignment="Left" Height="23" Margin="191,78,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="374"/>
+            <Label Content="AutomationId" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" Width="84"/>
+            <ComboBox x:Name="comboboxAutoId" HorizontalAlignment="Left" Margin="98,120,0,0" VerticalAlignment="Top" Width="88" SelectionChanged="comboboxAutoId_SelectionChanged"/>
+            <TextBox Name="textBoxAutoId" TextChanged="textBoxAutoId_TextChanged" HorizontalAlignment="Left" Height="23" Margin="191,120,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="374"/>
+            <Label Content="Node attributes" HorizontalAlignment="Left" Margin="10,188,0,0" VerticalAlignment="Top" Width="97"/>
+            <TextBox x:Name="textBoxNode" HorizontalAlignment="Left" Height="50" Margin="10,220,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="555" IsReadOnly="True" />
+            <Button Name="buttonOK" Content="OK" HorizontalAlignment="Left" Margin="180,289,0,0" VerticalAlignment="Top" Width="75" Click="buttonOK_Click"/>
+            <Button Name="buttonCancel" Content="Cancel" HorizontalAlignment="Left" Margin="364,289,0,0" VerticalAlignment="Top" Width="75" Click="buttonCancel_Click"/>
+            <Label Content="position()" HorizontalAlignment="Left" Margin="10,153,0,0" VerticalAlignment="Top" Width="61"/>
+            <TextBox x:Name="textBoxPosition" TextChanged="textBoxPosition_TextChanged" HorizontalAlignment="Left" Height="23" Margin="98,153,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="88"/>
+            <CheckBox Name="checkboxAddPosition" Content="Add to xpath" Click="checkboxAddPosition_Checked"  HorizontalAlignment="Left" Margin="191,157,0,0" VerticalAlignment="Top" Width="170"/>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+
+        <Grid Grid.Column="2" Background="BlanchedAlmond">
+            <DataGrid Name="dgNameValue"
+                      Background="WhiteSmoke"
+                      AutoGenerateColumns="False"
+                      SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="PropName" Binding="{Binding PropName}" IsReadOnly="true"/>
+                    <DataGridTemplateColumn Header="PropVal" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding PropValue}" TextWrapping="Wrap" IsReadOnly="True"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Window>

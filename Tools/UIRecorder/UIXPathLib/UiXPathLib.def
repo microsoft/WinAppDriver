@@ -5,3 +5,4 @@ EXPORTS
     InitUiTreeWalk          PRIVATE
     UnInitUiTreeWalk        PRIVATE
     GetUiXPath              PRIVATE
+    HighlightCachedUI       PRIVATE

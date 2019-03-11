@@ -15,7 +15,6 @@
 //******************************************************************************
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 
@@ -23,6 +22,8 @@ namespace WinAppDriverUIRecorder
 {
     class NativeMethods
     {
+        public const int BUFFERSIZE = 4096 * 4; // must be same as BUFFERSIZE defined in UiTreeWalk.h
+
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool SetProcessDPIAware();
 
@@ -61,5 +62,8 @@ namespace WinAppDriverUIRecorder
 
         [DllImport("UIXPathLib.dll", CallingConvention = CallingConvention.Winapi)]
         public static extern void UnInitUiTreeWalk();
+
+        [DllImport("UIXPathLib.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode)]
+        public static extern int HighlightCachedUI(string strRuntimeId, ref RECT rect);
     }
 }

@@ -16,14 +16,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace WinAppDriverUIRecorder
 {
-    public enum UiTaskName : UInt32
+    public enum EnumUiTaskName : UInt32
     {
         UnknownUiTask = 3000,
         KeyboardInput,
@@ -51,24 +47,12 @@ namespace WinAppDriverUIRecorder
 
     class ConstVariables
     {
-        public const int DragDeltaOffset = 12345678;
-
-        public const string DELTAX = "DELTAX";
-        public const string DELTAY = "DELTAY";
-        public const string WHEEL = "WHEEL";
-
-        public const string ClassName = "ClassName";
-        public const string Name = "Name";
-        public const string AutomationId = "AutomationId";
-        public const string UiTask = "UiTask";
-        public const string Pos = "Pos";
-
         public static Dictionary<string, string> s_Vk2String = new Dictionary<string, string>();
         public static Dictionary<int, CharPair> s_Vk2CharPair = new Dictionary<int, CharPair>();
 
-        public static UiTaskName FromStringTaskName(string strTask)
+        public static EnumUiTaskName FromStringTaskName(string strTask)
         {
-            foreach (UiTaskName val in Enum.GetValues(typeof(UiTaskName)))
+            foreach (EnumUiTaskName val in Enum.GetValues(typeof(EnumUiTaskName)))
             {
                 if (strTask == val.ToString())
                 {
@@ -76,7 +60,7 @@ namespace WinAppDriverUIRecorder
                 }
             }
 
-            return UiTaskName.UnknownUiTask;
+            return EnumUiTaskName.UnknownUiTask;
         }
 
         public static void InitVk2StringMap()
@@ -110,7 +94,6 @@ namespace WinAppDriverUIRecorder
             s_Vk2String.Add(VirtualKeys.VK_F11.ToString(), "F11");
             s_Vk2String.Add(VirtualKeys.VK_F12.ToString(), "F12");
             s_Vk2String.Add(VirtualKeys.VK_DECIMAL.ToString(), "Decimal");
-            //s_Vk2String.Add(VirtualKeys., "Meta");
             s_Vk2String.Add(VirtualKeys.VK_OEM_1.ToString(), "Semicolon");
             s_Vk2String.Add(VirtualKeys.VK_INSERT.ToString(), "Insert");
             s_Vk2String.Add(VirtualKeys.VK_CANCEL.ToString(), "Cancel");
@@ -119,14 +102,12 @@ namespace WinAppDriverUIRecorder
             s_Vk2String.Add(VirtualKeys.VK_TAB.ToString(), "Tab");
             s_Vk2String.Add(VirtualKeys.VK_CLEAR.ToString(), "Clear");
             s_Vk2String.Add(VirtualKeys.VK_RETURN.ToString(), "Return");
-            //s_Vk2String.Add(VirtualKeys.VK_RETURN.ToString(), "Enter");
-            s_Vk2String.Add(VirtualKeys.VK_LSHIFT.ToString(), "Shift");
-            s_Vk2String.Add(VirtualKeys.VK_RSHIFT.ToString(), "RightShift");
-            s_Vk2String.Add(VirtualKeys.VK_LCONTROL.ToString(), "Control");
-            s_Vk2String.Add(VirtualKeys.VK_RCONTROL.ToString(), "RightControl");
-            s_Vk2String.Add(VirtualKeys.VK_LMENU.ToString(), "Alt");
-            s_Vk2String.Add(VirtualKeys.VK_RMENU.ToString(), "RightAlt");
-
+            s_Vk2String.Add(VirtualKeys.VK_LSHIFT.ToString(), "LeftShift");
+            s_Vk2String.Add(VirtualKeys.VK_RSHIFT.ToString(), "Shift");
+            s_Vk2String.Add(VirtualKeys.VK_LCONTROL.ToString(), "LeftControl");
+            s_Vk2String.Add(VirtualKeys.VK_RCONTROL.ToString(), "Control");
+            s_Vk2String.Add(VirtualKeys.VK_LMENU.ToString(), "LeftAlt");
+            s_Vk2String.Add(VirtualKeys.VK_RMENU.ToString(), "Alt");
             s_Vk2String.Add(VirtualKeys.VK_DELETE.ToString(), "Delete");
             s_Vk2String.Add(VirtualKeys.VK_PAUSE.ToString(), "Pause");
             s_Vk2String.Add(VirtualKeys.VK_SPACE.ToString(), "Space");
@@ -134,14 +115,10 @@ namespace WinAppDriverUIRecorder
             s_Vk2String.Add(VirtualKeys.VK_NEXT.ToString(), "PageDown");
             s_Vk2String.Add(VirtualKeys.VK_END.ToString(), "End");
             s_Vk2String.Add(VirtualKeys.VK_HOME.ToString(), "Home");
-            s_Vk2String.Add(VirtualKeys.VK_LEFT.ToString(), "Left");
-            //s_Vk2String.Add(VirtualKeys.VK_LEFT.ToString(), "ArrowLeft");
-            s_Vk2String.Add(VirtualKeys.VK_UP.ToString(), "Up");
-            //s_Vk2String.Add(VirtualKeys.VK_UP.ToString(), "ArrowUp");
-            s_Vk2String.Add(VirtualKeys.VK_RIGHT.ToString(), "Right");
-            //s_Vk2String.Add(VirtualKeys.VK_RIGHT.ToString(), "ArrowRight");
-            s_Vk2String.Add(VirtualKeys.VK_DOWN.ToString(), "Down");
-            //s_Vk2String.Add(VirtualKeys.VK_DOWN.ToString(), "ArrowDown");
+            s_Vk2String.Add(VirtualKeys.VK_LEFT.ToString(), "ArrowLeft");
+            s_Vk2String.Add(VirtualKeys.VK_UP.ToString(), "ArrowUp");
+            s_Vk2String.Add(VirtualKeys.VK_RIGHT.ToString(), "ArrowRight");
+            s_Vk2String.Add(VirtualKeys.VK_DOWN.ToString(), "ArrowDown");
             s_Vk2String.Add(VirtualKeys.VK_ESCAPE.ToString(), "Escape");
             s_Vk2String.Add(VirtualKeys.VK_LWIN.ToString(), "Command");
             s_Vk2String.Add(VirtualKeys.VK_RWIN.ToString(), "Command");
@@ -224,46 +201,37 @@ namespace WinAppDriverUIRecorder
         const string sNameValue = "[@{0}=\\\"{1}\\\"]";
         const string sNameStartsWithValue = "[starts-with(@{0},\\\"{1}\\\")]";
 
-        public static string GenerateXPathToUiElement(string strXmlNodes)
-        {
-            XmlDocument xmlDocument = new XmlDocument();
-            try
-            {
-                xmlDocument.LoadXml(strXmlNodes);
-            }
-            catch (Exception ex)
-            {
-                return ex.ToString();
-            }
-
-            string strRet = "";
-            foreach (XmlElement uiTask in xmlDocument.GetElementsByTagName(ConstVariables.UiTask))
-            {
-                strRet += GetXPathFromUiTaskNode(uiTask);
-            }
-
-            if (strRet.Length > 2)
-            {
-                return strRet.Substring(0, strRet.Length - 2) + "\n"; // remove last ,
-            }
-            else
-            {
-                return strRet;
-            }
-        }
-
         public static string XmlEncode(string strData)
         {
-            strData = strData.Replace("&", "&amp;");
-            strData = strData.Replace("\"", "&quot;");
-            strData = strData.Replace("\'", "&apos;");
-            strData = strData.Replace("<", "&lt;");
-            strData = strData.Replace(">", "&gt;");
+            if (strData != null)
+            {
+                strData = strData.Replace("&", "&amp;");
+                strData = strData.Replace("\"", "&quot;");
+                strData = strData.Replace("\'", "&apos;");
+                strData = strData.Replace("<", "&lt;");
+                strData = strData.Replace(">", "&gt;");
+            }
+            return strData;
+        }
+
+        public static string XmlDecode(string strData)
+        {
+            if (strData != null)
+            {
+                strData = strData.Replace("&amp;", "&");
+                strData = strData.Replace("&quot;", "\"");
+                strData = strData.Replace("&apos;", "\'");
+                strData = strData.Replace("&lt;", "<");
+                strData = strData.Replace("&gt;", ">");
+            }
             return strData;
         }
 
         static string CheckAndFixNoneStaticValue(string strValue)
         {
+            if (string.IsNullOrEmpty(strValue))
+                return strValue;
+
             const string strGUIDPtn = @"[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}";
 
             if (strValue.StartsWith("HwndWrapper[") || strValue.StartsWith("starts-with:HwndWrapper["))
@@ -286,37 +254,140 @@ namespace WinAppDriverUIRecorder
             return strValue;
         }
 
-        static string GetXPathFromUiTaskNode(XmlElement uiTaskNode)
+        static Dictionary<string, string> GetTagAttributes(string xpath)
         {
-            if (uiTaskNode == null || uiTaskNode.ChildNodes.Count < 1)
+            Dictionary<string, string> foundAttrs = new Dictionary<string, string>();
+            List<string> listAttrs = new List<string>();
+
+            // Get tag and groups of []
+            var sb = new System.Text.StringBuilder();
+            string Tag = null;
+            int ncount = 0;
+            int nBracketCount = 0;
+            foreach (char c in xpath)
             {
-                return "";
+                if (c == '[')
+                {
+                    nBracketCount++;
+
+                    if (sb.Length > 0 && Tag == null && nBracketCount == 1)
+                    {
+                        Tag = sb.ToString();
+                        sb.Clear();
+                    }
+
+                    sb.Append(c);
+                }
+                else if (c == ']')
+                {
+                    nBracketCount--;
+
+                    if (nBracketCount == 0)
+                    {
+                        sb.Append(c);
+                        listAttrs.Add(sb.ToString());
+                        sb.Clear();
+                    }
+                    else
+                    {
+                        sb.Append(c);
+                    }
+                }
+                else if (c == '/' && nBracketCount == 0)
+                {
+                    if (Tag == null && sb.Length > 0)
+                    {
+                        Tag = sb.ToString();
+                        break;
+                    }
+
+                    if (Tag != null)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+
+                ncount++;
             }
+
+            if (Tag != null)
+            {
+                foundAttrs.Add("Tag", Tag);
+            }
+            else if (Tag == null && sb.Length > 0)
+            {
+                foundAttrs.Add("Tag", sb.ToString());
+            }
+            else
+            {
+                //unexpected
+                return null;
+            }
+
+            foreach (string attrNameValue in listAttrs)
+            {
+                const string patternNameValue = @"\[([^=]+)=([^\]]+)\]";
+                var regNameValue = new System.Text.RegularExpressions.Regex(patternNameValue, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                System.Text.RegularExpressions.Match matchNameValue = regNameValue.Match(attrNameValue);
+                if (matchNameValue.Success)
+                {
+                    if (matchNameValue.Groups.Count == 3)
+                    {
+                        var valStr = matchNameValue.Groups[2].Value;
+                        if (valStr.StartsWith("\"") && valStr.EndsWith("\""))
+                            valStr = valStr.Substring(1, valStr.Length - 2);
+
+                        foundAttrs.Add(matchNameValue.Groups[1].Value, valStr);
+                    }
+                }
+            }
+
+            return foundAttrs;
+        }
+
+        public static string GenerateXPathToUiElement(RecordedUiTask recordedUiTask, List<string> pathNodes, ref UiTreeNode rootRet)
+        {
+            rootRet = null;
 
             string tag, ClassName, Name, AutomationId, Pos;
             string xPath = "";
 
-            for (int i = 0; i < uiTaskNode.ChildNodes.Count; i++)
+            UiTreeNode parent = null;
+
+            for (int i = 0; i < pathNodes.Count; i++)
             {
-                XmlNode childNode = uiTaskNode.ChildNodes[i];
+                var nodePath = pathNodes[i];
 
-                tag = childNode.Name != "Unknown" ? childNode.Name : "*";
-                AutomationId = XmlEncode(childNode.Attributes[ConstVariables.AutomationId].Value);
-                AutomationId = CheckAndFixNoneStaticValue(AutomationId);
+                bool bStartsWithName = false;
+                bool bStartsWithClass = false;
+                bool bStartsWithAutoId = false;
 
-                Name = XmlEncode(childNode.Attributes[ConstVariables.Name].Value);
+                var tagAttrs = GetTagAttributes(nodePath);
 
-                ClassName = childNode.Attributes[ConstVariables.ClassName].Value;
+                tag = tagAttrs.ContainsKey("Tag") ? tagAttrs["Tag"] : "Unknown";
+
+                AutomationId = tagAttrs.ContainsKey("AutomationId") ? tagAttrs["AutomationId"] : null;
+
+                Name = tagAttrs.ContainsKey("Name") ? tagAttrs["Name"] : null;
+
+                ClassName = tagAttrs.ContainsKey("ClassName") ? tagAttrs["ClassName"] : null;
                 ClassName = CheckAndFixNoneStaticValue(ClassName);
-                Pos = childNode.Attributes[ConstVariables.Pos].Value;
 
-                xPath += $"/{tag}";
-                int nPos = xPath.Length;
+                Pos = tagAttrs.ContainsKey("position()") ? tagAttrs["position()"] : null;
+
+                string xPathNode = $"/{tag}";
+
+                // Set AutomationId to null if it is a GUID which is very likely generated at runtime
+                AutomationId = CheckAndFixNoneStaticValue(AutomationId);
 
                 // AutomationId (like UIs on Cortana search result list) created at runtime may end with digits
                 if (!string.IsNullOrEmpty(AutomationId) && !AutomationId.StartsWith("starts-with:"))
                 {
-                    string patAutoIdEndsWithDigits = @"^([^\d]*)[\d]+$";
+                    string patAutoIdEndsWithDigits = @"^([^\d]*)[_\.\-\d]+$";
                     System.Text.RegularExpressions.Regex regAutoId = new System.Text.RegularExpressions.Regex(patAutoIdEndsWithDigits, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                     if (regAutoId != null)
                     {
@@ -326,6 +397,7 @@ namespace WinAppDriverUIRecorder
                             if (matchAutoId.Groups[1].Length > 0)
                             {
                                 AutomationId = "starts-with:" + matchAutoId.Groups[1].ToString();
+                                bStartsWithAutoId = true;
                             }
                             else
                             {
@@ -335,16 +407,17 @@ namespace WinAppDriverUIRecorder
                     }
                 }
 
-                if (!string.IsNullOrEmpty(AutomationId))
+                if (!string.IsNullOrEmpty(ClassName) && string.IsNullOrEmpty(AutomationId))
                 {
-                    if (AutomationId.StartsWith("starts-with:"))
+                    if (ClassName.StartsWith("starts-with:"))
                     {
-                        AutomationId = AutomationId.Remove(0, "starts-with:".Length);
-                        xPath += string.Format(sNameStartsWithValue, ConstVariables.AutomationId, AutomationId);
+                        ClassName = ClassName.Remove(0, "starts-with:".Length);
+                        xPathNode += string.Format(sNameStartsWithValue, "ClassName", ClassName);
+                        bStartsWithClass = true;
                     }
                     else
                     {
-                        xPath += string.Format(sNameValue, ConstVariables.AutomationId, AutomationId);
+                        xPathNode += string.Format(sNameValue, "ClassName", ClassName);
                     }
                 }
 
@@ -353,35 +426,87 @@ namespace WinAppDriverUIRecorder
                     if (Name.StartsWith("starts-with:"))
                     {
                         Name = Name.Remove(0, "starts-with:".Length);
-                        xPath += string.Format(sNameStartsWithValue, ConstVariables.Name, Name);
+                        xPathNode += string.Format(sNameStartsWithValue, "Name", Name);
+                        bStartsWithName = true;
                     }
                     else
                     {
-                        xPath += string.Format(sNameValue, ConstVariables.Name, Name);
+                        xPathNode += string.Format(sNameValue, "Name", Name);
                     }
                 }
 
-                if (!string.IsNullOrEmpty(ClassName) && string.IsNullOrEmpty(AutomationId))
+                if (!string.IsNullOrEmpty(AutomationId))
                 {
-                    if (ClassName.StartsWith("starts-with:"))
+                    if (AutomationId.StartsWith("starts-with:"))
                     {
-                        ClassName = ClassName.Remove(0, "starts-with:".Length);
-                        xPath += string.Format(sNameStartsWithValue, ConstVariables.ClassName, ClassName);
+                        AutomationId = AutomationId.Remove(0, "starts-with:".Length);
+                        xPathNode += string.Format(sNameStartsWithValue, "AutomationId", AutomationId);
+                        bStartsWithAutoId = true;
                     }
                     else
                     {
-                        xPath += string.Format(sNameValue, ConstVariables.ClassName, ClassName);
+                        xPathNode += string.Format(sNameValue, "AutomationId", AutomationId);
                     }
                 }
 
                 if (!string.IsNullOrEmpty(Pos) && string.IsNullOrEmpty(AutomationId) && string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(ClassName))
                 {
-                    //TODO: verify
-                    xPath = xPath.Insert(nPos, $"[position()={Pos}]");
+                     xPathNode += $"[position()={Pos}]";
                 }
+
+                // UiTreeNode 
+                var left = tagAttrs.ContainsKey("x") ? tagAttrs["x"] : null;
+                var top = tagAttrs.ContainsKey("y") ? tagAttrs["y"] : null;
+                var leftLocal = tagAttrs.ContainsKey("lx") ? tagAttrs["lx"] : null;
+                var topLocal = tagAttrs.ContainsKey("ly") ? tagAttrs["ly"] : null;
+                var width = tagAttrs.ContainsKey("width") ? tagAttrs["width"] : null;
+                var height = tagAttrs.ContainsKey("height") ? tagAttrs["height"] : null;
+                var runtimeId = tagAttrs.ContainsKey("RuntimeId") ? tagAttrs["RuntimeId"] : null;
+
+                xPath += xPathNode;
+
+                var uiTreeNode = new UiTreeNode(parent) { Title = $"{tag}, \"{Name}\", {ClassName}" };
+
+                uiTreeNode.NodePath = xPathNode;
+                uiTreeNode.Tag = tag;
+                uiTreeNode.ClassName = ClassName;
+                uiTreeNode.Name = Name;
+                uiTreeNode.AutomationId = AutomationId;
+                uiTreeNode.Left = left;
+                uiTreeNode.Top = left;
+                uiTreeNode.Width = width;
+                uiTreeNode.Height = height;
+                uiTreeNode.RuntimeId = runtimeId;
+                uiTreeNode.Position = Pos;
+                uiTreeNode.NameCompareMethod = bStartsWithName ? UiTreeNode.CompareMethod.StartsWith : UiTreeNode.CompareMethod.Equal;
+                uiTreeNode.ClassNameCompareMethod = bStartsWithClass ? UiTreeNode.CompareMethod.StartsWith : UiTreeNode.CompareMethod.Equal;
+                uiTreeNode.AutomationIdCompareMethod = bStartsWithAutoId ? UiTreeNode.CompareMethod.StartsWith : UiTreeNode.CompareMethod.Equal;
+
+                if (i == pathNodes.Count - 1)
+                {
+                    uiTreeNode.UiTask = recordedUiTask;
+                    recordedUiTask.Left = left;
+                    recordedUiTask.Top = top;
+                    recordedUiTask.LeftLocal = leftLocal;
+                    recordedUiTask.TopLocal = topLocal;
+                    recordedUiTask.Name = Name;
+                    recordedUiTask.Tag = tag;
+                }
+
+                if (rootRet == null)
+                {
+                    rootRet = uiTreeNode;
+                }
+
+                if (parent != null)
+                {
+                    parent.Items.Add(uiTreeNode);
+                }
+
+                parent = uiTreeNode;
             }
 
-            return "\"" + xPath + "\",\n";
+            return "\"" + xPath + "\"";
         }
     }
 }

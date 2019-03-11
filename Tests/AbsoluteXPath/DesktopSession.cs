@@ -15,16 +15,10 @@
 //******************************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
-using OpenQA.Selenium;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UIXPathLib
+namespace AbsoluteXPath
 {
     public class DesktopSession
     {
@@ -49,7 +43,7 @@ namespace UIXPathLib
             get { return desktopSession; }
         }
 
-        public WindowsElement FindElementByAbsoluteXPath(string xPath, int nTryCount = 10)
+        public WindowsElement FindElementByAbsoluteXPath(string xPath, int nTryCount = 15)
         {
             WindowsElement uiTarget = null;
 
@@ -74,32 +68,6 @@ namespace UIXPathLib
             }
 
             return uiTarget;
-        }
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            DesktopSession desktopSession = new DesktopSession();
-            System.Threading.Thread.Sleep(2000);
-
-            bool bSuccess = false;
-
-            try
-            {
-                //Paste generated code here
-
-
-
-
-                //test complete
-                bSuccess = true;
-            }
-            finally
-            {
-                Assert.AreEqual(bSuccess, true);
-            }
         }
     }
 }

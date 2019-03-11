@@ -15,11 +15,7 @@
 //******************************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
-using System.Windows.Automation;
-using System.Timers;
 
 namespace WinAppDriverUIRecorder
 {
@@ -266,7 +262,6 @@ namespace WinAppDriverUIRecorder
 
     class MouseKeyboardHook
     {
-        static bool s_bPausing = false;
         //Declare MouseHookProcedure as a HookProc type.
         static HookProc MouseHookProcedure;
         static HookProc KeyboardHookProcedure;
@@ -274,6 +269,8 @@ namespace WinAppDriverUIRecorder
         //Declare the hook handle as an int.
         static uint s_hHookMouse = 0;
         static uint s_hHookKeyboard = 0;
+
+        public static bool s_bPauseMouseKeyboard = false;
 
         // WinUser.h
         public const int WM_MOUSEFIRST = 0x0200;
@@ -376,6 +373,8 @@ namespace WinAppDriverUIRecorder
 
         public static bool StartHook()
         {
+            s_bPauseMouseKeyboard = false;
+
             MouseKeyboardHook.StartMouseHook();
             MouseKeyboardHook.StartKeyboardHook();
 
@@ -390,7 +389,7 @@ namespace WinAppDriverUIRecorder
 
         public static IntPtr KeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode < 0)
+            if (nCode < 0 || MouseKeyboardEventHandler.s_threadRecorder == null || MainWindow.s_mainWin.IsRecording == false)
             {
                 return NativeMethods.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
             }
@@ -403,11 +402,15 @@ namespace WinAppDriverUIRecorder
 
             if (vk == VirtualKeys.VK_PAUSE && kEvent == KeyboardEvents.KeyDown)
             {
-                s_bPausing = !s_bPausing;
-            }
+                s_bPauseMouseKeyboard = !s_bPauseMouseKeyboard;
 
-            // Record encoded key virtual key
-            if (s_bPausing == false)
+                if (s_bPauseMouseKeyboard == true)
+                    NativeMethods.PostMessage(MainWindow.s_windowHandle, (int)MainWindow.UiThreadTask.PauseRecording, 0, 0);
+                else
+                    NativeMethods.PostMessage(MainWindow.s_windowHandle, (int)MainWindow.UiThreadTask.Active, 0, 0);
+            }
+          
+            if(s_bPauseMouseKeyboard == false)
             {
                 MouseKeyboardEventHandler.RecordKey(kEvent, vk, scanCode);
             }
@@ -417,7 +420,7 @@ namespace WinAppDriverUIRecorder
 
         public static IntPtr MouseHookProc(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode < 0 || s_bPausing == true)
+            if (nCode < 0 || MouseKeyboardEventHandler.s_threadRecorder == null || s_bPauseMouseKeyboard == true)
             {
                 return NativeMethods.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
             }
@@ -428,7 +431,7 @@ namespace WinAppDriverUIRecorder
 
             //skip if cursor is on this app
             IntPtr hwnd = NativeMethods.WindowFromPoint(left, top);
-            if (hwnd.ToInt32() == MainWindow.windowHandle.ToInt32())
+            if (hwnd == MainWindow.s_windowHandle)
             {
                 MouseKeyboardEventHandler.ResetRecordTimer();
                 return NativeMethods.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);

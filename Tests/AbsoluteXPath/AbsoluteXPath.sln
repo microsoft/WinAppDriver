@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbsoluteXPath", "AbsoluteXPath.csproj", "{971BE3D2-1EFF-4660-A8A8-C1A52966572C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{971BE3D2-1EFF-4660-A8A8-C1A52966572C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{971BE3D2-1EFF-4660-A8A8-C1A52966572C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{971BE3D2-1EFF-4660-A8A8-C1A52966572C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{971BE3D2-1EFF-4660-A8A8-C1A52966572C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E2EBE62-05BC-42C6-8002-CB40A0D39472}
+	EndGlobalSection
+EndGlobal

@@ -16,439 +16,315 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace WinAppDriverUIRecorder
 {
     public class RecordedUiTask
     {
-        string _strXmlNode = null;
-        string _strXPath = null;
-        string _strXPathSessionRoot = null;
-        string _strDescription = null;
-        UiTaskName _uiTaskName = UiTaskName.UnknownUiTask;
-        string _strLeft = null;
-        string _strTop = null;
-        string _strBase64Text = null;
-        bool _bCapsLock = false;
-        bool _bNumLock = false;
-        bool _bScrollLock = false;
-        int _nDeltaX = 0;
-        int _nDeltaY = 0;
-        public int _tickCount;
+        public static List<RecordedUiTask> s_listRecordedUi = new List<RecordedUiTask>();
+        public static object s_lockRecordedUi = new object();
 
-        public RecordedUiTask(string strXmlNode, int nTick, UiTaskName taskName)
+        private UiTreeNode _uiTreeNode;
+        private string _strPath = null;
+        private string _strDescription = null;
+        private List<string> _pathNodes;
+
+        public RecordedUiTask(List<string> pathNodes, EnumUiTaskName taskName)
         {
-            _uiTaskName = taskName;
-            _strXmlNode = strXmlNode;
-            _tickCount = nTick == 0 ? Environment.TickCount : nTick;
+            UiTaskName = taskName;
+            _pathNodes = pathNodes;
         }
 
-        public string GetXPath()
+        public RecordedUiTask(EnumUiTaskName taskName, string base64Text, bool bCapLock, bool scrollLock, bool numLock)
         {
-            if (_strXPath == null)
+            UiTaskName = taskName;
+            Base64Text = base64Text;
+            CapsLock = bCapLock;
+            NumLock = numLock;
+            ScrollLock = scrollLock;
+        }
+
+        public string GetXPath(bool bExcludeSessionRootPath)
+        {
+            if (string.IsNullOrEmpty(this._strPath))
             {
-                _strXPath = GenerateXPath.GenerateXPathToUiElement(_strXmlNode).Trim();
+                this._strPath = GenerateXPath.GenerateXPathToUiElement(this, _pathNodes, ref _uiTreeNode).Trim();
             }
 
-            return _strXPath;
-        }
-
-        public void SetXPath(string xpath)
-        {
-            _strXPath = xpath;
-        }
-
-        public string GetRootSessionXPath()
-        {
-            return _strXPathSessionRoot ?? "";
-        }
-
-        public string GetXPathExcludingSessinoRoot()
-        {
-            if (_strXPathSessionRoot != null && _strXPathSessionRoot.Length > 1)
+            if (string.IsNullOrEmpty(this._strPath))
             {
-                return "\"" + _strXPath.Substring(_strXPathSessionRoot.Length - 1);
+                return string.Empty;
             }
-            else
+
+            string xPathRet = this._strPath;
+            if (bExcludeSessionRootPath == true && string.IsNullOrEmpty(MainWindow.s_mainWin.RootSessionPath) == false)
             {
-                return "";
-            }
-        }
-
-        public void SetRootSessionXPath(string xpath)
-        {
-            _strXPathSessionRoot = xpath;
-        }
-
-        public string GetXml()
-        {
-            return _strXmlNode;
-        }
-
-        public UiTaskName GetTask()
-        {
-            return _uiTaskName;
-        }
-
-        public string GetLeft()
-        {
-            return _strLeft;
-        }
-
-        public string GetTop()
-        {
-            return _strTop;
-        }
-
-        public int GetDeltaX()
-        {
-            return _nDeltaX;
-        }
-
-        public int GetDeltaY()
-        {
-            return _nDeltaY;
-        }
-
-        public int GetTickCount()
-        {
-            return _tickCount;
-        }
-
-        public string GetBase64Text()
-        {
-            return _strBase64Text;
-        }
-
-        public bool GetCapsLock()
-        {
-            return _bCapsLock;
-        }
-
-        public bool GetNumLock()
-        {
-            return _bNumLock;
-        }
-        public bool GetScrollLock()
-        {
-            return _bScrollLock;
-        }
-
-        public string GetDescription()
-        {
-            if (_strDescription == null)
-            {
-                XmlDocument xmlDocument = new XmlDocument();
-                try
+                int nPos = xPathRet.IndexOf(MainWindow.s_mainWin.RootSessionPath);
+                if (nPos >= 0)
                 {
-                    xmlDocument.LoadXml(_strXmlNode);
+                    xPathRet = "\"" + xPathRet.Substring(nPos + MainWindow.s_mainWin.RootSessionPath.Length);
                 }
-                catch (Exception ex)
+            }
+
+            return xPathRet;
+        }
+
+        public string UpdateXPath(string xpath)
+        {
+            this._strPath = xpath;
+            return this._strPath;
+        }
+
+        public UiTreeNode GetUiTreeNode()
+        {
+            return _uiTreeNode;
+        }
+
+        public string Base64Text { get; set; }
+
+        public EnumUiTaskName UiTaskName { get; set; }
+
+        public string Tag { get; set; }
+
+        public string Name { get; set; }
+
+        public string Left { get; set; }
+
+        public string Top { get; set; }
+
+        public string LeftLocal { get; set; }
+
+        public string TopLocal { get; set; }
+
+        public int DeltaX { get; set; }
+
+        public int DeltaY { get; set; }
+
+        public bool CapsLock { get; set; }
+
+        public bool NumLock { get; set; }
+
+        public bool ScrollLock { get; set; }
+
+        public string VariableName
+        {
+            get
+            {
+                string shortName = "";
+                if (string.IsNullOrEmpty(Name) == false)
                 {
-                    return ex.ToString();
-                }
+                    shortName = GenerateXPath.XmlDecode(Name);
+                    const string namePattern = @"\w+";
+                    var regNameValue = new System.Text.RegularExpressions.Regex(namePattern, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                    System.Text.RegularExpressions.Match matchNameValue = regNameValue.Match(shortName);
 
-                XmlNodeList uiTasks = xmlDocument.GetElementsByTagName("UiTask");
-                if (uiTasks.Count == 1)
-                {
-                    string strTask = uiTasks[0].Attributes["task"].Value;
-
-                    _uiTaskName = ConstVariables.FromStringTaskName(strTask);
-
-                    if (_uiTaskName == UiTaskName.KeyboardInput)
+                    if (matchNameValue.Success)
                     {
-                        _strBase64Text = uiTasks[0].Attributes["base64String"].Value;
-
-                        var varCapLock = uiTasks[0].Attributes["CapsLock"].Value;
-                        if (varCapLock != null)
+                        shortName = "";
+                        while (matchNameValue.Success)
                         {
-                            _bCapsLock = Convert.ToBoolean(varCapLock);
+                            shortName += matchNameValue.Value.ToString();
+                            matchNameValue = matchNameValue.NextMatch();
                         }
-
-                        var varNumLock = uiTasks[0].Attributes["NumLock"].Value;
-                        if (varNumLock != null)
-                        {
-                            _bNumLock = Convert.ToBoolean(varNumLock);
-                        }
-
-                        var varScrollLock = uiTasks[0].Attributes["ScrollLock"].Value;
-                        if (varScrollLock != null)
-                        {
-                            _bScrollLock = Convert.ToBoolean(varScrollLock);
-                        }
-
-                        var keyboardTaskDescription = GenerateCSCode.GetDecodedKeyboardInput(_strBase64Text, _bCapsLock, _bNumLock, _bScrollLock);
-                        StringBuilder sb = new StringBuilder();
-                        foreach (var strLine in keyboardTaskDescription)
-                        {
-                            sb.Append(strLine);
-                        }
-
-                        _strDescription = $"{_uiTaskName} VirtualKeys=\"{sb.ToString()}\" CapsLock={_bCapsLock} NumLock={_bNumLock} ScrollLock={_bScrollLock}";
                     }
                     else
                     {
-                        var vleft = uiTasks[0].Attributes["x"];
-                        _strLeft = vleft != null ? vleft.Value : "";
-
-                        var vtop = uiTasks[0].Attributes["y"];
-                        _strTop = vtop != null ? vtop.Value : "";
-
-                        string name = uiTasks[0].LastChild.Attributes[ConstVariables.Name].Value;
-                        if (string.IsNullOrEmpty(name))
+                        //Not expected to get here
+                        shortName = GenerateXPath.XmlDecode(Name).Replace(" ", "").Trim();
+                        string[] temp = shortName.Split("',.\"".ToCharArray());
+                        if (temp != null && temp.Length > 0)
                         {
-                            name = uiTasks[0].LastChild.Attributes[ConstVariables.AutomationId].Value;
-                            if (string.IsNullOrEmpty(name))
-                            {
-                                name = uiTasks[0].Name;
-                            }
+                            shortName = temp[0];
                         }
+                    }
 
-                        if (_uiTaskName == UiTaskName.Drag || _uiTaskName == UiTaskName.MouseWheel)
+                    if (shortName.Length > 10)
+                    {
+                        shortName = shortName.Substring(0, 10);
+                    }
+                }
+
+                return UiTaskName.ToString() + Tag + shortName + $"_{LeftLocal}_{TopLocal}";
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                try
+                {
+                    if (this._strDescription == null)
+                    {
+                        if (this.UiTaskName == EnumUiTaskName.KeyboardInput)
                         {
-                            _strDescription = $"{_uiTaskName} on \"{name}\" at ({_strLeft},{_strTop}) drag ({_nDeltaX},{_nDeltaY})";
+                            var keyboardTaskDescription = GenerateCSCode.GetDecodedKeyboardInput(this.Base64Text, this.CapsLock, this.NumLock, this.ScrollLock);
+                            StringBuilder sb = new StringBuilder();
+                            foreach (var strLine in keyboardTaskDescription)
+                            {
+                                sb.Append(strLine);
+                            }
+
+                            this._strDescription = $"{this.UiTaskName} VirtualKeys=\"{sb.ToString()}\" CapsLock={this.CapsLock} NumLock={this.NumLock} ScrollLock={this.ScrollLock}";
                         }
                         else
                         {
-                            _strDescription = $"{_uiTaskName} on \"{name}\" at ({_strLeft},{_strTop})";
+                            // set LeftLocal and TopLocal from _pathNodes.Last()
+                            if (this.UiTaskName == EnumUiTaskName.Drag || this.UiTaskName == EnumUiTaskName.MouseWheel)
+                            {
+                                this._strDescription = $"{this.UiTaskName} on {Tag} \"{this.Name}\" at ({this.LeftLocal},{this.TopLocal}) drag ({this.DeltaX},{this.DeltaY})";
+                            }
+                            else
+                            {
+                                this._strDescription = $"{this.UiTaskName} on {Tag} \"{this.Name}\" at ({this.LeftLocal},{this.TopLocal})";
+                            }
                         }
                     }
                 }
-            }
+                catch (Exception ex)
+                {
+                    AppInsights.LogException("Description", ex.Message);
+                }
 
-            return _strDescription;
+                if (string.IsNullOrEmpty(this._strDescription))
+                {
+                    this._strDescription = string.Empty;
+                }
+                return this._strDescription;
+            }
+            //set is not defined
         }
 
         public override string ToString()
         {
-            if (_strDescription == null)
-            {
-                _strDescription = GetDescription();
-            }
-            return _strDescription;
+            return Description;
         }
 
-        public string GetCSCode(int nOrder, int nOrderFocused)
+        public void AppendKeyboardInput(string textToAppend)
+        {
+            byte[] data1 = Convert.FromBase64String(this.Base64Text);
+            byte[] data2 = Convert.FromBase64String(textToAppend);
+            byte[] data = new byte[data1.Length + data2.Length];
+            data1.CopyTo(data, 0);
+            data2.CopyTo(data, data1.Length);
+            this.Base64Text = Convert.ToBase64String(data);
+
+            var keyboardTaskDescription = GenerateCSCode.GetDecodedKeyboardInput(this.Base64Text, this.CapsLock, this.NumLock, this.ScrollLock);
+            StringBuilder sb = new StringBuilder();
+            foreach (var strLine in keyboardTaskDescription)
+            {
+                sb.Append(strLine);
+            }
+
+            this._strDescription = $"{this.UiTaskName} VirtualKeys=\"{sb.ToString()}\" CapsLock={this.CapsLock} NumLock={this.NumLock} ScrollLock={this.ScrollLock}";
+        }
+
+        public string GetCSCode(string focusedElemName)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("// " + GetDescription());
+            sb.AppendLine("// " + this.Description);
 
-            string consoleWriteLine = "Console.WriteLine(\"" + GetDescription().Replace("\"", "\\\"") + "\");";
+            string consoleWriteLine = "Console.WriteLine(\"" + this.Description.Replace("\"", "\\\"") + "\");";
             sb.AppendLine(consoleWriteLine);
 
-            if (!string.IsNullOrEmpty(GetRootSessionXPath()))
+            if (this.UiTaskName == EnumUiTaskName.LeftClick)
             {
-                sb.AppendLine($"// xpath excluding session root: {GetXPathExcludingSessinoRoot()}");
+                sb.AppendLine(GenerateCSCode.LeftClick(this, VariableName));
             }
-
-            if (GetTask() == UiTaskName.LeftClick)
+            else if (this.UiTaskName == EnumUiTaskName.RightClick)
             {
-                sb.AppendLine(GenerateCSCode.LeftClick(this, nOrder));
+                sb.AppendLine(GenerateCSCode.RightClick(this, VariableName));
             }
-            else if (GetTask() == UiTaskName.RightClick)
+            else if (this.UiTaskName == EnumUiTaskName.LeftDblClick)
             {
-                sb.AppendLine(GenerateCSCode.RightClick(this, nOrder));
+                sb.AppendLine(GenerateCSCode.DoubleClick(this, VariableName));
             }
-            else if (GetTask() == UiTaskName.LeftDblClick)
+            else if (this.UiTaskName == EnumUiTaskName.MouseWheel)
             {
-                sb.AppendLine(GenerateCSCode.DoubleClick(this, nOrder));
+                sb.AppendLine(GenerateCSCode.Wheel(this, VariableName));
             }
-            else if (GetTask() == UiTaskName.MouseWheel)
+            else if (this.UiTaskName == EnumUiTaskName.KeyboardInput)
             {
-                sb.AppendLine(GenerateCSCode.Wheel(this, nOrder));
-            }
-            else if (GetTask() == UiTaskName.Drag)
-            {
-                sb.AppendLine(GenerateCSCode.Drag(this, nOrder));
-            }
-            else if (GetTask() == UiTaskName.MouseHover)
-            {
-                sb.AppendLine(GenerateCSCode.MouseHover(this, nOrder));
-            }
-            else if (GetTask() == UiTaskName.KeyboardInput)
-            {
-                sb.AppendLine(GenerateCSCode.SendKeys(this, nOrder, nOrderFocused));
-            }
-            else
-            {
-                sb.AppendLine(GenerateCSCode.FindByXPath(this, nOrder));
+                sb.AppendLine(GenerateCSCode.SendKeys(this, focusedElemName));
             }
 
             return sb.ToString();
         }
 
-        static string ReplaceLastWith(string strScript, string strOld, string strNew)
-        {
-            int nPos = strScript.LastIndexOf(strOld);
-            if (nPos < 0)
-            {
-                return strScript;
-            }
-
-            return strScript.Remove(nPos, strOld.Length).Insert(nPos, strNew);
-        }
-
         public void ChangeClickToDoubleClick()
         {
-            _strXmlNode = ReplaceLastWith(_strXmlNode, UiTaskName.LeftClick.ToString(), UiTaskName.LeftDblClick.ToString());
-            _uiTaskName = UiTaskName.LeftDblClick;
-            _strDescription = null;
+            this.UiTaskName = EnumUiTaskName.LeftDblClick;
+            this._strDescription = null;
         }
 
         public void DragComplete(int deltaX, int deltaY)
         {
-            _nDeltaX = deltaX;
-            _nDeltaY = deltaY;
-
-            string strDeltaX = deltaX.ToString();
-            string strDeltaY = deltaY.ToString();
-
-            string strUpdated = ReplaceLastWith(_strXmlNode, ConstVariables.DELTAX, strDeltaX);
-            _strXmlNode = ReplaceLastWith(strUpdated, ConstVariables.DELTAY, strDeltaY);
-            _uiTaskName = UiTaskName.Drag;
-            _strDescription = null;
+            this.DeltaX = deltaX;
+            this.DeltaY = deltaY;
+            this.UiTaskName = EnumUiTaskName.Drag;
+            this._strDescription = null;
         }
 
         public void UpdateWheelData(int delta)
         {
-            string wdata = ConstVariables.WHEEL;
-            int nPos1 = _strXmlNode.IndexOf("wheel=\"") + "wheel=\"".Length;
-            int nPos2 = _strXmlNode.IndexOf("\">", nPos1);
-            if (nPos2 > nPos1)
-            {
-                wdata = _strXmlNode.Substring(nPos1, nPos2 - nPos1);
-                int nCurData = 0;
-                if (int.TryParse(wdata, out nCurData))
-                {
-                    delta += nCurData;
-                }
-            }
-
-            _nDeltaX += 1;
-            _nDeltaY = delta;
-
-            string strdelta = $"wheel=\"{delta}\"";
-            wdata = $"wheel=\"{wdata}\"";
-            _strXmlNode = _strXmlNode.Replace(wdata, strdelta);
-            _uiTaskName = UiTaskName.MouseWheel;
-            _strDescription = null;
+            this.DeltaX += 1;
+            this.DeltaY += delta;
+            this._strDescription = null;
         }
     }
 
     class GenerateCSCode
     {
-        public static string LeftClick(RecordedUiTask uiTask, int nOrder)
+        public static string GetCodeBlock(RecordedUiTask uiTask, string elemName, string uiActionLine)
         {
-            return $"string xp{nOrder} = {uiTask.GetXPath()};\n" +
-                $"var winElem{nOrder} = MyDesktopSession.FindElementByXPath(xp{nOrder});\n" +
-                $"if (winElem{nOrder} != null)\n" +
+            var xpath = "xpath_" + elemName;
+            elemName = "winElem_" + elemName;
+
+            string codeBlock = $"string {xpath} = {uiTask.GetXPath(true)};\n" +
+                $"var {elemName} = desktopSession.FindElementByAbsoluteXPath({xpath});\n" +
+                $"if ({elemName} != null)\n" +
                 "{\n" +
-                $"    winElem{nOrder}.Click();\n" +
+                "CODEBLOCK" +
                 "}\n" +
                 "else\n" +
                 "{\n" +
-                "    Console.WriteLine($\"Failed to find element {xp" + $"{nOrder}" + "}\");\n" +
+                "    Console.WriteLine($\"Failed to find element using xpath: {" + $"{xpath}" + "}\");\n" +
                 "    return;\n" +
                 "}\n";
+
+            return codeBlock.Replace("CODEBLOCK", uiActionLine);
         }
 
-        public static string DoubleClick(RecordedUiTask uiTask, int nOrder)
+        public static string LeftClick(RecordedUiTask uiTask, string elemName)
         {
-            return $"string xp{nOrder} = {uiTask.GetXPath()};\n" +
-                $"var winElem{nOrder} = MyDesktopSession.FindElementByXPath(xp{nOrder});\n" +
-                $"if (winElem{nOrder} != null)\n" +
-                "{\n" +
-                $"    MyDesktopSession.DesktopSession.Mouse.MouseMove(winElem{nOrder}.Coordinates);\n" +
-                $"    MyDesktopSession.DesktopSession.Mouse.DoubleClick(null);\n" +
-                "}\n" +
-                "else\n" +
-                "{\n" +
-                "    Console.WriteLine($\"Failed to find element {xp" + $"{nOrder}" + "}\");\n" +
-                "    return;\n" +
-                "}\n";
+            string codeLine = $"    winElem_{elemName}.Click();\n";
+            return GetCodeBlock(uiTask, elemName, codeLine);
         }
 
-        public static string RightClick(RecordedUiTask uiTask, int nOrder)
+        public static string DoubleClick(RecordedUiTask uiTask, string elemName)
         {
-            return $"string xp{nOrder} = {uiTask.GetXPath()};\n" +
-                $"var winElem{nOrder} = MyDesktopSession.FindElementByXPath(xp{nOrder});\n" +
-                $"if (winElem{nOrder} != null)\n" +
-                "{\n" +
-                $"    MyDesktopSession.DesktopSession.Mouse.MouseMove(winElem{nOrder}.Coordinates);\n" +
-                "    MyDesktopSession.DesktopSession.Mouse.ContextClick(null);\n" +
-                "}\n" +
-                "else\n" +
-                "{\n" +
-                "    Console.WriteLine($\"Failed to find element {xp" + $"{nOrder}" + "}\");\n" +
-                "    return;\n" +
-                "}\n";
+            string codeLine = $"    desktopSession.DesktopSessionElement.Mouse.MouseMove(winElem_{elemName}.Coordinates);\n" +
+                            $"    desktopSession.DesktopSessionElement.Mouse.DoubleClick(null);\n";
+
+            return GetCodeBlock(uiTask, elemName, codeLine);
         }
 
-        public static string FindByXPath(RecordedUiTask uiTask, int nOrder)
+        public static string RightClick(RecordedUiTask uiTask, string elemName)
         {
-            return $"string xp{nOrder} = {uiTask.GetXPath()};\n" +
-                $"var winElem{nOrder} = MyDesktopSession.FindElementByXPath(xp{nOrder});\n" +
-                $"if (winElem{nOrder} != null)\n" +
-                "{\n" +
-                $"   //TODO: Add UI task at ({uiTask.GetLeft()},{uiTask.GetTop()}) on winElem{nOrder}\n" +
-                "}\n" +
-                "else\n" +
-                "{\n" +
-                "    Console.WriteLine($\"Failed to find element {xp" + $"{nOrder}" + "}\");\n" +
-                "    return;\n" +
-                "}\n";
+            string codeLine = $"    desktopSession.DesktopSessionElement.Mouse.MouseMove(winElem_{elemName}.Coordinates);\n" +
+                            $"    desktopSession.DesktopSessionElement.Mouse.ContextClick(null);\n";
+
+            return GetCodeBlock(uiTask, elemName, codeLine);
         }
 
-        public static string Drag(RecordedUiTask uiTask, int nOrder)
+        public static string Wheel(RecordedUiTask uiTask, string elemName)
         {
-            return $"string xp{nOrder} = {uiTask.GetXPath()};\n" +
-                $"var winElem{nOrder} = MyDesktopSession.FindElementByXPath(xp{nOrder});\n" +
-                $"if (winElem{nOrder} != null)\n" +
-                "{\n" +
-                $"   //TODO: Drag from ({uiTask.GetLeft()},{uiTask.GetTop()}) on winElem{nOrder} by ({uiTask.GetDeltaX()},{uiTask.GetDeltaY()})\n" +
-                "}\n" +
-                "else\n" +
-                "{\n" +
-                "    Console.WriteLine($\"Failed to find element {xp" + $"{nOrder}" + "}\");\n" +
-                "    return;\n" +
-                "}\n";
+            string codeLine = $"   //TODO: Wheel at ({uiTask.Left},{uiTask.Top}) on winElem_{elemName}, Count:{uiTask.DeltaX}, Total Amount:{uiTask.DeltaY}\n";
+            return GetCodeBlock(uiTask, elemName, codeLine);
         }
 
-        public static string Wheel(RecordedUiTask uiTask, int nOrder)
-        {
-            return $"string xp{nOrder} = {uiTask.GetXPath()};\n" +
-                $"var winElem{nOrder} = MyDesktopSession.FindElementByXPath(xp{nOrder});\n" +
-                $"if (winElem{nOrder} != null)\n" +
-                "{\n" +
-                $"   //TODO: Wheel at ({uiTask.GetLeft()},{uiTask.GetTop()}) on winElem{nOrder}, Count:{uiTask.GetDeltaX()}, Total Amount:{uiTask.GetDeltaY()}\n" +
-                "}\n" +
-                "else\n" +
-                "{\n" +
-                "    Console.WriteLine($\"Failed to find element {xp" + $"{nOrder}" + "}\");\n" +
-                "    return;\n" +
-                "}\n";
-        }
-
-        public static string MouseHover(RecordedUiTask uiTask, int nOrder)
-        {
-            return $"string xp{nOrder} = {uiTask.GetXPath()};\n" +
-                $"var winElem{nOrder} = MyDesktopSession.FindElementByXPath(xp{nOrder});\n" +
-                $"if (winElem{nOrder} != null)\n" +
-                "{\n" +
-                $"   //TODO: Hover at ({uiTask.GetLeft()},{uiTask.GetTop()}) on winElem{nOrder}\n" +
-                "}\n" +
-                "else\n" +
-                "{\n" +
-                "    Console.WriteLine($\"Failed to find element {xp" + $"{nOrder}" + "}\");\n" +
-                "    return;\n" +
-                "}\n";
-        }
-
-        public static List<string> GetDecodedKeyboardInput(string strBase64, bool bCapsLock, bool bNumLock, bool ScrollLock)
+        public static List<string> GetDecodedKeyboardInput(string strBase64, bool bCapsLock, bool bNumLock, bool bScrollLock)
         {
             byte[] data = Convert.FromBase64String(strBase64);
 
@@ -457,6 +333,8 @@ namespace WinAppDriverUIRecorder
 
             StringBuilder sb = new StringBuilder();
             List<string> lines = new List<string>();
+
+            int nCtrlKeyDown = 0;
 
             while (i < data.Length / 2)
             {
@@ -467,73 +345,62 @@ namespace WinAppDriverUIRecorder
                 bool bIsKeyDown = data[n1] == 0;
                 VirtualKeys vk = (VirtualKeys)data[n2];
 
-                if (vk == VirtualKeys.VK_SHIFT || vk == VirtualKeys.VK_LSHIFT || vk == VirtualKeys.VK_RSHIFT)
-                {
-                    shift = bIsKeyDown;
-                    continue;
-                }
-
-                if (vk == VirtualKeys.VK_CAPITAL)
-                {
-                    if (bIsKeyDown)
-                    {
-                        bCapsLock = !bCapsLock;
-                    }
-                    continue;
-                }
-
                 char ch = ConstVariables.Vk2char((int)vk, shift || bCapsLock);
 
-                // Create lines like winElem1.SendKeys(Keys.Control+ "a" + Keys.Control);
-                bool bOutputVK = false;
-
-                if (vk == VirtualKeys.VK_CONTROL ||
-                    vk == VirtualKeys.VK_LCONTROL ||
-                    vk == VirtualKeys.VK_RCONTROL ||
-                    vk == VirtualKeys.VK_MENU ||
-                    vk == VirtualKeys.VK_LMENU ||
-                    vk == VirtualKeys.VK_RMENU ||
-                    vk == VirtualKeys.VK_LWIN ||
-                    vk == VirtualKeys.VK_RWIN)
+                if (bIsKeyDown) //Keydown
                 {
-                    bOutputVK = true;
-                }
-
-                if (ch != 0)
-                {
-                    if (bIsKeyDown)
+                    if (char.IsControl(ch))
                     {
-                        sb.Append(ch);
-                    }
-                }
-                else
-                {
-                    if (bIsKeyDown && sb.Length > 0)
-                    {
-                        lines.Add("\"" + sb.ToString() + "\"");
-                        sb.Clear();
-                    }
+                        nCtrlKeyDown++;
 
-                    string vkStr = vk.ToString();
-                    string vkSendKey = ConstVariables.Vk2string(vkStr);
-
-                    if (bOutputVK)
-                    {
-                        if (bIsKeyDown)
+                        if (nCtrlKeyDown == 1 && sb.Length > 0)
                         {
-                            sb.Append("Keys." + vkSendKey + "+ \"");
+                            lines.Add("\"" + sb.ToString() + "\"");
+                            sb.Clear();
+                        }
+
+                        string vkStr = vk.ToString();
+                        string vkSendKey = ConstVariables.Vk2string(vkStr);
+                        if (nCtrlKeyDown == 1)
+                            sb.Append("Keys." + vkSendKey);
+                        else
+                            sb.Append(" + Keys." + vkSendKey);
+                    }
+                    else if (ch != 0)
+                    {
+                        string strToAppend = ch.ToString();
+                        if (ch == '\\')
+                        {
+                            strToAppend += "\\";
+                        }
+
+                        if (nCtrlKeyDown > 0)
+                        {
+                            sb.Append(" + \"" + strToAppend + "\"");
                         }
                         else
                         {
-                            lines.Add(sb.ToString() + "\" + Keys." + vkSendKey);
-                            sb.Clear();
+                            sb.Append(strToAppend);
                         }
                     }
-                    else
+                }
+                else //Keyup
+                {
+                    if (char.IsControl(ch))
                     {
-                        if (bIsKeyDown)
+                        nCtrlKeyDown--;
+
+                        string vkStr = vk.ToString();
+                        string vkSendKey = ConstVariables.Vk2string(vkStr);
+
+                        if (nCtrlKeyDown == 0)
                         {
-                            lines.Add("Keys." + vkSendKey);
+                            lines.Add(sb.ToString() + " + Keys." + vkSendKey);
+                            sb.Clear();
+                        }
+                        else
+                        {
+                            sb.Append(" + Keys." + vkSendKey);
                         }
                     }
                 }
@@ -547,14 +414,18 @@ namespace WinAppDriverUIRecorder
             return lines;
         }
 
-        public static string SendKeys(RecordedUiTask uiTask, int nOrder, int nOrderFocused)
+        public static string SendKeys(RecordedUiTask uiTask, string focusedElemeName)
         {
-            List<string> lines = GetDecodedKeyboardInput(uiTask.GetBase64Text(), uiTask.GetCapsLock(), uiTask.GetNumLock(), uiTask.GetScrollLock());
+            List<string> lines = GetDecodedKeyboardInput(uiTask.Base64Text, uiTask.CapsLock, uiTask.NumLock, uiTask.ScrollLock);
 
             StringBuilder sb = new StringBuilder();
+
+            focusedElemeName = "winElem_" + focusedElemeName;
+
+            sb.AppendLine($"System.Threading.Thread.Sleep(100);");
             foreach (string line in lines)
             {
-                sb.AppendLine($"winElem{nOrderFocused}.SendKeys({line});");
+                sb.AppendLine($"{focusedElemeName}.SendKeys({line});");
             }
 
             return sb.ToString();
