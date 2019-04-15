@@ -41,7 +41,6 @@ class SimpleCalculatorTests(unittest.TestCase):
         displaytext = displaytext.lstrip(' ')
         return displaytext
 
-
     def test_initialize(self):
         self.driver.find_element_by_name("Clear").click()
         self.driver.find_element_by_name("Seven").click()
