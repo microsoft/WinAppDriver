@@ -17,7 +17,7 @@ This test project highlights the following basic interactions to demonstrate how
     - Appium-Python-Client (tested version 0.24)
     - selenium (tested version 3.5.0)
     - setuptools (tested version 28.8.0)
-- Recommend an IDE for editing/debuggin a Python project such as Visual Studio Code 
+- Recommend an IDE for editing/debugging a Python project such as Visual Studio Code 
 
 ## Getting Started
 
