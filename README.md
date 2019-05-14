@@ -32,7 +32,8 @@ For answers to common questions and/or best practices in using WinAppDriver, ple
 
 1. Download Windows Application Driver installer from <https://github.com/Microsoft/WinAppDriver/releases>
 2. Run the installer on a Windows 10 machine where your application under test is installed and will be tested
-3. Run `WinAppDriver.exe` from the installation directory (E.g. `C:\Program Files (x86)\Windows Application Driver`)
+3. Enable [Developer Mode](https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development) in Windows settings
+4. Run `WinAppDriver.exe` from the installation directory (E.g. `C:\Program Files (x86)\Windows Application Driver`)
 
 Windows Application Driver will then be running on the test machine listening to requests on the default IP address and port (`127.0.0.1:4723`). You can then run any of our [Tests](/Tests/) or [Samples](/Samples). `WinAppDriver.exe` can be configured to listen to a different IP address and port as follows:
 

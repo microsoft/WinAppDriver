@@ -6,7 +6,7 @@ Feature: Standard calculator
     Given I start the application
      Then I see the result is "0"
 
-  # Find the buttons by their names and click them in sequence to peform 1 + 7 = 8
+  # Find the buttons by their names and click them in sequence to perform 1 + 7 = 8
   Scenario: Addition
     Given I start the application
      When I press "One"
