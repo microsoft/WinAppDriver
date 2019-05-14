@@ -30,7 +30,7 @@ namespace CalculatorTest
         [TestMethod]
         public void Addition()
         {
-            // Find the buttons by their names and click them in sequence to peform 1 + 7 = 8
+            // Find the buttons by their names and click them in sequence to perform 1 + 7 = 8
             session.FindElementByName("One").Click();
             session.FindElementByName("Plus").Click();
             session.FindElementByName("Seven").Click();
