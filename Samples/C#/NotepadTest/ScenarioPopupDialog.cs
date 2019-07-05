@@ -36,7 +36,7 @@ namespace NotepadTest
             session.FindElementByName("File").Click();
             session.FindElementByXPath($"//MenuItem[starts-with(@Name, \"Save As\")]").Click();
             Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for 1 second until the save dialog appears
-            session.FindElementByAccessibilityId("FileNameControlHost").SendKeys(TargetSaveLocation + TestFileName);
+            session.FindElementByAccessibilityId("FileNameControlHost").SendKeys(SanitizeBackslashes(TargetSaveLocation + TestFileName));
             session.FindElementByName("Save").Click();
 
             // Check if the Save As dialog appears when there's a leftover test file from previous test run
@@ -70,7 +70,7 @@ namespace NotepadTest
             Assert.IsNotNull(windowsExplorerSession);
 
             // Navigate Windows Explorer to the target save location folder
-            windowsExplorerSession.Keyboard.SendKeys(Keys.Alt + "d" + Keys.Alt + TargetSaveLocation + Keys.Enter);
+            windowsExplorerSession.Keyboard.SendKeys(Keys.Alt + "d" + Keys.Alt + SanitizeBackslashes(TargetSaveLocation) + Keys.Enter);
 
             // Verify that the file is indeed saved in the working directory and delete it
             windowsExplorerSession.FindElementByAccessibilityId("SearchEditBox").SendKeys(TestFileName + Keys.Enter);

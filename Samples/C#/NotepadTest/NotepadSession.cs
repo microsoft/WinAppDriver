@@ -81,5 +81,7 @@ namespace NotepadTest
             editBox.SendKeys(Keys.Delete);
             Assert.AreEqual(string.Empty, editBox.Text);
         }
+
+        protected static string SanitizeBackslashes(string input) => input.Replace("\\", Keys.Alt + Keys.NumberPad9 + Keys.NumberPad2 + Keys.Alt);
     }
 }
