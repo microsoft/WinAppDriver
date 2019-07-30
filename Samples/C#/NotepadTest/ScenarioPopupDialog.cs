@@ -15,8 +15,8 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
 using OpenQA.Selenium;
 using System.Threading;
 using System;
@@ -62,11 +62,11 @@ namespace NotepadTest
         public static void ClassCleanup()
         {
             // Create a Windows Explorer session to delete the saved text file above
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", ExplorerAppId);
-            appCapabilities.SetCapability("deviceName", "WindowsPC");
+            AppiumOptions opt = new AppiumOptions();
+            opt.AddAdditionalCapability("app", ExplorerAppId);
+            opt.AddAdditionalCapability("deviceName", "WindowsPC");
 
-            WindowsDriver<WindowsElement> windowsExplorerSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
+            WindowsDriver<WindowsElement> windowsExplorerSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), opt);
             Assert.IsNotNull(windowsExplorerSession);
 
             // Navigate Windows Explorer to the target save location folder
