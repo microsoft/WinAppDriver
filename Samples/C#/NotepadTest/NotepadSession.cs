@@ -15,8 +15,8 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
 using OpenQA.Selenium;
 using System;
 
@@ -36,9 +36,10 @@ namespace NotepadTest
             if (session == null)
             {
                 // Create a new session to launch Notepad application
-                DesiredCapabilities appCapabilities = new DesiredCapabilities();
-                appCapabilities.SetCapability("app", NotepadAppId);
-                session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
+                AppiumOptions opt = new AppiumOptions();
+                opt.AddAdditionalCapability("app", NotepadAppId);
+                opt.AddAdditionalCapability("deviceName", "WindowsPC");
+                session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), opt);
                 Assert.IsNotNull(session);
                 Assert.IsNotNull(session.SessionId);
 
