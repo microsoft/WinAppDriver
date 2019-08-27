@@ -22,68 +22,7 @@ The test scenarios are written against Windows 10 built-in apps such as **Calcul
 
 ## Command Summary
 
-| HTTP   	| Path                                                                              	|
-|--------	|-----------------------------------------------------------------------------------	|
-| GET    	| [/status                                           ](./Status.cs)                 	|
-| POST   	| [/session                                          ](./Session.cs)                	|
-| GET    	| [/sessions                                         ](./Sessions.cs)               	|
-| DELETE 	| [/session/:sessionId                               ](./Session.cs)                	|
-| POST   	| [/session/:sessionId/appium/app/launch             ](./AppiumAppClose.cs)         	|
-| POST   	| [/session/:sessionId/appium/app/close              ](./AppiumAppLaunch.cs)        	|
-| POST   	| [/session/:sessionId/back                          ](./Back.cs)                   	|
-| POST   	| [/session/:sessionId/buttondown                    ](./Mouse.cs)                  	|
-| POST   	| [/session/:sessionId/buttonup                      ](./Mouse.cs)                  	|
-| POST   	| [/session/:sessionId/click                         ](./Mouse.cs)                  	|
-| POST   	| [/session/:sessionId/doubleclick                   ](./Mouse.cs)                  	|
-| POST   	| [/session/:sessionId/element                       ](./Element.cs)                	|
-| POST   	| [/session/:sessionId/elements                      ](./Elements.cs)               	|
-| POST   	| [/session/:sessionId/element/active                ](./ElementActive.cs)          	|
-| GET    	| [/session/:sessionId/element/:id/attribute/:name   ](./ElementAttribute.cs)       	|
-| POST   	| [/session/:sessionId/element/:id/clear             ](./ElementClear.cs)           	|
-| POST   	| [/session/:sessionId/element/:id/click             ](./ElementClick.cs)           	|
-| GET    	| [/session/:sessionId/element/:id/displayed         ](./ElementDisplayed.cs)       	|
-| GET    	| [/session/:sessionId/element/:id/element           ](./ElementElement.cs)         	|
-| GET    	| [/session/:sessionId/element/:id/elements          ](./ElementElements.cs)        	|
-| GET    	| [/session/:sessionId/element/:id/enabled           ](./ElementEnabled.cs)         	|
-| GET    	| [/session/:sessionId/element/:id/equals            ](./ElementEquals.cs)          	|
-| GET    	| [/session/:sessionId/element/:id/location          ](./ElementLocation.cs)        	|
-| GET    	| [/session/:sessionId/element/:id/location_in_view  ](./ElementLocationInView.cs)  	|
-| GET    	| [/session/:sessionId/element/:id/name              ](./ElementName.cs)            	|
-| GET    	| [/session/:sessionId/element/:id/screenshot        ](./Screenshot.cs)             	|
-| GET    	| [/session/:sessionId/element/:id/selected          ](./ElementSelected.cs)        	|
-| GET    	| [/session/:sessionId/element/:id/size              ](./ElementSize.cs)            	|
-| GET    	| [/session/:sessionId/element/:id/text              ](./ElementText.cs)            	|
-| POST   	| [/session/:sessionId/element/:id/value             ](./ElementSendKeys.cs)        	|
-| POST   	| [/session/:sessionId/forward                       ](./Forward.cs)                	|
-| POST   	| [/session/:sessionId/keys                          ](./SendKeys.cs)               	|
-| GET    	| [/session/:sessionId/location                      ](./Location.cs)               	|
-| POST   	| [/session/:sessionId/moveto                        ](./Mouse.cs)                  	|
-| GET    	| [/session/:sessionId/orientation                   ](./Orientation.cs)            	|
-| GET    	| [/session/:sessionId/screenshot                    ](./Screenshot.cs)             	|
-| GET    	| [/session/:sessionId/source                        ](./Source.cs)                 	|
-| POST   	| [/session/:sessionId/timeouts                      ](./Timeouts.cs)               	|
-| GET    	| [/session/:sessionId/title                         ](./Title.cs)                  	|
-| POST   	| [/session/:sessionId/touch/click                   ](./TouchClick.cs)             	|
-| POST   	| [/session/:sessionId/touch/doubleclick             ](./TouchDoubleClick.cs)       	|
-| POST   	| [/session/:sessionId/touch/down                    ](./TouchDownMoveUp.cs)        	|
-| POST   	| [/session/:sessionId/touch/flick                   ](./TouchFlick.cs)             	|
-| POST   	| [/session/:sessionId/touch/longclick               ](./TouchLongClick.cs)         	|
-| POST   	| [/session/:sessionId/touch/move                    ](./TouchDownMoveUp.cs)        	|
-| POST   	| [/session/:sessionId/touch/scroll                  ](./TouchScroll.cs)            	|
-| POST   	| [/session/:sessionId/touch/up                      ](./TouchDownMoveUp.cs)        	|
-| DELETE 	| [/session/:sessionId/window                        ](./Window.cs)                 	|
-| POST   	| [/session/:sessionId/window                        ](./Window.cs)                 	|
-| POST   	| [/session/:sessionId/window/maximize               ](./Window.cs)                 	|
-| POST   	| [/session/:sessionId/window/size                   ](./Window.cs)                 	|
-| GET    	| [/session/:sessionId/window/size                   ](./Window.cs)                 	|
-| POST   	| [/session/:sessionId/window/:windowHandle/size     ](./Window.cs)                 	|
-| GET    	| [/session/:sessionId/window/:windowHandle/size     ](./Window.cs)                 	|
-| POST   	| [/session/:sessionId/window/:windowHandle/position ](./Window.cs)                 	|
-| GET    	| [/session/:sessionId/window/:windowHandle/position ](./Window.cs)                 	|
-| POST   	| [/session/:sessionId/window/:windowHandle/maximize ](./Window.cs)                 	|
-| GET    	| [/session/:sessionId/window_handle                 ](./Window.cs)                 	|
-| GET    	| [/session/:sessionId/window_handles                ](./Window.cs)                 	|
-
+Please refer to [here](/./././Docs/SupportedAPIs.md) for an updated list of supported WinAppDriver commands. 
 
 ## Command Reference
 
