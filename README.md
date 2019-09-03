@@ -34,6 +34,9 @@ Additional documentation on WinAppDriver and related topics can be found under [
    - [Authoring Test Scripts](./Docs/AuthoringTestScripts.md)
    - [Using the Selenium Grid](./Docs/SeleniumGrid.md) 
    - [Running On a Remote Machine](./Docs/RunningOnRemoteMachine.md)
+   - UI testing for Windows apps
+     - [Introduction](./Docs/UITestingForWindows-Intro.md)
+     - [Integration with Azure DevOps](UITestingForWindows-AzureDevOps.md)
 
 ## Repository Content
 This repository includes the following content:
