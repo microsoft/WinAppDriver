@@ -1,6 +1,6 @@
 ﻿# UI testing for Windows apps with WinAppDriver
 
-An important aspect to properly adopt a DevOps approach for your software project is testing. In order to be agile and deliver fast, you need to make sure that the quality bar is always met. This is where automated testing comes in. When we commit new code to our repository, we need to make sure we haven't broken anything before releasing a new version of our application.
+Testing is one of the key pillars when it comes to adopt a DevOps approach to build and deploy your software project. In order to be agile and deliver fast, you need to make sure that the quality bar is always met. This is where automated testing comes in. When we commit new code to our repository, we need to make sure we haven't broken anything before releasing a new version of our application.
 When we implement testing, typically we focus only on the business logic side. This is why we often adopt unit testing, which takes our logic and split it into small pieces, which are tested separately and independently. However, client applications aren't made only by business logic, but also the user interface plays an important role. The business logic of our application, in fact, can be bug free, but there may be visual issues that we have missed because they happen only on a specific device. For example, if our UI doesn't fully support screens with high DPIs, an important button or another actionable item might not be visible, preventing our customers to use the application. This is especially true in today's world where, across desktop and mobile platforms, we have lot of different resolutions, screen size, form factors, etc.
 
 However, UI testing isn't "easy" to do as unit testing. The full application must be up & running, while unit testing takes care of performing small tasks, which should be as much isolated and independent from each other. Additionally, unit testing tests only code, so to trigger the execution you just need to invoke that code (a method, a class, etc.). In UI testing, instead, you need to actually interact with the application, in order to trigger events.
@@ -51,7 +51,7 @@ private void OnSayHello(object sender, RoutedEventArgs e)
 ### Let's add some UI testing
 Now let's add some testing. We want to make sure that, whenever the user presses the "Say hello" button, the TextBlock named **txtResult** contains effectively the string "Hello" followed by the value typed by the user in the TextBox named **txtName**.
 The first step is to create a testing project. Appium offers a SDK which allows to identify UI elements on the screen and to interact with them, leveraging WinAppDriver. As such, it isn't tight to a specific testing framework, but we can use the one we prefer most. In my case, I'm going to use the inbox Visual Studio solution, which is MSTest.
-Right click on your solution and a new project which type is Unit Test Project (.NET Framework):
+Right click on your solution, choose **Add -> New Project** and choose the template called Unit Test Project (.NET Framework):
 
 ![](Images/UITestingForWindows-Intro/UnitTestProject.png)
 
