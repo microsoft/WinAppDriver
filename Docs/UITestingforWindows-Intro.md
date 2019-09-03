@@ -9,7 +9,7 @@ Please welcome [Windows Application Driver](https://github.com/microsoft/WinAppD
 
 Recently, WinAppDriver has also been added to the Azure DevOps offering. The service, in fact, comes pre-installed on every Windows hosted agent and, with a dedicated task, we can simply start and stop it whenever we need it. This way, we can include UI testing as part of our CI/CD pipeline and make sure that all the UI tests are executed whenever we commit new code to our repository.
 
-In this article we're going to learn the basics of adding UI tests to a WPF application, by leveraging WinAppDriver and Appium. In [the next article](https://github.com/microsoft/WinAppDriver/tree/master/Docs/UITestingForWindows-AzureDevOps.md), instead, we're going to learn how to integrate this flow into our CI/CD pipeline.
+In this article we're going to learn the basics of adding UI tests to a WPF application, by leveraging WinAppDriver and Appium. In [the next article](UITestingForWindows-AzureDevOps.md), instead, we're going to learn how to integrate this flow into our CI/CD pipeline.
 
 ### Let's build a WPF app!
 As starting point, we're going to build a simple WPF app, which we're going to put under UI testing. The choice between the traditional .NET Framework or the shiny new .NET Core 3.0 is up to you: Appium relies on the visual elements of the application, not on the technology leveraged to build it.
@@ -352,9 +352,9 @@ In the end, we finally create and store our session, which we're going to use to
 
 ### Wrapping up
 In this article we have seen the basic concepts around UI testing in Windows apps using WinAppDriver and Appium. Thanks to these tools, you're able to write tests which actually simulates the user interacting with the user interface of the application, so that you can be sure that, regardless of the screen, resolution and configuration of the user, he will always be able to interact with the application and perform the various tasks. The approach is quite straightforward, thanks to the Appium SDK. Once you have created a UI session, powered by WinAppDriver, you will be able to scan the visual tree of your application, get a reference to the UI elements you need and simulate the user interaction. In this post, we have seen the implementation of this approach both for a traditional WPF application and for its MSIX packaged version.
-If you want to explore more the topic of Windows testing with WinAppDriver, read the next article, in which we're going to see how we can integrate everything we did in this post in a CI/CD pipeline, by leveraging the recently announced WinAppDriver integration in Azure DevOps.
+If you want to explore more the topic of Windows testing with WinAppDriver, [read the next article](UITestingForWindows-AzureDevOps.md), in which we're going to see how we can integrate everything we did in this article in a CI/CD pipeline, by leveraging the recently announced WinAppDriver integration in Azure DevOps.
 
-In the meantime, you can explore the source code of the testing project used in this article [on GitHub](https://github.com/qmatteoq/WpfUiTesting).
+The source code of the testing project used in this article [on GitHub](https://github.com/qmatteoq/WpfUiTesting).
 
 
 
