@@ -33,7 +33,7 @@ steps:
     displayName: 'Patch WebDriverIO'
     inputs:
       targetType: 'inline'
-      script: '((Get-Content -path node_modules/webdriver/build/utils.js -Raw) -replace "if \(!body .*","if (!body) {") | Set-Content -Path node_modules/webdriver/build/utils.js'
+      script: '((Get-Content -path Samples/JavaScript/node_modules/webdriver/build/utils.js -Raw) -replace "if \(!body .*","if (!body) {") | Set-Content -Path Samples/JavaScript/node_modules/webdriver/build/utils.js'
   
 
   - task: WinAppDriver.winappdriver-pipelines-task.winappdriver-pipelines-task.Windows Application Driver@0
