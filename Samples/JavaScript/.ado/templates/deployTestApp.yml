@@ -1,0 +1,15 @@
+steps:
+  - task: PowerShell@1
+    displayName: 'Install Xaml Controls Cert'
+    inputs:
+      scriptType: inlineScript
+      arguments: '-NonInteractive -Verb RunAs'
+      inlineScript: |
+       $file = ( Get-ChildItem -Path $(Build.ArtifactStagingDirectory)\XamlControlsGallery_$(PackageManifest)_Test\XamlControlsGallery_$(PackageManifest)_x86.cer )
+       $file | Import-Certificate -CertStoreLocation cert:\LocalMachine\Root
+
+  - task: PowerShell@1
+    displayName: 'Install XAML Appx Packages'
+    inputs:
+      scriptName: '$(Build.ArtifactStagingDirectory)\XamlControlsGallery_$(PackageManifest)_Test\Add-AppDevPackage.ps1'
+      arguments: '-NonInteractive -Force:$true  -Verb RunAs'

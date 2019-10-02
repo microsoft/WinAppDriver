@@ -1,0 +1,19 @@
+{
+  "name": "winappdriver-js-webdriver-example-repo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Microsoft/WinAppDriver.git"
+  },
+  "license": "MIT",
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "devDependencies": {
+  }
+}
