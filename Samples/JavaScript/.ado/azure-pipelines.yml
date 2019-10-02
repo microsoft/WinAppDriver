@@ -27,7 +27,7 @@ steps:
     displayName: yarn install
     inputs:
       script: yarn install
-    workingDirectory: Samples/JavaScript/ 
+      workingDirectory: Samples/JavaScript/ 
 
   - task: PowerShell@2
     displayName: 'Patch WebDriverIO'
