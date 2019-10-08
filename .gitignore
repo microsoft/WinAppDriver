@@ -55,6 +55,9 @@ obj/
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
 
+# except Javascript examples
+!Samples/JavaScript/packages
+
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 

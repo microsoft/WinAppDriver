@@ -1,0 +1,3 @@
+[submodule "Xaml-Controls-Gallery"]
+	path = Xaml-Controls-Gallery
+	url = https://github.com/microsoft/Xaml-Controls-Gallery.git

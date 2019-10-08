@@ -1,0 +1,103 @@
+trigger: none # will disable CI builds entirely
+
+pr:
+  - master
+
+pool:
+  vmImage: 'windows-2019'
+
+steps:
+  - checkout: self
+    clean: true
+    lfs: false
+    submodules: true
+    persistCredentials: false
+
+  - template: templates/buildTestApp.yml
+
+  - template: templates/deployTestApp.yml
+
+  - task: PowerShell@2
+    displayName: 'Remove WebDriverIO Workaround'
+    inputs:
+      targetType: 'inline'
+      script: '((Get-Content -path Samples/JavaScript/packages/webdriverio/package.json -Raw) -replace ".*webdriver.git.*","") | Set-Content -Path Samples/JavaScript/packages/webdriverio/package.json'
+
+  - task: CmdLine@2
+    displayName: yarn install
+    inputs:
+      script: yarn install
+      workingDirectory: Samples/JavaScript/ 
+
+  - task: PowerShell@2
+    displayName: 'Patch WebDriverIO'
+    inputs:
+      targetType: 'inline'
+      script: '((Get-Content -path Samples/JavaScript/node_modules/webdriver/build/utils.js -Raw) -replace "if \(!body .*","if (!body) {") | Set-Content -Path Samples/JavaScript/node_modules/webdriver/build/utils.js'
+  
+
+  - task: WinAppDriver.winappdriver-pipelines-task.winappdriver-pipelines-task.Windows Application Driver@0
+    displayName: 'Start - WinAppDriver'
+    inputs:
+      WADArguments: 127.0.0.1 4723/wd/hub
+      AgentResolution: 1080p
+      
+  - task: PowerShell@2
+    displayName: 'Start the App'
+    inputs:
+      targetType: 'inline'
+      script: 'start shell:AppsFolder\Microsoft.XAMLControlsGallery_8wekyb3d8bbwe!App'
+
+   # Wait for app to launch. A workaround to avoid WinAppDriver error: Failed to locate opened application window with appId
+  - task: PowerShell@2
+    displayName: Wait for app to launch
+    inputs:
+      targetType: inline # filePath | inline
+      script: |
+        Start-Sleep -Seconds 30
+
+  - task: PowerShell@2
+    displayName: 'Check TestApp'
+    inputs:
+      targetType: 'inline'
+      script: 'if ((Get-Process AppUIBasics) -eq $Null) { echo "TestApp is not running"; exit 1}'
+          
+  - task: CmdLine@2
+    displayName: Run WebDriverIO test
+    inputs:
+      script: yarn run test
+      workingDirectory: Samples/JavaScript/packages/webdriverio
+    condition: succeededOrFailed()
+
+  - task: WinAppDriver.winappdriver-pipelines-task.winappdriver-pipelines-task.Windows Application Driver@0
+    displayName: 'Stop - WinAppDriver'
+    inputs:
+      OperationType: Stop
+    condition: succeededOrFailed()
+
+  - task: WinAppDriver.winappdriver-pipelines-task.winappdriver-pipelines-task.Windows Application Driver@0
+    displayName: 'Start - WinAppDriver'
+    inputs:
+      WADArguments: 127.0.0.1 4723/wd/hub
+      AgentResolution: 1080p
+    condition: succeededOrFailed()
+
+  - task: CmdLine@2
+    displayName: yarn install
+    inputs:
+      script: yarn install
+      workingDirectory: Samples/JavaScript/packages/selenium-webdriver
+    condition: succeededOrFailed()
+
+  - task: CmdLine@2
+    displayName: Run selenium-webdriver test
+    inputs:
+      script: yarn run jest
+      workingDirectory: Samples/JavaScript/packages/selenium-webdriver
+    condition: succeededOrFailed()
+
+  - task: WinAppDriver.winappdriver-pipelines-task.winappdriver-pipelines-task.Windows Application Driver@0
+    displayName: 'Stop - WinAppDriver'
+    inputs:
+      OperationType: Stop
+    condition: succeededOrFailed()
