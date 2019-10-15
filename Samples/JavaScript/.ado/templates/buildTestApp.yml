@@ -7,14 +7,15 @@ steps:
   - task: NuGetCommand@2
     displayName: 'NuGet restore'
     inputs:
-      restoreSolution: Xaml-Controls-Gallery/XamlControlsGallery/XamlControlsGallery.sln
+      restoreSolution: ApplicationUnderTests/Xaml-Controls-Gallery/XamlControlsGallery/XamlControlsGallery.sln
   - task: VSBuild@1
-    displayName: 'Build solution XamlControlsGallery/XamlControlsGallery.sln'
+    displayName: 'Build solution ApplicationUnderTests/XamlControlsGallery/XamlControlsGallery.sln'
     inputs:
-      solution: Xaml-Controls-Gallery/XamlControlsGallery/XamlControlsGallery.sln
+      solution: ApplicationUnderTests/Xaml-Controls-Gallery/XamlControlsGallery/XamlControlsGallery.sln
       msbuildArgs: '/p:Configuration=Deploy /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\\" /p:UapAppxPackageBuildMode=CI/p:AppxBundlePlatforms="x86" /p:AppxBundle=Always'
       platform: x86
       configuration: Release
+
   - task: CopyFiles@2
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
     inputs:
