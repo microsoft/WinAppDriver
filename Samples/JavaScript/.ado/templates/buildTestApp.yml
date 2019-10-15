@@ -15,11 +15,3 @@ steps:
       msbuildArgs: '/p:Configuration=Deploy /p:AppxPackageDir="$(Build.ArtifactStagingDirectory)\\" /p:UapAppxPackageBuildMode=CI/p:AppxBundlePlatforms="x86" /p:AppxBundle=Always'
       platform: x86
       configuration: Release
-
-  - task: CopyFiles@2
-    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-    inputs:
-      SourceFolder: '$(system.defaultworkingdirectory)'
-      Contents: '**\bin\$(BuildConfiguration)\**'
-      TargetFolder: '$(build.artifactstagingdirectory)'
-    condition: succeededOrFailed()
