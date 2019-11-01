@@ -1,4 +1,4 @@
-# Using Windows devices with the [Selenium Grid](https://www.seleniumhq.org/docs/07_selenium_grid)
+# Using Windows devices with the [Selenium Grid](https://www.seleniumhq.org/docs/07_selenium_grid.jsp)
 Below is an example on how to enable registering Windows devices with Appium and the Selenium Grid.  Additional info is provided on the [Appium documentation](https://appium.io/docs/en/advanced-concepts/grid/)
 
 ## Setup a Windows test machine as a test Node
