@@ -1,5 +1,10 @@
 ## WinAppDriver in CI with Azure Pipelines
 
+### Recommended Reads 
+
+1. [Microsoft Docs: Azure Pipelines Agents](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/agents?view=azure-devops) -  guidelines for setting up your own private "self-hosted" agent. 
+1. [UI testing for Windows apps with WinAppDriver and Appium in Azure Devops](https://techcommunity.microsoft.com/t5/Windows-Dev-AppConsult/UI-testing-for-Windows-apps-with-WinAppDriver-and-Appium-Azure/ba-p/829173) - a Microsoft Tech Community post with further in-depth details on how you can add WinAppDriver UI tests in DevOps and configure your Pipeline for CI. 
+
 ### Prerequisites to run WinAppDriver in CI
 The following are prequisites for running UI tests with WinAppDriver in Azure DevOps:
 
