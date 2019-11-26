@@ -42,6 +42,17 @@ NotepadSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:472
 
 // Use the session to control the app
 NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
+
+// Appium.WebDriver.4.1.1
+// Launch Notepad
+var appiumOptions = new OpenQA.Selenium.Appium.AppiumOptions();
+x.AddAdditionalCapability("app", @"C:\Windows\System32\notepad.exe");
+x.AddAdditionalCapability("appArguments", @"MyTestFile.txt");
+x.AddAdditionalCapability("appWorkingDir", @"C:\MyTestFolder\");
+var NotepadSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appiumOptions);
+
+// Use the session to control the app
+NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
 ```
 ## Inspecting UI Elements
 
