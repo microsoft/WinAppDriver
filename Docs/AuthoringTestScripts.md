@@ -56,9 +56,20 @@ NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
 ```
 ## Inspecting UI Elements
 
+There are three tools help you inspect UI elements:
+- inspect.exe
+
 The latest Microsoft Visual Studio version by default includes the Windows SDK with a great tool to inspect the application you are testing. This tool allows you to see every UI element/node that you can query using Windows Application Driver. This **inspect.exe** tool can be found under the Windows SDK folder which is typically `C:\Program Files (x86)\Windows Kits\10\bin\x86`
 
 More detailed documentation on Inspect is available on MSDN <https://msdn.microsoft.com/library/windows/desktop/dd318521(v=vs.85).aspx>.
+
+- [Using UI Recorder](UsingUIRecorder.md)
+
+- [Appium Desktop](https://github.com/appium/appium-desktop) 
+
+It’s a graphical interface for Appium server, also an inspector that help you to locate UI element. For more information to use Appium Desktop with WinAppDriver, please refer to 
+[Inspecting UI Elements for WinAppDriver automation using Appium Desktop](https://medium.com/@licanhua/inspecting-ui-elements-for-winappdriver-automation-using-appium-desktop-8f178b2d0d6c)
+
 ## Supported Locators to Find UI Elements
 
 Windows Application Driver supports various locators to find UI element in the application session. The table below shows all supported locator strategies with their corresponding UI element attributes shown in **inspect.exe**.
