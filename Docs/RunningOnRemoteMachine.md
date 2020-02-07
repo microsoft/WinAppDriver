@@ -18,11 +18,11 @@ Windows Application Driver can run remotely on any Windows 10 machine with `WinA
    
 2. Run `ipconfig.exe` to determine your machine's local IP address
    > **Note**: Setting `*` as the IP address command line option will cause it to bind to all bound IP addresses on the machine
-3. Run `WinAppDriver.exe 10.X.X.10 4723/wd/hub` as **administrator** with command line arguments as seen above specifying local IP and port
+3. Run `WinAppDriver.exe 10.X.X.X 4723/wd/hub` as **administrator** with command line arguments as seen above specifying local IP and port, where 10.X.X.X - is the IP address of your remote machine from previpus step.
 4. On the *test runner* machine where the runner and scripts are, update the test script to point to the IP of the remote *test machine* 
 
 Sample Java Example:
-```c#
+```java
 DesiredCapabilities capabilities = new DesiredCapabilities();
 capabilities.setCapability("app", "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
 CalculatorSession = (WindowsDriver)(new WindowsDriver(new URL("http://10.X.X.52:4723/wd/hub"), capabilities));
