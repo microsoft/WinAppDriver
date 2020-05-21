@@ -20,12 +20,12 @@ Additional keywords can be found in the [library documentation](https://accruent
 - Python v3.6 or higher
 - Use Python package manager (PIP) to install the following dependencies:
     - pip install robotframework-zoomba --upgrade
-- [Appium](http://appium.io/) 
+- WinAppDriver running on the deafult port 4723
 - Recommend an IDE for editing/debugging a Robotframework project such as Visual Studio Code or Pycharm
 
 ## Getting Started
 
-1. Run [Appium](http://appium.io/) on the default port of 4723.
+1. Run WinAppDriver on the default port of 4723.
 1. Open a Command Prompt and browse to this sample directory.
 2. type **robot calculatortest.robot**
 

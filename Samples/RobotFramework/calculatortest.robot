@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation   Calulator test using Zoomba Desktop Library. Requires Appium Server running on port 4723.
+Documentation   Calulator test using Zoomba Desktop Library. Requires WinAppDriver running on port 4723.
 Library         Zoomba.DesktopLibrary
 Suite Setup     App Suite Setup
 Test Setup      Launch Application
@@ -8,7 +8,7 @@ Suite Teardown    Close All Applications
 Force Tags        Windows
 
 *** Variables ***
-${REMOTE_URL}           http://localhost:4723/wd/hub
+${REMOTE_URL}           http://localhost:4723
 ${APP}                  Microsoft.WindowsCalculator_8wekyb3d8bbwe!App
 
 *** Keywords ***
@@ -98,3 +98,13 @@ Send Keys Keyword Test
 Send Keys To Element Keyword Test
     Send Keys To Element   name=Display is 0    24     \ue025     2      \ue007
     Page Should Contain Text    26
+
+Select Element From Combobox Test
+    Select Element From ComboBox      accessibility_id=TogglePaneButton         accessibility_id=Speed
+    Select Element From ComboBox      accessibility_id=Units1         name=Knots
+    Select Element From ComboBox      accessibility_id=TogglePaneButton         accessibility_id=Standard
+
+Switch To Desktop Test
+    Close Application
+    Switch Application      Desktop
+    Click Text      Start
