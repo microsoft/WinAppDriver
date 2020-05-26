@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation   Calulator test using Zoomba Desktop Library. Requires WinAppDriver running on port 4723.
+Documentation   Calulator test using Zoomba Desktop Library. Requires Appium/WinAppDriver running on port 4723.
 Library         Zoomba.DesktopLibrary
 Suite Setup     App Suite Setup
 Test Setup      Launch Application
@@ -8,7 +8,8 @@ Suite Teardown    Close All Applications
 Force Tags        Windows
 
 *** Variables ***
-${REMOTE_URL}           http://localhost:4723
+#${REMOTE_URL}           http://localhost:4723/wd/hub     #If using Appium
+${REMOTE_URL}           http://localhost:4723             #If Using WinAppDriver directly (suggested)
 ${APP}                  Microsoft.WindowsCalculator_8wekyb3d8bbwe!App
 
 *** Keywords ***
