@@ -22,6 +22,10 @@ Wait For And Click Element By Id Keyword Test
     Wait For And Click Element       accessibility_id=num2Button
     Wait Until Page Contains      2
 
+Wait For And Click Element By Xpath Keyword Test
+    Wait For And Click Element       xpath=//Button[@Name="Two"]
+    Wait Until Page Contains      2
+
 Wait For And Click Element By Name Keyword Test
     Wait For And Click Element       name=Two
     Wait Until Page Contains      2
