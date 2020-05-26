@@ -50,31 +50,21 @@ Wait Until Element is Enabled / Disabled Keyword Test
     Wait Until Element Is Enabled       accessibility_id=MemPlus
     Wait Until Element Is Disabled       accessibility_id=MemRecall
 
-Mouse Over Element/Text Keyword Test
+Mouse Over Element Keyword Test
     Mouse Over Element     name=Two
-    Mouse Over Text      Memory
-    Mouse Over Text      Memory    True
 
-Mouse Over And Click Element/Text Keyword Test
+Mouse Over And Click Element Keyword Test
     Mouse Over And Click Element     name=Two
     Mouse Over And Click Element     name=Two     x_offset=400   y_offset=100
-    Mouse Over And Click Text      Memory
-    Mouse Over And Click Text      Memory    True
 
-Mouse Over And Context Click Element/Text Keyword Test
+Mouse Over And Context Click Element Keyword Test
     Mouse Over And Context Click Element     name=Two
-    Mouse Over And Context Click Text      Memory
-    Mouse Over And Context Click Text      Memory    True
 
-Mouse Over And Double Click Element/Text Keyword Test
+Mouse Over And Double Click Element Keyword Test
     Mouse Over And Click Element     name=Two    double_click=True
-    Mouse Over And Click Text      Memory    double_click=True
-    Mouse Over And Click Text      Memory    True    True
 
-Wait For And Mouse Over And Click Element/Text Keyword Test
+Wait For And Mouse Over And Click Element Keyword Test
     Wait For And Mouse Over And Click Element     name=Two
-    Wait For And Mouse Over And Click Text      Memory
-    Wait For And Mouse Over And Click Text      Memory    True
 
 Mouse Over by Offset Keyword Test
     Mouse Over Element     name=Three
@@ -99,6 +89,12 @@ Send Keys To Element Keyword Test
     Send Keys To Element   name=Display is 0    24     \ue025     2      \ue007
     Page Should Contain Text    26
 
+Save Selenium Screenshot Test
+    ${file1}=                       Save Appium Screenshot
+    ${file2}=                       Save Appium Screenshot
+    Should Not Be Equal             ${file1}  ${file2}
+    Should Match Regexp             ${file1}                    appium-screenshot-\\d{10}.\\d{0,8}-\\d.png
+
 Select Element From Combobox Test
     Select Element From ComboBox      accessibility_id=TogglePaneButton         accessibility_id=Speed
     Select Element From ComboBox      accessibility_id=Units1         name=Knots
@@ -107,4 +103,4 @@ Select Element From Combobox Test
 Switch To Desktop Test
     Close Application
     Switch Application      Desktop
-    Click Text      Start
+    Click Element      name=Start
