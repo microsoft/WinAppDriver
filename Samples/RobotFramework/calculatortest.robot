@@ -21,30 +21,30 @@ App Suite Setup
 *** Test Cases ***
 Wait For And Click Element By Id Keyword Test
     Wait For And Click Element       accessibility_id=num2Button
-    Wait Until Page Contains      2
+    Wait Until Element Contains       accessibility_id=CalculatorResults      2
 
 Wait For And Click Element By Xpath Keyword Test
     Wait For And Click Element       xpath=//Button[@Name="Two"]
-    Wait Until Page Contains      2
+    Wait Until Element Contains       accessibility_id=CalculatorResults      2
 
 Wait For And Click Element By Name Keyword Test
     Wait For And Click Element       name=Two
-    Wait Until Page Contains      2
+    Wait Until Element Contains       accessibility_id=CalculatorResults      2
 
 Wait For And Click Element By Class Keyword Test
     Wait For And Click Element       class=Button
 
 Wait For And Input Text By Id Keyword Test
     Wait For And Input Text        accessibility_id=CalculatorResults       12345
-    Wait Until Page Contains       12,345
+    Wait Until Element Contains       accessibility_id=CalculatorResults       12,345
 
 Wait For And Input Text By Name Keyword Test
     Wait For And Input Text        name=Display is 0       12345
-    Wait Until Page Contains       12,345
+    Wait Until Element Contains       accessibility_id=CalculatorResults       12,345
 
 Wait For And Long Press Keyword Test
     Wait For And Long Press       accessibility_id=num2Button
-    Wait Until Page Contains      2
+    Wait Until Element Contains       accessibility_id=CalculatorResults      2
 
 Wait For And Input Password Keyword Test
     Wait For And Input Password        accessibility_id=CalculatorResults       12345
@@ -61,6 +61,7 @@ Mouse Over Element Keyword Test
 Mouse Over And Click Element Keyword Test
     Mouse Over And Click Element     name=Two
     Mouse Over And Click Element     name=Two     x_offset=400   y_offset=100
+    Wait Until Element Contains       accessibility_id=CalculatorResults       23
 
 Mouse Over And Context Click Element Keyword Test
     Mouse Over And Context Click Element     name=Two
@@ -90,6 +91,10 @@ Send Keys Keyword Test
     Send Keys    24     \ue025     2      \ue007
     Page Should Contain Text    26
 
+Send Keys with Modifier (Ctrl + v)
+    Send Keys               \ue009    v    \ue009
+    Wait Until Element Contains       accessibility_id=CalculatorResults    Display is Invalid input
+
 Send Keys To Element Keyword Test
     Send Keys To Element   name=Display is 0    24     \ue025     2      \ue007
     Page Should Contain Text    26
@@ -108,4 +113,4 @@ Select Element From Combobox Test
 Switch To Desktop Test
     Close Application
     Switch Application      Desktop
-    Click Element      name=Start
+    Click Element           name=Start
