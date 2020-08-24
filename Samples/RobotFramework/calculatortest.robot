@@ -8,8 +8,8 @@ Suite Teardown    Close All Applications
 Force Tags        Windows
 
 *** Variables ***
-#${REMOTE_URL}           http://localhost:4723/wd/hub     #If using Appium
-${REMOTE_URL}           http://localhost:4723             #If Using WinAppDriver directly (suggested)
+#${REMOTE_URL}           http://127.0.0.1:4723/wd/hub     #If using Appium
+${REMOTE_URL}           http://127.0.0.1:4723             #If Using WinAppDriver directly (suggested)
 ${APP}                  Microsoft.WindowsCalculator_8wekyb3d8bbwe!App
 
 *** Keywords ***
