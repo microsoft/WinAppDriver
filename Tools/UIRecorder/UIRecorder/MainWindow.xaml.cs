@@ -14,16 +14,64 @@
 //
 //******************************************************************************
 
+using Microsoft.Win32;
 using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace WinAppDriverUIRecorder
 {
+    public static class AddCodeSettings
+    {
+        public static bool HasParentVariable
+		{
+            get { return !String.IsNullOrEmpty(ParentVariableName); }
+		}
+        public static string ParentVariableName
+		{
+            get
+			{
+                TextBox textBox = ((MainWindow)System.Windows.Application.Current.MainWindow).textBoxParentVariable;
+                return !String.IsNullOrEmpty(textBox.Text) ? char.ToLower(textBox.Text[0]) + textBox.Text.Substring(1) : "Session";
+			}
+		}
+        public static string VariableType
+		{
+            get { return !String.IsNullOrEmpty(((MainWindow)System.Windows.Application.Current.MainWindow).textBoxParentVariable.Text) ? "AppiumWebElement" : "WindowsElement"; }
+		}
+        public static string GetBy
+        {
+            get { return ((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxGetBy.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", ""); }
+            //set { ((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxGetBy.SelectedItem = value; }
+        }
+		public static string SearchParameter
+		{
+			get
+			{
+				switch (((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxGetBy.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", ""))
+
+                {
+					case "Name":
+                        return RecordedUiTask.s_listRecordedUi[((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxRecordedUi.SelectedIndex].Name;
+					case "AccessibilityId":
+                        return RecordedUiTask.s_listRecordedUi[((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxRecordedUi.SelectedIndex].AutomationId;
+					case "XPath":
+                        return RecordedUiTask.s_listRecordedUi[((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxRecordedUi.SelectedIndex].GetXPath(true);
+					default:
+						return "";
+				}
+			}
+		}
+	}
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -859,5 +907,178 @@ namespace WinAppDriverUIRecorder
         {
             AppInsights.LogEvent("ComboBoxRecordedUi_PreviewMouseLeftButtonDown");
         }
-    }
+
+        private void textBoxCode_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+        private List<string> _addedLabels = new List<string>();
+        private Label _droppedLabel = null;
+        private void TextBlockCustomCode_Drop(object sender, DragEventArgs e)
+        {
+            //if (!_addedLabels.Contains(_droppedLabel.Content.ToString()))
+            //{
+                _addedLabels.Add(_droppedLabel.Content.ToString());
+                textBlockCustomCode.Text += "[" + _droppedLabel.Content.ToString() + "]";
+                //_droppedLabel.IsEnabled = false;
+            //}
+        }
+
+        private void textBlockCustomCode_PreviewDragEnter(object sender, DragEventArgs e)
+        {
+            e.Effects = DragDropEffects.Move;
+            e.Handled = true;
+        }
+
+        private void Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Label lblFrom = e.Source as Label;
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                _droppedLabel = lblFrom;
+                DragDrop.DoDragDrop(lblFrom,  "", DragDropEffects.Move);
+            }
+        }
+
+        private void Label_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        {
+            //Label lblFrom = e.Source as Label;
+        }
+
+		private void textBlockCustomCode_TextChanged(object sender, TextChangedEventArgs e)
+		{
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            config.AppSettings.Settings["CustomCCode"].Value = textBlockCustomCode.Text;
+        }
+
+		private void buttonAddToCode_Click(object sender, RoutedEventArgs e)
+		{
+            if (!File.Exists(textBoxFilePath.Text)) MessageBox.Show("Could not find \"" + textBoxFilePath.Text + "\"...\n" +
+                 "Maybe it has been deleted?");
+            else
+			{
+                try
+                {
+                    bool exists = false;
+                    StreamReader streamReader = new StreamReader(textBoxFilePath.Text);
+                    string line = "";
+                    string[] codeOutput = textBoxCodeOutput.Text.Split('\n');
+                    while ((line = streamReader.ReadLine()) != null)
+                    {
+                        line = line.TrimStart();
+                        foreach (string line1 in codeOutput)
+                        {
+                            if (line.Split(' ').Length > 1 && line1.Split(' ').Length > 1 && line.Split(' ')[1] == line1.Split(' ')[1])
+                            {
+                                MessageBox.Show("Variable with the name " + line1.Split(' ')[1] + " already exists");
+                                exists = true;
+                            }
+                        }
+                    }
+                    if (!exists)
+                    {
+                        var txtLines = File.ReadAllLines(textBoxFilePath.Text).ToList();
+                        int index = 0;
+                        for (int i = txtLines.Count - 1; i >= 0; i--)
+                        {
+                            if (txtLines[i] != "}")
+                            {
+                                index = i;
+                                break;
+                            }
+                        }
+                        foreach (string line1 in codeOutput)
+                        {
+                            txtLines.Insert(index, line1);
+                            index++;
+                        }
+                        streamReader.Close();
+                        File.WriteAllLines(textBoxFilePath.Text, txtLines);
+                    }
+					else
+					{
+                        streamReader.Close();
+					}
+                    textBoxCodeOutput.Text = "";
+                } catch (Exception e1)
+				{
+                    MessageBox.Show(e1.Message);
+				}
+            }
+		}
+
+		private void buttonSelectFile_Click(object sender, RoutedEventArgs e)
+		{
+            OpenFileDialog choofdlog = new OpenFileDialog();
+            choofdlog.Filter = "Class File (*.cs)|*.cs|All Files (*.*)|*.*";
+            choofdlog.FilterIndex = 1;
+            choofdlog.Multiselect = false;
+
+            if ((bool)choofdlog.ShowDialog())
+            {
+                textBoxFilePath.Text = choofdlog.FileName;         
+            }
+        }
+
+		private void comboBoxGetBy_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+            if(RecordedUiTask.s_listRecordedUi.Count > 0) textBoxCode.Text = RecordedUiTask.s_listRecordedUi[comboBoxRecordedUi.SelectedIndex].GetCSCode("");
+		}
+		private void buttonChangParentVariable_Click(object sender, RoutedEventArgs e)
+		{
+            if (RecordedUiTask.s_listRecordedUi.Count > 0) textBoxCode.Text = RecordedUiTask.s_listRecordedUi[comboBoxRecordedUi.SelectedIndex].GetCSCode("");
+        }
+
+		private void textBoxParentVariable_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		{
+			CodeDomProvider provider = CodeDomProvider.CreateProvider("C#");
+			if (provider.IsValidIdentifier(textBoxParentVariable.Text + e.Text) || String.IsNullOrEmpty(textBoxParentVariable.Text + e.Text))
+			{
+				e.Handled = false;
+			} else
+			{
+                e.Handled = true;
+			}
+		}
+
+		private void buttonAddToCodeOuptug_Click(object sender, RoutedEventArgs e)
+		{
+            textBoxCodeOutput.Text += textBoxCode.Text;
+		}
+
+		private void buttonClearCodeOutput_Click(object sender, RoutedEventArgs e)
+		{
+            textBoxCodeOutput.Text = "";
+		}
+
+		private void treeUiPath_SourceUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
+		{
+            var selectedItem = (comboBoxRecordedUi.SelectedItem as RecordedUiTask);
+            if (selectedItem == null)
+            {
+                return;
+            }
+            if (String.IsNullOrEmpty(selectedItem.Name))
+            {
+                comboBoxItemName.IsEnabled = false;
+                comboBoxItemAutomationId.IsEnabled = true;
+                comboBoxRecordedUi.SelectedIndex = 1;
+            }
+            if (String.IsNullOrEmpty(selectedItem.AutomationId))
+            {
+                comboBoxItemAutomationId.IsEnabled = false;
+                comboBoxItemName.IsEnabled = true;
+                comboBoxRecordedUi.SelectedIndex = 0;
+            }
+        }
+		/*
+* Note:
+* Select what field you want to get (For now just fixed fields, maybe later get all availible fields)
+* Have the ability to change the code for each field
+* Select your code File
+* Add code to your the bottom (Maybe later select where to insert it and give a preview)
+*/
+	}
 }

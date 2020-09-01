@@ -491,6 +491,7 @@ namespace WinAppDriverUIRecorder
                     recordedUiTask.TopLocal = topLocal;
                     recordedUiTask.Name = Name;
                     recordedUiTask.Tag = tag;
+                    recordedUiTask.AutomationId = AutomationId;
                 }
 
                 if (rootRet == null)

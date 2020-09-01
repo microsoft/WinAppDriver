@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Web.UI.WebControls;
 
 namespace WinAppDriverUIRecorder
 {
@@ -88,6 +89,31 @@ namespace WinAppDriverUIRecorder
         public string Tag { get; set; }
 
         public string Name { get; set; }
+        public string AutomationId { get; set; }
+        public string customVariableName
+        {
+            get
+            {
+                try
+                {
+                    if (String.IsNullOrEmpty(this.AutomationId))
+                    {
+                        if (this.Name.ToLower().Contains(this.Tag.ToLower())) return char.ToLower(this.Name[0]) + this.Name.Substring(1);
+                        else return char.ToLower(this.Tag[0]) + this.Tag.Substring(1) + char.ToUpper(this.Name[0]) + this.Name.Substring(1);
+
+                    }
+                    else
+                    {
+                        if (this.AutomationId.ToLower().Contains(this.Tag.ToLower())) return char.ToLower(this.AutomationId[0]) + this.AutomationId.Substring(1);
+                        else return char.ToLower(this.Tag[0]) + this.Tag.Substring(1) + char.ToUpper(this.AutomationId[0]) + this.AutomationId.Substring(1);
+                    }
+                }
+                catch(Exception)
+				{
+                    return "";
+				} 
+            }
+        }
 
         public string Left { get; set; }
 
@@ -222,34 +248,65 @@ namespace WinAppDriverUIRecorder
 
         public string GetCSCode(string focusedElemName)
         {
+            string codeFormating = ((MainWindow)System.Windows.Application.Current.MainWindow).textBlockCustomCode.Text;
+
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("// " + this.Description);
-
-            string consoleWriteLine = "Console.WriteLine(\"" + this.Description.Replace("\"", "\\\"") + "\");";
-            sb.AppendLine(consoleWriteLine);
-
+            if (String.IsNullOrEmpty(codeFormating) || this.customVariableName == "")
+            {
+                ((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxGetBy.IsEnabled = false;
+                sb.AppendLine("// " + this.Description);
+                string consoleWriteLine = "Console.WriteLine(\"" + this.Description.Replace("\"", "\\\"") + "\");";
+                sb.AppendLine(consoleWriteLine);
+            }
             if (this.UiTaskName == EnumUiTaskName.LeftClick)
             {
+                ((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxGetBy.IsEnabled = false;
+                sb.AppendLine("// " + this.Description);
+                string consoleWriteLine = "Console.WriteLine(\"" + this.Description.Replace("\"", "\\\"") + "\");";
+                sb.AppendLine(consoleWriteLine);
                 sb.AppendLine(GenerateCSCode.LeftClick(this, VariableName));
             }
             else if (this.UiTaskName == EnumUiTaskName.RightClick)
             {
+                ((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxGetBy.IsEnabled = false;
+                sb.AppendLine("// " + this.Description);
+                string consoleWriteLine = "Console.WriteLine(\"" + this.Description.Replace("\"", "\\\"") + "\");";
+                sb.AppendLine(consoleWriteLine);
                 sb.AppendLine(GenerateCSCode.RightClick(this, VariableName));
             }
             else if (this.UiTaskName == EnumUiTaskName.LeftDblClick)
             {
+                ((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxGetBy.IsEnabled = false;
+                sb.AppendLine("// " + this.Description);
+                string consoleWriteLine = "Console.WriteLine(\"" + this.Description.Replace("\"", "\\\"") + "\");";
+                sb.AppendLine(consoleWriteLine);
                 sb.AppendLine(GenerateCSCode.DoubleClick(this, VariableName));
             }
             else if (this.UiTaskName == EnumUiTaskName.MouseWheel)
             {
+                ((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxGetBy.IsEnabled = false;
+                sb.AppendLine("// " + this.Description);
+                string consoleWriteLine = "Console.WriteLine(\"" + this.Description.Replace("\"", "\\\"") + "\");";
+                sb.AppendLine(consoleWriteLine);
                 sb.AppendLine(GenerateCSCode.Wheel(this, VariableName));
             }
             else if (this.UiTaskName == EnumUiTaskName.KeyboardInput)
             {
+                ((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxGetBy.IsEnabled = false;
+                sb.AppendLine("// " + this.Description);
+                string consoleWriteLine = "Console.WriteLine(\"" + this.Description.Replace("\"", "\\\"") + "\");";
+                sb.AppendLine(consoleWriteLine);
                 sb.AppendLine(GenerateCSCode.SendKeys(this, focusedElemName));
             }
+            else
+			{
+                ((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxGetBy.IsEnabled = true;
+                string customLine = codeFormating.Replace("[VariableType]", AddCodeSettings.VariableType).Replace("[VariableName]", this.customVariableName).Replace("[ParentVariable]", AddCodeSettings.ParentVariableName).Replace("[GetBy]", AddCodeSettings.GetBy).Replace("[SearchParameter]", AddCodeSettings.SearchParameter);
+                sb.AppendLine(customLine);
+			}
 
             return sb.ToString();
+
         }
 
         public void ChangeClickToDoubleClick()
