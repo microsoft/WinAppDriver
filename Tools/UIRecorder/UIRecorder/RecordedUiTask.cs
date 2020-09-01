@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Web.UI.WebControls;
+using System.Windows;
 
 namespace WinAppDriverUIRecorder
 {
@@ -301,6 +302,7 @@ namespace WinAppDriverUIRecorder
             else
 			{
                 ((MainWindow)System.Windows.Application.Current.MainWindow).comboBoxGetBy.IsEnabled = true;
+                if (this.AutomationId.ToLower().Contains("groupbox")) MessageBox.Show("Warning!\nIt can happen that groupboxes don't show the correct AccesabilityId! Please Inspect with a the UIAVerifyTool if that is the case.");
                 string customLine = codeFormating.Replace("[VariableType]", AddCodeSettings.VariableType).Replace("[VariableName]", this.customVariableName).Replace("[ParentVariable]", AddCodeSettings.ParentVariableName).Replace("[GetBy]", AddCodeSettings.GetBy).Replace("[SearchParameter]", AddCodeSettings.SearchParameter);
                 sb.AppendLine(customLine);
 			}
