@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Zoomba Desktop Library Tests.
+Documentation     Zoomba Desktop Library Tests. See https://accruent.github.io/robotframework-zoomba/DesktopLibraryDocumentation.html for a full list of keywords.
 Library           Zoomba.DesktopLibrary
 Suite Setup       Start App
 Test Setup        Launch Application
@@ -16,7 +16,7 @@ ${APP}                  Microsoft.WindowsCalculator_8wekyb3d8bbwe!App
 *** Keywords ***
 Start App
     [Documentation]     Sets up the application for quick launching through 'Launch Application' and starts the winappdriver
-    Driver Setup
+    Driver Setup        # Uses the default Winappdriver.exe location, please supply
     Open Application    ${REMOTE_URL}     platformName=Windows    deviceName=Windows   app=${APP}
     Maximize Window
     Quit Application
@@ -122,3 +122,4 @@ Switch To Desktop Test
     Close Application
     Switch Application      Desktop
     Click Element           name=Start
+    Click Element           name=Start   # 2nd click to close the windows start menu
