@@ -20,14 +20,14 @@ Additional keywords can be found in the [library documentation](https://accruent
 - Python v3.6 or higher
 - Use Python package manager (PIP) to install the following dependencies:
     - pip install robotframework-zoomba --upgrade
-- WinAppDriver running on the default port 4723
-  - No longer necessary if using the 'Driver Setup' and 'Driver Teardown' keywords in the example
+- WinAppDriver or Appium (v1.18.0 or higher) running on the default port 4723
+  - The WinAppDriver standalone test does not require the user to start the driver on their own. It will start and stop automatically with the test.
 - Recommend an IDE for editing/debugging a Robotframework project such as Visual Studio Code or Pycharm
 
 ## Getting Started
 
 1. Open a Command Prompt and browse to this sample directory.
-2. Type **robot calculatortest.robot**
+2. Type **robot WinAppDriverCalculatorTest.robot** or **robot AppiumCalculatorTest.robot**
 
 ## Adding/Updating Test Scenario
 

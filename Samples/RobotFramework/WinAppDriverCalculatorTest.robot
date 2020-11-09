@@ -8,15 +8,13 @@ Suite Teardown    Driver Teardown
 Force Tags        Windows
 
 *** Variables ***
-#${REMOTE_URL}           http://127.0.0.1:4723/wd/hub     #If using Appium
-${REMOTE_URL}           http://127.0.0.1:4723             #If Using WinAppDriver directly (suggested as 'Driver Setup'
-                                                          #will start it automatically)
+${REMOTE_URL}           http://127.0.0.1:4723
 ${APP}                  Microsoft.WindowsCalculator_8wekyb3d8bbwe!App
 
 *** Keywords ***
 Start App
     [Documentation]     Sets up the application for quick launching through 'Launch Application' and starts the winappdriver
-    Driver Setup        # Uses the default Winappdriver.exe location, please supply
+    Driver Setup
     Open Application    ${REMOTE_URL}     platformName=Windows    deviceName=Windows   app=${APP}
     Maximize Window
     Quit Application
