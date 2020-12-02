@@ -2,7 +2,7 @@
 
 ## **Getting Started**
 #### What are the system requirements for WinAppDriver? 
-WinAppDriver is supported on machines running **Windows 10** (Home and Pro) and **Windows Server 2016**.
+WinAppDriver is supported on machines running **Windows 10** (Home and Pro), **Windows Server 2016**, and **Windows Server 2019**.
  
 #### What type of applications are supported by WinAppDriver? 
 Supports virtually all Windows 10 applications, including **UWP**, **WPF**, **WinForms**, and legacy **Win32**. 
