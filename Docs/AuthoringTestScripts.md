@@ -4,7 +4,7 @@ You can choose any programming language or tools supported by Appium/Selenium to
 
 ### Creating a Test Project
 
-1. Open **Microsoft Visual Studio 2015** or **Microsoft Visual Studio 2017**
+1. Open **Microsoft Visual Studio 2015**, **Microsoft Visual Studio 2017** or **Microsoft Visual Studio 2019**
    > **Note**: in Visual Studio 2017 make sure you have the optional **.NET desktop development** workload installed
 2. Create the test project and solution. I.e. Select **New Project > Templates > Visual C# > Test > Unit Test Project**
 3. Once created, select **Project > Manage NuGet Packages... > Browse** and search for **Appium.WebDriver**
