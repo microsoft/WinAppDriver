@@ -1,6 +1,6 @@
 # CalculatorTest
 
-CalculatorTest is a sample test project that runs and validates basic UI scenarios on Windows 10 built-in **Calculator** application. This sample is created as the most basic test project to quickly try out Windows Application Driver using the [RobotFramework-Zoomba Library](https://github.com/Accruent/robotframework-zoomba).
+CalculatorTest is a sample test project that runs and validates basic UI scenarios on Windows 10 built-in **Calculator** application. This sample is a basic test project to quickly try out Windows Application Driver using the [RobotFramework-Zoomba Library](https://github.com/Accruent/robotframework-zoomba).
 
 This test project highlights the following basic interactions to demonstrate how you can write UI tests in RobotFramework which run with the Windows Application Driver.
 - Creating a modern UWP app session
