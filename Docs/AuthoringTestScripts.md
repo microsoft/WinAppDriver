@@ -34,22 +34,12 @@ To test a classic Windows app, specify the **full executable path** for the app 
 
 ```c#
 // Launch Notepad
-DesiredCapabilities appCapabilities = new DesiredCapabilities();
-appCapabilities.SetCapability("app", @"C:\Windows\System32\notepad.exe");
-appCapabilities.SetCapability("appArguments", @"MyTestFile.txt");
-appCapabilities.SetCapability("appWorkingDir", @"C:\MyTestFolder\");
-NotepadSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
-
-// Use the session to control the app
-NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
-
-// Appium.WebDriver.4.1.1
-// Launch Notepad
 var appiumOptions = new OpenQA.Selenium.Appium.AppiumOptions();
-x.AddAdditionalCapability("app", @"C:\Windows\System32\notepad.exe");
-x.AddAdditionalCapability("appArguments", @"MyTestFile.txt");
-x.AddAdditionalCapability("appWorkingDir", @"C:\MyTestFolder\");
+appiumOptions.AddAdditionalCapability("app", @"C:\Windows\System32\notepad.exe");
+appiumOptions.AddAdditionalCapability("appArguments", @"MyTestFile.txt");
+appiumOptions.AddAdditionalCapability("appWorkingDir", @"C:\MyTestFolder\");
 var NotepadSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appiumOptions);
+NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
 
 // Use the session to control the app
 NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
