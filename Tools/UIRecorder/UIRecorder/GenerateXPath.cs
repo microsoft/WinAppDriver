@@ -330,7 +330,7 @@ namespace WinAppDriverUIRecorder
 
             foreach (string attrNameValue in listAttrs)
             {
-                const string patternNameValue = @"\[([^=]+)=([^\]]+)\]";
+                const string patternNameValue = @"\[([^=]+)=(\""[^\""]+\""|[\d\.]+)\]";
                 var regNameValue = new System.Text.RegularExpressions.Regex(patternNameValue, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                 System.Text.RegularExpressions.Match matchNameValue = regNameValue.Match(attrNameValue);
                 if (matchNameValue.Success)
