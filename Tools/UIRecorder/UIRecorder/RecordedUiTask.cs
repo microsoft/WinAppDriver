@@ -304,16 +304,16 @@ namespace WinAppDriverUIRecorder
 
         public static string DoubleClick(RecordedUiTask uiTask, string elemName)
         {
-            string codeLine = $"    desktopSession.DesktopSessionElement.Mouse.MouseMove(winElem_{elemName}.Coordinates);\n" +
-                            $"    desktopSession.DesktopSessionElement.Mouse.DoubleClick(null);\n";
+            string codeLine = $"    Actions actions = new Actions(desktopSession.DesktopSessionElement);\n" +
+                            $"    actions.DoubleClick(winElem_{elemName}).Build().Perform();\n";
 
             return GetCodeBlock(uiTask, elemName, codeLine);
         }
 
         public static string RightClick(RecordedUiTask uiTask, string elemName)
         {
-            string codeLine = $"    desktopSession.DesktopSessionElement.Mouse.MouseMove(winElem_{elemName}.Coordinates);\n" +
-                            $"    desktopSession.DesktopSessionElement.Mouse.ContextClick(null);\n";
+            string codeLine = $"    Actions actions = new Actions(desktopSession.DesktopSessionElement);\n" +
+                            $"    actions.ContextClick(winElem_{elemName}).Build().Perform();\n";
 
             return GetCodeBlock(uiTask, elemName, codeLine);
         }
