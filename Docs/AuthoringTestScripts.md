@@ -17,13 +17,13 @@ To test a UWP app, simply specify the **Application Id** for the application you
 
 ```c#
 // Launch the Alarms & Clock app
-DesiredCapabilities appCapabilities = new DesiredCapabilities();
-appCapabilities.SetCapability("app", "Microsoft.WindowsAlarms_8wekyb3d8bbwe!App");
-AlarmClockSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
+AppiumOptions appCapabilities = new AppiumOptions();
+appCapabilities.App = "Microsoft.WindowsAlarms_8wekyb3d8bbwe!App");
+AlarmClockSession = new WindowsDriver(new Uri("http://127.0.0.1:4723"), appCapabilities);
 
 // Use the session to control the app
-AlarmClockSession.FindElementByAccessibilityId("AddAlarmButton").Click();
-AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
+AlarmClockSession.FindElement(MobileBy.AccessibilityId("AddAlarmButton")).Click();
+AlarmClockSession.FindElement(MobileBy.AccessibilityId("AlarmNameTextBox")).Clear();
 ```
 
 > You can find the **Application Id** of your application in the generated `AppX\vs.appxrecipe` file under `RegisteredUserModeAppID` node. E.g. `c24c8163-548e-4b84-a466-530178fc0580_scyf5npe3hv32!App`
@@ -34,25 +34,25 @@ To test a classic Windows app, specify the **full executable path** for the app 
 
 ```c#
 // Launch Notepad
-DesiredCapabilities appCapabilities = new DesiredCapabilities();
-appCapabilities.SetCapability("app", @"C:\Windows\System32\notepad.exe");
+AppiumOptions appCapabilities = new AppiumOptions();
+appCapabilities.App = @"C:\Windows\System32\notepad.exe");
 appCapabilities.SetCapability("appArguments", @"MyTestFile.txt");
 appCapabilities.SetCapability("appWorkingDir", @"C:\MyTestFolder\");
-NotepadSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
+NotepadSession = new WindowsDriver(new Uri("http://127.0.0.1:4723"), appCapabilities);
 
 // Use the session to control the app
-NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
+NotepadSession.FindElement(MobileBy.ClassName("Edit")).SendKeys("This is some text");
 
-// Appium.WebDriver.4.1.1
+// Appium.WebDriver 5.0.0-beta01 
 // Launch Notepad
 var appiumOptions = new OpenQA.Selenium.Appium.AppiumOptions();
-x.AddAdditionalCapability("app", @"C:\Windows\System32\notepad.exe");
-x.AddAdditionalCapability("appArguments", @"MyTestFile.txt");
-x.AddAdditionalCapability("appWorkingDir", @"C:\MyTestFolder\");
-var NotepadSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appiumOptions);
+appiumOptions.App = @"C:\Windows\System32\notepad.exe";
+appiumOptions.AddAdditionalAppiumOption("appArguments", @"MyTestFile.txt");
+appiumOptions.AddAdditionalAppiumOption("appWorkingDir", @"C:\MyTestFolder\");
+var NotepadSession = new WindowsDriver(new Uri("http://127.0.0.1:4723"), appiumOptions);
 
 // Use the session to control the app
-NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
+NotepadSession.FindElement(MobileBy.ClassName("Edit")).SendKeys("This is some text");
 ```
 ## Inspecting UI Elements
 
@@ -74,14 +74,14 @@ It’s a graphical interface for Appium server, also an inspector that help you 
 
 Windows Application Driver supports various locators to find UI element in the application session. The table below shows all supported locator strategies with their corresponding UI element attributes shown in **inspect.exe**.
 
-| Client API                   	| Locator Strategy 	| Matched Attribute in inspect.exe       	| Example      	|
-|------------------------------	|------------------	|----------------------------------------	|--------------	|
-| FindElementByAccessibilityId 	| accessibility id 	| AutomationId                           	| AppNameTitle 	|
-| FindElementByClassName       	| class name       	| ClassName                              	| TextBlock    	|
-| FindElementById              	| id               	| RuntimeId (decimal)                    	| 42.333896.3.1	|
-| FindElementByName            	| name             	| Name                                   	| Calculator   	|
-| FindElementByTagName         	| tag name         	| LocalizedControlType (upper camel case)	| Text         	|
-| FindElementByXPath           	| xpath            	| Any                                    	| //Button[0]  	|
+| Client API                   	| Locator Strategy 	            | Matched Attribute in inspect.exe       	| Example      	|
+|------------------------------	|------------------	            |----------------------------------------	|--------------	|
+| FindElement    	               | MobileBy.AccessibilityId    	| AutomationId                           	| AppNameTitle 	|
+| FindElement           	      |  MobileBy.ClassName       	   | ClassName                              	| TextBlock    	|
+| FindElement                   	| MobileBy.Id                	   | RuntimeId (decimal)                    	| 42.333896.3.1	|
+| FindElement                 	| MobileBy.Name            	   | Name                                   	| Calculator   	|
+| FindElement             	      | MobileBy.TagName          	   | LocalizedControlType (upper camel case)	| Text         	|
+| FindElement                    | MobileBy.Xpath             	   | Any                                    	| //Button[0]  	|
 
 ## Supported Capabilities
 
