@@ -1,5 +1,5 @@
 ## Windows Application Driver
-### Master
+### Wipro
 Windows Application Driver (WinAppDriver) is a service to support Selenium-like UI Test Automation on Windows Applications. This service supports testing **Universal Windows Platform (UWP)**, **Windows Forms (WinForms)**, **Windows Presentation Foundation (WPF)**, and **Classic Windows (Win32)** apps on **Windows 10 PCs**. 
 
 ### Install & Run WinAppDriver
@@ -15,7 +15,6 @@ WinAppDriver.exe 4727
 WinAppDriver.exe 10.0.0.10 4725
 WinAppDriver.exe 10.0.0.10 4723/wd/hub
 ```
-
 > **Note**: You must run `WinAppDriver.exe` as **administrator** to listen to a different IP address and port.
 
 ### Write an Automation Script
