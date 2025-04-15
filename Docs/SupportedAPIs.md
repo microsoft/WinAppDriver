@@ -8,8 +8,8 @@ The following is a list of APIs supported by WinAppDriver:
 | POST   	| [/session                                          ](./../Tests/WebDriverAPI/Session.cs)                	|
 | GET    	| [/sessions                                         ](./../Tests/WebDriverAPI/Sessions.cs)               	|
 | DELETE 	| [/session/:sessionId                               ](./../Tests/WebDriverAPI/Session.cs)                	|
-| POST   	| [/session/:sessionId/appium/app/launch             ](./../Tests/WebDriverAPI/AppiumAppClose.cs)         	|
-| POST   	| [/session/:sessionId/appium/app/close              ](./../Tests/WebDriverAPI/AppiumAppLaunch.cs)        	|
+| POST   	| [/session/:sessionId/appium/app/launch             ](./../Tests/WebDriverAPI/AppiumAppLaunch.cs)         	|
+| POST   	| [/session/:sessionId/appium/app/close              ](./../Tests/WebDriverAPI/AppiumAppClose.cs)        	|
 | POST   	| [/session/:sessionId/back                          ](./../Tests/WebDriverAPI/Back.cs)                   	|
 | POST   	| [/session/:sessionId/buttondown                    ](./../Tests/WebDriverAPI/Mouse.cs)                  	|
 | POST   	| [/session/:sessionId/buttonup                      ](./../Tests/WebDriverAPI/Mouse.cs)                  	|
