@@ -23,6 +23,7 @@ using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Appium;
 
 namespace UIXPathLib
 {
@@ -33,10 +34,10 @@ namespace UIXPathLib
 
         public DesktopSession()
         {
-            DesiredCapabilities appCapabilities = new DesiredCapabilities();
-            appCapabilities.SetCapability("app", "Root");
-            appCapabilities.SetCapability("deviceName", "WindowsPC");
-            desktopSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
+            AppiumOptions appOptions = new AppiumOptions();
+            appOptions.AddAdditionalCapability("app", "Root");
+            appOptions.AddAdditionalCapability("deviceName", "WindowsPC");
+            desktopSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appOptions);
         }
 
         ~DesktopSession()
