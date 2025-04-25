@@ -473,7 +473,7 @@ namespace WinAppDriverUIRecorder
                 uiTreeNode.Name = Name;
                 uiTreeNode.AutomationId = AutomationId;
                 uiTreeNode.Left = left;
-                uiTreeNode.Top = left;
+                uiTreeNode.Top = top;
                 uiTreeNode.Width = width;
                 uiTreeNode.Height = height;
                 uiTreeNode.RuntimeId = runtimeId;
