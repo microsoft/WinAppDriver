@@ -59,7 +59,8 @@ NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
 There are three tools help you inspect UI elements:
 - inspect.exe
 
-The latest Microsoft Visual Studio version by default includes the Windows SDK with a great tool to inspect the application you are testing. This tool allows you to see every UI element/node that you can query using Windows Application Driver. This **inspect.exe** tool can be found under the Windows SDK folder which is typically `C:\Program Files (x86)\Windows Kits\10\bin\x86`
+The latest Microsoft Visual Studio version by default includes the Windows SDK with a great tool to inspect the application you are testing. This tool allows you to see every UI element/node that you can query using Windows Application Driver. This **inspect.exe** tool can be found under the Windows SDK folder which is typically `C:\Program Files (x86)\Windows Kits\10\bin\XXXXXX\x86`
+![image](https://user-images.githubusercontent.com/34530046/188105681-99657fb2-fb0c-4dc1-9ad4-87e4529625ee.png)
 
 More detailed documentation on Inspect is available on MSDN <https://msdn.microsoft.com/library/windows/desktop/dd318521(v=vs.85).aspx>.
 
