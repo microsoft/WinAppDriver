@@ -117,10 +117,10 @@ namespace Paint3DTest
 
             // Set eraser thickness to eraser width in pixel
             brushesPane.FindElementByAccessibilityId("Eraser3d").Click();
-            if (brushesPane.FindElementByAccessibilityId("Thickness").Text != eraserWidth)
+            if (brushesPane.FindElementByAccessibilityId("BrushSize").Text != eraserWidth)
             {
-                brushesPane.FindElementByAccessibilityId("Thickness").SendKeys(Keys.Control + "a" + Keys.Control);
-                brushesPane.FindElementByAccessibilityId("Thickness").SendKeys(eraserWidth + Keys.Enter);
+                brushesPane.FindElementByAccessibilityId("BrushSize").SendKeys(Keys.Control + "a" + Keys.Control);
+                brushesPane.FindElementByAccessibilityId("BrushSize").SendKeys(eraserWidth + Keys.Enter);
                 Thread.Sleep(TimeSpan.FromSeconds(1));
             }
 
