@@ -36,7 +36,7 @@ The best way to get started is to jump straight in to one of the [samples](https
 Inspect (Inspect.exe) is a Windows-based tool that enables you select any UI element and view the element's accessibility data. You can read more about Inspect on its [Windows Dev Center](https://msdn.microsoft.com/en-us/library/windows/desktop/dd318521(v=vs.85).aspx) page. 
 #### How does "inspect.exe" relate to WinAppDriver? 
 Inspect allows users to find and locate element inside an application window. Once a desired element is located and in-focus by Inspect, users can take note of its attribute data, and ultimately refer back to it in testing scripts for WinAppDriver to interact against. 
-For example, in the [Calaculator Test](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23/CalculatorTest) sample:
+For example, in the [Calculator Test](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23/CalculatorTest) sample:
 ```c++
 session.FindElementByXPath("//Button[@AutomationId=\"equalButton\"]").Click();
 ```
